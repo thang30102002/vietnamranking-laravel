@@ -1,0 +1,100 @@
+body{
+    background-color: #21324C;
+    background-image: url('../images/background-dots.png');
+    width: 65%;
+    margin: auto;
+}
+.title{
+    margin-top: 90px;
+    color: #fff;
+    text-align: center;
+    font-family: none;
+    font-weight: 550;
+}
+h1{
+    color: red;
+}
+/* menu */
+.menu{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 999999;
+}
+/* /////// */
+/* raking */
+.top-5-player{
+    margin-top: 40px;
+}
+.card-top5-player{
+    position: relative;
+    display: flex;
+    background-color: #E8E8E8;
+    align-items: center!important;
+    border-radius: 10px;
+    padding: 0 13px;
+    margin-top: 15px;
+    font-style: italic;
+}
+.card-top5-left{
+    display: flex;
+    align-items: center;
+}
+.card-top5-right{
+    color: #E3353E;
+    position: absolute;
+    right: 15px;
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+.number-ranking{
+    font-size: 4.5rem;
+    /* color: var(--colour-theme-blue); */
+    padding-right: 1rem;
+    color: #21324C;
+    font-weight: 600;
+    font-style: italic;
+}
+.img-player{
+    width: 150px;
+}
+.name-player{
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+/* /////////////////////////////// */
+/* top 10 player */
+.card-top10-player{
+    display: flex;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-top: 8px;
+    padding: 10px;
+    border-bottom-color: gray;
+    font-style: italic;
+}
+.card-top10-right{
+    position: absolute;
+    right: 35px;
+    color: #E3353E;
+
+}
+.number-ranking-top10{
+    color: #E3353E;
+    padding-right: 16px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    font-style: italic;
+}
+.top-10-player{
+    width: 90%;
+    margin: auto;
+    margin-top: 8px;
+}
+
+/* /////////////////////////////// */

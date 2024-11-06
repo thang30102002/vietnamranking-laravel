@@ -7,4 +7,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
+Route::get('/', [RankingController::class, 'index'])->name('home.index');
+Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.index');

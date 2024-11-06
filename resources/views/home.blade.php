@@ -17,14 +17,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="{{ asset('css/ranking.css') }}">
 </head>
 
 <body>
     <x-menu />
-    <h1 class="title">Bảng xếp hạng</h1>
-    <x-top5-player />
-    <x-top10-player />
+    <x-carousel number="3" img1="reyes_cup1.jpg" title1="Reyes Cup 2024"
+        info1="Some representative placeholder content for the first slide." img2="reyes_cup2.jpg"
+        title2="Reyes Cup 2024" info2="Some representative placeholder content for the first slide." img3="bi-a.jpg"
+        title3="Reyes Cup 2024" info3="Some representative placeholder content for the first slide." />
+    <h1>Home page</h1>
 </body>
 
 </html>
