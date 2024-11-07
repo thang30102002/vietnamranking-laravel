@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name'); // Cột tên người dùng
             $table->string('phone'); // Cột tên người dùng
             $table->string('ranking'); // Cột tên người dùng
-            $table->string('password'); // Mật khẩu
-            $table->string('email')->unique(); // Cột email duy nhất
-            $table->timestamp('email_verified_at')->nullable(); // Xác thực email
+            // $table->string('password'); // Mật khẩu
+            // $table->string('email')->unique(); // Cột email duy nhất
+            // $table->timestamp('email_verified_at')->nullable(); // Xác thực email
             $table->rememberToken(); // Token ghi nhớ đăng nhập
             $table->timestamps(); // Cột created_at và updated_at
         });
