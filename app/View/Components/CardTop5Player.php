@@ -11,9 +11,12 @@ class CardTop5Player extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public $player;
+    public $top;
+    public function __construct($player, $top)
     {
-        //
+        $this->player = $player;
+        $this->top = $top;
     }
 
     /**
@@ -21,6 +24,6 @@ class CardTop5Player extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.card-top5-player');
+        return view('components.card-top5-player', ['player' => $this->player, 'top' => $this->top]);
     }
 }

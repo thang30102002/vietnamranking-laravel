@@ -7,5 +7,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [RankingController::class, 'index'])->name('home.index');
-Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.index');
+Route::get('/', [RankingController::class, 'index'])->name('ranking.home');
+Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.ranking');
+Route::get('/detail/{id}', [RankingController::class, 'detail'])->name('ranking.detail')->where('id', '[0-9]+');

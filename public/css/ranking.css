@@ -1,5 +1,5 @@
 body{
-    background-color: #21324C;
+    background-color: #21324C!important;
     background-image: url('../images/background-dots.png');
     width: 65%;
     margin: auto;
@@ -95,6 +95,9 @@ h1{
     width: 90%;
     margin: auto;
     margin-top: 8px;
+}
+.card-top10-player .name-player{
+    font-size: 1rem;
 }
 
 /* /////////////////////////////// */

@@ -6,15 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Top5Player extends Component
+class Footer extends Component
 {
     /**
      * Create a new component instance.
      */
-    public $players_top_5;
-    public function __construct($players)
+    public function __construct()
     {
-        $this->players_top_5 = $players;
+        //
     }
 
     /**
@@ -22,6 +21,6 @@ class Top5Player extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.top5-player', ['players_top_5' => $this->players_top_5]);
+        return view('components.footer');
     }
 }
