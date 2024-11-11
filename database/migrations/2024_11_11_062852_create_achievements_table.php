@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ranking_tournaments', function (Blueprint $table) {
+        Schema::create('achievements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tournament_id'); 
-            $table->foreign('tournament_id') 
+            $table->unsignedBigInteger('tournament_top_money_id'); 
+            $table->foreign('tournament_top_money_id') 
                 ->references('id') 
-                ->on('tournaments') 
-                ->onDelete('cascade'); 
-            $table->unsignedBigInteger('ranking_id'); 
-            $table->foreign('ranking_id') 
+                ->on('tournament_top_moneys') 
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('player_id');
+            $table->foreign('player_id')
                 ->references('id')
-                ->on('ranking')
+                ->on('players')
                 ->onDelete('cascade'); 
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ranking_tournaments');
+        Schema::dropIfExists('achievements');
     }
 };

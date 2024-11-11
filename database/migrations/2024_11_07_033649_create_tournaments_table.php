@@ -18,10 +18,6 @@ return new class extends Migration
             $table->string('number_players');
             $table->dateTime('start_date');
             $table->string('address');
-            $table->integer('money_top_1');
-            $table->integer('money_top_2');
-            $table->integer('money_top_3');
-            $table->integer('player_registed');
             $table->integer('fees');
             $table->integer('status');
         });

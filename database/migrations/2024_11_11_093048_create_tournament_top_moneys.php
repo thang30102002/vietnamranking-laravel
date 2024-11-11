@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('tournament_top_moneys', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('email');
-            $table->string('password');
-            $table->string('status');
-            $table->dateTime('last_login');
+            $table->unsignedBigInteger('tournament_id'); 
+            $table->foreign('tournament_id') 
+                ->references('id') 
+                ->on('tournaments') 
+                ->onDelete('cascade'); 
+            $table->integer('money');
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tournament_top_moneys');
     }
 };
