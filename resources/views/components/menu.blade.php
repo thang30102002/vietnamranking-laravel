@@ -14,10 +14,31 @@
                     <a class="nav-link" href="#">Giải đấu</a>
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            @if (Auth::check())
+                <form action={{route('logout')}} method="post">
+                    @csrf
+                    <button>Logout</button>
+                </form>
+            @else
+                <a style="    background-color: #2;
+    /* background-color: #21324c; */
+    padding: padd;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    color: #000;
+    text-decoration: none;
+    /* color: #fff; */
+    border-style: solid;
+    border-width: 1px;
+    margin-right: 10px;" href={{route('login')}}>Đăng nhập</a>
+                <a style="background-color: #2;
+    background-color: #21324c;
+    padding: padd;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #fff;" href={{route('register')}}>Đăng ký</a>
+            @endif
         </div>
     </div>
 </nav>
