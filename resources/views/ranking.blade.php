@@ -20,16 +20,13 @@
     <link rel="stylesheet" href="{{ asset('css/ranking.css') }}">
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 <body>
     <x-menu />
     <h1 class="title animate__animated  animate__bounce">Bảng xếp hạng</h1>
-    <x-top5-player :players="$players" />
+    <x-top5-player :players="$players ?? []" />
     <x-top10-player />
     <x-footer />
 </body>

@@ -14,15 +14,10 @@ return new class extends Migration
         Schema::create('player_rankings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('player_id');
-            $table->foreign('player_id')
-                ->references('id')
-                ->on('players')
-                ->onDelete('cascade');
             $table->unsignedBigInteger('ranking_id');
-            $table->foreign('ranking_id')
-                ->references('id')
-                ->on('rankings')
-                ->onDelete('cascade');
+
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('ranking_id')->references('id')->on('rankings')->onDelete('cascade');
         });
     }
 

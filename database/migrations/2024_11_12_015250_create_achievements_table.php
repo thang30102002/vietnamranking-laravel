@@ -13,16 +13,12 @@ return new class extends Migration
     {
         Schema::create('achievements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tournament_top_money_id'); 
-            $table->foreign('tournament_top_money_id') 
-                ->references('id') 
-                ->on('tournament_top_moneys') 
-                ->onDelete('cascade');
             $table->unsignedBigInteger('player_id');
-            $table->foreign('player_id')
-                ->references('id')
-                ->on('players')
-                ->onDelete('cascade'); 
+            $table->unsignedBigInteger('tournament_top_money_id');
+
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('tournament_top_money_id')->references('id')->on('tournament_top_moneys')->onDelete('cascade');
+
         });
     }
 

@@ -14,15 +14,10 @@ return new class extends Migration
         Schema::create('tournament_game_types', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tournament_id');
-            $table->foreign('tournament_id')
-                ->references('id')
-                ->on('tournaments')
-                ->onDelete('cascade');
             $table->unsignedBigInteger('game_type_id');
-            $table->foreign('game_type_id')
-                ->references('id')
-                ->on('game_types')
-                ->onDelete('cascade'); 
+
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->foreign('game_type_id')->references('id')->on('game_types')->onDelete('cascade');
         });
     }
 

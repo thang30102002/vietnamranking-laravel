@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('tournament_top_moneys', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tournament_id'); 
-            $table->foreign('tournament_id') 
-                ->references('id') 
-                ->on('tournaments') 
-                ->onDelete('cascade'); 
+            $table->unsignedBigInteger('tournament_id');
             $table->integer('money');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
         });
     }
 
