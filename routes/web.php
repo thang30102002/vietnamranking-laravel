@@ -18,5 +18,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.ranking');
+Route::get('/detail/{id}', [RankingController::class, 'detail'])->name('ranking.detail');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

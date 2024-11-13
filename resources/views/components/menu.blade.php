@@ -15,9 +15,20 @@
                 </li>
             </ul>
             @if (Auth::check())
-                <form action={{route('logout')}} method="post">
+                <form action={{ route('logout') }} method="post">
                     @csrf
-                    <button>Logout</button>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            {{ auth()->user()->name }}
+                        </button>
+                        <ul id="dropdownMenu" class="dropdown-menu w-full" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                            <li><button class="dropdown-item" href={{'logout'}}>Đăng xuất</button></li>
+                            {{-- <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
+                        </ul>
+                    </div>
                 </form>
             @else
                 <a style="    background-color: #2;
@@ -30,15 +41,32 @@
     /* color: #fff; */
     border-style: solid;
     border-width: 1px;
-    margin-right: 10px;" href={{route('login')}}>Đăng nhập</a>
+    margin-right: 10px;"
+                    href={{ route('login') }}>Đăng nhập</a>
                 <a style="background-color: #2;
     background-color: #21324c;
     padding: padd;
     border-radius: 6px;
     padding: 0.5rem 1rem;
     text-decoration: none;
-    color: #fff;" href={{route('register')}}>Đăng ký</a>
+    color: #fff;"
+                    href={{ route('register') }}>Đăng ký</a>
             @endif
         </div>
     </div>
 </nav>
+<script>
+    const myDiv = document.getElementById("dropdownMenuButton1");
+    const listUl = document.getElementById("dropdownMenu");
+
+
+    myDiv.addEventListener("click", function() {
+        if (listUl.style.display == "block") {
+            listUl.style.display = "none";
+        }
+        else
+        {
+            listUl.style.display = "block";
+        }
+    });
+</script>
