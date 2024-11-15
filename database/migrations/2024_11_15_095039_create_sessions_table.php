@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary(); // Khóa chính là id của session
-            $table->foreignId('user_id')->nullable()->index(); // Liên kết đến bảng users nếu có
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->text('payload'); // Dữ liệu của session
-            $table->integer('last_activity')->index(); // Thời gian hoạt động cuối
+            $table->string('id')->primary(); // Khóa chính
+            $table->foreignId('user_id')->nullable()->constrained(); // Liên kết với bảng users
+            $table->string('ip_address', 45)->nullable(); // Địa chỉ IP
+            $table->text('user_agent')->nullable(); // Thông tin trình duyệt
+            $table->text('payload'); // Dữ liệu session
+            $table->integer('last_activity'); // Thời điểm cuối hoạt động
         });
     }
 
