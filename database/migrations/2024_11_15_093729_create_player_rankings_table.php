@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ranking_tournaments', function (Blueprint $table) {
+        Schema::create('player_rankings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tournament_id');
+            $table->timestamps();
+            $table->unsignedBigInteger('player_id');
             $table->unsignedBigInteger('ranking_id');
 
-            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
             $table->foreign('ranking_id')->references('id')->on('rankings')->onDelete('cascade');
+            
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ranking_tournaments');
+        Schema::dropIfExists('player_rankings');
     }
 };
