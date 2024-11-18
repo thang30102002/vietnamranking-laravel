@@ -3,9 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use HasFactory, Notifiable;
 
 class Player extends Model
 {
+    
+    protected $fillable = [
+        'name',
+        'phone',
+        'created_at',
+        'updated_at',
+        'img',
+        'user_id',
+    ];
     public static function get_all()
     {
         $players = self::all();
@@ -16,4 +26,9 @@ class Player extends Model
         $player = self::find($id);
         return $player;
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class); // Mỗi player thuộc về một user
+    }
+    
 }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('email');
             $table->string('password');
-            $table->integer('status');
-            $table->dateTime('last_login');
+            $table->integer('status')->default(0);
+            $table->dateTime('last_login')->nullable();
         });
     }
 

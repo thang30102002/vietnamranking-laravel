@@ -18,9 +18,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'status',
+        'last_login',
     ];
 
     /**
@@ -45,5 +46,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public static function get_detail_for_email($email)
+    {
+        $user = self::where('email', $email)->first();
+        return $user;
+    }
+    public function player()
+    {
+        return $this->hasOne(Player::class); 
+    }
+    public function user_role()
+    {
+        return $this->hasOne(User_role::class); 
+    }
+    public function admin_tournament()
+    {
+        return $this->hasOne(Admin_tournament::class);
     }
 }

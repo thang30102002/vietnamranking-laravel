@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('information');
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->string('phone');
             $table->unsignedBigInteger('user_id');
 

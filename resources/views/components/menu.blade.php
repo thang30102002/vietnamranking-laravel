@@ -21,11 +21,16 @@
                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            {{ auth()->user()->name }}
+                            @if (auth()->user()->user_role->role_id == 3)
+                                {{ auth()->user()->player->name }}
+                            @endif
+                            @if (auth()->user()->user_role->role_id == 2)
+                                {{ auth()->user()->admin_tournament->name }}
+                            @endif
                         </button>
                         <ul id="dropdownMenu" class="dropdown-menu w-full" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
-                            <li><button class="dropdown-item" href={{'logout'}}>Đăng xuất</button></li>
+                            <li><button class="dropdown-item" href={{ 'logout' }}>Đăng xuất</button></li>
                             {{-- <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
                         </ul>
                     </div>
@@ -63,9 +68,7 @@
     myDiv.addEventListener("click", function() {
         if (listUl.style.display == "block") {
             listUl.style.display = "none";
-        }
-        else
-        {
+        } else {
             listUl.style.display = "block";
         }
     });

@@ -1,30 +1,54 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" id="registerUser">
         @csrf
-
-        <!-- Name -->
-        <div>
+        {{-- type  --}}
+        <div class="mt-4">
             <x-input-label for="role" :value="__('Bạn là cơ thủ hay đơn vị tổ chức giải?')" />
-            <x-radio.list/>
+            <x-radio.list :value="old('rank')" />
+            <x-input-error :messages="$errors->get('user_type')" class="mt-2" />
+        </div>
+        <!-- Name -->
+        <div class="mt-4">
             <x-input-label for="name" :value="__('Họ và tên')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required
-                autofocus autocomplete="name" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
+                 autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
+        {{-- rank  --}}
+        <div id="playerRank" class="mt-4  ">
+            <x-input-label for="role" :value="__('Hạng')" />
+            <x-radio.list-ranks />
+            <x-input-error :messages="$errors->get('rank')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
-                required autocomplete="username" />
+                 autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+
+        <!-- Phone -->
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Số điện thoại')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')"
+                autofocus autocomplete="phone" />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+        <!-- information -->
+        <div class="mt-4 hidden" id="info">
+            <x-input-label for="info" :value="__('Giới thiệu về đơn vị tổ chức')" />
+            <x-text-input id="info" class="block mt-1 w-full" type="text" name="info" :value="old('info')"
+                autofocus autocomplete="info" />
+            <x-input-error :messages="$errors->get('info')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Mật khẩu')" />
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" 
                 autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -35,7 +59,7 @@
             <x-input-label for="password_confirmation" :value="__('Xác nhận lại mật khẩu')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                name="password_confirmation" required autocomplete="new-password" />
+                name="password_confirmation"  autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
@@ -52,3 +76,34 @@
         </div>
     </form>
 </x-guest-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const radios = document.querySelectorAll('input[name="user_type"]');
+        const input_rank = document.getElementById('playerRank');
+        const info = document.getElementById('info');
+
+        // Kiểm tra giá trị radio khi tải trang
+        const selectedRadio = document.querySelector('input[name="user_type"]:checked');
+        if (selectedRadio) {
+            toggleFields(selectedRadio.value);
+        }
+
+        // Lắng nghe sự kiện thay đổi giá trị radio
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                toggleFields(this.value);
+            });
+        });
+
+        // Hàm hiển thị/ẩn các thành phần
+        function toggleFields(user_type) {
+            if (user_type == 2) {
+                input_rank.classList.remove('hidden');
+                info.classList.add('hidden');
+            } else {
+                input_rank.classList.add('hidden');
+                info.classList.remove('hidden');
+            }
+        }
+    });
+</script>
