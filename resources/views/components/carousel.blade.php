@@ -9,21 +9,21 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="{{ asset('images/' . $img1) }}" class="d-block w-100 h-50" alt="...">
+            <img src="{{ asset('images/' . $img1) }}" class="d-block w-100 object-cover h-96" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>{{ $title1 }}</h5>
                 <p>{{ $info1 }}</p>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="{{ asset('images/' . $img2) }}" class="d-block w-100 h-50" alt="...">
+            <img src="{{ asset('images/' . $img2) }}" class="d-block w-100 object-cover h-96" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>{{ $title2 }}</h5>
                 <p>{{ $info2 }}</p>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="{{ asset('images/' . $img3) }}" class="d-block w-100 h-5" alt="...">
+            <img src="{{ asset('images/' . $img3) }}" class="d-block w-100 object-cover h-96" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>{{ $title2 }}</h5>
                 <p>{{ $info2 }}</p>
