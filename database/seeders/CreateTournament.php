@@ -112,7 +112,38 @@ class CreateTournament extends Seeder
                 'id' => '1',
                 'player_id' => '1',
                 'tournament_top_money_id' => '1',
-            ]
+            ],
+            [
+                'id' => '2',
+                'player_id' => '2',
+                'tournament_top_money_id' => '2',
+            ],
+            [
+                'id' => '3',
+                'player_id' => '4',
+                'tournament_top_money_id' => '3',
+            ],
+            [
+                'id' => '4',
+                'player_id' => '3',
+                'tournament_top_money_id' => '3',
+            ],
+            [
+                'id' => '5',
+                'player_id' => '5',
+                'tournament_top_money_id' => '3',
+            ],
+            [
+                'id' => '6',
+                'player_id' => '6',
+                'tournament_top_money_id' => '1',
+            ],
+            [
+                'id' => '7',
+                'player_id' => '7',
+                'tournament_top_money_id' => '3',
+            ],
         ], ['id'], ['player_id', 'tournament_top_money_id']);
+
     }
 }
