@@ -1,11 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light menu">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">VietNam Ranking</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button id="btnShowMenu" class="hidden max-[991px]:block">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class=" navbar-collapse" id="navbarSupportedContent">
+        <div class=" navbar-collapse hidden" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/ranking">Bảng xếp hạng</a>
@@ -71,5 +70,18 @@
         } else {
             listUl.style.display = "block";
         }
+    });
+</script>
+<script>
+    const btn_show_menu = document.getElementById("btnShowMenu");
+    const menu = document.getElementById("navbarSupportedContent");
+
+    btn_show_menu.addEventListener("click", function() {
+        if (menu.classList.contains("hidden")) {
+            menu.classList.remove("hidden");
+        } else {
+            menu.classList.add("hidden");
+        }
+
     });
 </script>
