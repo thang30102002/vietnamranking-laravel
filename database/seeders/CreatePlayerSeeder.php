@@ -48,5 +48,125 @@ class CreatePlayerSeeder extends Seeder
             ]
 
         ], ['id'], ['player_id', 'ranking_id']);
+
+        DB::table('players')->upsert([
+            [
+                'id' => '2',
+                'name' => 'Eklent Kaci',
+                'phone' => '0389999999',
+                'user_id' => '2',
+
+            ]
+
+        ], ['id'], ['name', 'phone', 'user_id']);
+
+        DB::table('player_rankings')->upsert([
+            [
+                'id' => '1',
+                'player_id' => '2',
+                'ranking_id' => '1',
+            ]
+
+        ], ['id'], ['player_id', 'ranking_id']);
+
+        DB::table('players')->upsert([
+            [
+                'id' => '3',
+                'name' => 'Francisco Sanchez Ruiz',
+                'phone' => '0389999999',
+                'user_id' => '2',
+
+            ]
+
+        ], ['id'], ['name', 'phone', 'user_id']);
+
+        DB::table('player_rankings')->upsert([
+            [
+                'id' => '1',
+                'player_id' => '3',
+                'ranking_id' => '1',
+            ]
+
+        ], ['id'], ['player_id', 'ranking_id']);
+
+        DB::table('players')->upsert([
+            [
+                'id' => '4',
+                'name' => 'Jayson Shaw',
+                'phone' => '0389999999',
+                'user_id' => '2',
+
+            ]
+
+        ], ['id'], ['name', 'phone', 'user_id']);
+
+        DB::table('player_rankings')->upsert([
+            [
+                'id' => '1',
+                'player_id' => '4',
+                'ranking_id' => '1',
+            ]
+
+        ], ['id'], ['player_id', 'ranking_id']);
+
+        DB::table('players')->upsert([
+            [
+                'id' => '5',
+                'name' => 'Ko Ping Chung',
+                'phone' => '0389999999',
+                'user_id' => '2',
+
+            ]
+
+        ], ['id'], ['name', 'phone', 'user_id']);
+
+        DB::table('player_rankings')->upsert([
+            [
+                'id' => '1',
+                'player_id' => '5',
+                'ranking_id' => '1',
+            ]
+
+        ], ['id'], ['player_id', 'ranking_id']);
+
+        DB::table('players')->upsert([
+            [
+                'id' => '6',
+                'name' => 'Dương Quốc Hoàng',
+                'phone' => '0389999999',
+                'user_id' => '2',
+
+            ]
+
+        ], ['id'], ['name', 'phone', 'user_id']);
+
+        DB::table('player_rankings')->upsert([
+            [
+                'id' => '1',
+                'player_id' => '6',
+                'ranking_id' => '9',
+            ]
+
+        ], ['id'], ['player_id', 'ranking_id']);
+
+        DB::table('players')->upsert([
+            [
+                'id' => '7',
+                'name' => 'Đăng Thành Kiên',
+                'phone' => '0389999999',
+                'user_id' => '2',
+
+            ]
+
+        ], ['id'], ['name', 'phone', 'user_id']);
+
+        DB::table('player_rankings')->upsert([
+            [
+                'id' => '1',
+                'player_id' => '7',
+                'ranking_id' => '2',
+            ]
+
+        ], ['id'], ['player_id', 'ranking_id']);
     }
 }
