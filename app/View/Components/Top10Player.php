@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class Top10Player extends Component
 {
+    public $players_top_6_from_15;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($players)
     {
-        //
+        $this->players_top_6_from_15 = $players;
     }
 
     /**
@@ -21,6 +22,6 @@ class Top10Player extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.top10-player');
+        return view('components.top10-player', ['players_top_6_from_15' => $this->players_top_6_from_15]);
     }
 }

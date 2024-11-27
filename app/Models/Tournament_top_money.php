@@ -8,6 +8,6 @@ class Tournament_top_money extends Model
 {
     public function achievements()
     {
-        return $this->hasOne(Achievement::class);
+        return $this->hasMany(Achievement::class, 'tournament_top_money_id');
     }
 }
