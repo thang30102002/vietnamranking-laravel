@@ -8,6 +8,7 @@ use HasFactory, Notifiable;
 class Admin_tournament extends Model
 {
     protected $fillable = [
+        'id',
         'name',
         'information',
         'img',

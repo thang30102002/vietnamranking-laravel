@@ -6,7 +6,12 @@ export default {
     "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        aliceblue: '#f0f8ff', // Màu aliceblue
+        backgroundDiv: '#E8E8E8',
+      },
+    },
   },
   plugins: [],
 }

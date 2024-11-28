@@ -145,5 +145,86 @@ class CreateTournament extends Seeder
             ],
         ], ['id'], ['player_id', 'tournament_top_money_id']);
 
+        DB::table('tournaments')->upsert([
+            [
+                'id' => '2',
+                'name' => 'The Billiards House tournament học sinh, sinh viên',
+                'number_players' => '32',
+                'start_date' => '2024-11-20 15:30:00',
+                'address' => '128 Nguyễn Huy Tưởng, Thanh Xuân, Hà Nội',
+                'fees' => '150000',
+                'status' => '1',
+                'admin_tournament_id' => '1',
+            ]
+        ], ['id'], ['name', 'number_players', 'start_date', 'address', 'fees', 'status', 'admin_tournament_id']);
+
+        DB::table('ranking_tournaments')->upsert([
+            [
+                'id' => '4',
+                'tournament_id' => '2',
+                'ranking_id' => '1',
+            ],
+            [
+                'id' => '5',
+                'tournament_id' => '2',
+                'ranking_id' => '2',
+            ],
+            [
+                'id' => '6',
+                'tournament_id' => '2',
+                'ranking_id' => '3',
+            ]
+        ], ['id'], ['tournament_id', 'ranking_id']);
+
+        DB::table('tournament_top_moneys')->upsert([
+            [
+                'id' => '4',
+                'tournament_id' => '2',
+                'top' => '1',
+                'money' => '3500000',
+            ],
+            [
+                'id' => '5',
+                'tournament_id' => '2',
+                'top' => '2',
+                'money' => '1000000',
+            ],
+            [
+                'id' => '6',
+                'tournament_id' => '2',
+                'top' => '3',
+                'money' => '500000',
+            ]
+        ], ['id'], ['tournament_id', 'top', 'money']);
+
+        DB::table('tournament_game_types')->upsert([
+            [
+                'id' => '2',
+                'tournament_id' => '2',
+                'game_type_id' => '2',
+            ]
+        ], ['id'], ['tournament_id', 'game_type_id']);
+
+        DB::table('player_registed_tournaments')->upsert([
+            [
+                'id' => '2',
+                'tournament_id' => '2',
+                'player_id' => '2',
+            ]
+        ], ['id'], ['tournament_id', 'player_id']);
+
+        DB::table('achievements')->upsert([
+            [
+                'id' => '8',
+                'player_id' => '1',
+                'tournament_top_money_id' => '4',
+            ],
+            [
+                'id' => '9',
+                'player_id' => '2',
+                'tournament_top_money_id' => '6',
+            ]
+        ], ['id'], ['player_id', 'tournament_top_money_id']);
+
     }
 }

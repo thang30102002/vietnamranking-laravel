@@ -35,6 +35,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Fedor Gorst',
                 'phone' => '0389999999',
                 'user_id' => '1',
+                'img' => 'fedor.webp'
 
             ]
 
@@ -55,6 +56,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Eklent Kaci',
                 'phone' => '0389999999',
                 'user_id' => '2',
+                'img' => 'eklent-kaci.webp'
 
             ]
 
@@ -62,7 +64,7 @@ class CreatePlayerSeeder extends Seeder
 
         DB::table('player_rankings')->upsert([
             [
-                'id' => '1',
+                'id' => '2',
                 'player_id' => '2',
                 'ranking_id' => '1',
             ]
@@ -75,6 +77,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Francisco Sanchez Ruiz',
                 'phone' => '0389999999',
                 'user_id' => '2',
+                'img' => 'francisco-sanchez-ruiz.webp'
 
             ]
 
@@ -82,7 +85,7 @@ class CreatePlayerSeeder extends Seeder
 
         DB::table('player_rankings')->upsert([
             [
-                'id' => '1',
+                'id' => '3',
                 'player_id' => '3',
                 'ranking_id' => '1',
             ]
@@ -95,6 +98,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Jayson Shaw',
                 'phone' => '0389999999',
                 'user_id' => '2',
+                'img' => 'Jayson-Shaw.png'
 
             ]
 
@@ -102,7 +106,7 @@ class CreatePlayerSeeder extends Seeder
 
         DB::table('player_rankings')->upsert([
             [
-                'id' => '1',
+                'id' => '4',
                 'player_id' => '4',
                 'ranking_id' => '1',
             ]
@@ -115,6 +119,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Ko Ping Chung',
                 'phone' => '0389999999',
                 'user_id' => '2',
+                'img' => 'ko-ping-chung.webp'
 
             ]
 
@@ -122,7 +127,7 @@ class CreatePlayerSeeder extends Seeder
 
         DB::table('player_rankings')->upsert([
             [
-                'id' => '1',
+                'id' => '5',
                 'player_id' => '5',
                 'ranking_id' => '1',
             ]
@@ -135,6 +140,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Dương Quốc Hoàng',
                 'phone' => '0389999999',
                 'user_id' => '2',
+                'img' => 'duong-quoc-hoang.jpeg'
 
             ]
 
@@ -142,7 +148,7 @@ class CreatePlayerSeeder extends Seeder
 
         DB::table('player_rankings')->upsert([
             [
-                'id' => '1',
+                'id' => '6',
                 'player_id' => '6',
                 'ranking_id' => '9',
             ]
@@ -155,6 +161,7 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Đăng Thành Kiên',
                 'phone' => '0389999999',
                 'user_id' => '2',
+                'img' => 'dang-thanh-kien.jpeg'
 
             ]
 
@@ -162,7 +169,7 @@ class CreatePlayerSeeder extends Seeder
 
         DB::table('player_rankings')->upsert([
             [
-                'id' => '1',
+                'id' => '7',
                 'player_id' => '7',
                 'ranking_id' => '2',
             ]
