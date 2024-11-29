@@ -14,4 +14,9 @@ class Ranking extends Authenticatable
         $rankings = self::all();
         return $rankings;
    }
+
+   public function player_ranking()
+   {
+      return $this->hasOne(Ranking::class);
+   }
 }

@@ -19,5 +19,6 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.ranking');
 Route::get('/detail/{id}', [RankingController::class, 'detail'])->name('ranking.detail');
+Route::get('/tournament_organizer', [RankingController::class, 'tournament_organizer'])->name('ranking.tournament_organizer');
 
 require __DIR__ . '/auth.php';

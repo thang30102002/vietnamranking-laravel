@@ -39,6 +39,36 @@ class CreateTournament extends Seeder
             ]
         ], ['id'], ['name', 'information', 'phone', 'user_id']);
 
+        DB::table('admin_tournaments')->upsert([
+            [
+                'id' => '2',
+                'name' => 'The Billiards House',
+                'information' => 'aaaaaaaaaaaaaaaaaaaaa',
+                'phone' => '0388888888',
+                'user_id' => '2',
+            ]
+        ], ['id'], ['name', 'information', 'phone', 'user_id']);
+
+        DB::table('admin_tournaments')->upsert([
+            [
+                'id' => '3',
+                'name' => 'The Billiards House',
+                'information' => 'aaaaaaaaaaaaaaaaaaaaa',
+                'phone' => '0388888888',
+                'user_id' => '2',
+            ]
+        ], ['id'], ['name', 'information', 'phone', 'user_id']);
+
+        DB::table('admin_tournaments')->upsert([
+            [
+                'id' => '4',
+                'name' => 'The Billiards House',
+                'information' => 'aaaaaaaaaaaaaaaaaaaaa',
+                'phone' => '0388888888',
+                'user_id' => '2',
+            ]
+        ], ['id'], ['name', 'information', 'phone', 'user_id']);
+
         DB::table('tournaments')->upsert([
             [
                 'id' => '1',

@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\DB;
 class Player extends Model
 {
 
-    protected $fillable = [
-        'name',
-        'phone',
-        'created_at',
-        'updated_at',
-        'img',
-        'user_id',
-    ];
+    // protected $fillable = [
+    //     'name',
+    //     'phone',
+    //     'created_at',
+    //     'updated_at',
+    //     'img',
+    //     'user_id',
+    // ];
 
     public static function get_all()
     {
@@ -37,7 +37,7 @@ class Player extends Model
 
     public function achievement()
     {
-        return $this->hasMany(Achievement::class, 'player_id');
+        return $this->hasMany(Achievement::class);
     }
     public function get_achievement($id)
     {
@@ -50,8 +50,8 @@ class Player extends Model
     {
         $player = self::find($id);
         $money = 0;
-        for ($i = 0; $i < count($player->achievement); $i++) {
-            $money = $money + $player->achievement[$i]->tournament_top_money->money;
+        foreach ($player->achievement as $achievement) {
+            $money = $money + $achievement->tournament_top_money->money;
         }
         return $money;
     }
@@ -67,5 +67,30 @@ class Player extends Model
             ->limit($to - $from + 1)
             ->get();
         return $players;
+    }
+
+    public static function get_top_player($id)
+    {
+        $players = Player::select('players.*', DB::raw('SUM(tournament_top_moneys.money) as total_money'))
+            ->join('achievements', 'players.id', '=', 'achievements.player_id')
+            ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
+            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id')
+            ->orderBy('total_money', 'desc')
+            ->get();
+
+        $top = 0;
+        foreach ($players as $player) {
+            $top = $top + 1;
+            if($player->id == $id)
+            {
+                break;
+            }
+        }
+        return $top;
+    }
+
+    public function player_ranking()
+    {
+        return $this->hasOne(Player_ranking::class);
     }
 }

@@ -61,6 +61,7 @@
 
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
+<<<<<<< Updated upstream
                         <img src="{{ asset('images/fedor.webp') }}" style="width:100%" alt="Avatar">
                         <div class="w3-display-bottomleft w3-container w3-text-black">
                             <h2>{{ $player->name }}</h2>
@@ -72,14 +73,42 @@
                         </p>
                         <p><i
                                 class="fa fa-envelope fa-fw w3-margin-right w3-large icon"></i>{{ $player->email }}
+=======
+                        <img src="
+                        @if ($player->img)
+                            {{ asset('images/players/' . $player->img . '') }}
+                        @else
+                            {{ asset('images/players/player.webp') }}
+                        @endif
+                        " style="width:100%" alt="Avatar">
+                        <div class="w3-display-bottomleft w3-container w3-text-black w-full bg-backgroundDiv ">
+                            <h2 class=" text-[1.2rem]">{{ $player->name }}</h2>
+                        </div>
+                    </div>
+                    <div class="w3-containerm text-left p-[10px] text-black">
+                        <p class=" text-left">Hạng: {{ $player->player_ranking->ranking->name }}
+                        </p>
+                        <p class=" text-left">Bảng xếp hạng: Top {{ $top }}
+                        </p>
+                        <p class=" text-left">Giới tính: {{ $player->sex }}
+                        </p>
+
+                        <p class=" text-left">Số điện thoại:
+                            {{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
+>>>>>>> Stashed changes
                         </p>
                         <p><i class="fa fa-phone fa-fw w3-margin-right w3-large icon"></i>{{ $player->phone }}
                         </p>
                         <hr>
 
+<<<<<<< Updated upstream
                         <p class="w3-large"><b><i
                                     class="fa fa-asterisk fa-fw w3-margin-right icon"></i>Skills</b></p>
                         <p>Adobe Photoshop</p>
+=======
+                        <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right icon"></i><span class=" text-[14px]">Kỹ năng</span></b></p>
+                        <p>Độ chính xác</p>
+>>>>>>> Stashed changes
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:90%">90%</div>
                         </div>
@@ -111,6 +140,7 @@
                     <h2 class="w3-text-grey w3-padding-16"><i
                             class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge icon"></i>Thành tích
                     </h2>
+<<<<<<< Updated upstream
                     <div class="w3-container">
                         <h5 class="w3-opacity"><b>Vô địch - The Billart House</b></h5>
                         <h6 class=""><i class="fa fa-calendar fa-fw w3-margin-righticon"></i>Thứ 7, 30/10/2002
@@ -129,6 +159,38 @@
                             iste.</p>
                         <hr>
                     </div>
+=======
+                    @foreach ($player->achievement as $achievement)
+                        <div class="">
+                            <h5 class="w3-opacity py-[5px]">
+                                {{-- @dd($player->achievement[1]->tournament_top_money->tournament)
+                                @dd($achievement->tournament_top_money->tournament->name) --}}
+                                <b>{{ $achievement->tournament_top_money->tournament->name }}</b>
+                            </h5>
+                            {{-- <h6 class=""><i
+                                    class="fa fa-calendar fa-fw w3-margin-righticon"></i>{{ $achievement->tournament_top_money->tournament->start_date }}
+                            </h6> --}}
+                            @if ($achievement->tournament_top_money->top === 1)
+                                <p>Danh hiệu: Quán Quân</p>
+                            @elseif ($achievement->tournament_top_money->top === 2)
+                                <p>Danh hiệu: Á Quân</p>
+                            @else
+                                <p>Danh hiệu: Hạng 3</p>
+                            @endif
+                            {{-- <p>Hạng tham gia giải đấu: 
+                                @foreach ($achievement->tournament_top_money->tournament->ranking_tournament as $tournament)
+                                    <span>{{ $tournament->ranking->name}}</span>
+                                @endforeach    
+                            </p>
+                            <p>Số lượng cơ thủ: {{ $achievement->tournament_top_money->tournament->number_players }}</p>
+                            <p>Địa điểm thi đấu: {{ $achievement->tournament_top_money->tournament->address }}</p>
+                            <p>Lệ phí thi đấu: {{ number_format($achievement->tournament_top_money->tournament->fees, 0, ',', '.') . ' VNĐ'  }}</p>
+                            <p>Đơn vị tổ chức: {{ $achievement->tournament_top_money->tournament->admin_tournament->name }}</p> --}}
+                            <hr>
+                        </div>
+                    @endforeach
+
+>>>>>>> Stashed changes
                 </div>
                 <!-- End Right Column -->
             </div>

@@ -12,6 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Giải đấu</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tournament_organizer">Đơn vị tổ chức giải</a>
+                </li>
             </ul>
             @if (Auth::check())
                 <form action={{ route('logout') }} method="post">
