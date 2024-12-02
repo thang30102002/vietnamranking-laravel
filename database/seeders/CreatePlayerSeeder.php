@@ -35,11 +35,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Fedor Gorst',
                 'phone' => '0389999999',
                 'user_id' => '1',
-<<<<<<< Updated upstream
-=======
                 'img' => 'fedor.webp',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
@@ -60,11 +57,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Eklent Kaci',
                 'phone' => '0389999999',
                 'user_id' => '2',
-<<<<<<< Updated upstream
-=======
                 'img' => 'eklent-kaci.webp',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
@@ -85,11 +79,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Francisco Sanchez Ruiz',
                 'phone' => '0389999999',
                 'user_id' => '2',
-<<<<<<< Updated upstream
-=======
                 'img' => 'francisco-sanchez-ruiz.webp',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
@@ -110,11 +101,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Jayson Shaw',
                 'phone' => '0389999999',
                 'user_id' => '2',
-<<<<<<< Updated upstream
-=======
                 'img' => 'Jayson-Shaw.png',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
@@ -135,11 +123,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Ko Ping Chung',
                 'phone' => '0389999999',
                 'user_id' => '2',
-<<<<<<< Updated upstream
-=======
                 'img' => 'ko-ping-chung.webp',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
@@ -160,11 +145,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Dương Quốc Hoàng',
                 'phone' => '0389999999',
                 'user_id' => '2',
-<<<<<<< Updated upstream
-=======
                 'img' => 'duong-quoc-hoang.jpeg',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
@@ -185,11 +167,8 @@ class CreatePlayerSeeder extends Seeder
                 'name' => 'Đăng Thành Kiên',
                 'phone' => '0389999999',
                 'user_id' => '2',
-<<<<<<< Updated upstream
-=======
                 'img' => 'dang-thanh-kien.jpeg',
                 'sex' => 'Nam',
->>>>>>> Stashed changes
 
             ]
 
