@@ -24,13 +24,24 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class=" m-auto w-[90%] xl:w-[70%]">
+<body class=" m-auto w-full">
     <x-menu />
-    <h1 class=" text-white text-center font-semibold text-[1rem] sm:text-[1.5rem]  mt-[90px] ftitle animate__animated  animate__bounce">
+    <h1
+        class=" text-white text-center font-semibold text-[1rem] sm:text-[1.5rem]  mt-[90px] ftitle animate__animated  animate__bounce">
         Bảng xếp hạng</h1>
-    <x-top5-player :players="$players_top_5 ?? []" />
-    <x-top10-player :players="$Player_top_6_from_15 ?? []"/>
-    <x-footer />
+    <div class="flex ">
+
+        <div class="w-[90%] xl:w-[70%] m-auto relative">
+            <div class=" text-right">
+                <button class=" bg-white pr-[15px] pl-[15px] rounded-sm mt-[10px] text-[0.7rem]"><i class="fa fa-filter"
+                        aria-hidden="true"></i>Bộ lọc theo yêu cầu</button>
+            </div>
+            <x-top5-player :players="$players_top_5 ?? []" />
+            <x-top10-player :players="$Player_top_6_from_15 ?? []" />
+            <x-footer />
+        </div>
+        <x-filter />
+    </div>
 </body>
 
 </html>

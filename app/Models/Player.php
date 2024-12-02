@@ -65,6 +65,7 @@ class Player extends Model
             ->orderBy('total_money', 'desc')
             ->offset($from - 1)
             ->limit($to - $from + 1)
+            // ->where('players.sex', '=', 'Nữ')    
             ->get();
         return $players;
     }
@@ -75,7 +76,9 @@ class Player extends Model
             ->join('achievements', 'players.id', '=', 'achievements.player_id')
             ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
             ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id')
+            
             ->orderBy('total_money', 'desc')
+            
             ->get();
 
         $top = 0;

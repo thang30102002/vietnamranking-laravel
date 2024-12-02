@@ -21,6 +21,7 @@
     </script>
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @vite('resources/css/app.css')
     <style>
         html,
         body,
@@ -40,7 +41,8 @@
         .icon {
             color: #21324C !important;
         }
-        .color-main{
+
+        .color-main {
             color: #fff;
             background-color: #21324C;
         }
@@ -62,20 +64,21 @@
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
                         <img src="
-                        @if ($player->img)
-                            {{ asset('images/players/' . $player->img . '') }}
+                        @if ($player->img && file_exists(public_path('images/players/' . $player->img . ''))) {{ asset('images/players/' . $player->img . '') }}
                         @else
-                            {{ asset('images/players/player.webp') }}
-                        @endif
-                        " style="width:100%" alt="Avatar">
-                        <div class="w3-display-bottomleft w3-container w3-text-black w-full bg-backgroundDiv ">
+                            {{ asset('images/players/player.webp') }} @endif
+                        "
+                            style="width:100%" alt="Avatar">
+                        <div class="w3-display-bottomleft w3-container w3-text-black w-full bg-white text-center ">
                             <h2 class=" text-[1.2rem]">{{ $player->name }}</h2>
                         </div>
                     </div>
                     <div class="w3-containerm text-left p-[10px] text-black">
-                        <p class=" text-left">Hạng: {{ $player->player_ranking->ranking->name }}
+                        <p class=" text-left">Hạng: <span>{{ $player->player_ranking->ranking->name }}</span>
                         </p>
                         <p class=" text-left">Bảng xếp hạng: Top {{ $top }}
+                        </p>
+                        <p class=" text-left">Tiền thưởng: {{ $money }}
                         </p>
                         <p class=" text-left">Giới tính: {{ $player->sex }}
                         </p>
@@ -83,11 +86,10 @@
                         <p class=" text-left">Số điện thoại:
                             {{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
                         </p>
-                        <p><i class="fa fa-phone fa-fw w3-margin-right w3-large icon"></i>{{ $player->phone }}
-                        </p>
                         <hr>
 
-                        <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right icon"></i><span class=" text-[14px]">Kỹ năng</span></b></p>
+                        <p class="w3-large"><b><i class="fa fa-asterisk fa-fw mr-[5px] icon"></i><span
+                                    class=" text-[14px]">Kỹ năng</span></b></p>
                         <p>Độ chính xác</p>
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:90%">90%</div>
@@ -117,8 +119,7 @@
             <div class="w3-twothird">
 
                 <div class="w3-container w3-card w3-white w3-margin-bottom">
-                    <h2 class="w3-text-grey w3-padding-16"><i
-                            class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge icon"></i>Thành tích
+                    <h2 class="w3-padding-16"><i class="fa fa-trophy mr-[5px]" aria-hidden="true"></i>Thành tích
                     </h2>
                     @foreach ($player->achievement as $achievement)
                         <div class="">
