@@ -61,19 +61,6 @@
 
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
-<<<<<<< Updated upstream
-                        <img src="{{ asset('images/fedor.webp') }}" style="width:100%" alt="Avatar">
-                        <div class="w3-display-bottomleft w3-container w3-text-black">
-                            <h2>{{ $player->name }}</h2>
-                        </div>
-                    </div>
-                    <div class="w3-container">
-                        <p><i
-                                class="fa fa-briefcase fa-fw w3-margin-right w3-large icon"></i>{{ $player->ranking }}
-                        </p>
-                        <p><i
-                                class="fa fa-envelope fa-fw w3-margin-right w3-large icon"></i>{{ $player->email }}
-=======
                         <img src="
                         @if ($player->img)
                             {{ asset('images/players/' . $player->img . '') }}
@@ -95,20 +82,13 @@
 
                         <p class=" text-left">Số điện thoại:
                             {{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
->>>>>>> Stashed changes
                         </p>
                         <p><i class="fa fa-phone fa-fw w3-margin-right w3-large icon"></i>{{ $player->phone }}
                         </p>
                         <hr>
 
-<<<<<<< Updated upstream
-                        <p class="w3-large"><b><i
-                                    class="fa fa-asterisk fa-fw w3-margin-right icon"></i>Skills</b></p>
-                        <p>Adobe Photoshop</p>
-=======
                         <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right icon"></i><span class=" text-[14px]">Kỹ năng</span></b></p>
                         <p>Độ chính xác</p>
->>>>>>> Stashed changes
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:90%">90%</div>
                         </div>
@@ -140,26 +120,6 @@
                     <h2 class="w3-text-grey w3-padding-16"><i
                             class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge icon"></i>Thành tích
                     </h2>
-<<<<<<< Updated upstream
-                    <div class="w3-container">
-                        <h5 class="w3-opacity"><b>Vô địch - The Billart House</b></h5>
-                        <h6 class=""><i class="fa fa-calendar fa-fw w3-margin-righticon"></i>Thứ 7, 30/10/2002
-                        </h6>
-                        <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est
-                            reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure,
-                            iste.</p>
-                        <hr>
-                    </div>
-                    <div class="w3-container">
-                        <h5 class="w3-opacity"><b>Vô địch - The Billart House</b></h5>
-                        <h6 class=""><i class="fa fa-calendar fa-fw w3-margin-righticon"></i>Thứ 7, 30/10/2002
-                        </h6>
-                        <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est
-                            reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure,
-                            iste.</p>
-                        <hr>
-                    </div>
-=======
                     @foreach ($player->achievement as $achievement)
                         <div class="">
                             <h5 class="w3-opacity py-[5px]">
@@ -190,7 +150,6 @@
                         </div>
                     @endforeach
 
->>>>>>> Stashed changes
                 </div>
                 <!-- End Right Column -->
             </div>

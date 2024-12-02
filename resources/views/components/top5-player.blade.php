@@ -1,4 +1,4 @@
-<div class="top-5-player">
+<div class="top-5-player grid grid-rows-5">
     @php
         $top = 1;
     @endphp
