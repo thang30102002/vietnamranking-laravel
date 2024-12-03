@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Player;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -16,7 +17,7 @@ class CardTop5Player extends Component
     public function __construct($player, $top)
     {
         $this->player = $player;
-        $this->top = $top;
+        $this->top = Player::get_top_player($player->id);
     }
 
     /**

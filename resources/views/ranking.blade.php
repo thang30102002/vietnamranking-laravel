@@ -33,9 +33,13 @@
 
         <div class="w-[90%] xl:w-[70%] m-auto relative">
             <div class=" text-right">
-                <button class=" bg-white pr-[15px] pl-[15px] rounded-sm mt-[10px] text-[0.7rem]"><i class="fa fa-filter"
-                        aria-hidden="true"></i>Bộ lọc theo yêu cầu</button>
+                <button id="openFilter"
+                    class=" bg-white pr-[15px] pl-[15px] pt-[5px] pb-[5px] rounded-sm mt-[10px] text-[0.7rem] lg:text-[1rem] mb-[10px]"><i
+                        class="fa fa-filter mr-[5px]" aria-hidden="true"></i>Bộ lọc theo yêu cầu</button>
             </div>
+            @if (count($players_top_5) === 0)
+                <h1 class=" text-white text-center text-[13px] mt-[60px]">Không tìm thấy người chơi tương ứng</h1>
+            @endif
             <x-top5-player :players="$players_top_5 ?? []" />
             <x-top10-player :players="$Player_top_6_from_15 ?? []" />
             <x-footer />
@@ -43,5 +47,23 @@
         <x-filter />
     </div>
 </body>
+
+<script>
+    const openFilter = document.getElementById('openFilter');
+    const filter = document.getElementById('filter');
+    const bgFilter = document.getElementById('bgFilter');
+    const close_Filter = document.getElementById('closeFilter');
+
+    openFilter.addEventListener('click', function() {
+        filter.classList.remove('hidden');
+        bgFilter.classList.remove('hidden');
+    });
+    close_Filter.addEventListener('click', function() {
+        filter.classList.add('hidden');
+        bgFilter.classList.add('hidden');
+    });
+</script>
+
+
 
 </html>

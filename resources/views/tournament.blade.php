@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Đơn vị tổ chức giải</title>
+    <title>Giải đấu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -28,10 +28,10 @@
     <x-menu />
     <h1
         class=" text-white text-center font-semibold text-[17px] 2xl:text-[2.5rem]  mt-[70px] ftitle animate__animated  animate__bounce sm:text-[1.5rem]">
-        Đơn vị tổ chức giải</h1>
+        Giải đấu</h1>
     <div class=" grid grid-cols-1 gap-2 md:grid-cols-3 mt-[15px]">
-        @foreach ($tournament_organizers as $organizer)
-            <x-card-tournament-organizer :organizer="$organizer" />
+        @foreach ($tournaments as $tournament)
+            <x-card-tournament-organizer :organizer="$tournament" />
         @endforeach
     </div>
     <x-footer />
