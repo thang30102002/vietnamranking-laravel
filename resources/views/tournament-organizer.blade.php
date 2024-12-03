@@ -29,7 +29,7 @@
     <h1
         class=" text-white text-center font-semibold text-[17px] 2xl:text-[2.5rem]  mt-[70px] ftitle animate__animated  animate__bounce sm:text-[1.5rem]">
         Đơn vị tổ chức giải</h1>
-    <div class=" grid grid-cols-1 gap-2 md:grid-cols-3">
+    <div class=" grid grid-cols-1 gap-2 md:grid-cols-3 mt-[15px]">
         {{-- @dd($tournament_organizers) --}}
         @foreach ($tournament_organizers as $organizer)
             <x-card-tournament-organizer :organizer="$organizer" />

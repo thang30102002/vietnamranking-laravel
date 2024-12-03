@@ -15,15 +15,17 @@ class RankingController extends Controller
     }
     public static function ranking()
     {
-        $players_top_5 = Player::get_top(1, 5);
-        $Player_top_6_from_15 = Player::get_top(6, 15);
+        $players = Player::get_top(1,15);
+        $players_top_5 =$players->slice(0, 5);
+        $Player_top_6_from_15 =$players->slice(5, 15);
         return view('ranking', ['players_top_5' => $players_top_5, 'Player_top_6_from_15' => $Player_top_6_from_15]);
     }
     public static function detail($id)
     {
+        $money = number_format(Player::get_money($id), 0, ',', '.') . ' VNĐ';
         $top = Player::get_top_player($id);
         $player = Player::get_detail($id);
-        return view('detail-player', ['player' => $player, 'top' => $top]);
+        return view('detail-player', ['player' => $player, 'top' => $top, 'money' => $money]);
     }
     public function tournament_organizer()
     {
