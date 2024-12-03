@@ -10,10 +10,10 @@
                     <a class="nav-link active" aria-current="page" href="/ranking">Bảng xếp hạng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Giải đấu</a>
+                    <a class="nav-link" href={{ route('ranking.tournament') }}>Giải đấu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tournament_organizer">Đơn vị tổ chức giải</a>
+                    <a class="nav-link" href="#">Đơn vị tổ chức giải</a>
                 </li>
             </ul>
             @if (Auth::check())
