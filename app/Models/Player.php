@@ -10,6 +10,13 @@ use function PHPUnit\Framework\isNull;
 
 class Player extends Model
 {
+    protected $fillable = [
+        'name',
+        'phone',
+        'sex',
+        'user_id',
+    ];
+
     public static function get_all()
     {
         $players = self::all();

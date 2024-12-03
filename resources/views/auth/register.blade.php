@@ -9,11 +9,24 @@
         </div>
         <!-- Name -->
         <div class="mt-4">
-            <x-input-label for="name" :value="__('Họ và tên')" />
+            <x-input-label id="name" for="name" :value="__('Tên')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
                 autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
+
+        <!-- sex -->
+        <div id="sex" class="mt-4">
+            <x-input-label for="sex" :value="__('Giới tính')" />
+            <input type="radio" id="nam" name="sex" value="Nam"
+                {{ old('sex') == 'Nam' ? 'checked' : '' }}>
+            <label required class=" text-white" for="nam">Nam</label><br>
+            <input type="radio" id="nu" name="sex" value="Nữ"
+                {{ old('sex') == 'Nữ' ? 'checked' : '' }}>
+            <label required class=" text-white" for="nu">Nữ</label><br>
+            <x-input-error :messages="$errors->get('sex')" class="mt-2" />
+        </div>
+
         {{-- rank  --}}
         <div id="playerRank" class="mt-4  ">
             <x-input-label for="role" :value="__('Hạng')" />
@@ -84,6 +97,8 @@
         const radios = document.querySelectorAll('input[name="user_type"]');
         const input_rank = document.getElementById('playerRank');
         const info = document.getElementById('info');
+        const sex = document.getElementById('sex');
+        const name = document.getElementById('name');
 
         // Kiểm tra giá trị radio khi tải trang
         const selectedRadio = document.querySelector('input[name="user_type"]:checked');
@@ -103,9 +118,11 @@
             if (user_type == 2) {
                 input_rank.classList.remove('hidden');
                 info.classList.add('hidden');
+                sex.classList.remove('hidden');
             } else {
                 input_rank.classList.add('hidden');
                 info.classList.remove('hidden');
+                sex.classList.add('hidden');
             }
         }
     });

@@ -8,6 +8,6 @@ class Ranking_tournament extends Model
 {
     public function ranking()
     {
-        return $this->hasOne(Ranking::class);
+        return $this->belongsTo(Ranking::class);
     }
 }

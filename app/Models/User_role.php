@@ -13,6 +13,6 @@ class User_role extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class); // Mỗi player thuộc về một user
+        return $this->belongsTo(User::class);
     }
 }
