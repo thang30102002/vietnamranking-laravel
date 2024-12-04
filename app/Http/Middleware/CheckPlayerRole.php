@@ -17,11 +17,11 @@ class CheckPlayerRole
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect('/login')->with('error', 'Bạn cần đăng nhập.');
+            return redirect()->route('login')->with('error', 'Bạn vui lòng đăng nhập!');
         }
 
-        if (Auth::user()->user_role->role_id !== '3') {
-            return redirect('/tournament')->with('error', 'Bạn không có quyền truy cập.');
+        if (Auth::user()->user_role->role_id !== 3) {
+            return redirect()->route('ranking.tournament')->with('error', 'Bạn vui lòng sử dụng tài khoản người chơi!');
         }
         return $next($request);
     }

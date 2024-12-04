@@ -31,9 +31,10 @@
                             @endif
                         </button>
                         <ul id="dropdownMenu" class="dropdown-menu w-full" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                            @if (auth()->user()->user_role->role_id == 3)
+                                <li><a class="dropdown-item" href= {{ route('ranking.detail', ['id'=>auth()->user()->player->id]) }}>Hồ sơ</a></li>
+                            @endif
                             <li><button class="dropdown-item" href={{ 'logout' }}>Đăng xuất</button></li>
-                            {{-- <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
                         </ul>
                     </div>
                 </form>

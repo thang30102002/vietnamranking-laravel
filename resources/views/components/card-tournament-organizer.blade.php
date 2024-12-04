@@ -57,15 +57,17 @@
                                     style="background-image: url(https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80)">
                                 </div>
                                 <div>
-                                    <p class="font-bold text-gray-900">{{ $organizer-> }}</p>
+                                    <p class="font-bold text-gray-900">{{ $organizer->admin_tournament->name }}</p>
                                     <p class="text-sm text-gray-700">(555) 555-4321</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button class="w-full" id="toggleButton{{ $organizer->id }}">Xem thêm</button>
-                    <a id="registerTournament{{ $organizer->id }}" href={{ route('ranking.register_tournament') }}
-                        class=" block text-center w-full bg-[#E3353E] text-[1rem] font-bold text-white p-2">Đăng ký ngay</a>
+                    <a id="registerTournament{{ $organizer->id }}"
+                        href={{ route('ranking.register_tournament', ['tournament_id' => $organizer->id]) }}
+                        class=" block text-center w-full bg-[#E3353E] text-[1rem] font-bold text-white p-2">Đăng ký
+                        ngay</a>
                 </div>
             </div>
         </div>
