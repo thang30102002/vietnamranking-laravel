@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'rank' => $request->user_type == 2 ? 'required' : 'nullable',
             'user_type' => 'required',
             'info' => $request->user_type == 1 ? 'required|string|max:255' : 'nullable',
+            'sex' => $request->user_type == 2 ? 'required' : 'nullable',
         ], [
             'name.required' => 'Vui lòng nhập họ và tên',
             'name.string' => 'Vui lòng nhập đúng định dạng họ và tên',
@@ -54,6 +55,7 @@ class RegisteredUserController extends Controller
             'password.confirmed' => 'Vui lòng xác thực lại mật khẩu',
             'password.min' => 'Mật khẩu phải ít nhất 8 kí tự',
             'rank.required' => 'Vui lòng chọn thứ hạng',
+            'sex.required' => 'Vui lòng chọn giới tính',
             'user_type.required' => 'Vui lòng chọn loại tài khoản',
             'info.required' => 'Vui lòng điền một số thông tin về đơn vị tổ chức',
 
@@ -62,16 +64,15 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => 1,
         ]);
         if ($request->user_type == 2) {
             $player = Player::create([
                 'name' => $request->name,
                 'phone' => $request->phone,
+                'sex' => $request->sex,
                 'user_id' => $user->id,
             ]);
-            if($player)
-            {
+            if ($player) {
                 $userRole = User_role::create([
                     'user_id' => $user->id,
                     'role_id' => 3,
@@ -84,8 +85,7 @@ class RegisteredUserController extends Controller
                 'phone' => $request->phone,
                 'user_id' => $user->id,
             ]);
-            if($admin_tournament)
-            {
+            if ($admin_tournament) {
                 $userRole = User_role::create([
                     'user_id' => $user->id,
                     'role_id' => 2,
@@ -93,7 +93,7 @@ class RegisteredUserController extends Controller
             }
         }
 
-        
+
 
 
         event(new Registered($user));

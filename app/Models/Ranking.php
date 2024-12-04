@@ -19,4 +19,9 @@ class Ranking extends Authenticatable
    {
       return $this->hasOne(Ranking::class);
    }
+
+   public function ranking_tournament()
+   {
+      return $this->hasMany(Ranking_tournament::class);
+   }
 }

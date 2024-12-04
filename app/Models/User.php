@@ -57,10 +57,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Player::class); 
     }
-    // public function user_role()
-    // {
-    //     return $this->hasOne(User_role::class); 
-    // }
+    public function user_role()
+    {
+        return $this->hasOne(User_role::class); 
+    }
     public function admin_tournament()
     {
         return $this->hasOne(Admin_tournament::class);
