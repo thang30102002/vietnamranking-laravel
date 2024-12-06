@@ -21,7 +21,6 @@ class RankingController extends Controller
         $rankings = $request->input('rankings');
 
         $players = Player::get_top(1, 15, $name, $rankings, $sex);
-        // dd($players);
         $players_top_5 = $players->slice(0, 5);
         $Player_top_6_from_15 = $players->slice(5, 15);
         return view('ranking', ['players_top_5' => $players_top_5, 'Player_top_6_from_15' => $Player_top_6_from_15]);
