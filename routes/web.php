@@ -25,8 +25,21 @@ Route::get('/tournament_organizer', [RankingController::class, 'tournament_organ
 Route::get('/tournament', [RankingController::class, 'tournament'])->name('ranking.tournament');
 Route::get('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament'])->name('ranking.register_tournament')->middleware('register_tournament');
 
-Route::get('/adminTournament', [AdminTournamentController::class, 'index'])->name('adminTournament.index')->middleware('is_admin_tournament');
-Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament')->middleware('is_admin_tournament');
 
+
+
+Route::middleware('is_admin_tournament')->group(
+    function () {
+        Route::get('/adminTournament', [AdminTournamentController::class, 'index'])->name('adminTournament.index');
+        Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament');
+        Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament');
+        Route::post('/adminTournament/add_tournament', [AdminTournamentController::class, 'add_tournament']);
+        Route::get('/adminTournament/tournaments', [AdminTournamentController::class, 'showAllTournament'])->name('adminTournament.showAllTournament');
+        Route::delete('/adminTournament/{id}', [AdminTournamentController::class, 'destroy'])->name('adminTournament.destroy');
+        // Route::get('/adminTournament/editTournament/{$id}', [AdminTournamentController::class, 'showAllTournament'])->name('adminTournament.showAllTournament');
+
+
+    }
+);
 
 require __DIR__ . '/auth.php';

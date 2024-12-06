@@ -314,8 +314,8 @@
 </style>
 <div>
     @if (session('error'))
-        <div class="row fixed z-50 right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 w-full">
+        <div class="row fixed z-[99999999999] right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
+            <div class="col-xs-12  col-sm-offset-3 w-full">
                 <div class="new-message-box">
                     <div class="new-message-box-danger">
                         <div class="info-tab tip-icon-danger" title="error"><i></i></div>
@@ -331,8 +331,8 @@
     @endif
     <!-- -->
     @if (session('success'))
-        <div class="row fixed z-50 right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 w-full">
+        <div class="row fixed z-[99999999999] right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
+            <div class="col-xs-12 col-sm-offset-3 w-full">
                 <div class="new-message-box">
                     <div class="new-message-box-success">
                         <div class="info-tab tip-icon-success" title="success"><i></i></div>
@@ -348,8 +348,8 @@
     @endif
     <!-- -->
     @if (session('warning'))
-        <div class="row fixed z-50 right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 w-full">
+        <div class="row fixed z-[99999999999] right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
+            <div class="col-xs-12 col-sm-offset-3 w-full">
                 <div class="new-message-box">
                     <div class="new-message-box-warning">
                         <div class="info-tab tip-icon-warning" title="error"><i></i></div>
@@ -365,8 +365,8 @@
     @endif
     <!-- -->
     @if (session('info'))
-        <div class="row fixed z-50 right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 w-full">
+        <div class="row fixed z-[99999999999] right-4 text-[0.7rem] xl:text-[1rem]" id="notification">
+            <div class="col-xs-12 col-sm-offset-3 w-full">
                 <div class="new-message-box">
                     <div class="new-message-box-info">
                         <div class="info-tab tip-icon-info" title="error"><i></i></div>

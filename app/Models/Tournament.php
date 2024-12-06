@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tournament extends Model
 {
+    protected $fillable = [
+        'name',
+        'number_players',
+        'start_date',
+        'address',
+        'fees',
+        'status',
+        'admin_tournament_id',
+    ];
+    
     public function tournament_game_type()
     {
         return $this->hasOne(Tournament_game_type::class);
@@ -37,4 +47,5 @@ class Tournament extends Model
         $tournament = self::where('status', '=', '1')->get();
         return $tournament;
     }
+
 }
