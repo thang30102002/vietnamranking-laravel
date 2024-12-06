@@ -47,8 +47,11 @@ class RankingController extends Controller
         return view('tournament', ['tournaments' => $tournaments]);
     }
 
-    public function register_tournament()
+    public function register_tournament(Request $request)
     {
-        echo "asdfasdf";
+        $tournament_id = $request->route('tournament_id');
+        session()->put('exampleModal', true);
+        $tournaments = Tournament::get_all_apply();
+        return view('tournament', ['tournaments' => $tournaments, 'tournament_id' => $tournament_id]);
     }
 }

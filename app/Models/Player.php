@@ -107,4 +107,9 @@ class Player extends Model
     {
         return $this->hasOne(Player_ranking::class);
     }
+
+    public function player_money()
+    {
+        return $this->hasOne(Player_money::class);
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Admin_tournament;
 use App\Models\Player;
+use App\Models\Player_money;
+use App\Models\Player_ranking;
 use App\Models\Ranking;
 use App\Models\User;
 use App\Models\User_role;
@@ -76,6 +78,16 @@ class RegisteredUserController extends Controller
                 $userRole = User_role::create([
                     'user_id' => $user->id,
                     'role_id' => 3,
+                ]);
+
+                $player_ranking = Player_ranking::create([
+                    'player_id' => $player->id,
+                    'ranking_id' => $request->rank,
+                ]);
+
+                $player_money = Player_money::create([
+                    'player_id' => $player->id,
+                    'money' => 0,
                 ]);
             }
         } else {
