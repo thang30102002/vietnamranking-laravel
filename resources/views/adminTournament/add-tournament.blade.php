@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Quản lý giải đấu</title>
+    <title>Thêm giải đấu</title>
     {{-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> --}}
     <link rel="stylesheet" href="{{ asset('images/adminTournament/favicon.png') }}">
 
@@ -51,7 +51,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tên giải đấu</label>
-                                        <input class="form-control" type="text" name="name"
+                                        <input class="form-control" type="text" name="name" placeholder="Nhập tên giải đấu"
                                             value="{{ old('name') }}">
                                     </div>
                                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -72,7 +72,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Số lượng người tham gia</label>
-                                        <input class="form-control" type="number" name="number_player"
+                                        <input class="form-control" type="number" name="number_player" placeholder="Nhập số lượng người tham gia"
                                             value={{ old('number_player') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('number_player')" class="mt-2" />
@@ -88,7 +88,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Địa điểm thi đấu</label>
-                                        <input class="form-control" type="text" name="address"
+                                        <input class="form-control" type="text" name="address" placeholder="Nhập địa điểm thi đấu"
                                             value={{ old('address') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('address')" class="mt-2" />
@@ -96,7 +96,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Lệ phí tham gia</label>
-                                        <input class="form-control" type="number" name="fees"
+                                        <input class="form-control" type="number" name="fees" placeholder="Nhập lệ phí tham gia"
                                             value={{ old('fees') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('fees')" class="mt-2" />
@@ -105,7 +105,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng vô địch (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_1"
+                                        <input class="form-control" type="number" name="money_top_1" placeholder="Nhập số tiền thưởng hạng 1"
                                             value={{ old('money_top_1') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_1')" class="mt-2" />
@@ -113,7 +113,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng á quân (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_2"
+                                        <input class="form-control" type="number" name="money_top_2" placeholder="Nhập số tiền thưởng hạng 2"
                                             value={{ old('money_top_2') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_2')" class="mt-2" />
@@ -121,7 +121,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng hạng 3 (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_3"
+                                        <input class="form-control" type="number" name="money_top_3" placeholder="Nhập số tiền thưởng hạng 3"
                                             value={{ old('money_top_3') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary buttonedit ml-2">Lưu</button>
-                <button type="" class="btn btn-primary buttonedit">Huỷ</button>
+                <button type="button" class="btn btn-primary buttonedit">Huỷ</button>
                 </form>
             </div>
         </div>

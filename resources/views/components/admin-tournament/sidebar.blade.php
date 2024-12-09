@@ -11,7 +11,7 @@
                         </a>
                         <ul class="submenu_class" style="display: none;">
                             <li><a href={{ route('adminTournament.showAllTournament') }}> Tất cả giải đấu </a></li>
-                            <li><a href="edit-booking.html"> Chỉnh sửa giải đấu </a></li>
+                            {{-- <li><a href="edit-booking.html"> Chỉnh sửa giải đấu </a></li> --}}
                             <li><a href={{ route('adminTournament.addtournament') }}> Tạo giải đấu </a></li>
                         </ul>
                     </li>

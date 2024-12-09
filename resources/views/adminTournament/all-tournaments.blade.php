@@ -119,15 +119,16 @@
                                                                 data-toggle="dropdown" aria-expanded="false"><i
                                                                     class="fa fa-bars" aria-hidden="true"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-right"> <a
-                                                                    class="dropdown-item" href="edit-room.html"><i
+                                                                    class="dropdown-item"
+                                                                    href="{{ route('adminTournament.showEditTournament', ['id' => $tournament->id]) }}"><i
                                                                         class="fa fa-pencil-square-o"
-                                                                        aria-hidden="true"></i> Edit</a> <a
+                                                                        aria-hidden="true"></i> Chỉnh sửa</a> <a
                                                                     class="dropdown-item" href="#"
                                                                     data-toggle="modal" data-target="#delete_asset"
                                                                     data-id="{{ $tournament->id }}"
                                                                     data-name="{{ $tournament->name }}"><i
                                                                         class="fa fa-trash" aria-hidden="true"></i>
-                                                                    Delete</a>
+                                                                    Xoá</a>
                                                             </div>
                                                         </div>
                                                     </td>

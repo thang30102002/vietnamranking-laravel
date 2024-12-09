@@ -30,7 +30,6 @@
         class=" text-white text-center font-semibold text-[1rem] sm:text-[1.5rem]  mt-[90px] ftitle animate__animated  animate__bounce">
         Bảng xếp hạng</h1>
     <div class="flex ">
-
         <div class="w-[90%] xl:w-[70%] m-auto relative">
             <div class=" text-right">
                 <button id="openFilter"

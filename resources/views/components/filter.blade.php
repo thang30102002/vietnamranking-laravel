@@ -11,6 +11,10 @@
         <input name="name" id="name" class="w-full p-1 border border-gray-500"
             value="{{ request()->input('name') }}" type="text"><br>
 
+        <label class="pt-[10px] " for="phone">Số điện thoại</label><br>
+        <input name="phone" id="phone" class="w-full p-1 border border-gray-500"
+            value="{{ request()->input('phone') }}" type="text"><br>
+
         <label class="pt-[10px] " for="sex">Giới tính</label><br>
         <div class=" grid gap-2 grid-cols-2">
             <div>

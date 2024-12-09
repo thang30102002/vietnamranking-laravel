@@ -24,6 +24,7 @@ Route::get('/detail/{id}', [RankingController::class, 'detail'])->name('ranking.
 Route::get('/tournament_organizer', [RankingController::class, 'tournament_organizer'])->name('ranking.tournament_organizer');
 Route::get('/tournament', [RankingController::class, 'tournament'])->name('ranking.tournament');
 Route::get('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament'])->name('ranking.register_tournament')->middleware('register_tournament');
+Route::post('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament_success'])->name('ranking.register_tournament_success')->middleware('register_tournament');
 
 
 
@@ -36,7 +37,8 @@ Route::middleware('is_admin_tournament')->group(
         Route::post('/adminTournament/add_tournament', [AdminTournamentController::class, 'add_tournament']);
         Route::get('/adminTournament/tournaments', [AdminTournamentController::class, 'showAllTournament'])->name('adminTournament.showAllTournament');
         Route::delete('/adminTournament/{id}', [AdminTournamentController::class, 'destroy'])->name('adminTournament.destroy');
-        // Route::get('/adminTournament/editTournament/{$id}', [AdminTournamentController::class, 'showAllTournament'])->name('adminTournament.showAllTournament');
+        Route::get('/adminTournament/edit_tournament/{id}', [AdminTournamentController::class, 'showEditTournament'])->name('adminTournament.showEditTournament');
+        Route::put('/adminTournament/edit_tournament/{id}', [AdminTournamentController::class, 'editTournament'])->name('adminTournament.editTournament');
 
 
     }

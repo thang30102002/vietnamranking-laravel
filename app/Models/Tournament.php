@@ -15,6 +15,11 @@ class Tournament extends Model
         'status',
         'admin_tournament_id',
     ];
+
+    public function player_registed_tournament()
+    {
+        return $this->hasMany(Player_registed_tournament::class);
+    }
     
     public function tournament_game_type()
     {

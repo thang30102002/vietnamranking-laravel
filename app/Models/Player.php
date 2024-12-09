@@ -17,6 +17,11 @@ class Player extends Model
         'user_id',
     ];
 
+    public function player_registed_tournament()
+    {
+        return $this->hasMany(Player_registed_tournament::class);
+    }
+
     public static function get_all()
     {
         $players = self::all();
@@ -55,7 +60,7 @@ class Player extends Model
         return $money;
     }
 
-    public static function get_top($from, $to, $name = null, $rankings = [], $sex = [])
+    public static function get_top($from, $to, $name = null, $rankings = [], $sex = [], $phone = null)
     {
         $query = Player::select('players.*', DB::raw('SUM(tournament_top_moneys.money) as total_money'))
             ->join('achievements', 'players.id', '=', 'achievements.player_id')
@@ -65,6 +70,11 @@ class Player extends Model
             ->orderBy('total_money', 'desc');
 
         // Áp dụng các điều kiện lọc
+
+        if (!is_null($phone)) {
+            $query->where('players.phone', '=', $phone);
+        }
+
         if (!is_null($name)) {
             $query->where('players.name', '=', $name);
         }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin_tournament;
 use App\Models\Player;
+use App\Models\Player_registed_tournament;
+use App\Models\Player_register_tournament;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 
@@ -19,8 +21,9 @@ class RankingController extends Controller
         $name = $request->input('name');
         $sex = $request->input('sex');
         $rankings = $request->input('rankings');
+        $phone = $request->input('phone');
 
-        $players = Player::get_top(1, 15, $name, $rankings, $sex);
+        $players = Player::get_top(1, 15, $name, $rankings, $sex, $phone);
         $players_top_5 = $players->slice(0, 5);
         $Player_top_6_from_15 = $players->slice(5, 15);
         return view('ranking', ['players_top_5' => $players_top_5, 'Player_top_6_from_15' => $Player_top_6_from_15]);
@@ -52,5 +55,29 @@ class RankingController extends Controller
         session()->put('exampleModal', true);
         $tournaments = Tournament::get_all_apply();
         return view('tournament', ['tournaments' => $tournaments, 'tournament_id' => $tournament_id]);
+    }
+
+    public function register_tournament_success(Request $request)
+    {
+        $count = Player_registed_tournament::where('tournament_id', $request->tournament_id)
+            ->where('player_id', $request->player_id)
+            ->count();
+
+        if ($count == 0) {
+            $player_register = Player_registed_tournament::create([
+                'tournament_id' => $request->tournament_id,
+                'player_id' => $request->player_id,
+            ]);
+            if($player_register)
+            {
+                return redirect('/tournament')->with('success', "Đơn đăng ký đã được ghi nhận");
+            }
+            else
+            {
+                return redirect('/tournament')->with('error', "Đăng ký không thành công");
+            }
+        } else {
+            return redirect('/tournament')->with('error', "Đăng ký không thành công. Có vẻ như bạn đã đăng ký giải đấu này trước đó");
+        }
     }
 }
