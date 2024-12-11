@@ -32,6 +32,7 @@ Route::post('/register_tournament/{tournament_id}', [RankingController::class, '
 Route::middleware('is_admin_tournament')->group(
     function () {
         Route::get('/adminTournament', [AdminTournamentController::class, 'index'])->name('adminTournament.index');
+        Route::get('/adminTournament/profile', [AdminTournamentController::class, 'profile'])->name('adminTournament.profile');
         Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament');
         Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament');
         Route::post('/adminTournament/add_tournament', [AdminTournamentController::class, 'add_tournament']);

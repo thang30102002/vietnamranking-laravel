@@ -31,9 +31,9 @@ class RankingController extends Controller
 
     public static function detail($id)
     {
-        $money = number_format(Player::get_money($id), 0, ',', '.') . ' VNĐ';
         $top = Player::get_top_player($id);
         $player = Player::get_detail($id);
+        $money = number_format($player->player_money->money, 0, ',', '.') . ' VNĐ';
         return view('detail-player', ['player' => $player, 'top' => $top, 'money' => $money]);
     }
 
@@ -68,12 +68,9 @@ class RankingController extends Controller
                 'tournament_id' => $request->tournament_id,
                 'player_id' => $request->player_id,
             ]);
-            if($player_register)
-            {
+            if ($player_register) {
                 return redirect('/tournament')->with('success', "Đơn đăng ký đã được ghi nhận");
-            }
-            else
-            {
+            } else {
                 return redirect('/tournament')->with('error', "Đăng ký không thành công");
             }
         } else {

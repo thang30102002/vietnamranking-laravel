@@ -148,6 +148,56 @@
                                     </div>
                                     <x-input-error :messages="$errors->get('ranking')" class="mt-2" />
                                 </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Quán quân</label>
+                                        {{-- @dd($tournament->tournament_top_money[0]->achievements[0]->player->user->email); --}}
+                                        <input type="email" name="top1" value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}" 
+                                            class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Nhập email người tham gia" />
+                                        <div
+                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                        </div>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Á quân</label>
+                                        <input type="email" name="top2" value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}" 
+                                            class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Nhập email người tham gia" />
+                                        <div
+                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                        </div>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Hạng 3 </label>
+                                        <input type="email" name="top3[]" value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}" 
+                                            class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Nhập email người tham gia" />
+                                        <div
+                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                        </div>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Hạng 3</label>
+                                        <input type="email" name="top3[]" value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}" 
+                                            class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Nhập email người tham gia" />
+                                        <div
+                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                        </div>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                </div>
                             </div>
 
                         </div>
@@ -174,7 +224,7 @@
                                 <th scope="col">Hạng</th>
                                 <th scope="col">Giới tính</th>
                                 <th scope="col">Trạng thái</th>
-                                <th scope="col">Giải</th>
+                                {{-- <th scope="col">Giải</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -182,6 +232,12 @@
                                 $stt = 1;
                             @endphp
                             @foreach ($player_registed as $player)
+                                {{-- @php
+                                    $achievement_players = [];
+                                    foreach ($player->player->achievement as $achievement_player) {
+                                        $achievement_players[] = $achievement_player->tournament_top_money_id;
+                                    }
+                                @endphp --}}
                                 <tr class="{{ $player->status == 0 ? 'bg-yellow-100' : '' }}">
                                     <th scope="row">{{ $stt }}</th>
                                     <td>{{ $player->player->name }}</td>
@@ -190,18 +246,28 @@
                                     </td>
                                     <td>{{ $player->player->player_ranking->ranking->name }}</td>
                                     <td>{{ $player->player->sex }}</td>
+                                    <input type="hidden" name="player_id[]" value="{{ $player->player->id }}">
                                     <td><select class="form-control" id="sel1" name="status[]">
                                             <option value="0" {{ $player->status == 0 ? 'selected' : '' }}>
                                                 Chờ xét duyệt</option>
                                             <option value="1" {{ $player->status == 1 ? 'selected' : '' }}>
                                                 Thành công</option>
                                         </select></td>
-                                    <td><select class="form-control" name="achievements[]">
+                                    {{-- <td><select class="form-control" name="achievements[]">
+                                            <option value="0" selected>
+                                                Không</option>
                                             @foreach ($tournament->tournament_top_money as $achievements)
-                                                <option value="1" {{ $player->status == 1 ? 'selected' : '' }}>
-                                                    {{ $achievements->top}}</option>
+                                                <option value="{{ $player->player->id }}_{{ $achievements->id }}" {{ in_array($achievements->id, $achievement_players) ? 'selected' : ''}}>
+                                                    @if ($achievements->top == 1)
+                                                        Quán quân
+                                                    @elseif ($achievements->top == 2)
+                                                        Á Quân
+                                                    @else
+                                                        Hạng 3
+                                                    @endif
+                                                </option>
                                             @endforeach
-                                        </select></td>
+                                        </select></td> --}}
                                 </tr>
                                 @php
                                     $stt++;
@@ -308,6 +374,70 @@
             rows[i].style.display = match ? '' : 'none';
         }
     }
+</script>
+<script>
+    @php
+        $emails = [];
+        foreach ($tournament->player_registed_tournament as $played) {
+            if ($played->status == 1) {
+                $emails[] = $played->player->user->email;
+            }
+        }
+    @endphp
+    // Mảng chứa dữ liệu email từ PHP (hoặc dữ liệu bạn muốn tìm kiếm)
+    const searchData = <?php echo json_encode($emails); ?>;
+
+    // Lấy tất cả các ô input có class là 'search-input'
+    const searchInputs = document.querySelectorAll('.search-input');
+
+    searchInputs.forEach(searchInput => {
+        const searchResults = searchInput.nextElementSibling; // Lấy thẻ div chứa kết quả tìm kiếm
+
+        // Function để render các kết quả tìm kiếm
+        function renderSearchResults(filteredData) {
+            // Xóa kết quả cũ
+            searchResults.innerHTML = '';
+
+            // Nếu không có kết quả tìm kiếm, hiển thị thông báo "No results"
+            if (filteredData.length === 0) {
+                searchResults.innerHTML = `<div class="p-3 text-gray-500">Không tìm thấy người chơi</div>`;
+                searchResults.classList.remove('hidden');
+                return;
+            }
+
+            // Duyệt qua mảng dữ liệu và hiển thị mỗi kết quả
+            filteredData.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('p-3', 'border-t', 'border-gray-200', 'hover:bg-gray-50',
+                    'cursor-pointer');
+                resultItem.textContent = result;
+
+                // Thêm sự kiện click vào mỗi kết quả
+                resultItem.addEventListener('click', function() {
+                    // Khi click vào kết quả, tự động điền vào input
+                    searchInput.value = result;
+
+                    // Ẩn kết quả sau khi chọn
+                    searchResults.classList.add('hidden');
+                });
+
+                // Thêm phần tử kết quả vào danh sách
+                searchResults.appendChild(resultItem);
+            });
+
+            // Hiển thị kết quả tìm kiếm
+            searchResults.classList.remove('hidden');
+        }
+
+        // Sự kiện input để lọc dữ liệu
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.toLowerCase();
+            const filteredData = searchData.filter(item =>
+                item.toLowerCase().includes(query)
+            );
+            renderSearchResults(filteredData);
+        });
+    });
 </script>
 
 </html>

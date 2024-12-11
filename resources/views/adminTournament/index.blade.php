@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset('css/adminTournament/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @vite('resources/css/app.css')
-
+</head>
 <body>
     <div class="main-wrapper">
         <x-admin-tournament.menu />
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" grid grid-cols-3 gap-4">
+                <div class=" grid sm:grid-cols-3 gap-4">
                     <div class="">
                         <div class="card board1 fill">
                             <div class="card-body">

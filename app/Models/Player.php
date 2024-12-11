@@ -62,14 +62,21 @@ class Player extends Model
 
     public static function get_top($from, $to, $name = null, $rankings = [], $sex = [], $phone = null)
     {
-        $query = Player::select('players.*', DB::raw('SUM(tournament_top_moneys.money) as total_money'))
+        // $query = Player::select('players.*', DB::raw('SUM(tournament_top_moneys.money) as total_money'))
+        //     ->join('achievements', 'players.id', '=', 'achievements.player_id')
+        //     ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
+        //     ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
+        //     ->join('player_rankings', 'players.id', '=', 'player_rankings.player_id')
+        //     ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id')
+        //     ->orderBy('player_moneys.money', 'desc');
+        $query = Player::select('players.*', 'player_moneys.money')
+            ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
             ->join('achievements', 'players.id', '=', 'achievements.player_id')
             ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
             ->join('player_rankings', 'players.id', '=', 'player_rankings.player_id')
-            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id')
-            ->orderBy('total_money', 'desc');
+            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id', 'player_moneys.money')
+            ->orderBy('player_moneys.money', 'desc');
 
-        // Áp dụng các điều kiện lọc
 
         if (!is_null($phone)) {
             $query->where('players.phone', '=', $phone);
@@ -96,11 +103,10 @@ class Player extends Model
 
     public static function get_top_player($id)
     {
-        $players = Player::select('players.*', DB::raw('SUM(tournament_top_moneys.money) as total_money'))
-            ->join('achievements', 'players.id', '=', 'achievements.player_id')
-            ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
-            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id')
-            ->orderBy('total_money', 'desc')
+        $players = Player::select('players.*', 'player_moneys.money')
+            ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
+            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id', 'player_moneys.money')
+            ->orderBy('player_moneys.money', 'desc')
             ->get();
 
         $top = 0;

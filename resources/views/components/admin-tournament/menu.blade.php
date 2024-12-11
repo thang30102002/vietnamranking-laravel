@@ -5,7 +5,7 @@
             <a href="index.html" class="logo logo-small"></a>
         </div>
         <a href="javascript:void(0);" id="toggle_btn"> <i class="fa fa-bars" aria-hidden="true"></i> </a>
-        <a class="mobile_btn" id="mobile_btn"> <i class="fas fa-bars"></i> </a>
+        <a class="mobile_btn" id="mobile_btn"> <i class="fa fa-bars" aria-hidden="true"></i> </a>
         <ul class="nav user-menu">
             <li class="nav-item dropdown noti-dropdown">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <i class="fa fa-bell"
@@ -92,12 +92,10 @@
                         <div class="avatar avatar-sm"> <img src="assets/img/profiles/avatar-01.jpg" alt="User Image"
                                 class="avatar-img rounded-circle"> </div>
                         <div class="user-text">
-                            <h6>Soeng Souy</h6>
-                            <p class="text-muted mb-0">Administrator</p>
+                            <h6>{{ Auth::user()->admin_tournament->name }}</h6>
                         </div>
-                    </div> <a class="dropdown-item" href="profile.html">My Profile</a> <a class="dropdown-item"
-                        href="settings.html">Account Settings</a> <a class="dropdown-item"
-                        href="login.html">Logout</a>
+                    </div> <a class="dropdown-item" href={{ route('adminTournament.profile') }}>Hồ sơ</a> <a
+                        class="dropdown-item" href="login.html">Đăng xuất</a>
                 </div>
             </li>
         </ul>

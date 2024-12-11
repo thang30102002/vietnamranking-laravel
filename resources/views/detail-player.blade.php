@@ -118,7 +118,7 @@
             <!-- Right Column -->
             <div class="w3-twothird">
 
-                <div class="w3-container w3-card w3-white w3-margin-bottom">
+                <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[500px]">
                     <h2 class="w3-padding-16"><i class="fa fa-trophy mr-[5px]" aria-hidden="true"></i>Thành tích
                     </h2>
                     @foreach ($player->achievement as $achievement)

@@ -30,9 +30,12 @@
                                 {{ auth()->user()->admin_tournament->name }}
                             @endif
                         </button>
-                        <ul id="dropdownMenu" class="dropdown-menu w-full" aria-labelledby="dropdownMenuButton1">
+                        <ul id="dropdownMenu" class="dropdown-menu w-full right-0" aria-labelledby="dropdownMenuButton1">
                             @if (auth()->user()->user_role->role_id == 3)
                                 <li><a class="dropdown-item" href= {{ route('ranking.detail', ['id'=>auth()->user()->player->id]) }}>Hồ sơ</a></li>
+                            @endif
+                            @if (auth()->user()->user_role->role_id == 2)
+                                <li><a class="dropdown-item" href= {{ route('adminTournament.index') }}>Quản lý giải đấu</a></li>
                             @endif
                             <li><button class="dropdown-item" href={{ 'logout' }}>Đăng xuất</button></li>
                         </ul>

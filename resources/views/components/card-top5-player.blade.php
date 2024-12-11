@@ -17,7 +17,7 @@
             <span
                 class="name-player flex items-center text-[#21324C] text-[1rem] sm:text-[1.5rem] 2xl:text-[2rem]">{{ $player->name }}-{{ $player->player_ranking->ranking->name }}</span>
             <span
-                class=" md:text-right text-left text-[1rem] sm:text-[1.5rem] flex md:items-center 2xl:absolute 2xl:top-0 2xl:bottom-0 2xl:right-2">{{ number_format(Player::get_money($player->id), 0, ',', '.') . ' VNĐ' }}</span>
+                class=" md:text-right text-left text-[1rem] sm:text-[1.5rem] flex md:items-center 2xl:absolute 2xl:top-0 2xl:bottom-0 2xl:right-2">{{ number_format($player->player_money->money, 0, ',', '.') . ' VNĐ' }}</span>
         </div>
     </div>
 

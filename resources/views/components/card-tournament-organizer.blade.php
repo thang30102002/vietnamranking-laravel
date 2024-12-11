@@ -58,7 +58,7 @@
                                 </div>
                                 <div>
                                     <p class="font-bold text-gray-900">{{ $organizer->admin_tournament->name }}</p>
-                                    <p class="text-sm text-gray-700">(555) 555-4321</p>
+                                    <p class="text-sm text-gray-700">{{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $organizer->admin_tournament->phone) }}</p>
                                 </div>
                             </div>
                         </div>

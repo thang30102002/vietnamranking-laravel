@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Achievement;
 use App\Models\Game_type;
 use App\Models\Ranking;
 use App\Models\Tournament;
@@ -9,11 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
+use App\Models\Player_money;
 use App\Models\Player_registed_tournament;
 use App\Models\Product;
 use App\Models\Ranking_tournament;
 use App\Models\Tournament_game_type;
 use App\Models\Tournament_top_money;
+use App\Models\User;
 
 class AdminTournamentController extends Controller
 {
@@ -146,7 +149,7 @@ class AdminTournamentController extends Controller
 
     public function editTournament($id, Request $request)
     {
-
+        // dd($request->top3);
         $request->validate([
             'name' => ['required'],
             'type' => 'required',
@@ -158,6 +161,7 @@ class AdminTournamentController extends Controller
             'money_top_2' => ['required', 'integer'],
             'money_top_3' => ['required', 'integer'],
             'ranking' => 'required',
+            'email' => ['string', 'lowercase', 'email', 'max:255'],
         ], [
             'name.required' => 'Vui lòng nhập tên giải đấu.',
             'type.required' => 'Vui lòng chọn loại giải đấu.',
@@ -175,10 +179,8 @@ class AdminTournamentController extends Controller
             'money_top_3.required' => 'Vui lòng nhập tiền thưởng cho hạng 3.',
             'money_top_3.integer' => 'Tiền thưởng phải là số nguyên.',
             'ranking.required' => 'Vui lòng chọn hạng có thể tham gia.',
+            'email.email' => 'Vui lòng nhập đúng định dạng email.',
         ]);
-
-
-
         try {
             DB::transaction(function () use ($request, $id) {
                 $tournament = Tournament::find($id);
@@ -216,15 +218,122 @@ class AdminTournamentController extends Controller
 
                 $registed = $tournament->player_registed_tournament;
                 for ($i = 0; $i < count($registed); $i++) {
+                    if ($registed[$i]->status == 0 && $request->status[$i] == 1) {
+                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money - $registed[$i]->tournament->fees - 200000;
+                        $registed[$i]->player->player_money->save();
+                    }
+
+                    if ($registed[$i]->status == 1 && $request->status[$i] == 0) {
+                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money + $registed[$i]->tournament->fees - 200000;
+                        $registed[$i]->player->player_money->save();
+                    }
+
                     $registed[$i]->status = $request->status[$i];
                     $registed[$i]->save();
                 }
-              
-                // $player_registed_tournaments = Player_registed_tournament::find($tournament->player)
+
+                // Hàm xử lý cập nhật Achievement và Player_money
+                function updateTopAchievement($top, $tournamentId, $userEmail, $money)
+                {
+                    // Lấy Tournament_top_money theo top
+                    $topTournament = Tournament_top_money::where('tournament_id', $tournamentId)->where('top', $top)->first();
+                    $user = User::where('email', $userEmail)->first();
+
+                    if ($topTournament && $user) {
+                        // Kiểm tra Achievement tồn tại
+                        $achievement = Achievement::where('tournament_top_money_id', $topTournament->id)->first();
+
+                        if ($achievement) {
+                            // Lấy player_id cũ và trừ tiền người cũ
+                            $oldPlayerId = $achievement->player_id;
+                            $oldPlayerMoney = Player_money::where('player_id', $oldPlayerId)->first();
+                            if ($oldPlayerMoney) {
+                                $oldPlayerMoney->money -= $money;
+                                $oldPlayerMoney->save();
+                            }
+
+                            // Cập nhật Achievement sang người mới
+                            $achievement->update([
+                                'player_id' => $user->player->id,
+                            ]);
+                        } else {
+                            // Nếu chưa tồn tại, tạo mới Achievement
+                            Achievement::create([
+                                'player_id' => $user->player->id,
+                                'tournament_top_money_id' => $topTournament->id,
+                            ]);
+                        }
+
+                        // Cộng tiền cho người mới
+                        $newPlayerMoney = Player_money::where('player_id', $user->player->id)->first();
+                        if ($newPlayerMoney) {
+                            $newPlayerMoney->money += $money;
+                            $newPlayerMoney->save();
+                        } else {
+                            // Nếu chưa có Player_money, tạo mới
+                            Player_money::create([
+                                'player_id' => $user->player->id,
+                                'money' => $money,
+                            ]);
+                        }
+                    }
+                }
+
+                // Gọi hàm xử lý cho top1
+                if ($request->top1 != null) {
+                    updateTopAchievement(1, $id, $request->top1, Tournament_top_money::where('tournament_id', $id)->where('top', 1)->value('money'));
+                }
+
+                // Gọi hàm xử lý cho top2
+                if ($request->top2 != null) {
+                    updateTopAchievement(2, $id, $request->top2, Tournament_top_money::where('tournament_id', $id)->where('top', 2)->value('money'));
+                }
+
+
+                // dd($request->top3);
+                if ($request->top3 != null) {
+                    $top3_tournament = Tournament_top_money::where('tournament_id', $id)->where('top', 3)->first();
+
+                    if ($top3_tournament) {
+                        $achievement_top3s = Achievement::where('tournament_top_money_id', $top3_tournament->id)->get();
+
+                        // Xóa dữ liệu cũ và cập nhật tiền cho người chơi cũ
+                        foreach ($achievement_top3s as $achievement_top3) {
+                            $player = $achievement_top3->player;
+                            if ($player && $player->player_money) {
+                                $player->player_money->money -= $top3_tournament->money;
+                                $player->player_money->save();
+                            }
+                            $achievement_top3->delete();
+                        }
+
+                        // Thêm dữ liệu mới
+                        $emails = $request->top3;
+                        foreach ($emails as $email) {
+                            $user = User::where('email', $email)->first();
+
+                            if ($user && $user->player && $user->player->player_money) {
+                                Achievement::create([
+                                    'player_id' => $user->player->id,
+                                    'tournament_top_money_id' => $top3_tournament->id,
+                                ]);
+
+                                $user->player->player_money->money += $top3_tournament->money;
+                                $user->player->player_money->save();
+                            }
+                        }
+                    }
+                }
             });
             return back()->with('success', 'Thao tác thành công!');
         } catch (\Exception $e) {
             return redirect()->route('adminTournament.showEditTournament', ['id' => $id])->with('error', 'Chỉnh sửa giải đấu không thành công!');
         }
+    }
+
+    public function profile()
+    {
+        $admin_tournament = Auth::user()->admin_tournament;
+        return view('adminTournament/profile', ['admin_tournament' => $admin_tournament]);
     }
 }
