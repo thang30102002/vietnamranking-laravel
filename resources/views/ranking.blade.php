@@ -27,16 +27,16 @@
 <body class=" m-auto w-full">
     <x-menu />
     <h1
-        class=" text-white text-center font-semibold text-[1rem] sm:text-[1.5rem]  mt-[90px] ftitle animate__animated  animate__bounce">
+        class=" text-white text-center font-semibold text-[1rem] sm:text-[1.5rem]  mt-[90px] pb-[10px] ftitle animate__animated  animate__bounce">
         Bảng xếp hạng</h1>
     <div class="flex ">
-        <div class="w-[90%] xl:w-[70%] m-auto relative">
-            <div class=" text-right relative">
-                <button id="openFilter"
-                    class=" bg-white pr-[15px] pl-[15px] pt-[5px] pb-[5px] rounded-sm mt-[10px] text-[0.7rem] lg:text-[1rem] mb-[10px]"><i
-                        class="fa fa-filter mr-[5px]" aria-hidden="true"></i>Bộ lọc theo yêu cầu</button>
+        <div class="w-[90%] xl:w-[70%] m-auto relative ">
+            <div class=" text-right grid grid-cols-[100px_1fr] gap-1 mb-1">
+                <button data-bs-toggle="modal" data-bs-target="#filterModal"
+                    class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 "><i
+                        class="fa fa-filter mr-[5px]" aria-hidden="true"></i>Bộ lọc</button>
                 <button data-bs-toggle="modal" data-bs-target="#HowBonusModal"
-                    class=" bg-white pr-[15px] pl-[15px] pt-[5px] pb-[5px] rounded-sm mt-[10px] text-[0.7rem] lg:text-[1rem] mb-[10px] "><i
+                    class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 max-w-[200px]"><i
                         class="fa fa-question-circle mr-1" aria-hidden="true"></i>Cách tính tiền thưởng</button>
             </div>
             @if (count($players_top_5) === 0)

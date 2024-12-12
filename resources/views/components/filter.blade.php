@@ -1,61 +1,79 @@
-<div class=" hidden fixed inset-0 opacity-45 bg-black" id="bgFilter"></div>
-<div id="filter"
-    class="bg-[#E8E8E8] p-[15px] border-rad rounded min-w-[20rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden">
-    <h1 class="mb-[5px]">Bộ lọc</h1>
-    <button class=" absolute top-[0px] p-[8px] right-[15px]" id="closeFilter"><i class="fa fa-times"
-            aria-hidden="true"></i></button>
-    <hr>
-    <form action={{ route('ranking.ranking') }} method="GET">
-        {{-- @csrf --}}
-        <label class="pt-[10px] " for="name">Tên cơ thủ</label><br>
-        <input name="name" id="name" class="w-full p-1 border border-gray-500"
-            value="{{ request()->input('name') }}" type="text"><br>
-
-        <label class="pt-[10px] " for="phone">Số điện thoại</label><br>
-        <input name="phone" id="phone" class="w-full p-1 border border-gray-500"
-            value="{{ request()->input('phone') }}" type="text"><br>
-
-        <label class="pt-[10px] " for="sex">Giới tính</label><br>
-        <div class=" grid gap-2 grid-cols-2">
-            <div>
-                <input type="checkbox" name="sex[]" value="Nam" id="male"
-                    {{ in_array('Nam', (array) request()->input('sex', [])) ? 'checked' : '' }}>
-                <label class="pt-[10px] " for="male">Nam</label>
-            </div>
-            <div>
-                <input type="checkbox" name="sex[]" value="Nữ" id="female"
-                    {{ in_array('Nữ', (array) request()->input('sex', [])) ? 'checked' : '' }}>
-                <label class="pt-[10px] " for="female">Nữ</label><br>
-            </div>
-        </div>
-
-        <label class="pt-[10px] " for="">Hạng</label><br>
-        <div class=" grid grid-cols-3">
-            @foreach ($rankings as $ranking)
-                <div>
-                    <input type="checkbox" name="rankings[]" id="ranking_{{ $ranking->id }}"
-                        value="{{ $ranking->id }}"
-                        {{ in_array($ranking->id, (array) request()->input('rankings', [])) ? 'checked' : '' }}>
-                    <label class="pt-[10px] " for="ranking_{{ $ranking->id }}">{{ $ranking->name }}</label>
+<div>
+    <!-- Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog h-full content-center">
+            <div class="modal-content w-[302px] sm:w-full m-auto">
+                <div class="modal-header">
+                    <h1 class="modal-title font-bold" id="exampleModalLabel">Bộ lọc</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            @endforeach
-        </div>
-        <br>
-        <div class=" relative ">
-            <button id="clearAll" type="button">Huỷ tất cả</button>
-            <button type="submit"
-                class="bg-[#21324C] pt-[5px] pb-[5px] pr-[12px] pl-[12px] text-white rounded absolute right-0">Tìm
-                kiếm</button>
-        </div>
-    </form>
+                <div class="modal-body max-h-[500px] overflow-y-auto">
+                    <form action={{ route('ranking.ranking') }} method="GET">
+                        @csrf
+                        <label class=" pb-2 font-medium text-m" for="name">Tên cơ thủ</label><br>
+                        <input name="name" id="name"
+                            class="w-full pt-[10px] pb-[10px] pl-[16px] pr-[16px] mb-[16px] rounded-lg border border-gray-500"
+                            placeholder="Nhập tên cơ thủ" value="{{ request()->input('name') }}" type="text"><br>
 
+                        <label class="pb-2 font-medium text-m" for="phone">Số điện thoại</label><br>
+                        <input name="phone" id="phone"
+                            class="w-full pt-[10px] pb-[10px] pl-[16px] pr-[16px] mb-[16px] rounded-lg border border-gray-500"
+                            placeholder="Nhập số điện thoại cơ thủ" value="{{ request()->input('phone') }}"
+                            type="text"><br>
+
+                        <label class="pb-2 font-medium text-m" for="sex">Giới tính</label><br>
+                        <div class=" mb-[16px]">
+                            <div class=" grid grid-cols-3 w-[75%]">
+                                <div>
+                                    <input type="radio" id="all" name="sex" value="all" checked
+                                        {{ in_array('all', (array) request()->input('sex', [])) ? 'checked' : '' }}>
+                                    <label for="all">Tất cả</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="male" name="sex" value="Nam" class=""
+                                        {{ in_array('Nam', (array) request()->input('sex', [])) ? 'checked' : '' }}>
+                                    <label for="male">Nam</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="female" name="sex" value="Nữ"
+                                        {{ in_array('Nữ', (array) request()->input('sex', [])) ? 'checked' : '' }}>
+                                    <label for="female">Nữ</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="pb-2 font-medium" for="">Hạng</label><br>
+                        <div class=" grid grid-cols-3 gap-3">
+                            @foreach ($rankings as $ranking)
+                                <div class=" bg-[#F4F4F5] p-2 rounded-lg">
+                                    <input class=" mr-1" type="checkbox" name="rankings[]"
+                                        id="ranking_{{ $ranking->id }}" value="{{ $ranking->id }}"
+                                        {{ in_array($ranking->id, (array) request()->input('rankings', [])) ? 'checked' : '' }}>
+                                    <label class=""
+                                        for="ranking_{{ $ranking->id }}">{{ $ranking->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <br>
+                </div>
+                <div class="modal-footer relative min-h-[55px]">
+                    <button id="clearAll" type="button" class=" absolute left-3">Làm mới</button>
+                    <button type="submit"
+                        class="bg-[#21324C] py-[10px] px-[16px] text-white rounded absolute right-5">Áp dụng</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <script>
     document.getElementById('clearAll').addEventListener('click', function() {
         // Reset các input text
         document.getElementById('name').value = '';
-
+        document.getElementById('phone').value = '';
+        document.getElementById("all").checked = true;
         // Reset tất cả các checkbox
         let checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(function(checkbox) {

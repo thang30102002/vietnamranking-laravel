@@ -34,9 +34,7 @@
             font-family: "Roboto", sans-serif
         }
 
-        .w3-white {
-            background-color: #E8E8E8 !important;
-        }
+        
 
         .icon {
             color: #21324C !important;
@@ -69,21 +67,21 @@
                             {{ asset('images/players/player.webp') }} @endif
                         "
                             style="width:100%" alt="Avatar">
-                        <div class="w3-display-bottomleft w3-container w3-text-black w-full bg-white text-center ">
+                        <div class="w3-display-bottomleft w3-container w3-text-black w-full bg-gray-100 text-center ">
                             <h2 class=" text-[1.2rem]">{{ $player->name }}</h2>
                         </div>
                     </div>
                     <div class="w3-containerm text-left p-[10px] text-black">
-                        <p class=" text-left">Hạng: <span>{{ $player->player_ranking->ranking->name }}</span>
+                        <p class=" text-left ">Hạng: <span>{{ $player->player_ranking->ranking->name }}</span>
                         </p>
-                        <p class=" text-left">Bảng xếp hạng: Top {{ $top }}
+                        <p class=" text-left ">Bảng xếp hạng: Top {{ $top }}
                         </p>
-                        <p class=" text-left">Tiền thưởng: {{ $money }}
+                        <p class=" text-left ">Tiền thưởng: {{ $money }}
                         </p>
-                        <p class=" text-left">Giới tính: {{ $player->sex }}
+                        <p class=" text-left ">Giới tính: {{ $player->sex }}
                         </p>
 
-                        <p class=" text-left">Số điện thoại:
+                        <p class=" text-left ">Số điện thoại:
                             {{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
                         </p>
                         <hr>
@@ -118,39 +116,88 @@
             <!-- Right Column -->
             <div class="w3-twothird">
 
-                <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[500px]">
-                    <h2 class="w3-padding-16"><i class="fa fa-trophy mr-[5px]" aria-hidden="true"></i>Thành tích
-                    </h2>
-                    @foreach ($player->achievement as $achievement)
-                        <div class="">
-                            <h5 class="w3-opacity py-[5px]">
-                                {{-- @dd($player->achievement[1]->tournament_top_money->tournament)
-                                @dd($achievement->tournament_top_money->tournament->name) --}}
-                                <b>{{ $achievement->tournament_top_money->tournament->name }}</b>
-                            </h5>
-                            {{-- <h6 class=""><i
-                                    class="fa fa-calendar fa-fw w3-margin-righticon"></i>{{ $achievement->tournament_top_money->tournament->start_date }}
-                            </h6> --}}
-                            @if ($achievement->tournament_top_money->top === 1)
-                                <p>Danh hiệu: Quán Quân</p>
-                            @elseif ($achievement->tournament_top_money->top === 2)
-                                <p>Danh hiệu: Á Quân</p>
-                            @else
-                                <p>Danh hiệu: Hạng 3</p>
-                            @endif
-                            {{-- <p>Hạng tham gia giải đấu: 
-                                @foreach ($achievement->tournament_top_money->tournament->ranking_tournament as $tournament)
-                                    <span>{{ $tournament->ranking->name}}</span>
-                                @endforeach    
-                            </p>
-                            <p>Số lượng cơ thủ: {{ $achievement->tournament_top_money->tournament->number_players }}</p>
-                            <p>Địa điểm thi đấu: {{ $achievement->tournament_top_money->tournament->address }}</p>
-                            <p>Lệ phí thi đấu: {{ number_format($achievement->tournament_top_money->tournament->fees, 0, ',', '.') . ' VNĐ'  }}</p>
-                            <p>Đơn vị tổ chức: {{ $achievement->tournament_top_money->tournament->admin_tournament->name }}</p> --}}
-                            <hr>
-                        </div>
+                <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[355px] overflow-auto">
+                    @php
+                        $count_registed = 0;
+                    @endphp
+                    @foreach ($player->player_registed_tournament as $player_registed_tournament)
+                        @if ($player_registed_tournament->status == 1)
+                            @php
+                                $count_registed++;
+                            @endphp
+                        @endif
                     @endforeach
+                    <h2 class="w3-padding-16"><i class="fa fa-handshake-o mr-2" aria-hidden="true"></i>Các giải đấu đã
+                        tham gia - <span> {{ $count_registed }} giải đấu</span>
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr class="whitespace-nowrap">
+                                <th scope="col ">#</th>
+                                <th scope="col ">Tên giải đấu</th>
+                                <th scope="col ">Đơn vị tổ chức</th>
+                                <th scope="col ">Thời gian tổ chức</th>
+                                <th scope="col ">Lệ phí</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($player->player_registed_tournament as $player_registed_tournament)
+                                @if ($player_registed_tournament->status == 1)
+                                    <tr class="whitespace-nowrap">
+                                        <th scope="row">1</th>
+                                        <td class="">{{ $player_registed_tournament->tournament->name }}</td>
+                                        <td class="">{{ $player_registed_tournament->tournament->admin_tournament->name }}</td>
+                                        <td class="">{{ $player_registed_tournament->tournament->start_date }}</td>
+                                        <td class="">{{ number_format($player_registed_tournament->tournament->fees, 0, ',', '.') . ' VNĐ' }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
 
+                </div>
+                @php
+                    $player_achievements = 0;
+                @endphp
+                @foreach ($player->achievement as $achievement)
+                    @php
+                        $player_achievements++;
+                    @endphp
+                @endforeach
+                <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[355px] overflow-auto">
+                    <h2 class="w3-padding-16"><i class="fa fa-trophy mr-2" aria-hidden="true"></i>Thành tích -
+                        {{ $player_achievements }} giải
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr class="whitespace-nowrap">
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên giải đấu</th>
+                                <th scope="col">Giải</th>
+                                <th scope="col">Tiền thưởng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($player->achievement as $achievement)
+                                <tr class="whitespace-nowrap">
+                                    <th scope="row">1</th>
+                                    <td>{{ $achievement->tournament_top_money->tournament->name }}</td>
+                                    </td>
+                                    @if ($achievement->tournament_top_money->top == 1)
+                                        <td>Quán quân</td>
+                                    @elseif ($achievement->tournament_top_money->top == 2)
+                                        <td>Á quân</td>
+                                    @else
+                                        <td>Hạng 3</td>
+                                    @endif
+                                    <td>{{ number_format($achievement->tournament_top_money->money, 0, ',', '.') . ' VNĐ' }}
+                                    </td>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <!-- End Right Column -->
             </div>

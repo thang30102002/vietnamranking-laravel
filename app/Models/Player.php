@@ -62,13 +62,6 @@ class Player extends Model
 
     public static function get_top($from, $to, $name = null, $rankings = [], $sex = [], $phone = null)
     {
-        // $query = Player::select('players.*', DB::raw('SUM(tournament_top_moneys.money) as total_money'))
-        //     ->join('achievements', 'players.id', '=', 'achievements.player_id')
-        //     ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
-        //     ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
-        //     ->join('player_rankings', 'players.id', '=', 'player_rankings.player_id')
-        //     ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id')
-        //     ->orderBy('player_moneys.money', 'desc');
         $query = Player::select('players.*', 'player_moneys.money')
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
             ->join('achievements', 'players.id', '=', 'achievements.player_id')
@@ -86,8 +79,8 @@ class Player extends Model
             $query->where('players.name', '=', $name);
         }
 
-        if (!empty($sex)) {
-            $query->whereIn('players.sex', $sex);
+        if ($sex == "Nam" || $sex == "Nữ") {
+            $query->where('players.sex', $sex);
         }
 
         if (!empty($rankings)) {
