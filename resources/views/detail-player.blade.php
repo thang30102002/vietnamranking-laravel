@@ -127,12 +127,12 @@
                             @endphp
                         @endif
                     @endforeach
-                    <h2 class="w3-padding-16"><i class="fa fa-handshake-o mr-2" aria-hidden="true"></i>Các giải đấu đã
+                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-handshake-o mr-2" aria-hidden="true"></i>Các giải đấu đã
                         tham gia - <span> {{ $count_registed }} giải đấu</span>
                     </h2>
                     <table class="table">
                         <thead>
-                            <tr class="whitespace-nowrap">
+                            <tr class="whitespace-nowrap bg-[#21324c] text-white">
                                 <th scope="col ">#</th>
                                 <th scope="col ">Tên giải đấu</th>
                                 <th scope="col ">Đơn vị tổ chức</th>
@@ -166,12 +166,12 @@
                     @endphp
                 @endforeach
                 <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[355px] overflow-auto">
-                    <h2 class="w3-padding-16"><i class="fa fa-trophy mr-2" aria-hidden="true"></i>Thành tích -
+                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-trophy mr-2" aria-hidden="true"></i>Thành tích -
                         {{ $player_achievements }} giải
                     </h2>
                     <table class="table">
                         <thead>
-                            <tr class="whitespace-nowrap">
+                            <tr class="whitespace-nowrap bg-[#21324c] text-white">
                                 <th scope="col">ID</th>
                                 <th scope="col">Tên giải đấu</th>
                                 <th scope="col">Giải</th>

@@ -6,9 +6,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckPlayerRole;
 
-Route::get('/', function () {
-    return view('ranking');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+Route::get('/', [RankingController::class, 'ranking'])->name('ranking.ranking');
 
 Route::get('/dashboard', function () {
     return view('ranking');

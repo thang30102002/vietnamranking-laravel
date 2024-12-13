@@ -153,7 +153,9 @@
                                     <div class="form-group">
                                         <label>Quán quân</label>
                                         {{-- @dd($tournament->tournament_top_money[0]->achievements[0]->player->user->email); --}}
-                                        <input type="email" name="top1" value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}" 
+                                        <input type="email" name="top1"
+                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                            value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
                                             class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập email người tham gia" />
                                         <div
@@ -161,11 +163,16 @@
                                         </div>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                    <p
+                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[0]->achievements) == 0 ? 'block' : '' }}">
+                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Á quân</label>
-                                        <input type="email" name="top2" value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}" 
+                                        <input type="email" name="top2"
+                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                            value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}"
                                             class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập email người tham gia" />
                                         <div
@@ -173,11 +180,16 @@
                                         </div>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                    <p
+                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[1]->achievements) == 0 ? 'block' : '' }}">
+                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Hạng 3 </label>
-                                        <input type="email" name="top3[]" value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}" 
+                                        <input type="email" name="top3[]"
+                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                            value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}"
                                             class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập email người tham gia" />
                                         <div
@@ -185,11 +197,16 @@
                                         </div>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                        <p
+                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
+                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Hạng 3</label>
-                                        <input type="email" name="top3[]" value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}" 
+                                        <input type="email" name="top3[]"
+                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                            value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}"
                                             class="search-input w-full p-3 pl-10 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             placeholder="Nhập email người tham gia" />
                                         <div
@@ -197,6 +214,26 @@
                                         </div>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                        <p
+                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
+                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Trạng thái giải đấu</label>
+                                        <select class="form-control" id="sel1" name="tournament_end">
+                                            <option value="0"
+                                                {{ $tournament->tournament_end == 0 ? 'selected' : '' }}>
+                                                Chưa bắt đầu</option>
+                                            <option value="1"
+                                                {{ $tournament->tournament_end == 1 ? 'selected' : '' }}>
+                                                Đang diễn ra</option>
+                                            <option value="2"
+                                                {{ $tournament->tournament_end == 2 ? 'selected' : '' }}>
+                                                Đã kết thúc</option>
+                                        </select>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('tournament_end')" class="mt-2" />
                                 </div>
                             </div>
 

@@ -10,13 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
+use App\Models\Player;
 use App\Models\Player_money;
+use App\Models\Player_ranking;
 use App\Models\Player_registed_tournament;
 use App\Models\Product;
 use App\Models\Ranking_tournament;
 use App\Models\Tournament_game_type;
 use App\Models\Tournament_top_money;
 use App\Models\User;
+
+use function Pest\Laravel\swap;
 
 class AdminTournamentController extends Controller
 {
@@ -32,6 +36,8 @@ class AdminTournamentController extends Controller
         $rankings = Ranking::all();
         return view('adminTournament/add-tournament', ['game_types' => $game_types, 'rankings' => $rankings]);
     }
+
+
 
     public function add_tournament(Request $request)
     {
@@ -183,12 +189,14 @@ class AdminTournamentController extends Controller
         ]);
         try {
             DB::transaction(function () use ($request, $id) {
+                //thay đổi thông tin giải đấu
                 $tournament = Tournament::find($id);
                 $tournament->name = $request->name;
                 $tournament->number_players = $request->number_player;
                 $tournament->start_date = $request->date_start;
                 $tournament->address = $request->address;
                 $tournament->fees = $request->fees;
+                $tournament->tournament_end = $request->tournament_end;
                 $tournament->save();
 
                 $tournament_game_type = Tournament_game_type::find($tournament->tournament_game_type->id);
@@ -215,24 +223,72 @@ class AdminTournamentController extends Controller
                     $set_ranking->ranking_id = $input_rankings[$i];
                     $set_ranking->save();
                 }
+                //////////////////////
 
+                //cập nhật trạng thái đăng ký của cơ thủ
                 $registed = $tournament->player_registed_tournament;
                 for ($i = 0; $i < count($registed); $i++) {
-                    if ($registed[$i]->status == 0 && $request->status[$i] == 1) {
-                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money - $registed[$i]->player->player_money->money * 30 / 100;
-                        $registed[$i]->player->player_money->save();
-                    }
-
-                    if ($registed[$i]->status == 1 && $request->status[$i] == 0) {
-                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money + $registed[$i]->player->player_money->money * 30 / 100;
-                        $registed[$i]->player->player_money->save();
-                    }
-
                     $registed[$i]->status = $request->status[$i];
                     $registed[$i]->save();
                 }
+                ////////
 
-                // Hàm xử lý cập nhật Achievement và Player_money
+
+                // Hàm cập nhật ranking của cơ thủ
+                function update_ranking($id)
+                {
+                    $player = Player::find($id);
+                    $money = $player->player_money->money;
+                    switch (true) {
+                        case ($money >= 3000000):
+                            // update hạng G
+                            $player->player_ranking->ranking_id = 8;
+                            break;
+
+                        case ($money >= 6000000):
+                            // update hạng F
+                            $player->player_ranking->ranking_id = 7;
+                            break;
+
+                        case ($money >= 12000000):
+                            // update hạng E
+                            $player->player_ranking->ranking_id = 6;
+                            break;
+
+                        case ($money >= 24000000):
+                            // update hạng D
+                            $player->player_ranking->ranking_id = 5;
+                            break;
+
+                        case ($money >= 48000000):
+                            // update hạng C
+                            $player->player_ranking->ranking_id = 4;
+                            break;
+
+                        case ($money >= 96000000):
+                            // update hạng B
+                            $player->player_ranking->ranking_id = 3;
+                            break;
+
+                        case ($money >= 192000000):
+                            // update hạng A
+                            $player->player_ranking->ranking_id = 2;
+                            break;
+
+                        case ($money >= 384000000):
+                            // update hạng CN
+                            $player->player_ranking->ranking_id = 1;
+                            break;
+
+                        default:
+                            // update hạng H
+                            $player->player_ranking->ranking_id = 9;
+                            break;
+                    }
+                    $player->player_ranking->save();
+                }
+                ///////////////
+                //hàm cập nhật giải thưởng của giải đấu
                 function updateTopAchievement($top, $tournamentId, $userEmail, $money)
                 {
                     // Lấy Tournament_top_money theo top
@@ -250,6 +306,7 @@ class AdminTournamentController extends Controller
                             if ($oldPlayerMoney) {
                                 $oldPlayerMoney->money -= $money;
                                 $oldPlayerMoney->save();
+                                update_ranking($oldPlayerId);
                             }
 
                             // Cập nhật Achievement sang người mới
@@ -269,6 +326,7 @@ class AdminTournamentController extends Controller
                         if ($newPlayerMoney) {
                             $newPlayerMoney->money += $money;
                             $newPlayerMoney->save();
+                            update_ranking($newPlayerMoney->player->id);
                         } else {
                             // Nếu chưa có Player_money, tạo mới
                             Player_money::create([
@@ -289,8 +347,6 @@ class AdminTournamentController extends Controller
                     updateTopAchievement(2, $id, $request->top2, Tournament_top_money::where('tournament_id', $id)->where('top', 2)->value('money'));
                 }
 
-
-                // dd($request->top3);
                 if ($request->top3 != null) {
                     $top3_tournament = Tournament_top_money::where('tournament_id', $id)->where('top', 3)->first();
 
@@ -303,6 +359,7 @@ class AdminTournamentController extends Controller
                             if ($player && $player->player_money) {
                                 $player->player_money->money -= $top3_tournament->money;
                                 $player->player_money->save();
+                                update_ranking($player->id);
                             }
                             $achievement_top3->delete();
                         }
@@ -320,10 +377,55 @@ class AdminTournamentController extends Controller
 
                                 $user->player->player_money->money += $top3_tournament->money;
                                 $user->player->player_money->save();
+                                update_ranking($user->player->id);
                             }
                         }
                     }
                 }
+
+                //cập nhật số tiền và hạng của cơ thủ khi giải đấu kết thúc
+                if ($request->tournament_end == 2) {
+                    //cập nhật số tiền khi admin_tournament thay đổi trạng thái đăng ký của ngừơi chơi
+                    // $registed = $tournament->player_registed_tournament;
+                    // for ($i = 0; $i < count($registed); $i++) {
+                    //     if ($registed[$i]->status == 0 && $request->status[$i] == 1) {
+                    //         $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money - $tournament->fees * 5;
+                    //         if ($registed[$i]->player->player_money->money < 0) {
+                    //             $registed[$i]->player->player_money->money = 0;
+                    //         }
+                    //         $registed[$i]->player->player_money->save();
+                    //     }
+
+                    //     if ($registed[$i]->status == 1 && $request->status[$i] == 0) {
+                    //         $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money + $tournament->fees * 5;
+                    //         $registed[$i]->player->player_money->save();
+                    //     }
+
+                    //     $registed[$i]->status = $request->status[$i];
+                    //     $registed[$i]->save();
+                    $registed = $tournament->player_registeds_tournament;
+                    for ($i = 0; $i < count($registed); $i++) {
+                        if ($registed[$i]->status > $request->status[$i]) {
+                            dd('dsf');
+                            $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money - $tournament->fees * 5;
+                            if ($registed[$i]->player->player_money->money < 0) {
+                                $registed[$i]->player->player_money->money = 0;
+                            }
+                            $registed[$i]->player->player_money->save();
+                        }
+
+                        if ($registed[$i]->status < $request->status[$i]) {
+                            dd('dsf');
+                            $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money + $tournament->fees * 5;
+                            $registed[$i]->player->player_money->save();
+                        }
+
+                        $registed[$i]->status = $request->status[$i];
+                        $registed[$i]->save();
+                    }
+                }
+                ///////////////////////
+
             });
             return back()->with('success', 'Thao tác thành công!');
         } catch (\Exception $e) {

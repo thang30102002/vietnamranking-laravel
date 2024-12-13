@@ -20,7 +20,7 @@ class Tournament extends Model
     {
         return $this->hasMany(Player_registed_tournament::class);
     }
-    
+
     public function tournament_game_type()
     {
         return $this->hasOne(Tournament_game_type::class);
@@ -49,8 +49,8 @@ class Tournament extends Model
 
     public static function get_all_apply()
     {
-        $tournament = self::where('status', '=', '1')->get();
+        $today = now();
+        $tournament = self::where('status', '=', '1')->where('start_date', '>=', $today)->get();
         return $tournament;
     }
-
 }

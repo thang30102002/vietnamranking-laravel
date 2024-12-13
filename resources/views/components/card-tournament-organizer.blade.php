@@ -20,7 +20,7 @@
                     <div id="information{{ $organizer->id }}"
                         class="content-wrapper relative overflow-hidden max-h-[150px]">
                         <div class="p-4">
-                            <p class="uppercase tracking-wide text-sm font-bold text-gray-700">{{ $organizer->name }}
+                            <p class="uppercase tracking-wide text-sm font-bold text-gray-700 mb-[10px]">{{ $organizer->name }}
                             </p>
                             <p class="text-1xl text-gray-900"><span class="font-bold">Thể loại:
                                 </span>{{ $organizer->tournament_game_type->game_type->name }}</p>
@@ -33,7 +33,7 @@
                                 <span class="">{{ number_format($organizer->fees, 0, ',', '.') . ' VNĐ' }}</span>
                             </p>
                             <p class="text-1xl text-gray-900"><span class="font-bold">Thời gian:</span>
-                                {{ Carbon::parse($organizer->start_date)->locale('vi')->isoFormat('D [tháng] M [năm] YYYY') }}
+                                {{ Carbon::parse($organizer->start_date)->locale('vi')->isoFormat('D [tháng] M [năm] YYYY, HH:mm') }}
                             </p>
                             <p class="text-1xl text-gray-900"><span class="font-bold">Địa điểm:</span>
                                 {{ $organizer->address }}</p>

@@ -9,9 +9,9 @@
                 </div>
                 <div class="modal-body max-h-[500px] overflow-y-auto text-[10px] sm:text-[18px]">
                     <ul>
-                        <li class=" text-justify">Khi người chơi tham gia các giải đấu trong hệ thốnng của VietNamPool hồ sơ thông tin và giải thưởng của người chơi sẽ được lưu công khai.</li><br/>
+                        <li class=" text-justify">Khi người chơi tham gia các giải đấu trong hệ thống của VietNamPool hồ sơ thông tin và giải thưởng của người chơi sẽ được lưu công khai.</li><br/>
                         <li class=" text-justify">Khi người chơi đạt giải tiền thưởng sẽ được cộng vào quỹ tiền.</li><br/>
-                        <li class=" text-justify">Khi người chơi tham gia giải đấu quỹ tiền sẽ bị trừ số tiền lệ phí tham gia giải đấu và 200.000 vnđ.</li><br/>
+                        <li class=" text-justify">Khi người chơi tham gia giải đấu quỹ tiền sẽ bị trừ đi 30%.</li><br/>
                         <li class=" text-justify">Khi quỹ tiền của người chơi vượt qua các mốc sẽ được hệ thống phân lại hạng.</li><br/>
                         <table class=" m-auto w-[80%]">
                             <thead>
