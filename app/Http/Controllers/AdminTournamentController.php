@@ -219,12 +219,12 @@ class AdminTournamentController extends Controller
                 $registed = $tournament->player_registed_tournament;
                 for ($i = 0; $i < count($registed); $i++) {
                     if ($registed[$i]->status == 0 && $request->status[$i] == 1) {
-                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money - $registed[$i]->tournament->fees - 200000;
+                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money - $registed[$i]->player->player_money->money * 30 / 100;
                         $registed[$i]->player->player_money->save();
                     }
 
                     if ($registed[$i]->status == 1 && $request->status[$i] == 0) {
-                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money + $registed[$i]->tournament->fees - 200000;
+                        $registed[$i]->player->player_money->money = $registed[$i]->player->player_money->money + $registed[$i]->player->player_money->money * 30 / 100;
                         $registed[$i]->player->player_money->save();
                     }
 

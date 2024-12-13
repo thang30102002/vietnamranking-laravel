@@ -33,15 +33,18 @@
         <div class="w-[90%] xl:w-[70%] m-auto relative ">
             <div class=" text-right grid grid-cols-[100px_1fr] gap-1 mb-1">
                 <button data-bs-toggle="modal" data-bs-target="#filterModal"
-                    class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 "><i
-                        class="fa fa-filter mr-[5px]" aria-hidden="true"></i>Bộ lọc</button>
+                    class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 "><i class="fa fa-filter mr-[5px]"
+                        aria-hidden="true"></i>Bộ lọc</button>
                 <button data-bs-toggle="modal" data-bs-target="#HowBonusModal"
                     class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 max-w-[200px]"><i
                         class="fa fa-question-circle mr-1" aria-hidden="true"></i>Cách tính tiền thưởng</button>
             </div>
-            @if (count($players_top_5) === 0)
-                <h1 class=" text-white text-center text-[13px] mt-[60px]">Không tìm thấy người chơi tương ứng</h1>
+            @if (!empty($players_top_5))
+                @if (count($players_top_5) === 0)
+                    <h1 class=" text-white text-center text-[13px] mt-[60px]">Không tìm thấy người chơi tương ứng</h1>
+                @endif
             @endif
+
             <x-top5-player :players="$players_top_5 ?? []" />
             <x-top10-player :players="$Player_top_6_from_15 ?? []" />
             <x-footer />

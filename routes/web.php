@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckPlayerRole;
 
 Route::get('/', function () {
-    return view('home');
+    return view('ranking');
 });
 
 Route::get('/dashboard', function () {
-    return view('home');
+    return view('ranking');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
