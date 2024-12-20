@@ -34,7 +34,7 @@
             font-family: "Roboto", sans-serif
         }
 
-        
+
 
         .icon {
             color: #21324C !important;
@@ -72,18 +72,24 @@
                         </div>
                     </div>
                     <div class="w3-containerm text-left p-[10px] text-black">
-                        <p class=" text-left ">Hạng: <span>{{ $player->player_ranking->ranking->name }}</span>
-                        </p>
-                        <p class=" text-left ">Bảng xếp hạng: Top {{ $top }}
-                        </p>
-                        <p class=" text-left ">Tiền thưởng: {{ $money }}
-                        </p>
-                        <p class=" text-left ">Giới tính: {{ $player->sex }}
-                        </p>
-
-                        <p class=" text-left ">Số điện thoại:
-                            {{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
-                        </p>
+                        <div class=" grid grid-cols-2 w-[50%]">
+                            <div>
+                                <p>Hạng:</p>
+                                <p>Điểm ranking:</p>
+                                <p>Bảng xếp hạng:</p>
+                                <p>Tiền thưởng:</p>
+                                <p>Giới tính:</p>
+                                <p>Số điện thoại:</p>
+                            </div>
+                            <div>
+                                <p>{{ $player->player_ranking->ranking->name }}</p>
+                                <p>{{ $player->point }}</p>
+                                <p>Top {{ $top }}</p>
+                                <p>{{ $money }}</p>
+                                <p>{{ $player->sex }}</p>
+                                <p>{{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}</p>
+                            </div>
+                        </div>
                         <hr>
 
                         <p class="w3-large"><b><i class="fa fa-asterisk fa-fw mr-[5px] icon"></i><span
@@ -127,7 +133,8 @@
                             @endphp
                         @endif
                     @endforeach
-                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-handshake-o mr-2" aria-hidden="true"></i>Các giải đấu đã
+                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-handshake-o mr-2"
+                            aria-hidden="true"></i>Các giải đấu đã
                         tham gia - <span> {{ $count_registed }} giải đấu</span>
                     </h2>
                     <table class="table">
@@ -146,9 +153,12 @@
                                     <tr class="whitespace-nowrap">
                                         <th scope="row">1</th>
                                         <td class="">{{ $player_registed_tournament->tournament->name }}</td>
-                                        <td class="">{{ $player_registed_tournament->tournament->admin_tournament->name }}</td>
-                                        <td class="">{{ $player_registed_tournament->tournament->start_date }}</td>
-                                        <td class="">{{ number_format($player_registed_tournament->tournament->fees, 0, ',', '.') . ' VNĐ' }}
+                                        <td class="">
+                                            {{ $player_registed_tournament->tournament->admin_tournament->name }}</td>
+                                        <td class="">{{ $player_registed_tournament->tournament->start_date }}
+                                        </td>
+                                        <td class="">
+                                            {{ number_format($player_registed_tournament->tournament->fees, 0, ',', '.') . ' VNĐ' }}
                                         </td>
                                     </tr>
                                 @endif
@@ -166,7 +176,8 @@
                     @endphp
                 @endforeach
                 <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[355px] overflow-auto">
-                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-trophy mr-2" aria-hidden="true"></i>Thành tích -
+                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-trophy mr-2"
+                            aria-hidden="true"></i>Thành tích -
                         {{ $player_achievements }} giải
                     </h2>
                     <table class="table">

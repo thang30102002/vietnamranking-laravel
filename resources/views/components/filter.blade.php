@@ -41,6 +41,21 @@
                                 </div>
                             </div>
                         </div>
+                        <label class="pb-2 font-medium text-m" for="arrange">Sắp xếp theo trường</label><br>
+                        <div class=" mb-[16px]">
+                            <div class=" grid grid-cols-2 w-full">
+                                <div>
+                                    <input type="radio" id="money" name="arrange" value="money" checked
+                                        {{ in_array('money', (array) request()->input('arrange', [])) ? 'checked' : '' }}>
+                                    <label for="money">Tiền thưởng</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="point" name="arrange" value="point" class=""
+                                        {{ in_array('point', (array) request()->input('arrange', [])) ? 'checked' : '' }}>
+                                    <label for="point">Điểm ranking</label>
+                                </div>
+                            </div>
+                        </div>
 
                         <label class="pb-2 font-medium" for="">Hạng</label><br>
                         <div class=" grid grid-cols-3 gap-3">
@@ -74,6 +89,7 @@
         document.getElementById('name').value = '';
         document.getElementById('phone').value = '';
         document.getElementById("all").checked = true;
+        document.getElementById("money").checked = true;
         // Reset tất cả các checkbox
         let checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(function(checkbox) {

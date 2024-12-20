@@ -7,7 +7,7 @@
                             href={{ route('adminTournament.index') }}><i class="fa fa-home" aria-hidden="true"></i>
                             <span>Trang chủ</span></a> </li>
                     <li class="list-divider"></li>
-                    <li> <a class="{{ request()->route()->getName() == 'adminTournament.showAllTournament' || request()->route()->getName() == 'adminTournament.addtournament' ? 'rounded-lg text-white bg-[#009688] shadow-lg opacity-100' : '' }}"
+                    <li> <a class="{{ request()->route()->getName() == 'adminTournament.showAllTournament' || request()->route()->getName() == 'adminTournament.addtournament' || request()->route()->getName() == 'adminTournament.showEditTournament' || request()->route()->getName() == 'adminTournament.showEditPlayer' ? 'rounded-lg text-white bg-[#009688] shadow-lg opacity-100' : '' }}"
                             href="#"><i class="fa fa-trophy" aria-hidden="true"></i> <span> Giải
                                 đấu </span>
                         </a>

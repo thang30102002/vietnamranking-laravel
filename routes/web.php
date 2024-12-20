@@ -41,7 +41,8 @@ Route::middleware('is_admin_tournament')->group(
         Route::delete('/adminTournament/{id}', [AdminTournamentController::class, 'destroy'])->name('adminTournament.destroy');
         Route::get('/adminTournament/edit_tournament/{id}', [AdminTournamentController::class, 'showEditTournament'])->name('adminTournament.showEditTournament');
         Route::put('/adminTournament/edit_tournament/{id}', [AdminTournamentController::class, 'editTournament'])->name('adminTournament.editTournament');
-
+        Route::get('/adminTournament/edit-player/{id}', [AdminTournamentController::class, 'showEditPlayer'])->name('adminTournament.showEditPlayer');
+        Route::post('/adminTournament/edit-player/{id}', [AdminTournamentController::class, 'editPlayer'])->name('adminTournament.editPlayer');
 
     }
 );

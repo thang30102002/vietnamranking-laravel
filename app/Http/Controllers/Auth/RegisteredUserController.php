@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Admin_tournament;
 use App\Models\Player;
@@ -44,6 +45,7 @@ class RegisteredUserController extends Controller
             'user_type' => 'required',
             'info' => $request->user_type == 1 ? 'required|string|max:255' : 'nullable',
             'sex' => $request->user_type == 2 ? 'required' : 'nullable',
+            
         ], [
             'name.required' => 'Vui lòng nhập họ và tên',
             'name.string' => 'Vui lòng nhập đúng định dạng họ và tên',
@@ -64,55 +66,105 @@ class RegisteredUserController extends Controller
 
         ]);
 
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        if ($request->user_type == 2) {
-            $player = Player::create([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'sex' => $request->sex,
-                'user_id' => $user->id,
-            ]);
-            if ($player) {
-                $userRole = User_role::create([
-                    'user_id' => $user->id,
-                    'role_id' => 3,
-                ]);
+        
 
-                $player_ranking = Player_ranking::create([
-                    'player_id' => $player->id,
-                    'ranking_id' => $request->rank,
+        try {
+            DB::transaction(function () use ($request) {
+                $user = User::create([
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
                 ]);
+                if ($request->user_type == 2) {
+                    $player = Player::create([
+                        'name' => $request->name,
+                        'phone' => $request->phone,
+                        'sex' => $request->sex,
+                        'user_id' => $user->id,
+                    ]);
+                    $userRole = User_role::create([
+                        'user_id' => $user->id,
+                        'role_id' => 3,
+                    ]);
 
-                $player_money = Player_money::create([
-                    'player_id' => $player->id,
-                    'money' => 0,
-                ]);
-            }
-        } else {
-            $admin_tournament = Admin_tournament::create([
-                'name' => $request->name,
-                'information' => $request->info,
-                'phone' => $request->phone,
-                'user_id' => $user->id,
-            ]);
-            if ($admin_tournament) {
-                $userRole = User_role::create([
-                    'user_id' => $user->id,
-                    'role_id' => 2,
-                ]);
-            }
+                    $player_ranking = Player_ranking::create([
+                        'player_id' => $player->id,
+                        'ranking_id' => $request->rank,
+                    ]);
+
+                    $player_money = Player_money::create([
+                        'player_id' => $player->id,
+                        'money' => 0,
+                    ]);
+
+                    switch (true) {
+                        case ($request->rank == 1):
+                            // update hạng CN
+                            $player->point = 10800;
+                            break;
+
+                        case ($request->rank == 2):
+                            // update hạng A
+                            $player->point = 8400;
+                            break;
+
+                        case ($request->rank == 3):
+                            // update hạng B
+                            $player->point = 6300;
+                            break;
+
+                        case ($request->rank == 4):
+                            // update hạng C
+                            $player->point = 4500;
+                            break;
+
+                        case ($request->rank == 5):
+                            // update hạng D
+                            $player->point = 3000;
+                            break;
+
+                        case ($request->rank == 6):
+                            // update hạng E
+                            $player->point = 1800;
+                            break;
+
+                        case ($request->rank == 7):
+                            // update hạng F
+                            $player->point = 900;
+                            break;
+
+                        case ($request->rank == 8):
+                            // update hạng G
+                            $player->point = 300;
+                            break;
+
+                        default:
+                            // update hạng H
+                            $player->point = 0;
+                            break;
+                    }
+                    $player->save();
+                } else {
+                    $admin_tournament = Admin_tournament::create([
+                        'name' => $request->name,
+                        'information' => $request->info,
+                        'phone' => $request->phone,
+                        'user_id' => $user->id,
+                    ]);
+                    $userRole = User_role::create([
+                        'user_id' => $user->id,
+                        'role_id' => 2,
+                    ]);
+                }
+                event(new Registered($user));
+
+                Auth::login($user);
+            });
+
+
+            session()->flash('success', 'Đăng ký thành công!');
+            return redirect(route('dashboard', absolute: false));
+        } catch (\Exception $e) {
+            session()->flash('success', 'Đăng ký thất bại!');
         }
-
-
-
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
     }
 }
