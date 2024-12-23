@@ -350,7 +350,8 @@ class AdminTournamentController extends Controller
                         $create_achievement_top_2->player->save();
                         update_ranking($create_achievement_top_2->player->id);
                     }
-                    if ($request->top3 != null) {
+                    // dd($request->top3[0]);
+                    if ($request->top3[0] != null || $request->top3[1] != null) {
                         $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
                         $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
                         if ($achievement_top_3s) {
@@ -364,18 +365,21 @@ class AdminTournamentController extends Controller
                                 update_ranking($achievement_top_3->player->id);
                             }
                         }
-                        foreach ($request->top3 as $top3) {
-                            $user = User::where('email', $top3)->first();
 
-                            $create_achievement_top_3 = Achievement::create([
-                                'player_id' => $user->player->id,
-                                'tournament_top_money_id' => $top_3_Tournament->id,
-                            ]);
-                            $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
-                            $create_achievement_top_3->player->player_money->save();
-                            $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 200;
-                            $create_achievement_top_3->player->save();
-                            update_ranking($create_achievement_top_3->player->id);
+                        foreach ($request->top3 as $top3) {
+                            if ($top3 != null) {
+                                $user = User::where('email', $top3)->first();
+
+                                $create_achievement_top_3 = Achievement::create([
+                                    'player_id' => $user->player->id,
+                                    'tournament_top_money_id' => $top_3_Tournament->id,
+                                ]);
+                                $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
+                                $create_achievement_top_3->player->player_money->save();
+                                $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 200;
+                                $create_achievement_top_3->player->save();
+                                update_ranking($create_achievement_top_3->player->id);
+                            }
                         }
                     }
                     // // ///////
@@ -405,8 +409,7 @@ class AdminTournamentController extends Controller
                             update_ranking($achievement_top_2->player->id);
                         }
                     }
-                    dd($request);
-                    if ($request->top3 == null) {
+                    if ($request->top3[0] == null && $request->top3[1] == null) {
                         $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
                         $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
                         foreach ($achievement_top_3s as $achievement_top_3) {
@@ -447,21 +450,28 @@ class AdminTournamentController extends Controller
     {
         $request->validate([
             'img' => ['required'],
-            'cccd' => ['required', 'digits:12'],
+            'cccd' => ['required', 'digits:12', 'unique:players,cccd'],
         ], [
             'img.required' => 'Vui lòng cập nhật hình ảnh cơ thủ.',
-            // 'img.image' => 'File phải ở dạng hình ảnh.',
             'cccd.required' => 'Vui lòng cập nhật số căn cước công dân của cơ thủ.',
             'cccd.digits' => 'Số căn cước công dân phải là số có 12 chữ số.',
+            'cccd.unique' => 'Số căn cước công dân đã được sử dụng.',
         ]);
         $player = Player::find($id);
         $fileName = $player->name . $player->id . '.' . $request->file('img')->extension();
         try {
             DB::transaction(function () use ($request, $player, $fileName) {
+                $filePath = 'players' . $fileName;
+                // Lấy tất cả các file trong thư mục (không bao gồm thư mục con)
+                $files = Storage::disk('public')->files('players/' . $player->id);
 
-                $this->deleteDuplicateFiles('uploads/players', $player->name . $player->id);
+                // Xóa tất cả các file
+                foreach ($files as $file) {
+                    Storage::disk('public')->delete($file);
+                }
                 // Lưu file ảnh
-                $path = $request->file('img')->storeAs('uploads/players', $fileName);
+                $file = $request->file('img');
+                $filePath = $file->storeAs('players/' . $player->id, $fileName, 'public');
 
                 // Cập nhật thông tin cơ thủ
                 $player->img = $fileName;
@@ -491,6 +501,6 @@ class AdminTournamentController extends Controller
             if ($baseName === $fileNameWithoutExtension) {
                 Storage::delete($file); // Xóa file
             }
-        }   
+        }
     }
 }

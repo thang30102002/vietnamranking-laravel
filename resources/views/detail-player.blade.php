@@ -61,12 +61,16 @@
 
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
-                        <img src="
-                        @if ($player->img && file_exists(public_path('images/players/' . $player->img . ''))) {{ asset('images/players/' . $player->img . '') }}
+                        @php
+                            $file_name = 'players/' . $player->id . '/' . $player->img;
+                        @endphp
+                        @if (Storage::disk('public')->exists($file_name))
+                            <img class="img-player p-[5px] overflow-hidden" src="{{ Storage::url($file_name) }}"
+                                alt='Ảnh cơ thủ'>
                         @else
-                            {{ asset('images/players/player.webp') }} @endif
-                        "
-                            style="width:100%" alt="Avatar">
+                            <img class="img-player p-[5px] overflow-hidden"
+                                src="{{ asset('images/players/player.webp') }}" style="width:100%" alt="Ảnh cơ thủ">
+                        @endif
                         <div class="w3-display-bottomleft w3-container w3-text-black w-full bg-gray-100 text-center ">
                             <h2 class=" text-[1.2rem]">{{ $player->name }}</h2>
                         </div>

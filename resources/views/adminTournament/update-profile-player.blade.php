@@ -94,32 +94,22 @@
 
                         <div class="w3-white w3-text-grey w3-card-4">
                             <div class="w3-display-container">
-                                {{-- @dd(url('uploads/players/'.$player->img.'')) --}}
-                                {{-- if (Storage::exists($file)) {
-                                $url = Storage::url($file);
-                                echo "Ảnh tồn tại: <img src='{$url}' alt='example'>";
-                                } else {
-                                echo "Ảnh không tồn tại.";
-                                } --}}
                                 @php
-                                    $file_name = 'uploads/players/' . $player->img;
-                                    $url = Storage::url($file_name);
+                                    $file_name = 'players/' . $player->id . '/' . $player->img;
                                 @endphp
-                                @if (Storage::exists($file_name))
-                                    {{-- @dd($url) --}}
-                                    <img src="{{ Storage::url('Nguyễn Văn Giang16.png') }}" alt='Example Image'>
+                                @if (Storage::disk('public')->exists($file_name))
+                                    <img src="{{ Storage::url($file_name) }}" alt='Ảnh cơ thủ'>
                                 @else
-                                    @dd('ko ton tai')
+                                    <img src="{{ asset('images/players/player.webp') }}" style="width:100%"
+                                        alt="Ảnh cơ thủ">
                                 @endif
-                                {{-- <img src="{{ Storage::url('app/private/uploads/players/' . $player->img . '') }}"
-                                    style="width:100%" alt="Avatar"> --}}
                                 <div
                                     class="w3-display-bottomleft w3-container w3-text-black w-full bg-gray-100 text-center ">
                                     <h2 class=" text-[1.2rem]">{{ $player->name }}</h2>
                                 </div>
                             </div>
                             <div class="w3-containerm text-left p-[10px] text-black">
-                                <div class=" grid grid-cols-2 w-[50%]">
+                                <div class=" grid grid-cols-2 ">
                                     <div>
                                         <p>Hạng:</p>
                                         <p>Điểm ranking:</p>
@@ -127,6 +117,7 @@
                                         <p>Tiền thưởng:</p>
                                         <p>Giới tính:</p>
                                         <p>Số điện thoại:</p>
+                                        <p>Số căn cước công dân:</p>
                                     </div>
                                     <div>
                                         <p>{{ $player->player_ranking->ranking->name }}</p>
@@ -136,6 +127,7 @@
                                         <p>{{ $player->sex }}</p>
                                         <p>{{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
                                         </p>
+                                        <p>{{ $player->cccd }}</p>
                                     </div>
                                 </div>
                             </div>
