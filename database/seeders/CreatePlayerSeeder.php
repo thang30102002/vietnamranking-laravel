@@ -150,7 +150,7 @@ class CreatePlayerSeeder extends Seeder
 
             ]
 
-        ], ['id'], ['name', 'phone', 'user_id','sex']);
+        ], ['id'], ['name', 'phone', 'user_id', 'sex']);
 
         DB::table('player_rankings')->upsert([
             [
@@ -172,7 +172,7 @@ class CreatePlayerSeeder extends Seeder
 
             ]
 
-        ], ['id'], ['name', 'phone', 'user_id','sex']);
+        ], ['id'], ['name', 'phone', 'user_id', 'sex']);
 
         DB::table('player_rankings')->upsert([
             [

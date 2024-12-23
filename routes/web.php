@@ -5,14 +5,16 @@ use App\Http\Controllers\RankingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckPlayerRole;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\CheckAdmin;
 
 // Route::get('/', function () {
 //     return view('home');
 // });
-Route::get('/', [RankingController::class, 'ranking'])->name('ranking.ranking');
+Route::get('/', [RankingController::class, 'index'])->name('ranking.index');
 
 Route::get('/dashboard', function () {
-    return view('ranking');
+    return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -20,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/home', [RankingController::class, 'index'])->name('ranking.index');
 Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.ranking');
 Route::get('/detail/{id}', [RankingController::class, 'detail'])->name('ranking.detail');
 Route::get('/tournament_organizer', [RankingController::class, 'tournament_organizer'])->name('ranking.tournament_organizer');
@@ -44,6 +47,13 @@ Route::middleware('is_admin_tournament')->group(
         Route::get('/adminTournament/edit-player/{id}', [AdminTournamentController::class, 'showEditPlayer'])->name('adminTournament.showEditPlayer');
         Route::post('/adminTournament/edit-player/{id}', [AdminTournamentController::class, 'editPlayer'])->name('adminTournament.editPlayer');
 
+    }
+);
+
+Route::middleware('is_admin')->group(
+    function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+        Route::post('/admin', [AdminController::class, 'update'])->name('admin.update');
     }
 );
 

@@ -76,10 +76,10 @@
                         </div>
                     </div>
                     <div class="w3-containerm text-left p-[10px] text-black">
-                        <div class=" grid grid-cols-2 w-[50%]">
+                        <div class=" grid grid-cols-2 ">
                             <div>
                                 <p>Hạng:</p>
-                                <p>Điểm ranking:</p>
+                                <p>Point:</p>
                                 <p>Bảng xếp hạng:</p>
                                 <p>Tiền thưởng:</p>
                                 <p>Giới tính:</p>
