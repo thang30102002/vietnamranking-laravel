@@ -37,7 +37,7 @@
                         aria-hidden="true"></i>Bộ lọc</button>
                 <button data-bs-toggle="modal" data-bs-target="#HowBonusModal"
                     class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 max-w-[200px]"><i
-                        class="fa fa-question-circle mr-1" aria-hidden="true"></i>Cách tính tiền thưởng</button>
+                        class="fa fa-question-circle mr-1" aria-hidden="true"></i>Cách xếp hạng</button>
             </div>
             @if (!empty($players_top_5))
                 @if (count($players_top_5) === 0)
