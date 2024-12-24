@@ -1,4 +1,8 @@
 <div>
+    @php
+        use App\Models\Ranking;
+        $ranks = Ranking::get_all_rankings();
+    @endphp
     @foreach ($ranks as $rank)
         <input type="radio" id="rank" name="rank" value={{ $rank->id }}
             {{ old('rank') == $rank->id ? 'checked' : '' }}>

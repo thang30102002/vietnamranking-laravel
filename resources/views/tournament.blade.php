@@ -34,10 +34,16 @@
     <h1
         class=" text-white text-center font-semibold text-[17px] 2xl:text-[2.5rem]  mt-[70px] ftitle animate__animated  animate__bounce sm:text-[1.5rem]">
         Giải đấu</h1>
-    <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px]">
+    @if (!empty($tournaments))
+        @if (count($tournaments) === 0)
+            <h1 class=" text-white text-center text-[13px] mt-[60px]">Chưa có giải đấu nào sắp diễn ra</h1>
+        @endif
+    @endif
+    <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
         @foreach ($tournaments as $tournament)
             <x-card-tournament-organizer :organizer="$tournament" />
         @endforeach
+
     </div>
     <x-footer />
 </body>
