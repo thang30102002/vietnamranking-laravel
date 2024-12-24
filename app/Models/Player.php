@@ -62,14 +62,33 @@ class Player extends Model
 
     public static function get_top($from, $to, $name = null, $rankings = [], $sex = [], $phone = null)
     {
-        $query = Player::select('players.*', 'player_moneys.money')
+        $query = Player::select(
+            'players.id',
+            'players.name',
+            'players.phone',
+            'players.img',
+            'players.created_at',
+            'players.updated_at',
+            'players.user_id',
+            'players.sex',
+            'player_moneys.money'
+        )
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
             ->join('achievements', 'players.id', '=', 'achievements.player_id')
             ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
             ->join('player_rankings', 'players.id', '=', 'player_rankings.player_id')
-            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id', 'player_moneys.money')
+            ->groupBy(
+                'players.id',
+                'players.name',
+                'players.phone',
+                'players.img',
+                'players.created_at',
+                'players.updated_at',
+                'players.user_id',
+                'players.sex', // Thêm cột này vào GROUP BY
+                'player_moneys.money'
+            )
             ->orderBy('player_moneys.money', 'desc');
-
 
         if (!is_null($phone)) {
             $query->where('players.phone', '=', $phone);
@@ -93,6 +112,7 @@ class Player extends Model
         // Lấy kết quả
         return $query->get();
     }
+
 
     public static function get_top_player($id)
     {

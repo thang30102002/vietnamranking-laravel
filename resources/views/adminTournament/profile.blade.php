@@ -25,7 +25,8 @@
     {{-- <link rel="stylesheet" href="assets/css/style.css"> </head> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    @vite('resources/css/app.css')
+    {{-- @vite('resources/css/app.css') --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>

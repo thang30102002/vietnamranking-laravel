@@ -25,11 +25,12 @@
     {{-- <link rel="stylesheet" href="assets/css/style.css"> </head> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    @vite('resources/css/app.css')
+    {{-- @vite('resources/css/app.css') --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    
+
     <div class="main-wrapper">
         <x-notification />
         <x-admin-tournament.menu />
@@ -51,8 +52,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tên giải đấu</label>
-                                        <input class="form-control" type="text" name="name" placeholder="Nhập tên giải đấu"
-                                            value="{{ old('name') }}">
+                                        <input class="form-control" type="text" name="name"
+                                            placeholder="Nhập tên giải đấu" value="{{ old('name') }}">
                                     </div>
                                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                 </div>
@@ -72,7 +73,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Số lượng người tham gia</label>
-                                        <input class="form-control" type="number" name="number_player" placeholder="Nhập số lượng người tham gia"
+                                        <input class="form-control" type="number" name="number_player"
+                                            placeholder="Nhập số lượng người tham gia"
                                             value={{ old('number_player') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('number_player')" class="mt-2" />
@@ -88,16 +90,16 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Địa điểm thi đấu</label>
-                                        <input class="form-control" type="text" name="address" placeholder="Nhập địa điểm thi đấu"
-                                            value={{ old('address') }}>
+                                        <input class="form-control" type="text" name="address"
+                                            placeholder="Nhập địa điểm thi đấu" value={{ old('address') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('address')" class="mt-2" />
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Lệ phí tham gia</label>
-                                        <input class="form-control" type="number" name="fees" placeholder="Nhập lệ phí tham gia"
-                                            value={{ old('fees') }}>
+                                        <input class="form-control" type="number" name="fees"
+                                            placeholder="Nhập lệ phí tham gia" value={{ old('fees') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('fees')" class="mt-2" />
                                 </div>
@@ -105,24 +107,24 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng vô địch (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_1" placeholder="Nhập số tiền thưởng hạng 1"
-                                            value={{ old('money_top_1') }}>
+                                        <input class="form-control" type="number" name="money_top_1"
+                                            placeholder="Nhập số tiền thưởng hạng 1" value={{ old('money_top_1') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_1')" class="mt-2" />
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng á quân (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_2" placeholder="Nhập số tiền thưởng hạng 2"
-                                            value={{ old('money_top_2') }}>
+                                        <input class="form-control" type="number" name="money_top_2"
+                                            placeholder="Nhập số tiền thưởng hạng 2" value={{ old('money_top_2') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_2')" class="mt-2" />
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng hạng 3 (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_3" placeholder="Nhập số tiền thưởng hạng 3"
-                                            value={{ old('money_top_3') }}>
+                                        <input class="form-control" type="number" name="money_top_3"
+                                            placeholder="Nhập số tiền thưởng hạng 3" value={{ old('money_top_3') }}>
                                     </div>
                                     <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
                                 </div>
