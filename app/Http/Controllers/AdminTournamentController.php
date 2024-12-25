@@ -248,37 +248,37 @@ class AdminTournamentController extends Controller
                     $player = Player::find($id);
                     $point = $player->point;
                     switch (true) {
-                        case ($point >= 300):
+                        case ($point>= 300 && $point<900):
                             // update hạng G
                             $player->player_ranking->ranking_id = 8;
                             break;
 
-                        case ($point >= 900):
+                        case ($point >=900 && $point < 1800):
                             // update hạng F
                             $player->player_ranking->ranking_id = 7;
                             break;
 
-                        case ($point >= 1800):
+                        case ($point >=1800 && $point < 3000):
                             // update hạng E
                             $player->player_ranking->ranking_id = 6;
                             break;
 
-                        case ($point >= 3000):
+                        case ($point >=3000 && $point < 4500):
                             // update hạng D
                             $player->player_ranking->ranking_id = 5;
                             break;
 
-                        case ($point >= 4500):
+                        case ($point >=4500 && $point < 6300):
                             // update hạng C
                             $player->player_ranking->ranking_id = 4;
                             break;
 
-                        case ($point >= 6300):
+                        case ($point >=6300 && $point < 8400):
                             // update hạng B
                             $player->player_ranking->ranking_id = 3;
                             break;
 
-                        case ($point >= 8400):
+                        case ($point >=8400 && $point < 10800):
                             // update hạng A
                             $player->player_ranking->ranking_id = 2;
                             break;

@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
             'user_type' => 'required',
             'info' => $request->user_type == 1 ? 'required|string|max:255' : 'nullable',
             'sex' => $request->user_type == 2 ? 'required' : 'nullable',
-            
+
         ], [
             'name.required' => 'Vui lòng nhập họ và tên',
             'name.string' => 'Vui lòng nhập đúng định dạng họ và tên',
@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
 
         ]);
 
-        
+
 
         try {
             DB::transaction(function () use ($request) {
@@ -164,7 +164,8 @@ class RegisteredUserController extends Controller
             session()->flash('success', 'Đăng ký thành công!');
             return redirect(route('dashboard', absolute: false));
         } catch (\Exception $e) {
-            session()->flash('success', 'Đăng ký thất bại!');
+            session()->flash('error', 'Đăng ký thất bại!');
+            return redirect('/register');
         }
     }
 }
