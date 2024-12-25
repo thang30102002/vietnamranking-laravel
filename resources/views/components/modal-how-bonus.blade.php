@@ -4,10 +4,10 @@
         <div class="modal-dialog h-full content-center w-[302px] sm:w-full m-auto">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title text-[11px] sm:text-[19px]" id="exampleModalLabel">Cách tính tiền thưởng và xếp hạng người chơi</h1>
+                    <h1 class="modal-title text-[15px] sm:text-[19px]" id="exampleModalLabel">Cách tính tiền thưởng và xếp hạng người chơi</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body max-h-[500px] overflow-y-auto text-[10px] sm:text-[18px]">
+                <div class="modal-body max-h-[500px] overflow-y-auto text-[13px] sm:text-[18px]">
                     <ul>
                         <li class=" text-justify">Khi người chơi tham gia các giải đấu trong hệ thống của VietNamPool hồ sơ thông tin và giải thưởng của người chơi sẽ được lưu công khai.</li><br/>
                         <li class=" text-justify">Khi người chơi đạt giải tiền thưởng sẽ được cộng vào quỹ tiền và point được cập nhật.</li><br/>

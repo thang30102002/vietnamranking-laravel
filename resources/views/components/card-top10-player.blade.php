@@ -10,7 +10,7 @@
             <span
                 class="name-player text-[#fff] text-[0.7rem] sm:text-[1rem]">{{ $player->name }}-{{ $player->player_ranking->ranking->name }}</span>
             <span
-                class=" text-[0.7rem] sm:text-[1rem] text-right">{{ number_format(Player::get_money($player->id), 0, ',', '.') . ' VNĐ' }}</span>
+                class=" text-[0.7rem] sm:text-[1rem] text-right">{{ number_format($player->player_money->money, 0, ',', '.') . ' VNĐ' }}</span>
         </div>
     </div>
 </a>

@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             RankingSeeder::class,
             RoleSeeder::class,
             CreatePlayerSeeder::class,
-            CreateTournament::class,
         ]);
     }
 }

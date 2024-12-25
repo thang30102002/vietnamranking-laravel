@@ -22,7 +22,6 @@ class RankingController extends Controller
         $sex = $request->input('sex');
         $rankings = $request->input('rankings');
         $phone = $request->input('phone');
-
         $players = Player::get_top(1, 15, $name, $rankings, $sex, $phone);
         $players_top_5 = $players->slice(0, 5);
         $Player_top_6_from_15 = $players->slice(5, 15);

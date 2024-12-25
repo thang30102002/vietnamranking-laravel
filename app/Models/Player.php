@@ -71,11 +71,10 @@ class Player extends Model
             'players.updated_at',
             'players.user_id',
             'players.sex',
+            'players.point',
             'player_moneys.money'
         )
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
-            ->join('achievements', 'players.id', '=', 'achievements.player_id')
-            ->join('tournament_top_moneys', 'achievements.tournament_top_money_id', '=', 'tournament_top_moneys.id')
             ->join('player_rankings', 'players.id', '=', 'player_rankings.player_id')
             ->groupBy(
                 'players.id',
@@ -86,6 +85,7 @@ class Player extends Model
                 'players.updated_at',
                 'players.user_id',
                 'players.sex', // Thêm cột này vào GROUP BY
+                'players.point', 
                 'player_moneys.money'
             )
             ->orderBy('player_moneys.money', 'desc');

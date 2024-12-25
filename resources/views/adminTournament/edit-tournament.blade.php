@@ -154,7 +154,6 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Quán quân</label>
-                                        {{-- @dd($tournament->tournament_top_money[0]->achievements[0]->player->user->email); --}}
                                         <input type="email" name="top1"
                                             {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
                                             value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"

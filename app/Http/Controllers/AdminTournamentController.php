@@ -351,34 +351,36 @@ class AdminTournamentController extends Controller
                         update_ranking($create_achievement_top_2->player->id);
                     }
                     // dd($request->top3[0]);
-                    if ($request->top3[0] != null || $request->top3[1] != null) {
-                        $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
-                        $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
-                        if ($achievement_top_3s) {
-                            foreach ($achievement_top_3s as $achievement_top_3) {
-                                $achievement_top_3->delete();
-                                $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
-                                $achievement_top_3->player->player_money->save();
+                    if ($request->top3 != null) {
+                        if ($request->top3[0] != null || $request->top3[1] != null) {
+                            $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
+                            $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
+                            if ($achievement_top_3s) {
+                                foreach ($achievement_top_3s as $achievement_top_3) {
+                                    $achievement_top_3->delete();
+                                    $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
+                                    $achievement_top_3->player->player_money->save();
 
-                                $achievement_top_3->player->point = $achievement_top_3->player->point - 200;
-                                $achievement_top_3->player->save();
-                                update_ranking($achievement_top_3->player->id);
+                                    $achievement_top_3->player->point = $achievement_top_3->player->point - 200;
+                                    $achievement_top_3->player->save();
+                                    update_ranking($achievement_top_3->player->id);
+                                }
                             }
-                        }
 
-                        foreach ($request->top3 as $top3) {
-                            if ($top3 != null) {
-                                $user = User::where('email', $top3)->first();
+                            foreach ($request->top3 as $top3) {
+                                if ($top3 != null) {
+                                    $user = User::where('email', $top3)->first();
 
-                                $create_achievement_top_3 = Achievement::create([
-                                    'player_id' => $user->player->id,
-                                    'tournament_top_money_id' => $top_3_Tournament->id,
-                                ]);
-                                $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
-                                $create_achievement_top_3->player->player_money->save();
-                                $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 200;
-                                $create_achievement_top_3->player->save();
-                                update_ranking($create_achievement_top_3->player->id);
+                                    $create_achievement_top_3 = Achievement::create([
+                                        'player_id' => $user->player->id,
+                                        'tournament_top_money_id' => $top_3_Tournament->id,
+                                    ]);
+                                    $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
+                                    $create_achievement_top_3->player->player_money->save();
+                                    $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 200;
+                                    $create_achievement_top_3->player->save();
+                                    update_ranking($create_achievement_top_3->player->id);
+                                }
                             }
                         }
                     }
@@ -409,16 +411,18 @@ class AdminTournamentController extends Controller
                             update_ranking($achievement_top_2->player->id);
                         }
                     }
-                    if ($request->top3[0] == null && $request->top3[1] == null) {
-                        $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
-                        $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
-                        foreach ($achievement_top_3s as $achievement_top_3) {
-                            $achievement_top_3->delete();
-                            $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
-                            $achievement_top_3->player->player_money->save();
-                            $achievement_top_3->player->point = $achievement_top_3->player->point - 200;
-                            $achievement_top_3->player->save();
-                            update_ranking($achievement_top_3->player->id);
+                    if ($request->top3 != null) {
+                        if ($request->top3[0] == null && $request->top3[1] == null) {
+                            $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
+                            $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
+                            foreach ($achievement_top_3s as $achievement_top_3) {
+                                $achievement_top_3->delete();
+                                $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
+                                $achievement_top_3->player->player_money->save();
+                                $achievement_top_3->player->point = $achievement_top_3->player->point - 200;
+                                $achievement_top_3->player->save();
+                                update_ranking($achievement_top_3->player->id);
+                            }
                         }
                     }
                     ////////
