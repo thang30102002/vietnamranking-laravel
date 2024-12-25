@@ -85,7 +85,7 @@ class Player extends Model
                 'players.updated_at',
                 'players.user_id',
                 'players.sex', // Thêm cột này vào GROUP BY
-                'players.point', 
+                'players.point',
                 'player_moneys.money'
             )
             ->orderBy('player_moneys.money', 'desc');
@@ -118,9 +118,10 @@ class Player extends Model
     {
         $players = Player::select('players.*', 'player_moneys.money')
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
-            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id', 'player_moneys.money')
+            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id', 'players.sex', 'player_moneys.money')
             ->orderBy('player_moneys.money', 'desc')
             ->get();
+
 
         $top = 0;
         foreach ($players as $player) {
