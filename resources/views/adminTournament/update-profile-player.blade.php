@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Cập nhật thông tin người chơi</title>
+    <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
     {{-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> --}}
     <link rel="stylesheet" href="{{ asset('images/adminTournament/favicon.png') }}">
 

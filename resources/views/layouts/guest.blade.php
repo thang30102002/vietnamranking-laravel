@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Login</title>
+    <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -27,8 +28,7 @@
             </a>
         </div>
 
-        <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4  shadow-md bg-[#21324C] overflow-hidden sm:rounded-lg">
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4  shadow-md bg-[#21324C] overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
     </div>
