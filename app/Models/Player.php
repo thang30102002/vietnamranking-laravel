@@ -116,8 +116,20 @@ class Player extends Model
 
     public static function get_top_player($id)
     {
-        $players = Player::select('players.*', 'player_moneys.money')
+        $players = Player::select(
+            'players.id',
+            'players.name',
+            'players.phone',
+            'players.img',
+            'players.created_at',
+            'players.updated_at',
+            'players.user_id',
+            'players.sex',
+            'players.point',
+            'player_moneys.money'
+        )
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
+            ->join('player_rankings', 'players.id', '=', 'player_rankings.player_id')
             ->groupBy(
                 'players.id',
                 'players.name',
@@ -126,13 +138,11 @@ class Player extends Model
                 'players.created_at',
                 'players.updated_at',
                 'players.user_id',
-                'players.sex',
-                'players.point', 
-                'players.cccd',
+                'players.sex', // Thêm cột này vào GROUP BY
+                'players.point',
                 'player_moneys.money'
             )
-            ->orderBy('player_moneys.money', 'desc')
-            ->get();
+            ->orderBy('player_moneys.money', 'desc')->get();
 
 
 

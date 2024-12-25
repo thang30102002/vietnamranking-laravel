@@ -113,34 +113,8 @@
                             <p><b>Ốc sên team</b></p>
                             <p>Đơn vị tổ chức giải đấu dành cho các cơ thủ hạng thấp (F G H). Nhằm tạo môi trường lành
                                 mạnh để những chơi cùng đam mê billiard giao lưu và cọ xát.</p>
-                            {{-- <button class="w3-button w3-black w3-margin-bottom"
-                                onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                Tickets</button> --}}
                         </div>
                     </div>
-                    {{-- <div class="w3-third w3-margin-bottom">
-                        <img src="/w3images/paris.jpg" alt="Paris" style="width:100%" class="w3-hover-opacity">
-                        <div class="w3-container w3-white">
-                            <p><b>Paris</b></p>
-                            <p class="w3-opacity">Sat 28 Nov 2016</p>
-                            <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
-                            <button class="w3-button w3-black w3-margin-bottom"
-                                onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                Tickets</button>
-                        </div>
-                    </div>
-                    <div class="w3-third w3-margin-bottom">
-                        <img src="/w3images/sanfran.jpg" alt="San Francisco" style="width:100%"
-                            class="w3-hover-opacity">
-                        <div class="w3-container w3-white">
-                            <p><b>San Francisco</b></p>
-                            <p class="w3-opacity">Sun 29 Nov 2016</p>
-                            <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
-                            <button class="w3-button w3-black w3-margin-bottom"
-                                onclick="document.getElementById('ticketModal').style.display='block'">Buy
-                                Tickets</button>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -170,7 +144,7 @@
 
         <!-- The Contact Section -->
         <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
-            <h2 class="w3-wide w3-center">Liên hệarfasdfasdf</h2>
+            <h2 class="w3-wide w3-center">Liên hệ</h2>
             <p class="w3-opacity w3-center"><i>Liên hệ hợp tác</i></p>
             <div class="w3-row w3-padding-32">
                 <div class="w3-col m6 w3-large w3-margin-bottom">
