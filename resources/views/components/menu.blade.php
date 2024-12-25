@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light menu">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('ranking.index') }}">VietNam Ranking</a>
+        <a class="navbar-brand" href="{{ route('ranking.index') }}">VietNam Pool</a>
         <button id="btnShowMenu" class="hidden max-[991px]:block">
             <span class="navbar-toggler-icon"></span>
         </button>

@@ -147,7 +147,7 @@
             <h2 class="w3-wide w3-center">Liên hệ</h2>
             <p class="w3-opacity w3-center"><i>Liên hệ hợp tác</i></p>
             <div class="w3-row w3-padding-32">
-                <div class="w3-col m6 w3-large w3-margin-bottom">
+                <div class="w3-col m6  w3-margin-bottom">
                     <i class="fa fa-map-marker" style="width:30px"></i> Hà Nội, Việt Nam<br>
                     <i class="fa fa-phone" style="width:30px"></i> Phone: +84 3470 52653<br>
                     <i class="fa fa-envelope" style="width:30px"> </i> Email: thangnguyen30102002@mail.com<br>
