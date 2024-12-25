@@ -118,9 +118,21 @@ class Player extends Model
     {
         $players = Player::select('players.*', 'player_moneys.money')
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
-            ->groupBy('players.id', 'players.name', 'players.phone', 'players.img', 'players.created_at', 'players.updated_at', 'players.user_id', 'players.sex', 'player_moneys.money')
+            ->groupBy(
+                'players.id',
+                'players.name',
+                'players.phone',
+                'players.img',
+                'players.created_at',
+                'players.updated_at',
+                'players.user_id',
+                'players.sex',
+                'players.point', // Thêm cột point vào đây
+                'player_moneys.money'
+            )
             ->orderBy('player_moneys.money', 'desc')
             ->get();
+
 
 
         $top = 0;
