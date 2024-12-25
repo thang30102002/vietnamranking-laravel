@@ -63,7 +63,15 @@ class Player extends Model
     public static function get_top($from, $to, $name = null, $rankings = [], $sex = [], $phone = null)
     {
         $query = Player::select(
-            'players.*',
+            'players.id',
+            'players.name',
+            'players.phone',
+            'players.img',
+            'players.created_at',
+            'players.updated_at',
+            'players.user_id',
+            'players.sex',
+            'players.point',
             'player_moneys.money'
         )
             ->join('player_moneys', 'players.id', '=', 'player_moneys.player_id')
@@ -134,7 +142,8 @@ class Player extends Model
                 'players.point',
                 'player_moneys.money'
             )
-            ->orderBy('player_moneys.money', 'desc')->orderBy('players.id', 'desc')->get();
+            ->orderBy('player_moneys.money', 'desc')
+            ->orderBy('players.id', 'desc')->get();
         $top = 0;
         foreach ($players as $player) {
             $top = $top + 1;
