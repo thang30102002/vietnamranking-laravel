@@ -127,7 +127,8 @@ class Player extends Model
                 'players.updated_at',
                 'players.user_id',
                 'players.sex',
-                'players.point', // Thêm cột point vào đây
+                'players.point', 
+                'players.cccd',
                 'player_moneys.money'
             )
             ->orderBy('player_moneys.money', 'desc')
