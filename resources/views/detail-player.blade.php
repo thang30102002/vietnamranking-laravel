@@ -100,21 +100,21 @@
 
                         <p class="w3-large"><b><i class="fa fa-asterisk fa-fw mr-[5px] icon"></i><span
                                     class=" text-[14px]">Kỹ năng</span></b></p>
-                        <p>Độ chính xác</p>
+                        <p>Độ chính xác bi đơn</p>
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:90%">90%</div>
                         </div>
-                        <p>Photography</p>
+                        <p>Kỹ năng giải hình</p>
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:80%">
                                 <div class="w3-center w3-text-white">80%</div>
                             </div>
                         </div>
-                        <p>Illustrator</p>
+                        <p>Kỹ năng nhảy bi</p>
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:75%">75%</div>
                         </div>
-                        <p>Media</p>
+                        <p>Kỹ năng thủ bi</p>
                         <div class="w3-light-grey w3-round-xlarge w3-small">
                             <div class="w3-container w3-center w3-round-xlarge color-main" style="width:50%">50%</div>
                         </div>

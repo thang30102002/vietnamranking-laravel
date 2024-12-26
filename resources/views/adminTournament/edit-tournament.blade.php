@@ -111,7 +111,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tiền thưởng vô địch (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_1"
+                                        <input class="form-control" type="text" name="money_top_1"
                                             placeholder="Nhập số tiền thưởng hạng 1"
                                             value={{ $tournament->tournament_top_money[0]->money }}>
                                     </div>
@@ -243,7 +243,8 @@
                     </div>
             </div>
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký: {{count($player_registed)}} người đã đăng ký</h3>
+                <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
+                    {{ count($player_registed) }} người đã đăng ký</h3>
                 <div class=" text-right mb-3">
                     <input type="text" id="searchInput" placeholder="Tìm kiếm..."
                         class=" sm:w-[30%] w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"

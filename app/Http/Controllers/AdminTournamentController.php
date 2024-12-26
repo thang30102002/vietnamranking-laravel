@@ -248,37 +248,37 @@ class AdminTournamentController extends Controller
                     $player = Player::find($id);
                     $point = $player->point;
                     switch (true) {
-                        case ($point>= 300 && $point<900):
+                        case ($point >= 300 && $point < 900):
                             // update hạng G
                             $player->player_ranking->ranking_id = 8;
                             break;
 
-                        case ($point >=900 && $point < 1800):
+                        case ($point >= 900 && $point < 1800):
                             // update hạng F
                             $player->player_ranking->ranking_id = 7;
                             break;
 
-                        case ($point >=1800 && $point < 3000):
+                        case ($point >= 1800 && $point < 3000):
                             // update hạng E
                             $player->player_ranking->ranking_id = 6;
                             break;
 
-                        case ($point >=3000 && $point < 4500):
+                        case ($point >= 3000 && $point < 4500):
                             // update hạng D
                             $player->player_ranking->ranking_id = 5;
                             break;
 
-                        case ($point >=4500 && $point < 6300):
+                        case ($point >= 4500 && $point < 6300):
                             // update hạng C
                             $player->player_ranking->ranking_id = 4;
                             break;
 
-                        case ($point >=6300 && $point < 8400):
+                        case ($point >= 6300 && $point < 8400):
                             // update hạng B
                             $player->player_ranking->ranking_id = 3;
                             break;
 
-                        case ($point >=8400 && $point < 10800):
+                        case ($point >= 8400 && $point < 10800):
                             // update hạng A
                             $player->player_ranking->ranking_id = 2;
                             break;
@@ -453,34 +453,39 @@ class AdminTournamentController extends Controller
     public function editPlayer($id, Request $request)
     {
         $request->validate([
-            'img' => ['required'],
-            'cccd' => ['required', 'digits:12', 'unique:players,cccd'],
+            'cccd' => $request->cccd != null ? ['digits:12', 'unique:players,cccd'] : '',
+            'cccd' => $request->cccd == null && $request->file('img') == null ? 'required' : '',
         ], [
-            'img.required' => 'Vui lòng cập nhật hình ảnh cơ thủ.',
-            'cccd.required' => 'Vui lòng cập nhật số căn cước công dân của cơ thủ.',
             'cccd.digits' => 'Số căn cước công dân phải là số có 12 chữ số.',
             'cccd.unique' => 'Số căn cước công dân đã được sử dụng.',
+            'cccd.required' => 'Điền thông tin muốn cập nhật.',
+
         ]);
         $player = Player::find($id);
-        $fileName = $player->name . $player->id . '.' . $request->file('img')->extension();
         try {
-            DB::transaction(function () use ($request, $player, $fileName) {
-                $filePath = 'players' . $fileName;
-                // Lấy tất cả các file trong thư mục (không bao gồm thư mục con)
-                $files = Storage::disk('public')->files('players/' . $player->id);
+            DB::transaction(function () use ($request, $player) {
+                if ($request->file('img') != null) {
+                    $fileName = $player->name . $player->id . '.' . $request->file('img')->extension();
+                    $filePath = 'players' . $fileName;
+                    // Lấy tất cả các file trong thư mục (không bao gồm thư mục con)
+                    $files = Storage::disk('public')->files('players/' . $player->id);
 
-                // Xóa tất cả các file
-                foreach ($files as $file) {
-                    Storage::disk('public')->delete($file);
+                    // Xóa tất cả các file
+                    foreach ($files as $file) {
+                        Storage::disk('public')->delete($file);
+                    }
+                    // Lưu file ảnh
+                    $file = $request->file('img');
+                    $filePath = $file->storeAs('players/' . $player->id, $fileName, 'public');
+                    $player->img = $fileName;
+                    $player->save();
                 }
-                // Lưu file ảnh
-                $file = $request->file('img');
-                $filePath = $file->storeAs('players/' . $player->id, $fileName, 'public');
 
-                // Cập nhật thông tin cơ thủ
-                $player->img = $fileName;
-                $player->cccd = $request->cccd;
-                $player->save();
+                if ($request->cccd != null) {
+                    // Cập nhật thông tin cơ thủ
+                    $player->cccd = $request->cccd;
+                    $player->save();
+                }
             });
 
             // Thông báo thành công

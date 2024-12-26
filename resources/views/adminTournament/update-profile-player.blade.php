@@ -100,10 +100,10 @@
                                     $file_name = 'players/' . $player->id . '/' . $player->img;
                                 @endphp
                                 @if (Storage::disk('public')->exists($file_name))
-                                    <img src="{{ Storage::url($file_name) }}" alt='Ảnh cơ thủ'>
+                                    <img class=" m-auto" src="{{ Storage::url($file_name) }}" alt='Ảnh cơ thủ'>
                                 @else
-                                    <img src="{{ asset('images/players/player.webp') }}" style="width:100%"
-                                        alt="Ảnh cơ thủ">
+                                    <img class=" m-auto" src="{{ asset('images/players/player.webp') }}"
+                                        style="width:100%" alt="Ảnh cơ thủ">
                                 @endif
                                 <div
                                     class="w3-display-bottomleft w3-container w3-text-black w-full bg-gray-100 text-center ">
