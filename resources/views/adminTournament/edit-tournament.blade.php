@@ -28,6 +28,289 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bracket {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            /* grid-template-rows: repeat(94, 8px); */
+            grid-gap: 2px 6px;
+            grid-auto-flow: column;
+            margin: 20px auto;
+            width: 1200px;
+            overflow-y: scroll;
+
+            @media (min-width:1400px) {
+                grid-template-columns: repeat(11, 1fr);
+                width: 1400px;
+            }
+        }
+
+        .region {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* grid-template-rows: repeat(46, 8px); */
+            grid-gap: 2px 6px;
+            grid-auto-flow: column;
+        }
+
+        .region-1 {
+            grid-column: 1 / span 4;
+            grid-row: 1 / span 47;
+        }
+
+        .final-four {
+            grid-column: 4 / span 3;
+            grid-row: 45 / span 6;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(6, 8px);
+            grid-gap: 2px 6px;
+            grid-auto-flow: column;
+
+            @media (min-width:1400px) {
+                grid-column: 5 / span 3;
+            }
+        }
+
+        .region-2 {
+            grid-column: 1 / span 4;
+            grid-row: 49 / span 47
+        }
+
+        .region-3 {
+            grid-column: -5 / span 4;
+            grid-row: 1 / span 47;
+        }
+
+        .region-4 {
+            grid-column: -5 / span 4;
+            grid-row: 49 / span 47
+        }
+
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .team {
+            background-color: white;
+            font-size: 11px;
+            height: 18px;
+            line-height: 18px;
+            padding: 0 5px;
+        }
+
+        .team-top {
+            margin-bottom: 2px;
+        }
+
+        .winner {
+            background-color: #005eb8;
+            color: white;
+        }
+
+        .matchup {
+            grid-column: span 1;
+            grid-row: span 4;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
+        }
+
+        .matchup-1,
+        .matchup-9 {
+            grid-column: span 1;
+            grid-row: span 4;
+        }
+
+        .matchup-2,
+        .matchup-10 {
+            grid-row: 7 / span 4;
+        }
+
+        .matchup-3,
+        .matchup-11 {
+            grid-row: 13 / span 4;
+        }
+
+        .matchup-4,
+        .matchup-12 {
+            grid-row: 19 / span 4;
+        }
+
+        .matchup-5,
+        .matchup-13 {
+            grid-row: 25 / span 4;
+        }
+
+        .matchup-6,
+        .matchup-14 {
+            grid-row: 31 / span 4;
+        }
+
+        .matchup-7,
+        .matchup-15 {
+            grid-row: 37 / span 4;
+        }
+
+        .matchup-8,
+        .matchup-16 {
+            grid-row: 43 / span 4;
+        }
+
+        .matchup-17,
+        .matchup-25 {
+            grid-column: -2/span 1;
+            grid-row: 1/span 4;
+        }
+
+        .matchup-18,
+        .matchup-26 {
+            grid-column: -2/span 1;
+            grid-row: 7/span 4;
+        }
+
+        .matchup-19,
+        .matchup-27 {
+            grid-column: -2/span 1;
+            grid-row: 13/span 4;
+        }
+
+        .matchup-20,
+        .matchup-28 {
+            grid-column: -2/span 1;
+            grid-row: 19/span 4;
+        }
+
+        .matchup-21,
+        .matchup-29 {
+            grid-column: -2/span 1;
+            grid-row: 25/span 4;
+        }
+
+        .matchup-22,
+        .matchup-30 {
+            grid-column: -2/span 1;
+            grid-row: 31/span 4;
+        }
+
+        .matchup-23,
+        .matchup-31 {
+            grid-column: -2/span 1;
+            grid-row: 37/span 4;
+        }
+
+        .matchup-24,
+        .matchup-32 {
+            grid-column: -2/span 1;
+            grid-row: 43/span 4;
+        }
+
+        .matchup-33,
+        .matchup-37 {
+            grid-column: 2 / span 1;
+            grid-row: 4 / span 4;
+        }
+
+        .matchup-34,
+        .matchup-38 {
+            grid-column: 2 / span 1;
+            grid-row: 16 / span 4;
+        }
+
+        .matchup-35,
+        .matchup-39 {
+            grid-column: 2 / span 1;
+            grid-row: 28 / span 4;
+        }
+
+        .matchup-36,
+        .matchup-40 {
+            grid-column: 2 / span 1;
+            grid-row: 40 / span 4;
+        }
+
+        .matchup-41,
+        .matchup-45 {
+            grid-column: -3 / span 1;
+            grid-row: 4 / span 4;
+        }
+
+        .matchup-42,
+        .matchup-46 {
+            grid-column: -3 / span 1;
+            grid-row: 16 / span 4;
+        }
+
+        .matchup-43,
+        .matchup-47 {
+            grid-column: -3 / span 1;
+            grid-row: 28 / span 4;
+        }
+
+        .matchup-44,
+        .matchup-48 {
+            grid-column: -3 / span 1;
+            grid-row: 40 / span 4;
+        }
+
+        .matchup-49,
+        .matchup-51 {
+            grid-column: 3 / span 1;
+            grid-row: 10 / span 4;
+        }
+
+        .matchup-50,
+        .matchup-52 {
+            grid-column: 3 / span 1;
+            grid-row: 34 / span 4;
+        }
+
+        .matchup-53,
+        .matchup-55 {
+            grid-column: -4 / span 1;
+            grid-row: 10 / span 4;
+        }
+
+        .matchup-54,
+        .matchup-56 {
+            grid-column: -4 / span 1;
+            grid-row: 34 / span 4;
+        }
+
+        .matchup-57,
+        .matchup-58 {
+            grid-column: 4 / span 1;
+            grid-row: 22 / span 4;
+        }
+
+        .matchup-59,
+        .matchup-60 {
+            grid-column: -5 / span 1;
+            grid-row: 22 / span 4;
+        }
+
+        .matchup-61 {
+            grid-column: 1 / span 1;
+            grid-row: 2/ span 4;
+        }
+
+        .matchup-62 {
+            grid-column: 3 / span 1;
+            grid-row: 2/ span 4;
+        }
+
+        .championship {
+            grid-column: 2 / span 1;
+            grid-row: 1/ span 4;
+
+            .team {
+                height: 28px;
+                line-height: 28px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -75,10 +358,24 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Số lượng người tham gia</label>
-                                        <input class="form-control" type="number" name="number_player"
-                                            placeholder="Nhập số lượng người tham gia"
-                                            value={{ $tournament->number_players }}>
+                                        <label for="">Số lượng người tham gia</label><br />
+                                        <select class="form-control" name="number_player">
+                                            <option value="16"
+                                                {{ $tournament->number_players == 16 ? 'selected' : '' }}>
+                                                16</option>
+                                            <option value="32"
+                                                {{ $tournament->number_players == 32 ? 'selected' : '' }}>
+                                                32</option>
+                                            <option value="64"
+                                                {{ $tournament->number_players == 64 ? 'selected' : '' }}>
+                                                64</option>
+                                            <option value="128"
+                                                {{ $tournament->number_players == 128 ? 'selected' : '' }}>
+                                                128</option>
+                                            <option value="256"
+                                                {{ $tournament->number_players == 256 ? 'selected' : '' }}>
+                                                256</option>
+                                        </select>
                                     </div>
                                     <x-input-error :messages="$errors->get('number_player')" class="mt-2" />
                                 </div>
@@ -241,6 +538,26 @@
 
                         </div>
                     </div>
+            </div>
+            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
+                <h3>Sơ đồ giải đấu</h3>
+                <div class="bracket w-full p-2 flex justify-center items-center"
+                    style="    background-color: #21324C !important;
+    background-image: url(../images/background-dots.png);">
+                    <!-- Region 1 Round 1-->
+                    <div class="">
+                        @foreach ( as )
+                            
+                        @endforeach
+                        <ul class="matchup matchup-1">
+                            <li><input type="email" name="top1"
+                                    {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                    value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
+                                    class="team team-top winner" /></li>
+                            <li><input class="team team-bottom" type="text"></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
                 <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:

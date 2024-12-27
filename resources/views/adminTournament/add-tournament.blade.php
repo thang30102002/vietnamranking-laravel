@@ -73,10 +73,19 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Số lượng người tham gia</label>
-                                        <input class="form-control" type="number" name="number_player"
-                                            placeholder="Nhập số lượng người tham gia"
-                                            value={{ old('number_player') }}>
+                                        <label for="">Số lượng người tham gia</label><br />
+                                        <select class="form-control" name="number_player">
+                                            <option value="16" {{ old('number_player') == 16 ? 'selected' : '' }}>
+                                                16</option>
+                                            <option value="32" {{ old('number_player') == 32 ? 'selected' : '' }}>
+                                                32</option>
+                                            <option value="64" {{ old('number_player') == 64 ? 'selected' : '' }}>
+                                                64</option>
+                                            <option value="128" {{ old('number_player') == 128 ? 'selected' : '' }}>
+                                                128</option>
+                                            <option value="256" {{ old('number_player') == 256 ? 'selected' : '' }}>
+                                                256</option>
+                                        </select>
                                     </div>
                                     <x-input-error :messages="$errors->get('number_player')" class="mt-2" />
                                 </div>

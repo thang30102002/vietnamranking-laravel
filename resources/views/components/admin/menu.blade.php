@@ -11,15 +11,7 @@
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <span
                         class="user-img"></span> </a>
                 <div class="dropdown-menu">
-                    <div class="user-header">
-                        <div class="avatar avatar-sm"> <img src="assets/img/profiles/avatar-01.jpg" alt="User Image"
-                                class="avatar-img rounded-circle"> </div>
-                        <div class="user-text">
-                            @if (Auth::user()->admin_tournament)
-                                <h6>{{ Auth::user()->admin_tournament->name }}</h6>
-                            @endif
-                        </div>
-                    </div> <a class="dropdown-item" href={{ route('adminTournament.profile') }}>Hồ sơ</a> <a
+                    <a class="dropdown-item" href={{ route('adminTournament.profile') }}>Hồ sơ</a> <a
                         class="dropdown-item" href="login.html">Đăng xuất</a>
                 </div>
             </li>

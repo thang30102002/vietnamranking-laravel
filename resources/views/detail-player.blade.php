@@ -133,15 +133,13 @@
                         $count_registed = 0;
                     @endphp
                     @foreach ($player->player_registed_tournament as $player_registed_tournament)
-                        @if ($player_registed_tournament->status == 1)
-                            @php
-                                $count_registed++;
-                            @endphp
-                        @endif
+                        @php
+                            $count_registed++;
+                        @endphp
                     @endforeach
                     <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-handshake-o mr-2"
-                            aria-hidden="true"></i>Các giải đấu đã
-                        tham gia - <span> {{ $count_registed }} giải đấu</span>
+                            aria-hidden="true"></i>Các giải đấu đã đăng ký - <span> {{ $count_registed }} giải
+                            đấu</span>
                     </h2>
                     <table class="table">
                         <thead>
@@ -151,23 +149,27 @@
                                 <th scope="col ">Đơn vị tổ chức</th>
                                 <th scope="col ">Thời gian tổ chức</th>
                                 <th scope="col ">Lệ phí</th>
+                                <th scope="col ">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($player->player_registed_tournament as $player_registed_tournament)
-                                @if ($player_registed_tournament->status == 1)
-                                    <tr class="whitespace-nowrap">
-                                        <th scope="row">1</th>
-                                        <td class="">{{ $player_registed_tournament->tournament->name }}</td>
-                                        <td class="">
-                                            {{ $player_registed_tournament->tournament->admin_tournament->name }}</td>
-                                        <td class="">{{ $player_registed_tournament->tournament->start_date }}
-                                        </td>
-                                        <td class="">
-                                            {{ number_format($player_registed_tournament->tournament->fees, 0, ',', '.') . ' VNĐ' }}
-                                        </td>
-                                    </tr>
-                                @endif
+                                <tr class="whitespace-nowrap">
+                                    <th scope="row">1</th>
+                                    <td class="">{{ $player_registed_tournament->tournament->name }}</td>
+                                    <td class="">
+                                        {{ $player_registed_tournament->tournament->admin_tournament->name }}</td>
+                                    <td class="">{{ $player_registed_tournament->tournament->start_date }}
+                                    </td>
+                                    <td class="">
+                                        {{ number_format($player_registed_tournament->tournament->fees, 0, ',', '.') . ' VNĐ' }}
+                                    </td>
+                                    @if ($player_registed_tournament->status === 1)
+                                        <td class=" text-green-500">Thành công</td>
+                                    @else
+                                        <td class=" text-orange-400">Đang phê duyệt</td>
+                                    @endif
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
