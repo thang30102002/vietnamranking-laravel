@@ -8,6 +8,9 @@ use App\Models\Player_registed_tournament;
 use App\Models\Player_register_tournament;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class RankingController extends Controller
 {
@@ -74,6 +77,27 @@ class RankingController extends Controller
             }
         } else {
             return redirect('/tournament')->with('error', "Đăng ký không thành công. Có vẻ như bạn đã đăng ký giải đấu này trước đó");
+        }
+    }
+
+    public function change_password(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'confirmed', Password::defaults(), 'min:8'],
+        ], [
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.confirmed' => 'Vui lòng xác nhận lại mật khẩu.',
+            'password.min' => 'Mật khẩu ít nhất phải có 8 kí tự.',
+        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                $user = auth()->user();
+                $user->password = Hash::make($request->password);
+                $user->save();
+            });
+            return back()->with('success', 'Mật khẩu đã được cập nhật thành công!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Cập nhật mật khẩu thất bại!');
         }
     }
 }

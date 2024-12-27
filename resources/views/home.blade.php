@@ -46,6 +46,7 @@
 </head>
 
 <body>
+    <x-notification />
     <x-menu />
     <!-- Page content -->
     <div class="w3-content" style="max-width:2000px;">
@@ -223,6 +224,21 @@
                 modal.style.display = "none";
             }
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            @if (session('showModal'))
+                $('#ChangePassModal').modal('show');
+            @endif
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('showModal'))
+                var myModal = new bootstrap.Modal(document.getElementById('ChangePassModal'));
+                myModal.show();
+            @endif
+        });
     </script>
 
 </body>

@@ -1,3 +1,4 @@
+<x-modal-change-password />
 <nav class="navbar navbar-expand-lg navbar-light bg-light menu">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('ranking.index') }}">VietNam Pool</a>
@@ -30,12 +31,20 @@
                                 {{ auth()->user()->admin_tournament->name }}
                             @endif
                         </button>
-                        <ul id="dropdownMenu" class="dropdown-menu w-full right-0" aria-labelledby="dropdownMenuButton1">
+                        <ul id="dropdownMenu" class="dropdown-menu w-full right-0"
+                            aria-labelledby="dropdownMenuButton1">
                             @if (auth()->user()->user_role->role_id == 3)
-                                <li><a class="dropdown-item" href= {{ route('ranking.detail', ['id'=>auth()->user()->player->id]) }}>Hồ sơ</a></li>
+                                <li><a class="dropdown-item"
+                                        href={{ route('ranking.detail', ['id' => auth()->user()->player->id]) }}>Hồ
+                                        sơ</a>
+                                </li>
+                                <li><button id="btnModalChangePass" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#ChangePassModal" class="dropdown-item" aria-hidden="true">Thay
+                                        đổi mật khẩu</button></li>
                             @endif
                             @if (auth()->user()->user_role->role_id == 2)
-                                <li><a class="dropdown-item" href= {{ route('adminTournament.index') }}>Quản lý giải đấu</a></li>
+                                <li><a class="dropdown-item" href={{ route('adminTournament.index') }}>Quản lý giải
+                                        đấu</a></li>
                             @endif
                             <li><button class="dropdown-item" href={{ 'logout' }}>Đăng xuất</button></li>
                         </ul>
@@ -90,5 +99,14 @@
             menu.classList.add("hidden");
         }
 
+    });
+</script>
+
+<script>
+    document.getElementById('btnModalChangePass').addEventListener('click', function() {
+        const listUl = document.getElementById("dropdownMenu");
+        const navDropDown = document.getElementById("navbarSupportedContent");
+        navDropDown.classList.add('hidden');
+        listUl.style.display = 'none';
     });
 </script>

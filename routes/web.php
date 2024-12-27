@@ -29,6 +29,7 @@ Route::get('/tournament_organizer', [RankingController::class, 'tournament_organ
 Route::get('/tournament', [RankingController::class, 'tournament'])->name('ranking.tournament');
 Route::get('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament'])->name('ranking.register_tournament')->middleware('register_tournament');
 Route::post('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament_success'])->name('ranking.register_tournament_success')->middleware('register_tournament');
+Route::post('/change-password', [RankingController::class, 'change_password'])->name('ranking.change_password');
 
 
 
@@ -46,7 +47,6 @@ Route::middleware('is_admin_tournament')->group(
         Route::put('/adminTournament/edit_tournament/{id}', [AdminTournamentController::class, 'editTournament'])->name('adminTournament.editTournament');
         Route::get('/adminTournament/edit-player/{id}', [AdminTournamentController::class, 'showEditPlayer'])->name('adminTournament.showEditPlayer');
         Route::post('/adminTournament/edit-player/{id}', [AdminTournamentController::class, 'editPlayer'])->name('adminTournament.editPlayer');
-
     }
 );
 

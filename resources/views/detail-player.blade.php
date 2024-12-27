@@ -52,15 +52,13 @@
 <body class="w3-light-grey"
     style="background-color: #21324C!important;background-image: url('../images/background-dots.png');">
     <x-menu />
+    <x-notification />
     <!-- Page Container -->
     <div class="w3-content w3-margin-top" style="max-width:1400px;">
-
         <!-- The Grid -->
         <div class="w3-row-padding">
-
             <!-- Left Column -->
             <div class="w3-third">
-
                 <div class="w3-white w3-text-grey w3-card-4">
                     <div class="w3-display-container">
                         @php
@@ -97,7 +95,6 @@
                             </div>
                         </div>
                         <hr>
-
                         <p class="w3-large"><b><i class="fa fa-asterisk fa-fw mr-[5px] icon"></i><span
                                     class=" text-[14px]">Kỹ năng</span></b></p>
                         <p>Độ chính xác bi đơn</p>
@@ -121,10 +118,8 @@
                         <br>
                     </div>
                 </div><br>
-
                 <!-- End Left Column -->
             </div>
-
             <!-- Right Column -->
             <div class="w3-twothird">
 

@@ -28,6 +28,7 @@
 
 <body class=" m-auto w-full">
     <x-menu />
+    <x-notification />
     <h1
         class=" text-white text-center font-semibold text-[1rem] sm:text-[1.5rem]  mt-[90px] pb-[10px] ftitle animate__animated  animate__bounce">
         Bảng xếp hạng</h1>
