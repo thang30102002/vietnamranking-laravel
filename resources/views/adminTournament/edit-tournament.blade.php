@@ -539,16 +539,12 @@
                         </div>
                     </div>
             </div>
-            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
+            {{-- <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
                 <h3>Sơ đồ giải đấu</h3>
                 <div class="bracket w-full p-2 flex justify-center items-center"
-                    style="    background-color: #21324C !important;
-    background-image: url(../images/background-dots.png);">
+                    style="background-color: #21324C !important;background-image: url(../images/background-dots.png);">
                     <!-- Region 1 Round 1-->
                     <div class="">
-                        @foreach ( as )
-                            
-                        @endforeach
                         <ul class="matchup matchup-1">
                             <li><input type="email" name="top1"
                                     {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
@@ -558,7 +554,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
                 <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
                     {{ count($player_registed) }} người đã đăng ký</h3>

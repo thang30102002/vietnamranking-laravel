@@ -12,7 +12,7 @@
                         class="user-img"></span> </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href={{ route('adminTournament.profile') }}>Hồ sơ</a> <a
-                        class="dropdown-item" href="login.html">Đăng xuất</a>
+                        class="dropdown-item" href={{ route('ranking.index') }}>Đăng xuất</a>
                 </div>
             </li>
         </ul>

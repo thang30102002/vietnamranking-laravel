@@ -45,6 +45,9 @@
                             @if (auth()->user()->user_role->role_id == 2)
                                 <li><a class="dropdown-item" href={{ route('adminTournament.index') }}>Quản lý giải
                                         đấu</a></li>
+                                <li><button id="btnModalChangePass" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#ChangePassModal" class="dropdown-item" aria-hidden="true">Thay
+                                        đổi mật khẩu</button></li>
                             @endif
                             <li><button class="dropdown-item" href={{ 'logout' }}>Đăng xuất</button></li>
                         </ul>

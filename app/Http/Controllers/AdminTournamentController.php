@@ -151,6 +151,8 @@ class AdminTournamentController extends Controller
         foreach ($tournament->ranking_tournament as $ranking_tournament) {
             $ranking_tournaments[] = $ranking_tournament->ranking_id;
         }
+        // dd($ranking_tournaments);
+
         return view('adminTournament/edit-tournament', ['tournament' => $tournament, 'game_types' => $game_types, 'rankings' => $rankings, 'ranking_tournaments' => $ranking_tournaments, 'player_registed' => $player_registed]);
     }
 
