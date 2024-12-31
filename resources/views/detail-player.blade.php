@@ -1,3 +1,6 @@
+@php
+    use App\Models\Player;
+@endphp
 <!DOCTYPE html>
 <html>
 
@@ -212,6 +215,53 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[355px] overflow-auto">
+                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-handshake-o mr-2"
+                            aria-hidden="true"></i>Các trận đấu đã tham gia - <span> {{ count($matches) }} trận
+                            đấu</span>
+                    </h2>
+                    <table class="table">
+                        <thead>
+                            <tr class="whitespace-nowrap bg-[#21324c] text-white">
+                                <th scope="col ">ID</th>
+                                <th scope="col ">Tên giải đấu</th>
+                                <th scope="col ">Vòng đấu</th>
+                                <th scope="col ">Bàn thi đấu</th>
+                                <th scope="col ">Cơ thủ 1</th>
+                                <th scope="col ">Cơ thủ 2</th>
+                                <th scope="col ">Cơ thủ chiến thắng</th>
+                                <th scope="col ">Tỉ số</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($matches as $match)
+                                <tr class="whitespace-nowrap">
+                                    <th scope="row">{{ $match->id }}</th>
+                                    <td class="">{{ $match->tournament->name }}</td>
+                                    <td class="">
+                                        Vòng {{ $match->round }}</td>
+                                    <td class="">Bàn {{ $match->location }}
+                                    </td>
+                                    <td class="">
+                                        {{ Player::find($match->player_id_1)->name }}
+                                    </td>
+                                    <td class="">
+                                        {{ Player::find($match->player_id_2)->name }}
+                                    </td>
+                                    <td class="">
+                                        {{ $match->player_id_win != null ? Player::find($match->player_id_win)->name : 'chưa kết thúc' }}
+                                    </td>
+                                    <td class="">
+                                        {{ $match->point_1 }} - {{ $match->point_2 }}
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
                 </div>
                 <!-- End Right Column -->
             </div>

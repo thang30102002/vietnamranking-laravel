@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin_tournament;
+use App\Models\Matches;
 use App\Models\Player;
 use App\Models\Player_registed_tournament;
 use App\Models\Player_register_tournament;
@@ -36,7 +37,10 @@ class RankingController extends Controller
         $top = Player::get_top_player($id);
         $player = Player::get_detail($id);
         $money = number_format($player->player_money->money, 0, ',', '.') . ' VNĐ';
-        return view('detail-player', ['player' => $player, 'top' => $top, 'money' => $money]);
+        $matches = Matches::where('player_id_1', $id)
+            ->orWhere('player_id_2', $id)
+            ->get();
+        return view('detail-player', ['player' => $player, 'top' => $top, 'money' => $money, 'matches' => $matches]);
     }
 
     public function tournament_organizer()
