@@ -163,4 +163,9 @@ class Player extends Model
     {
         return $this->hasOne(Player_money::class);
     }
+
+    public function matches()
+    {
+        return $this->hasMany(Matches::class);
+    }
 }

@@ -195,6 +195,7 @@
     <script>
         $(document).ready(function() {
             $('#delete_asset').on('show.bs.modal', function(event) {
+
                 var button = $(event.relatedTarget); // Nút kích hoạt modal
                 var id = button.data('id'); // Lấy ID giải đấu
                 var name = button.data('name'); // Lấy tên giải đấu

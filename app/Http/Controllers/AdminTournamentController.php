@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use App\Models\Game_type;
+use App\Models\Matches;
 use App\Models\Ranking;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
@@ -151,9 +152,9 @@ class AdminTournamentController extends Controller
         foreach ($tournament->ranking_tournament as $ranking_tournament) {
             $ranking_tournaments[] = $ranking_tournament->ranking_id;
         }
-        // dd($ranking_tournaments);
+        $matches = Matches::where('tournament_id', $id)->get();
 
-        return view('adminTournament/edit-tournament', ['tournament' => $tournament, 'game_types' => $game_types, 'rankings' => $rankings, 'ranking_tournaments' => $ranking_tournaments, 'player_registed' => $player_registed]);
+        return view('adminTournament/edit-tournament', ['tournament' => $tournament, 'game_types' => $game_types, 'rankings' => $rankings, 'ranking_tournaments' => $ranking_tournaments, 'player_registed' => $player_registed, 'matches' => $matches]);
     }
 
     public function editTournament($id, Request $request)
@@ -512,6 +513,122 @@ class AdminTournamentController extends Controller
             if ($baseName === $fileNameWithoutExtension) {
                 Storage::delete($file); // Xóa file
             }
+        }
+    }
+    public function addMatches(Request $request)
+    {
+        $request->validate([
+            'player_1' => ['required'],
+            'player_2' => ['required'],
+            'location' => ['required', 'integer'],
+        ], [
+            'player_1.required' => 'Vui lòng nhập email người chơi 1.',
+            'player_2.required' => 'Vui lòng nhập email người chơi 2.',
+            'location.required' => 'Vui lòng nhập số bàn thi đấu.',
+            'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
+        ]);
+        try {
+            DB::transaction(function () {});
+            $player_1 = User::where('email', $request->player_1)->first();
+            $player_2 = User::where('email', $request->player_2)->first();
+            $match = Matches::create([
+                'tournament_id' => $request->tournament_id,
+                'round' => $request->round,
+                'player_id_1' => $player_1->player->id,
+                'player_id_2' => $player_2->player->id,
+                'location' => $request->location,
+            ]);
+            return back()->with('success', 'Thêm trận đấu thành công!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Thêm trận đấu thất bại!');
+        }
+    }
+
+    public function showEditMatches($id, $tournament_id)
+    {
+        $tournament = Tournament::find($tournament_id);
+        $match = Matches::find($id);
+        $player_1 = Player::find($match->player_id_1);
+        $player_2 = Player::find($match->player_id_2);
+        !empty($match->player_id_win) ? $player_win = Player::find($match->player_id_win) : '';
+        $player_registed = $tournament->player_registed_tournament->where('status', 1);
+        return view('adminTournament/edit-matches', ['match' => $match, 'tournament' => $tournament, 'player_registed' => $player_registed, 'player_1' => $player_1, 'player_2' => $player_2, 'player_win' => $player_win ?? null]);
+    }
+
+    public function editMatches(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'player_1' => ['required'],
+            'player_2' => ['required'],
+            'player_win' => ['nullable', 'in:' . $request->player_1 . ',' . $request->player_2],  // Kiểm tra player_win phải trùng với player_1 hoặc player_2
+            'location' => ['required', 'integer'],
+            'point.*' => ['nullable', 'min:0'],
+        ], [
+            'player_1.required' => 'Vui lòng nhập email người chơi 1.',
+            'player_2.required' => 'Vui lòng nhập email người chơi 2.',
+            'location.required' => 'Vui lòng nhập số bàn thi đấu.',
+            'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
+            'player_win.in' => 'Người chiến thắng phải là một trong hai người chơi.',
+        ]);
+        if ($request->player_win != null) {
+            if ($request->point[0] == null ||  $request->point[1] == null) {
+                return back()->withErrors([
+                    'point' => 'Nếu trận đấu kết thúc cần nhập người chiến thắng và tỉ số trận đấu.',
+                ]);
+            }
+        }
+        if ($request->point[0] != null && $request->point[1] == null || $request->point[0] == null && $request->point[1] != null) {
+            return back()->withErrors([
+                'point' => 'Vui lòng nhập lại tỉ số trận đấu.',
+            ]);
+        }
+        if ($request->point[0] != null && $request->point[1] != null) {
+            if ($request->player_win == null) {
+                return back()->withErrors([
+                    'player_win' => 'Nếu trận đấu kết thúc cần nhập người chiến thắng và tỉ số trận đấu.',
+                ]);
+            }
+            if ($request->point[0] == $request->point[1]) {
+                return back()->withErrors([
+                    'point' => 'Tỉ số trận đấu không được hòa.'
+                ]);
+            }
+        }
+        try {
+            DB::transaction(function () {});
+            $user_1 = User::where('email', $request->player_1)->first();
+            $user_2 = User::where('email', $request->player_2)->first();
+            if ($request->player_win != null) {
+                $user_win = User::where('email', $request->player_win)->first();
+            }
+            $match = Matches::find($request->match_id);
+            $match->player_id_1 = $user_1->player->id;
+            $match->player_id_2 = $user_2->player->id;
+            $match->location = $request->location;
+            if ($request->player_win != null) {
+                $match->player_id_win = $user_win->player->id;
+                $match->point_1 = $request->point[0];
+                $match->point_2 = $request->point[1];
+            }
+            $match->round = $request->round;
+            $match->save();
+            return redirect(route('adminTournament.showEditTournament', ['id' => $request->tournament_id]))->with('success', 'Cập nhật trận đấu thành công!');
+        } catch (\Exception $e) {
+            return redirect(route('adminTournament.showEditTournament', ['id' => $request->tournament_id]))->with('error', 'Cập nhật trận đấu thất bại!');
+        }
+    }
+
+    public function deleteMatch(Request $request)
+    {
+        try {
+            DB::transaction(function () use ($request) {
+                $match = Matches::find($request->match_id);
+                $match->delete();
+            });
+            return back()->with('success', 'Xoá trận đấu thành công!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Xoá trận đấu thất bại!');
         }
     }
 }

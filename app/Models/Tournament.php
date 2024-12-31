@@ -41,6 +41,11 @@ class Tournament extends Model
         return $this->hasMany(Tournament_top_money::class);
     }
 
+    public function matches()
+    {
+        return $this->hasMany(Matches::class);
+    }
+
     public static function get_all()
     {
         $tournament = self::all();

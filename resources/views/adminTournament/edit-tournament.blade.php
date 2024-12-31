@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    @php
+        use App\Models\Player;
+    @endphp
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Chỉnh sửa giải đấu</title>
@@ -14,10 +17,21 @@
 
     {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/fontawesome.min.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/all.min.css') }}">
     {{-- <link rel="stylesheet" href="assets/css/feathericon.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/feathericon.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
     {{-- <link rel="stylesheet" href="assets/plugins/morris/morris.css"> --}}
@@ -539,22 +553,6 @@
                         </div>
                     </div>
             </div>
-            {{-- <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <h3>Sơ đồ giải đấu</h3>
-                <div class="bracket w-full p-2 flex justify-center items-center"
-                    style="background-color: #21324C !important;background-image: url(../images/background-dots.png);">
-                    <!-- Region 1 Round 1-->
-                    <div class="">
-                        <ul class="matchup matchup-1">
-                            <li><input type="email" name="top1"
-                                    {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                    value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
-                                    class="team team-top winner" /></li>
-                            <li><input class="team team-bottom" type="text"></li>
-                        </ul>
-                    </div>
-                </div>
-            </div> --}}
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
                 <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
                     {{ count($player_registed) }} người đã đăng ký</h3>
@@ -578,7 +576,6 @@
                                     <th scope="col">Hạng</th>
                                     <th scope="col">Giới tính</th>
                                     <th scope="col">Trạng thái</th>
-                                    {{-- <th scope="col">Giải</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -616,8 +613,146 @@
                     </div>
                 @endif
             </div>
-            <button type="submit" class="btn btn-primary buttonedit ml-2 mt-4">Lưu thay đổi</button>
+            <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Lưu thay
+                    đổi</button></div>
             </form>
+            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
+                <div>
+                    <h3>Danh sách trận đấu</h3>
+                    <form method="POST" action="{{ route('adminTournament.addMatches') }}">
+                        @csrf
+                        <div class="row formtype">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Vòng đấu</label>
+                                    <div class=" grid grid-cols-3">
+                                        <select class="form-control" id="round" name="round">
+                                            @for ($i = 2; $i <= $tournament->number_players; $i *= 2)
+                                                <option value="{{ $i }}"
+                                                    {{ old('round') == $i ? 'selected' : '' }}>
+                                                    Vòng {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Cơ thủ 1</label>
+                                    <input type="email" name="player_1" value="{{ old('player_1') }}"
+                                        class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Nhập email người tham gia" />
+                                    <div
+                                        class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                    </div>
+                                </div>
+                                <x-input-error :messages="$errors->get('player_1')" class="mt-2" />
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Cơ thủ 2</label>
+                                    <input type="email" name="player_2" value="{{ old('player_2') }}"
+                                        class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Nhập email người tham gia" />
+                                    <div
+                                        class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                    </div>
+                                </div>
+                                <x-input-error :messages="$errors->get('player_2')" class="mt-2" />
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Vị trí thi đấu</label>
+                                    <input type="number" name="location"
+                                        class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value="{{ old('location') }}" placeholder="Nhập số bàn thi đấu" />
+                                </div>
+                                <x-input-error :messages="$errors->get('location')" class="mt-2" />
+                            </div>
+                            <input type="hidden" name="tournament_id" value="{{ $tournament->id }}">
+                        </div>
+                        <div class=" text-right px-4 py-4"><button type="submit" class="btn btn-primary ">Thêm trận
+                                đấu</button></div>
+                    </form>
+                </div>
+                <div class=" overflow-auto">
+                    <table class="table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Vòng đấu</th>
+                                <th scope="col">Cơ thủ 1 </th>
+                                <th scope="col">Cơ thủ 2</th>
+                                <th scope="col">Vị trí thi đấu</th>
+                                <th scope="col">Cơ thủ thắng trận</th>
+                                <th scope="col">Tỉ số trận đấu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $stt = 1;
+                            @endphp
+                            @foreach ($matches as $match)
+                                @php
+                                    $player_match_1 = Player::find($match->player_id_1);
+                                    $player_match_2 = Player::find($match->player_id_2);
+                                    if ($match->player_id_win != null) {
+                                        $player_win = Player::find($match->player_id_win);
+                                    }
+                                @endphp
+                                <tr class="{{ $match->player_id_win == null ? 'bg-yellow-100' : '' }}">
+                                    <th scope="row">{{ $stt }}</th>
+                                    <td>{{ $match->round }}</td>
+                                    <td>{{ $player_match_1->name }} -
+                                        {{ $player_match_1->player_ranking->ranking->name }}</td>
+                                    <td>{{ $player_match_2->name }} -
+                                        {{ $player_match_2->player_ranking->ranking->name }}</td>
+                                    <td>Bàn số {{ $match->location }} </td>
+                                    <td>{{ $match->player_id_win == null ? 'Chưa có kết quả' : $player_win->name }}
+                                    </td>
+                                    @php
+                                        $point = $match->point_1 . '-' . $match->point_2;
+                                    @endphp
+                                    <td>{{ $match->player_id_win == null ? 'Chưa có kết quả' : $point }}
+                                    </td>
+                                    <td><a href="{{ route('adminTournament.showEditMatches', ['id' => $match->id, 'tournament_id' => $tournament->id]) }}"
+                                            class="btn btn-primary">
+                                            Cập nhật
+                                        </a></td>
+                                    <td><button type="button" class="btn bg-red-500 text-white" data-toggle="modal"
+                                            data-target="#delete_match" data-id="{{ $match->id }}">
+                                            Xóa
+                                        </button></td>
+                                </tr>
+                                @php
+                                    $stt++;
+                                @endphp
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="delete_match" class="modal fade    " role="dialog" tabindex="-1" role="dialog"
+        aria-labelledby="deleteMatchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center"> <img class=" m-auto"
+                        src="{{ asset('images/adminTournament/sent.png') }}" alt="" width="50"
+                        height="46">
+                    <h3 class="delete_class">Bạn đồng ý xoá trận đấu<span id="tournamentName"></span>?</h3>
+                    <div class="m-t-20 flex relative"> <a href="#" class="btn btn-white"
+                            data-dismiss="modal">Huỷ</a>
+                        <form action="{{ route('adminTournament.deleteMatch') }}" method="POST">
+                            @csrf
+                            <input type="hidden" id="matchId" name="match_id" value="">
+                            <button type="submit" class="btn btn-danger absolute right-[10px]">Xoá</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -642,6 +777,9 @@
         });
     </script>
 </body>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 {{-- <script src="assets/js/jquery-3.5.1.min.js"></script> --}}
 <script src="{{ asset('js/adminTournament/jquery-3.5.1.min.js') }}"></script>
@@ -774,6 +912,18 @@
                 item.toLowerCase().includes(query)
             );
             renderSearchResults(filteredData);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#delete_match').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Nút kích hoạt modal
+            var matchId = button.data('id'); // Lấy ID giải đấu
+
+            // Cập nhật nội dung modal
+            var modal = $(this);
+            modal.find('#matchId').val(matchId);
         });
     });
 </script>

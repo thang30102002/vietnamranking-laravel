@@ -29,6 +29,7 @@
     {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
     <div class="main-wrapper">
         <x-admin-tournament.menu />
@@ -51,8 +52,21 @@
                             <div class="card-body">
                                 <div class="dash-widget-header">
                                     <div>
-                                        <h3 class="card_widget_header">236</h3>
-                                        <h6 class="text-muted pt-3">Người tham gia</h6>
+                                        @php
+                                            $total_users = 0;
+                                            $total_money = 0;
+                                        @endphp
+                                        @foreach (auth()->user()->admin_tournament->tournament as $tournament)
+                                            @php
+                                                $total_users =
+                                                    $total_users + count($tournament->player_registed_tournament);
+                                                foreach ($tournament->tournament_top_money as $top_money) {
+                                                    $total_money = $total_money + $top_money->money;
+                                                }
+                                            @endphp
+                                        @endforeach
+                                        <h3 class="card_widget_header">{{ $total_users }}</h3>
+                                        <h6 class="text-muted pt-3">Người tham gia giải đấu</h6>
                                     </div>
                                     <div class="ml-auto mt-md-3 mt-lg-0"> <span class="opacity-7 text-muted"><svg
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -75,7 +89,8 @@
                             <div class="card-body">
                                 <div class="dash-widget-header">
                                     <div>
-                                        <h3 class="card_widget_header">180</h3>
+                                        <h3 class="card_widget_header">
+                                            {{ number_format($total_money, 0, ',', '.') . ' VNĐ' }}</h3>
                                         <h6 class="text-muted pt-3">Tổng tiền thưởng</h6>
                                     </div>
                                     <div class="ml-auto mt-md-3 mt-lg-0"> <span class="opacity-7 text-muted"><svg
@@ -96,7 +111,7 @@
                             <div class="card-body">
                                 <div class="dash-widget-header">
                                     <div>
-                                        <h3 class="card_widget_header">{{ count($admin_tournament->tournament)}}</h3>
+                                        <h3 class="card_widget_header">{{ count($admin_tournament->tournament) }}</h3>
                                         <h6 class="text-muted pt-3">Tổng giải đấu</h6>
                                     </div>
                                     <div class="ml-auto mt-md-3 mt-lg-0"> <span class="opacity-7 text-muted"><svg
@@ -122,8 +137,6 @@
                         <div class="card card-table flex-fill">
                             <div class="card-header">
                                 <h4 class="card-title float-left mt-2">Booking</h4>
-                                <button type="button" class="btn btn-primary float-right veiwbutton">Veiw
-                                    All</button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
