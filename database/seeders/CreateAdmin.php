@@ -18,7 +18,7 @@ class CreateAdmin extends Seeder
             [
                 'id' => '100',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('Thang30102002@'), // Mã hóa mật khẩu
+                'password' => Hash::make('Thang30102002@'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

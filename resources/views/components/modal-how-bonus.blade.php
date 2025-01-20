@@ -2,7 +2,7 @@
     <!-- Modal -->
     <div class="modal fade" id="HowBonusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog h-full content-center w-[302px] sm:w-full m-auto">
-            <div class="modal-content">
+            <div class="modal-content h-[70%] sm:h-auto">
                 <div class="modal-header">
                     <h1 class="modal-title text-[15px] sm:text-[19px]" id="exampleModalLabel">Cách tính tiền thưởng và xếp
                         hạng người chơi</h1>
@@ -16,7 +16,8 @@
                             được cập nhật.</li><br />
                         <li class=" text-justify"><strong>Point</strong> là điểm ranking dùng để xếp hạng người chơi.
                             Khi người chơi tham gia trận đấu thắng sẽ được <strong>cộng 13 point</strong> và thua sẽ bị
-                            <strong>trừ 10 point</strong></li><br />
+                            <strong>trừ 10 point</strong>
+                        </li><br />
                         <table class=" m-auto w-[80%]">
                             <thead>
                                 <tr>
@@ -27,7 +28,7 @@
                             <tbody class="">
                                 <tr>
                                     <td class="border border-solid border-gray-500 p-2">
-                                        <  50</td>
+                                        < 50</td>
                                     <td class="border border-solid border-gray-500 p-2">H</td>
                                 </tr>
                                 <tr>

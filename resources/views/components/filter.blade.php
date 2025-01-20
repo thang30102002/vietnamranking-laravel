@@ -2,13 +2,13 @@
     <!-- Modal -->
     <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog h-full content-center">
-            <div class="modal-content w-[302px] sm:w-full m-auto">
+            <div class="modal-content w-[302px] sm:w-full m-auto h-[70%] sm:h-auto">
                 <div class="modal-header">
                     <h1 class="modal-title font-bold" id="exampleModalLabel">Bộ lọc</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body max-h-[500px] overflow-y-auto">
-                    <form action={{ route('ranking.ranking') }} method="GET">
+                    <form action={{ route('ranking.ranking') }} method="GET" id="filterForm">
                         @csrf
                         <label class=" pb-2 font-medium text-m" for="name">Tên cơ thủ</label><br>
                         <input name="name" id="name"
@@ -72,10 +72,12 @@
         // Reset các input text
         document.getElementById('name').value = '';
         document.getElementById('phone').value = '';
+
+        // Reset radio button về mặc định
         document.getElementById("all").checked = true;
-        document.getElementById("money").checked = true;
-        // Reset tất cả các checkbox
-        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+        // Lấy tất cả checkbox và bỏ chọn
+        const checkboxes = document.querySelectorAll("#filterForm input[type='checkbox']");
         checkboxes.forEach(function(checkbox) {
             checkbox.checked = false;
         });
