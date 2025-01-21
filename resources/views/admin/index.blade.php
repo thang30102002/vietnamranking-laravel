@@ -32,7 +32,7 @@
 
 <body>
     <div class="main-wrapper">
-        <x-notification /> 
+        <x-notification />
         <x-admin.menu />
         <x-admin.sidebar />
         <div class="page-wrapper">
@@ -228,7 +228,8 @@
                                                                     Duyệt</option>
                                                             </select>
                                                         </td>
-                                                        <input type="hidden" name="tournament_id[]" value="{{ $tournament->id }}">
+                                                        <input type="hidden" name="tournament_id[]"
+                                                            value="{{ $tournament->id }}">
                                                     </tr>
                                                 @endforeach
                                             </tbody>

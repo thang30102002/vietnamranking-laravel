@@ -171,6 +171,10 @@ class AdminTournamentController extends Controller
             'money_top_3' => ['required', 'integer'],
             'ranking' => 'required',
             'email' => ['string', 'lowercase', 'email', 'max:255'],
+            'top1' => ['nullable', 'different:top2', 'different:top3.*'],
+            'top2' => ['nullable', 'different:top1', 'different:top3.*'],
+            'top3.*' => ['nullable', 'different:top2,top1'],
+
         ], [
             'name.required' => 'Vui lòng nhập tên giải đấu.',
             'type.required' => 'Vui lòng chọn loại giải đấu.',
@@ -189,6 +193,7 @@ class AdminTournamentController extends Controller
             'money_top_3.integer' => 'Tiền thưởng phải là số nguyên.',
             'ranking.required' => 'Vui lòng chọn hạng có thể tham gia.',
             'email.email' => 'Vui lòng nhập đúng định dạng email.',
+            'different' => 'Người chiến thắng không được trùng nhau.',
         ]);
         try {
             DB::transaction(function () use ($request, $id) {
@@ -237,65 +242,12 @@ class AdminTournamentController extends Controller
                 }
                 ////////
 
-                // Hàm cập nhật ranking của cơ thủ
-                function update_ranking($id)
-                {
-                    $player = Player::find($id);
-                    $point = $player->point;
-                    switch (true) {
-                        case ($point >= 50 && $point < 150):
-                            // update hạng G
-                            $player->player_ranking->ranking_id = 8;
-                            break;
-
-                        case ($point >= 150 && $point < 250):
-                            // update hạng F
-                            $player->player_ranking->ranking_id = 7;
-                            break;
-
-                        case ($point >= 250 && $point < 400):
-                            // update hạng E
-                            $player->player_ranking->ranking_id = 6;
-                            break;
-
-                        case ($point >= 400 && $point < 600):
-                            // update hạng D
-                            $player->player_ranking->ranking_id = 5;
-                            break;
-
-                        case ($point >= 600 && $point < 900):
-                            // update hạng C
-                            $player->player_ranking->ranking_id = 4;
-                            break;
-
-                        case ($point >= 900 && $point < 1200):
-                            // update hạng B
-                            $player->player_ranking->ranking_id = 3;
-                            break;
-
-                        case ($point >= 1200 && $point < 1500):
-                            // update hạng A
-                            $player->player_ranking->ranking_id = 2;
-                            break;
-
-                        case ($point >= 1500):
-                            // update hạng CN
-                            $player->player_ranking->ranking_id = 1;
-                            break;
-
-                        default:
-                            // update hạng H
-                            $player->player_ranking->ranking_id = 9;
-                            break;
-                    }
-                    $player->player_ranking->save();
-                }
                 //cập nhật số tiền và hạng của cơ thủ khi giải đấu kết thúc
                 if ($request->tournament_end == 2) {
                     //cập nhật ranking
                     $registeds = $tournament->player_registed_tournament;
                     foreach ($registeds as $registed) {
-                        update_ranking($registed->player->id);
+                        updateRanking($registed->player->id);
                     }
                     ////////
 
@@ -309,7 +261,7 @@ class AdminTournamentController extends Controller
                             $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
                             $achievement_top_1->player->player_money->save();
                             $achievement_top_1->player->save();
-                            update_ranking($achievement_top_1->player->id);
+                            updateRanking($achievement_top_1->player->id);
                         }
                         $create_achievement_top_1 = Achievement::create([
                             'player_id' => $user->player->id,
@@ -319,7 +271,7 @@ class AdminTournamentController extends Controller
                         $create_achievement_top_1->player->player_money->save();
                         // $create_achievement_top_1->player->point = $create_achievement_top_1->player->point + 400;
                         $create_achievement_top_1->player->save();
-                        update_ranking($create_achievement_top_1->player->id);
+                        updateRanking($create_achievement_top_1->player->id);
                     }
 
                     if ($request->top2 != null) {
@@ -331,7 +283,7 @@ class AdminTournamentController extends Controller
                             $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
                             $achievement_top_2->player->player_money->save();
                             $achievement_top_2->player->save();
-                            update_ranking($achievement_top_2->player->id);
+                            updateRanking($achievement_top_2->player->id);
                         }
                         $create_achievement_top_2 = Achievement::create([
                             'player_id' => $user->player->id,
@@ -340,7 +292,7 @@ class AdminTournamentController extends Controller
                         $create_achievement_top_2->player->player_money->money = $create_achievement_top_2->player->player_money->money + $top_2_Tournament->money;
                         $create_achievement_top_2->player->player_money->save();
                         $create_achievement_top_2->player->save();
-                        update_ranking($create_achievement_top_2->player->id);
+                        updateRanking($create_achievement_top_2->player->id);
                     }
                     // dd($request->top3[0]);
                     if ($request->top3 != null) {
@@ -354,7 +306,7 @@ class AdminTournamentController extends Controller
                                     $achievement_top_3->player->player_money->save();
 
                                     $achievement_top_3->player->save();
-                                    update_ranking($achievement_top_3->player->id);
+                                    updateRanking($achievement_top_3->player->id);
                                 }
                             }
 
@@ -370,7 +322,7 @@ class AdminTournamentController extends Controller
                                     $create_achievement_top_3->player->player_money->save();
                                     // $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 200;
                                     $create_achievement_top_3->player->save();
-                                    update_ranking($create_achievement_top_3->player->id);
+                                    updateRanking($create_achievement_top_3->player->id);
                                 }
                             }
                         }
@@ -386,7 +338,7 @@ class AdminTournamentController extends Controller
                             $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
                             $achievement_top_1->player->player_money->save();
                             $achievement_top_1->player->save();
-                            update_ranking($achievement_top_1->player->id);
+                            updateRanking($achievement_top_1->player->id);
                         }
                     }
                     if ($request->top2 == null) {
@@ -397,7 +349,7 @@ class AdminTournamentController extends Controller
                             $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
                             $achievement_top_2->player->player_money->save();
                             $achievement_top_2->player->save();
-                            update_ranking($achievement_top_2->player->id);
+                            updateRanking($achievement_top_2->player->id);
                         }
                     }
                     if ($request->top3 != null) {
@@ -409,7 +361,7 @@ class AdminTournamentController extends Controller
                                 $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
                                 $achievement_top_3->player->player_money->save();
                                 $achievement_top_3->player->save();
-                                update_ranking($achievement_top_3->player->id);
+                                updateRanking($achievement_top_3->player->id);
                             }
                         }
                     }
@@ -503,12 +455,13 @@ class AdminTournamentController extends Controller
     public function addMatches(Request $request)
     {
         $request->validate([
-            'player_1' => ['required'],
-            'player_2' => ['required'],
+            'player_1' => ['required', 'email'],
+            'player_2' => ['required', 'email', 'different:player_1'],
             'location' => ['required', 'integer'],
         ], [
             'player_1.required' => 'Vui lòng nhập email người chơi 1.',
             'player_2.required' => 'Vui lòng nhập email người chơi 2.',
+            'player_2.different' => 'Hai người chơi không được trùng nhau.',
             'location.required' => 'Vui lòng nhập số bàn thi đấu.',
             'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
         ]);
@@ -544,13 +497,14 @@ class AdminTournamentController extends Controller
     {
         $request->validate([
             'player_1' => ['required'],
-            'player_2' => ['required'],
+            'player_2' => ['required', 'different:player_1'],
             'player_win' => ['nullable', 'in:' . $request->player_1 . ',' . $request->player_2],  // Kiểm tra player_win phải trùng với player_1 hoặc player_2
             'location' => ['required', 'integer'],
             'point.*' => ['nullable', 'min:0'],
         ], [
             'player_1.required' => 'Vui lòng nhập email người chơi 1.',
             'player_2.required' => 'Vui lòng nhập email người chơi 2.',
+            'player_2.different' => 'Hai người chơi không được trùng nhau.',
             'location.required' => 'Vui lòng nhập số bàn thi đấu.',
             'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
             'player_win.in' => 'Người chiến thắng phải là một trong hai người chơi.',
@@ -591,17 +545,32 @@ class AdminTournamentController extends Controller
             $match->player_id_2 = $user_2->player->id;
             $match->location = $request->location;
             if ($request->player_win != null) {
-                $match->player_id_win = $user_win->player->id;
-                $match->point_1 = $request->point[0];
-                $match->point_2 = $request->point[1];
-                $user_win->player->point = $user_win->player->point + 13;
-                $user_win->player->save();
-                if ($user_win->id == $user_1->id) {
-                    $user_2->player->point = $user_2->player->point - 10;
-                    $user_2->player->save();
+                if ($match->player_id_win == null) {
+                    $match->player_id_win = $user_win->player->id;
+                    $match->point_1 = $request->point[0];
+                    $match->point_2 = $request->point[1];
+                    $user_win->player->point = $user_win->player->point + 13;
+                    $user_win->player->save();
+                    if ($user_win->id == $user_1->id) {
+                        $user_2->player->point = $user_2->player->point - 10;
+                        $user_2->player->save();
+                    } else {
+                        $user_1->player->point = $user_1->player->point - 10;
+                        $user_1->player->save();
+                    }
                 } else {
-                    $user_1->player->point = $user_1->player->point - 10;
-                    $user_1->player->save();
+                    $match->player_id_win = $user_win->player->id;
+                    $match->point_1 = $request->point[0];
+                    $match->point_2 = $request->point[1];
+                    $user_win->player->point = $user_win->player->point + 23;
+                    $user_win->player->save();
+                    if ($user_win->id == $user_1->id) {
+                        $user_2->player->point = $user_2->player->point - 23;
+                        $user_2->player->save();
+                    } else {
+                        $user_1->player->point = $user_1->player->point - 23;
+                        $user_1->player->save();
+                    }
                 }
             }
             $match->round = $request->round;

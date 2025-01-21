@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Cập nhật cơ thủ</title>
+    <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
+    {{-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> --}}
+    <link rel="stylesheet" href="{{ asset('images/adminTournament/favicon.png') }}">
+
+    {{-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/adminTournament/bootstrap.min.css') }}">
+
+    {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/adminTournament/fontawesome.min.css') }}">
+    {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/adminTournament/all.min.css') }}">
+    {{-- <link rel="stylesheet" href="assets/css/feathericon.min.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css/adminTournament/feathericon.min.css') }}">
+
+    <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
+    {{-- <link rel="stylesheet" href="assets/plugins/morris/morris.css"> --}}
+    <link rel="stylesheet" href="{{ asset('plugins/adminTournament/morris/morris.css') }}">
+
+    {{-- <link rel="stylesheet" href="assets/css/style.css"> </head> --}}
+    <link rel="stylesheet" href="{{ asset('css/adminTournament/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {{-- @vite('resources/css/app.css') --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <x-notification />
+        <x-admin.menu />
+        <x-admin.sidebar />
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="page-title mt-5">Cập nhật cơ thủ</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form method="post" action="{{ route('admin.updatePlayer', $user->id) }}">
+                            @csrf
+                            <div class="row formtype">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input class="form-control" type="text" name="email"
+                                            value="{{ $user->email }}">
+                                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mật khẩu</label>
+                                        <input class="form-control" type="password" name="password"
+                                            value="{{ $user->password }}">
+                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Họ và tên</label>
+                                        <input class="form-control" type="name" name="name"
+                                            value="{{ $user->player->name }}">
+                                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Số điện thoại</label>
+                                        <input class="form-control" type="phone" name="phone"
+                                            value="{{ $user->player->phone }}">
+                                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Giới tính</label><br>
+                                        <input type="radio" id="nam" name="sex" value="Nam"
+                                            {{ $user->player->sex == 'Nam' ? 'checked' : '' }}>
+                                        <label required class="" for="nam">Nam</label><br>
+                                        <input type="radio" id="nu" name="sex" value="Nữ"
+                                            {{ $user->player->sex == 'Nữ' ? 'checked' : '' }}>
+                                        <label required class="" for="nu">Nữ</label><br>
+                                        <x-input-error :messages="$errors->get('sex')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Point</label>
+                                        <input class="form-control" type="number" name="point"
+                                            value="{{ $user->player->point }}">
+                                        <x-input-error :messages="$errors->get('point')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Căn cước công dân</label>
+                                        <input class="form-control" type="text" name="cccd"
+                                            value="{{ $user->player->cccd }}">
+                                        <x-input-error :messages="$errors->get('cccd')" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary buttonedit">Cập nhật</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/moment.min.js"></script>
+    <script src="assets/js/select2.min.js"></script>
+
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/raphael/raphael.min.js"></script>
+
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        $(function() {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+
+            });
+        });
+    </script>
+</body>
+
+</html>

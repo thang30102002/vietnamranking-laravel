@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Admin_tournament;
 use App\Models\Player;
 use App\Models\Tournament;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -32,6 +35,78 @@ class AdminController extends Controller
             return redirect('/admin')->with('success', 'Cập nhật thành công');
         } catch (\Exception $e) {
             return redirect('/admin')->with('error', 'Cập nhật thất bại');
+        }
+    }
+
+    public static function showUser()
+    {
+        $users = User::whereHas('user_role', function ($query) {
+            $query->where('role_id', 3);
+        })->get();
+
+        return view('admin/users', ['users' => $users]);
+    }
+
+    public static function showEditUser($id)
+    {
+        $user = User::find($id);
+        return view('admin/showEdit', ['user' => $user]);
+    }
+
+    public static function updatePlayer(Request $request, $id)
+    {
+        $user = User::find($id);
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+            'phone' => ['required', 'regex:/^[0-9]{10}$/', 'unique:players,phone,' . $user->player->id],
+            'point' => ['required', 'numeric'],
+            'cccd' => $request->cccd != null ? ['digits:12', 'unique:players,cccd,' . $user->player->id] : '',
+        ], [
+            'name.required' => 'Vui lòng nhập tên cơ thủ.',
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Vui lòng nhập đúng định dạng email.',
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.min' => 'Mật khẩu ít nhất phải có 8 kí tự.',
+            'phone.regex' => 'Vui lòng nhập đúng định dạng số điện thoại',
+            'phone.required' => 'Vui lòng nhập số điện thoại',
+            'phone.unique' => 'Số điện thoại đã được sử dụng',
+            'point.required' => 'Vui lòng nhập point',
+            'point.numeric' => 'Point phải là số',
+            'cccd.digits' => 'Số căn cước công dân phải là số có 12 chữ số.',
+            'cccd.unique' => 'Số căn cước công dân đã được sử dụng.',
+        ]);
+        try {
+            DB::transaction(function () use ($request, $user) {
+
+                $user->player->name = $request->name;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->player->phone = $request->phone;
+                $user->player->point = $request->point;
+                $user->player->cccd = $request->cccd;
+                $user->save();
+                $user->player->save();
+
+                updateRanking($user->player->id);
+            });
+            return redirect('/admin/edit-player/' . $id)->with('success', 'Cập nhật thành công');
+        } catch (\Exception $e) {
+            return redirect('/admin/edit-player/' . $id)->with('error', 'Cập nhật thất bại');
+        }
+    }
+
+    public static function deletePlayer(Request $request)
+    {
+        $user = User::find($request->match_id);
+        try {
+            DB::transaction(function () use ($user) {
+                $user->delete();
+            });
+            return redirect('/admin/users')->with('success', 'Xóa thành công');
+        } catch (\Exception $e) {
+            return redirect('/admin/users')->with('error', 'Xóa thất bại');
         }
     }
 }

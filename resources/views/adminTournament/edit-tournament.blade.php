@@ -475,7 +475,7 @@
                                             class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
                                         </div>
                                     </div>
-                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('top1')" class="mt-2" />
                                     <p
                                         class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[0]->achievements) == 0 ? 'block' : '' }}">
                                         Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
@@ -492,7 +492,7 @@
                                             class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
                                         </div>
                                     </div>
-                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('top2')" class="mt-2" />
                                     <p
                                         class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[1]->achievements) == 0 ? 'block' : '' }}">
                                         Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
@@ -509,7 +509,7 @@
                                             class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
                                         </div>
                                     </div>
-                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('top3.0')" class="mt-2" />
                                     <p
                                         class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
                                         Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
@@ -526,7 +526,7 @@
                                             class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
                                         </div>
                                     </div>
-                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('top3.1')" class="mt-2" />
                                     <p
                                         class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
                                         Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>

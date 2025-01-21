@@ -58,6 +58,11 @@ Route::middleware('is_admin')->group(
     function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
         Route::post('/admin', [AdminController::class, 'update'])->name('admin.update');
+
+        Route::get('/admin/users', [AdminController::class, 'showUser'])->name('admin.showUser');
+        Route::get('/admin/edit-player/{id}', [AdminController::class, 'showEditUser'])->name('admin.showEditUser');
+        Route::post('/admin/edit-player/{id}', [AdminController::class, 'updatePlayer'])->name('admin.updatePlayer');
+        Route::delete('/admin/delete', [AdminController::class, 'deletePlayer'])->name('admin.deletePlayer');
     }
 );
 
