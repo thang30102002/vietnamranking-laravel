@@ -42,6 +42,10 @@
                     class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 max-w-[200px]"><i
                         class="fa fa-question-circle mr-1" aria-hidden="true"></i>Cách xếp hạng</button>
             </div>
+            <marquee width="94%" scrollamount="1" behavior="alternate" style="width: 94%;">
+
+                <span class=" text-[10px] sm:text-[18px] text-white "> Ấn để xem thông tin chi tiết của cơ thủ </span>
+            </marquee>
             @if (!empty($players_top_5))
                 @if (count($players_top_5) === 0)
                     <h1 class=" text-white text-center text-[13px] mt-[60px]">Không tìm thấy người chơi tương ứng</h1>

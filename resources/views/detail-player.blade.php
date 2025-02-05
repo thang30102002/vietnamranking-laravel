@@ -151,6 +151,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if ($count_registed === 0)
+                                <tr class="whitespace-nowrap">
+                                    <td colspan="6" class="text-center">Chưa đăng ký giải đấu nào</td>
+                                </tr>
+                            @endif
                             @foreach ($player->player_registed_tournament as $player_registed_tournament)
                                 <tr class="whitespace-nowrap">
                                     <th scope="row">1</th>
@@ -196,6 +201,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if ($player_achievements === 0)
+                                <tr class="whitespace-nowrap">
+                                    <td colspan="4" class="text-center">Chưa có thành tích nào</td>
+                                </tr>
+                            @endif
+
                             @foreach ($player->achievement as $achievement)
                                 <tr class="whitespace-nowrap">
                                     <th scope="row">1</th>
@@ -236,6 +247,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (count($matches) === 0)
+                                <tr class="whitespace-nowrap">
+                                    <td colspan="8" class="text-center">Chưa tham gia trận đấu nào</td>
+                                </tr>
+                            @endif
                             @foreach ($matches as $match)
                                 <tr class="whitespace-nowrap">
                                     <th scope="row">{{ $match->id }}</th>
