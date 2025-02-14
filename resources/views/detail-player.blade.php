@@ -25,6 +25,8 @@
     </script>
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.7.2-web/css/all.min.css') }}">
+
     {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -57,7 +59,7 @@
     <x-menu />
     <x-notification />
     <!-- Page Container -->
-    <div class="w3-content w3-margin-top" style="max-width:1400px;">
+    <div class="w3-content mt-[90px]" style="max-width:1400px;">
         <!-- The Grid -->
         <div class="w3-row-padding">
             <!-- Left Column -->
@@ -135,8 +137,9 @@
                             $count_registed++;
                         @endphp
                     @endforeach
-                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-handshake-o mr-2"
-                            aria-hidden="true"></i>Các giải đấu đã đăng ký - <span> {{ $count_registed }} giải
+                    <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i
+                            class="fa-solid fa-calendar-days mr-2"></i>Các
+                        giải đấu đã đăng ký - <span> {{ $count_registed }} giải
                             đấu</span>
                     </h2>
                     <table class="table">
@@ -189,7 +192,7 @@
                 <div class="w3-container w3-card w3-white w3-margin-bottom sm:min-h-[355px] overflow-auto">
                     <h2 class="w3-padding-16 text-[14px] sm:text-[18px]"><i class="fa fa-trophy mr-2"
                             aria-hidden="true"></i>Thành tích -
-                        {{ $player_achievements }} giải
+                        {{ $player_achievements }} thành tích
                     </h2>
                     <table class="table">
                         <thead>
