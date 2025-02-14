@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -23,223 +24,229 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <style>
-        body {
-            font-family: "Lato", sans-serif
-        }
 
-        .mySlides {
-            display: none
-        }
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/flex-slider.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/templatemo-lugx-gaming.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.7.2-web/css/all.min.css') }}">
 
-        .menu {
-            position: fixed;
-            width: 100%;
-            left: 0;
-            right: 0;
-            top: 0;
-            z-index: 999999;
-        }
-    </style>
+    <!--
 
+TemplateMo 589 lugx gaming
 
+https://templatemo.com/tm-589-lugx-gaming
+
+-->
 </head>
 
 <body>
     <x-notification />
     <x-menu />
-    <!-- Page content -->
-    <div class="w3-content" style="max-width:2000px;">
 
-        <!-- Automatic Slideshow Images -->
-        <div class="mySlides w3-display-container w3-center">
-            <img src="/images/reyes_cup1.jpg" style="width:100%">
-            <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-                <h3>Reyes Cup</h3>
-                <p><b>Dương Quốc Hoàng và team Châu Á xuất sắc vô địch Reyes Cup!</b></p>
+    <div class="main-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 align-self-center">
+                    <div class="caption header-text">
+                        <h6>Chào mừng đến với VietNamPool</h6>
+                        <h2>Hệ thống tổ chức giải đấu và xếp hạng cơ thủ billiard hàng đầu Việt Nam!</h2>
+                        <p>VietNamPool với sứ mệnh tổ chức và quản lý giải đấu hàng
+                            tuần, đảm bảo tính chuyên nghiệp và uy tín cho các giải đấu. VietNamPool còn là hệ thống
+                            tính điểm ranking và xếp hạng cơ thủ billiard chuyên nghiệp và nghiệp dư đầu tiên tại Việt
+                            Nam.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-2">
+                    <div class="right-image">
+                        <img src="https://images2.thanhnien.vn/528068263637045248/2024/10/18/463758959947418277417775222465921802320230n-17292766562811842147559.jpg"
+                            alt="">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="mySlides w3-display-container w3-center">
-            <img src="/images/reyes_cup2.jpg" style="width:100%">
-            <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-                <h3>Reyes Cup</h3>
-                <p><b>Phần trình diễn xuất sắc của team Châu Á.</b></p>
+    </div>
+
+    <div class="features">
+        <div class="container">
+            <div class=" grid grid-cols-2 gap-4 sm:grid-cols-4 ">
+                <div class="col-lg-3 col-md-6 w-full">
+                    <a href="#">
+                        <div class="item">
+                            <div class="image">
+                                <i class="fa-solid fa-info text-[2rem] text-white"></i>
+                            </div>
+                            <h4>Giới thiệu</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 w-full">
+                    <a href="#">
+                        <div class="item">
+                            <div class="image">
+                                <i class="fa-solid fa-newspaper text-[2rem] text-white"></i>
+                            </div>
+                            <h4>Tin tức</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 w-full">
+                    <a href="/ranking">
+                        <div class="item">
+                            <div class="image">
+                                <i class="fa-solid fa-ranking-star text-[2rem] text-white"></i>
+                            </div>
+                            <h4>Bảng xếp hạng</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 w-full">
+                    <a href="#">
+                        <div class="item">
+                            <div class="image">
+                                <i class="fa-solid fa-phone text-[2rem] text-white"></i>
+                            </div>
+                            <h4>Liên hệ</h4>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="mySlides w3-display-container w3-center">
-            <img src="/images/reyes_cup3.jpg" style="width:100%">
-            <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
-                <h3>Reyes Cup</h3>
-                <p><b>Aloysius Yapp đạt MVP của giải đấu.</b></p>
+    </div>
+
+    <div class="section trending">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <h6>Cơ thủ</h6>
+                        <h2>Thợ săn tiền thưởng</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="main-button">
+                        <a href="/ranking">Xem bảng xếp hạng</a>
+                    </div>
+                </div>
+                @foreach ($players_top_4 as $player)
+                    @php
+                        $file_name = 'players/' . $player->id . '/' . $player->img;
+                    @endphp
+                    <div class="col-lg-3 col-md-6 pl-5 pr-5">
+                        <div class="item">
+                            <div class="thumb">
+
+                                @if (Storage::disk('public')->exists($file_name))
+                                    <a href={{ route('ranking.detail', ['id' => $player->id]) }}><img
+                                            src="{{ Storage::url($file_name) }}" alt=""></a>
+                                @else
+                                    <a href={{ route('ranking.detail', ['id' => $player->id]) }}><img
+                                            src="{{ asset('images/players/player.webp') }}" alt=""></a>
+                                @endif
+                            </div>
+                            <div class="down-content">
+                                <h4>{{ $player->name }}</h4>
+                                <span class="category">Hạng: {{ $player->player_ranking->ranking->name }}</span><br>
+                                <span class="category">Tổng tiền thưởng:
+                                    {{ number_format($player->player_money->money, 0, ',', '.') . ' VNĐ' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
             </div>
         </div>
+    </div>
 
-        <!-- The Band Section -->
-        <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
-            <h2 class="w3-wide">VIET NAM POOL</h2>
-            <p class="w3-opacity"><i>Hệ thống tổ chức giải và quản lý hàng đầu Việt Nam</i></p>
-            <p class="w3-justify">Việt Nam Pool là hệ thống tổ chức giải đấu billiard là một mô hình tổ chức sự kiện thể
-                thao chuyên
-                nghiệp, được thiết kế để mang đến không gian thi đấu công bằng, hấp dẫn và chuyên môn cho các vận động
-                viên billiard. Giải đấu này thường xuyên được tổ chức tại các địa điểm thi đấu quy mô lớn, thu hút sự
-                tham gia của những tay cơ tài năng trong nước và quốc tế. Hệ thống tổ chức giải bao gồm các vòng đấu
-                loại, các trận đấu chính thức và các trận chung kết, với sự tham gia của các trọng tài chuyên nghiệp,
-                đội ngũ kỹ thuật và ban tổ chức làm việc chặt chẽ để đảm bảo sự minh bạch, công bằng và chất lượng cho
-                giải đấu. Các giải đấu billiard không chỉ là cơ hội để các vận động viên thể hiện kỹ năng mà còn tạo ra
-                sân chơi giao lưu, học hỏi giữa các thế hệ và phát triển phong trào thể thao billiard rộng rãi trong
-                cộng đồng.</p>
-            <br>
-            <p class="w3-justify">Khi các cơ thủ tham gia các giải đấu trong hệ thống của Việt Nam Pool, các thông tin
-                cá
-                nhân và thành tích sẽ được lưu trên hệ thống một cách minh bạch, giúp phân hạng người chơi một cách công
-                bằng nhất. Hạng của cơ thủ sẽ được xếp theo điểm <strong>Point</strong>. Khi cơ thủ tham gia giải đấu sẽ
-                bị trừ 100 Point và nếu cơ thủ đoạt giải thưởng Point sẽ được tăng tương ứng với giải đoạt được (Quán
-                quân + 400 point; Á quân + 300 point; Hạng 3 + 200 point ). Sau khi giải đấu kết thúc Point, tiền thưởng
-                và hạng của cơ thủ sẽ được cập nhật. </p>
+    <div class="section most-played">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <h6>GIẢI ĐẤU</h6>
+                        <h2>Sắp diễn ra</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="main-button">
+                        <a href="/tournament">Xem tất cả</a>
+                    </div>
+                </div>
+                @if (count($tournaments_apply) == 0)
+                    <h1 class=" text-center text-[13px] mt-[60px]">Chưa có giải đấu nào sắp diễn ra</h1>
+                @else
+                    @foreach ($tournaments_apply as $tournament)
+                        <div class=" sm:grid sm:grid-cols-4 sm:gap-4 pl-5 pr-5">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="/tournament"><img src="{{ asset('images/bi-a.jpg') }}" alt=""></a>
+                                </div>
+                                <div class="down-content">
+                                    <span class="category">{{ $tournament->admin_tournament->name }}</span>
+                                    <h4>{{ $tournament->name }}</h4>
+                                    <a href="/tournament">Đăng ký</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
         </div>
+    </div>
+    </div>
 
-        <!-- The Tour Section -->
-        <div class="w3-black" id="tour"
-            style="background-color: #21324C !important;
-    background-image: url(../images/background-dots.png);">
-            <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
-                <h2 class="w3-wide w3-center">Đơn vị tổ chức giải đấu</h2>
-                <p class="w3-opacity w3-center"><i>Các đơn vị hợp tác của Việt Nam Pool</i></p><br>
-                <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
-                    <div class="w3-third w3-margin-bottom">
-                        <img src="/images/adminTournament/oc-sen.jpg" alt="New York" style="width:100%"
-                            class="w3-hover-opacity">
-                        <div class="w3-container w3-white">
-                            <p><b>Ốc sên team</b></p>
-                            <p>Đơn vị tổ chức giải đấu dành cho các cơ thủ hạng thấp (F G H). Nhằm tạo môi trường lành
-                                mạnh để những chơi cùng đam mê billiard giao lưu và cọ xát.</p>
+    <div class="section cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="shop">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section-heading">
+                                    <h2>Tổ chức và quản lý giải đấu</h2>
+                                </div>
+                                <p>Bạn có thể tổ chức các giải đấu billiard thuộc hệ thống <em>VietNamPool</em>, thu hút
+                                    được sự quan tâm của các cơ thủ trong hệ thống.</p>
+                                <div class="main-button">
+                                    <a href="/login">Đăng ký</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-2 align-self-end">
+                    <div class="subscribe">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section-heading">
+                                    <h2>Đăng ký tham gia giải đấu</h2>
+                                </div>
+                                <p class=" font-semibold text-base mb-2">Hệ thống VietNamPool là hệ thống quản lý cơ
+                                    thủ đầu tiên tại Việt Nam. Các cơ thủ
+                                    được xếp hạng theo thành tích đảm bảo tính công bằng khi tham gia các giải đấu trên
+                                    hệ thống.</p>
+                                <div class="main-button">
+                                    <a href="/login">Đăng ký</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Ticket Modal -->
-        <div id="ticketModal" class="w3-modal">
-            <div class="w3-modal-content w3-animate-top w3-card-4">
-                <header class="w3-container w3-teal w3-center w3-padding-32">
-                    <span onclick="document.getElementById('ticketModal').style.display='none'"
-                        class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
-                    <h2 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>Tickets</h2>
-                </header>
-                <div class="w3-container">
-                    <p><label><i class="fa fa-shopping-cart"></i> Tickets, $15 per person</label></p>
-                    <input class="w3-input w3-border" type="text" placeholder="How many?">
-                    <p><label><i class="fa fa-user"></i> Send To</label></p>
-                    <input class="w3-input w3-border" type="text" placeholder="Enter email">
-                    <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">PAY <i
-                            class="fa fa-check"></i></button>
-                    <button class="w3-button w3-red w3-section"
-                        onclick="document.getElementById('ticketModal').style.display='none'">Close <i
-                            class="fa fa-remove"></i></button>
-                    <p class="w3-right">Need <a href="#" class="w3-text-blue">help?</a></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- The Contact Section -->
-        <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
-            <h2 class="w3-wide w3-center">Liên hệ</h2>
-            <p class="w3-opacity w3-center"><i>Liên hệ hợp tác</i></p>
-            <div class="w3-row w3-padding-32">
-                <div class="w3-col m6  w3-margin-bottom">
-                    <i class="fa fa-map-marker" style="width:30px"></i> Hà Nội, Việt Nam<br>
-                    <i class="fa fa-phone" style="width:30px"></i> Phone: +84 3470 52653<br>
-                    <i class="fa fa-envelope" style="width:30px"> </i> Email: thangnguyen30102002@mail.com<br>
-                    <i class="fa fa-comment"style="width:30px" aria-hidden="true"> </i> Zalo: +84 3847 05005<br>
-                </div>
-                <div class="w3-col m6">
-                    <form action="/action_page.php" target="_blank">
-                        <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
-                            <div class="w3-half">
-                                <input class="w3-input w3-border" type="text" placeholder="Name" required
-                                    name="Name">
-                            </div>
-                            <div class="w3-half">
-                                <input class="w3-input w3-border" type="text" placeholder="Email" required
-                                    name="Email">
-                            </div>
-                        </div>
-                        <input class="w3-input w3-border" type="text" placeholder="Message" required
-                            name="Message">
-                        <button disabled class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- End Page Content -->
     </div>
 
+    <x-footer />
 
-
-    <!-- Footer -->
-    <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
-        <i class="fa fa-facebook-official w3-hover-opacity"></i>
-        <i class="fa fa-instagram w3-hover-opacity"></i>
-        <i class="fa fa-snapchat w3-hover-opacity"></i>
-        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-        <i class="fa fa-twitter w3-hover-opacity"></i>
-        <i class="fa fa-linkedin w3-hover-opacity"></i>
-    </footer>
-
-    <script>
-        // Automatic Slideshow - change image every 4 seconds
-        var myIndex = 0;
-        carousel();
-
-        function carousel() {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            myIndex++;
-            if (myIndex > x.length) {
-                myIndex = 1
-            }
-            x[myIndex - 1].style.display = "block";
-            setTimeout(carousel, 4000);
-        }
-
-        // Used to toggle the menu on small screens when clicking on the menu button
-        function myFunction() {
-            var x = document.getElementById("navDemo");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        var modal = document.getElementById('ticketModal');
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-    <script>
-        $(document).ready(function() {
-            @if (session('showModal'))
-                $('#ChangePassModal').modal('show');
-            @endif
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if (session('showModal'))
-                var myModal = new bootstrap.Modal(document.getElementById('ChangePassModal'));
-                myModal.show();
-            @endif
-        });
-    </script>
+    <!-- Scripts -->
+    <!-- Bootstrap core JavaScript -->
+    {{-- <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/counter.js"></script>
+    <script src="assets/js/custom.js"></script> --}}
 
 </body>
 

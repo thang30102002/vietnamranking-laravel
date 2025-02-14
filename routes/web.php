@@ -14,7 +14,7 @@ use App\Http\Middleware\CheckAdmin;
 Route::get('/', [RankingController::class, 'index'])->name('ranking.index');
 
 Route::get('/dashboard', function () {
-    return view('home');
+    return redirect('/home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

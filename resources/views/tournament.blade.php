@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('css/ranking.css') }}">
     {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.7.2-web/css/all.min.css') }}">
 </head>
 
 <body class=" m-auto w-[90%] 2xl:w-[70%]">

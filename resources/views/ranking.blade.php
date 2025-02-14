@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('css/ranking.css') }}">
     {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.7.2-web/css/all.min.css') }}">
 </head>
 
 <body class=" m-auto w-full">
@@ -36,8 +37,8 @@
         <div class="w-[90%] xl:w-[70%] m-auto relative ">
             <div class=" text-right grid grid-cols-[100px_1fr] gap-1 mb-1">
                 <button data-bs-toggle="modal" data-bs-target="#filterModal"
-                    class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 "><i class="fa fa-filter mr-[5px]"
-                        aria-hidden="true"></i>Bộ lọc</button>
+                    class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 "><i
+                        class="fa-solid fa-filter mr-1"></i>Bộ lọc</button>
                 <button data-bs-toggle="modal" data-bs-target="#HowBonusModal"
                     class=" bg-white  rounded-sm  text-[0.7rem] lg:text-[1rem] py-2 max-w-[200px]"><i
                         class="fa fa-question-circle mr-1" aria-hidden="true"></i>Cách xếp hạng</button>

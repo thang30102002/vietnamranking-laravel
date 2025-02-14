@@ -17,7 +17,9 @@ class RankingController extends Controller
 {
     public static function index()
     {
-        return view('home');
+        $tournaments_apply = Tournament::get_all_apply();
+        $players = Player::get_top(1, 4, null, null, null, null);
+        return view('home', ['players_top_4' => $players, 'tournaments_apply' => $tournaments_apply]);
     }
 
     public static function ranking(Request $request)
