@@ -9,9 +9,11 @@
             $file_name = 'players/' . $player->id . '/' . $player->img;
         @endphp
         @if (Storage::disk('public')->exists($file_name))
-            <img class="img-player p-[5px] overflow-hidden" src="{{ Storage::url($file_name) }}" alt='Ảnh cơ thủ'>
+            <img class="img-player p-[5px] overflow-hidden max-h-full max-w-full h-auto w-auto "
+                src="{{ Storage::url($file_name) }}" alt='Ảnh cơ thủ'>
         @else
-            <img class="img-player p-[5px] overflow-hidden" src="{{ asset('images/players/player.webp') }}" alt="Ảnh cơ thủ">
+            <img class="img-player p-[5px] overflow-hidden max-h-full max-w-full h-auto w-auto"
+                src="{{ asset('images/players/player.webp') }}" alt="Ảnh cơ thủ">
         @endif
         <div
             class=" pl-[10px] card-top5-right w-[54%] md:w-[65%] 2xl:w-[75%] grid sm:grid-rows-2 md:grid-cols-2 md:grid-rows-1 h-full">
