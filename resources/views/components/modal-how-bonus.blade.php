@@ -15,8 +15,9 @@
                         <li class=" text-justify">Khi người chơi đạt giải tiền thưởng sẽ được cộng vào quỹ tiền và point
                             được cập nhật.</li><br />
                         <li class=" text-justify"><strong>Point</strong> là điểm ranking dùng để xếp hạng người chơi.
-                            Khi người chơi tham gia trận đấu thắng sẽ được <strong>cộng 13 point</strong> và thua sẽ bị
-                            <strong>trừ 10 point</strong>
+                            Khi người chơi tham gia trận đấu thắng sẽ được <strong>cộng (50 / vòng thi đấu)
+                                point</strong> và thua sẽ bị
+                            <strong>trừ 5 point</strong>
                         </li><br />
                         <table class=" m-auto w-[80%]">
                             <thead>

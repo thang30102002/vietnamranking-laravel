@@ -91,8 +91,8 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="{{ route('ranking.index') }}" class="logo">
-                        <img src="assets/images/logo.png" alt="" style="width: 158px;">
+                    <a href="{{ route('ranking.index') }}" class="logo font-semibold text-white text-xl italic">
+                        VNPOOL
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->

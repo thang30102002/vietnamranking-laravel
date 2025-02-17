@@ -24,7 +24,7 @@
         <div>
             <a href="/">
                 <h1 style="color: #fff;font-size: 25px;font-weight: bold;"
-                    class="title animate__animated  animate__bounce">VietNam Pool</h1>
+                    class="title animate__animated  animate__bounce">VNPOOL</h1>
             </a>
         </div>
 

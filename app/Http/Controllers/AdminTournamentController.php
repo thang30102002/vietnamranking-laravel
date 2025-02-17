@@ -534,6 +534,7 @@ class AdminTournamentController extends Controller
             }
         }
         try {
+            // dd($request);
             DB::transaction(function () {});
             $user_1 = User::where('email', $request->player_1)->first();
             $user_2 = User::where('email', $request->player_2)->first();
@@ -549,26 +550,26 @@ class AdminTournamentController extends Controller
                     $match->player_id_win = $user_win->player->id;
                     $match->point_1 = $request->point[0];
                     $match->point_2 = $request->point[1];
-                    $user_win->player->point = $user_win->player->point + 13;
+                    $user_win->player->point = $user_win->player->point + 50 / $request->round;
                     $user_win->player->save();
                     if ($user_win->id == $user_1->id) {
-                        $user_2->player->point = $user_2->player->point - 10;
+                        $user_2->player->point = $user_2->player->point - 5;
                         $user_2->player->save();
                     } else {
-                        $user_1->player->point = $user_1->player->point - 10;
+                        $user_1->player->point = $user_1->player->point - 5;
                         $user_1->player->save();
                     }
                 } else {
                     $match->player_id_win = $user_win->player->id;
                     $match->point_1 = $request->point[0];
                     $match->point_2 = $request->point[1];
-                    $user_win->player->point = $user_win->player->point + 23;
+                    $user_win->player->point = $user_win->player->point + 50 / $request->round + 5;
                     $user_win->player->save();
                     if ($user_win->id == $user_1->id) {
-                        $user_2->player->point = $user_2->player->point - 23;
+                        $user_2->player->point = $user_2->player->point - 50 / $request->round - 5;
                         $user_2->player->save();
                     } else {
-                        $user_1->player->point = $user_1->player->point - 23;
+                        $user_1->player->point = $user_1->player->point - 50 / $request->round - 5;
                         $user_1->player->save();
                     }
                 }
@@ -590,13 +591,13 @@ class AdminTournamentController extends Controller
                     $player_win = Player::find($match->player_id_win);
                     $player_1 = Player::find($match->player_id_1);
                     $player_2 = Player::find($match->player_id_2);
-                    $player_win->point = $player_win->point - 13;
+                    $player_win->point = $player_win->point - 50 / $match->round;
                     $player_win->save();
                     if ($player_win->id == $player_1->id) {
-                        $player_2->point = $player_2->point + 10;
+                        $player_2->point = $player_2->point + 5;
                         $player_2->save();
                     } else {
-                        $player_1->point = $player_1->point + 10;
+                        $player_1->point = $player_1->point + 5;
                         $player_1->save();
                     }
                 }
