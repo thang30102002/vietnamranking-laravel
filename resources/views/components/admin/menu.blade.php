@@ -16,11 +16,6 @@
                 </div>
             </li>
         </ul>
-        <div class="top-nav-search">
-            <form>
-                <input type="text" class="form-control" placeholder="Search here">
-                <button class="btn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-            </form>
-        </div>
+        
     </div>
 </div>

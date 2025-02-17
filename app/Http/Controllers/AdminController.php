@@ -10,14 +10,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    public static function index()
+    public static function index(Request $request)
     {
+        $search = $request->query('search');
         $players = Player::all();
         $admin_tournaments = Admin_tournament::all();
-        $tournaments = Tournament::all();
+        $tournaments = Tournament::when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%")
+                ->orWhere('start_date', 'like', "%{$search}%");
+        })->paginate(10);
         return view('admin/index', ['players' => $players, 'admin_tournaments' => $admin_tournaments, 'tournaments' => $tournaments]);
     }
     public static function update(Request $request)
@@ -38,11 +43,20 @@ class AdminController extends Controller
         }
     }
 
-    public static function showUser()
+    public static function showUser(Request $request)
     {
+        $search = $request->query('search');
         $users = User::whereHas('user_role', function ($query) {
             $query->where('role_id', 3);
-        })->get();
+        })
+            ->when($search, function ($query, $search) {
+                return $query->where('email', 'like', "%{$search}%")
+                    ->orWhereHas('player', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            })
+            ->paginate(5);
 
         return view('admin/users', ['users' => $users]);
     }
@@ -80,6 +94,26 @@ class AdminController extends Controller
         try {
             DB::transaction(function () use ($request, $user) {
 
+                if ($request->img != null) {
+                    $fileName = $user->player->name . $user->player->id . '.' . $request->file('img')->extension();
+                    $filePath = 'players' . $fileName;
+                    // Lấy tất cả các file trong thư mục (không bao gồm thư mục con)
+                    $files = Storage::disk('public')->files('players/' . $user->player->id);
+
+                    // Xóa tất cả các file
+                    foreach ($files as $file) {
+                        Storage::disk('public')->delete($file);
+                    }
+                    // Lưu file ảnh
+                    $file = $request->file('img');
+                    $filePath = $file->storeAs('players/' . $user->player->id, $fileName, 'public');
+                    $user->player->img = $fileName;
+                }
+
+                if ($request->cccd != null) {
+                    // Cập nhật thông tin cơ thủ
+                    $user->player->cccd = $request->cccd;
+                }
                 $user->player->name = $request->name;
                 $user->email = $request->email;
                 $user->password = Hash::make($request->password);

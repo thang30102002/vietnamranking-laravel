@@ -49,7 +49,8 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <form method="post" action="{{ route('admin.updatePlayer', $user->id) }}">
+                        <form method="post" action="{{ route('admin.updatePlayer', $user->id) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row formtype">
                                 <div class="col-md-4">
@@ -103,6 +104,30 @@
                                             value="{{ $user->player->point }}">
                                         <x-input-error :messages="$errors->get('point')" class="mt-2" />
                                     </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    @php
+                                        $file_name = 'players/' . $user->player->id . '/' . $user->player->img;
+                                    @endphp
+                                    @if (Storage::disk('public')->exists($file_name))
+                                        <img class=" m-auto" src="{{ Storage::url($file_name) }}" alt='Ảnh cơ thủ'>
+                                    @else
+                                        <img class=" m-auto" src="{{ asset('images/players/player.webp') }}"
+                                            style="width:100%" alt="Ảnh cơ thủ">
+                                    @endif
+                                    {{-- @dd($file_name) --}}
+                                    <div class="form-group">
+                                        <label>Ảnh cơ thủ</label>
+                                        <input type="file" name="img" value="{{ old('img') }}"
+                                            accept="image/*"
+                                            class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="File ảnh cơ thủ" />
+                                        <div
+                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                                        </div>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('img')" class="mt-2" />
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
