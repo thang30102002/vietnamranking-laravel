@@ -3,7 +3,8 @@
 @endphp
 <a class=" min-h-[77px] max-h-[150px]" style="text-decoration:none;color:#21324C"
     href="{{ route('ranking.detail', ['id' => $player->id]) }}">
-    <div class=" h-full card-top5-player animate__animated animate__slideInDown grid grid-cols-[10%_30%_60%] min-h-24">
+    <div
+        class=" h-full card-top5-player animate__animated animate__slideInDown grid grid-cols-[10%_30%_60%] min-h-24 gap-2">
         <span class="number-ranking text-[1.5rem] sm:text-[3rem] 2xl:text-[5rem]">#{{ $top }}</span>
         @php
             $file_name = 'players/' . $player->id . '/' . $player->img;
