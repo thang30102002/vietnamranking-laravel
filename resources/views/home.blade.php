@@ -45,7 +45,7 @@ https://templatemo.com/tm-589-lugx-gaming
     <x-notification />
     <x-menu />
 
-    <div class="main-banner pt-[90px]">
+    <div class="main-banner" style="padding-top: 90px!important;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 align-self-center">
