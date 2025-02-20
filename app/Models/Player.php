@@ -15,6 +15,7 @@ class Player extends Model
         'phone',
         'sex',
         'user_id',
+        'point',
     ];
 
     public function player_registed_tournament()

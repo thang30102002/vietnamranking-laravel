@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckPlayerRole;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\CheckAdmin;
+use App\Http\Controllers\NewsController;
 
 // Route::get('/', function () {
 //     return view('home');
@@ -30,6 +31,9 @@ Route::get('/tournament', [RankingController::class, 'tournament'])->name('ranki
 Route::get('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament'])->name('ranking.register_tournament')->middleware('register_tournament');
 Route::post('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament_success'])->name('ranking.register_tournament_success')->middleware('register_tournament');
 Route::post('/change-password', [RankingController::class, 'change_password'])->name('ranking.change_password');
+
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+
 
 
 
@@ -63,6 +67,13 @@ Route::middleware('is_admin')->group(
         Route::get('/admin/edit-player/{id}', [AdminController::class, 'showEditUser'])->name('admin.showEditUser');
         Route::post('/admin/edit-player/{id}', [AdminController::class, 'updatePlayer'])->name('admin.updatePlayer');
         Route::delete('/admin/delete', [AdminController::class, 'deletePlayer'])->name('admin.deletePlayer');
+
+        Route::get('/showAllNews', [NewsController::class, 'showAll'])->name('news.showAll');
+        Route::get('/showCreate', [NewsController::class, 'showCreate'])->name('news.showCreate');
+        Route::get('/showEdit/{id}', [NewsController::class, 'showEdit'])->name('news.showEdit');
+        Route::post('/news', [NewsController::class, 'create'])->name('news.create');
+        Route::put('/editNews/{id}', [NewsController::class, 'store'])->name('editNews.store');
+        Route::delete('/news/{id}', [NewsController::class, 'delete'])->name('news.delete');
     }
 );
 

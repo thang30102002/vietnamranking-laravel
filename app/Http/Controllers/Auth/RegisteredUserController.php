@@ -80,7 +80,9 @@ class RegisteredUserController extends Controller
                         'phone' => $request->phone,
                         'sex' => $request->sex,
                         'user_id' => $user->id,
+                        'point' => 50,
                     ]);
+
                     $userRole = User_role::create([
                         'user_id' => $user->id,
                         'role_id' => 3,
@@ -164,7 +166,7 @@ class RegisteredUserController extends Controller
             session()->flash('success', 'Đăng ký thành công!');
             return redirect(route('dashboard', absolute: false));
         } catch (\Exception $e) {
-            session()->flash('error', 'Đăng ký thất bại!');
+            session()->flash('error', 'Đăng ký thất bại!' . $e->getMessage());
             return redirect('/register');
         }
     }
