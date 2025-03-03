@@ -97,52 +97,12 @@ class RegisteredUserController extends Controller
                         'player_id' => $player->id,
                         'money' => 0,
                     ]);
-
-                    switch (true) {
-                        case ($request->rank == 1):
-                            // update hạng CN
-                            $player->point = 1500;
+                  
+                    foreach (Player::POINT_RANKING as $key => $value) {
+                        if ($request->rank == $value) {
+                            $player->point = $key;
                             break;
-
-                        case ($request->rank == 2):
-                            // update hạng A
-                            $player->point = 1200;
-                            break;
-
-                        case ($request->rank == 3):
-                            // update hạng B
-                            $player->point = 900;
-                            break;
-
-                        case ($request->rank == 4):
-                            // update hạng C
-                            $player->point = 600;
-                            break;
-
-                        case ($request->rank == 5):
-                            // update hạng D
-                            $player->point = 400;
-                            break;
-
-                        case ($request->rank == 6):
-                            // update hạng E
-                            $player->point = 250;
-                            break;
-
-                        case ($request->rank == 7):
-                            // update hạng F
-                            $player->point = 150;
-                            break;
-
-                        case ($request->rank == 8):
-                            // update hạng G
-                            $player->point = 50;
-                            break;
-
-                        default:
-                            // update hạng H
-                            $player->point = 0;
-                            break;
+                        }
                     }
                     $player->save();
                 } else {

@@ -15,9 +15,7 @@
                         <li class=" text-justify">Khi người chơi đạt giải tiền thưởng sẽ được cộng vào quỹ tiền và point
                             được cập nhật.</li><br />
                         <li class=" text-justify"><strong>Point</strong> là điểm ranking dùng để xếp hạng người chơi.
-                            Khi người chơi tham gia trận đấu thắng sẽ được <strong>cộng (50 / vòng thi đấu)
-                                point</strong> và thua sẽ bị
-                            <strong>trừ 5 point</strong>
+                            Khi người chơi tham gia giải đấu giành được giải thưởng sẽ <strong>cộng 5 point</strong> và không đạt được giải thưởng sẽ <strong>trừ 5 point</strong>
                         </li><br />
                         <table class=" m-auto w-[80%]">
                             <thead>
@@ -29,39 +27,49 @@
                             <tbody class="">
                                 <tr>
                                     <td class="border border-solid border-gray-500 p-2">
-                                        < 50</td>
+                                        = 0</td>
+                                    <td class="border border-solid border-gray-500 p-2">K</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-solid border-gray-500 p-2">
+                                        = 10</td>
+                                    <td class="border border-solid border-gray-500 p-2">I</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-solid border-gray-500 p-2">
+                                        = 20</td>
                                     <td class="border border-solid border-gray-500 p-2">H</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 50</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 30</td>
                                     <td class="border border-solid border-gray-500 p-2">G</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 150</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 40</td>
                                     <td class="border border-solid border-gray-500 p-2">F</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 250</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 50</td>
                                     <td class="border border-solid border-gray-500 p-2">E</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 400</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 60</td>
                                     <td class="border border-solid border-gray-500 p-2">D</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 600</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 70</td>
                                     <td class="border border-solid border-gray-500 p-2">C</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 900</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 80</td>
                                     <td class="border border-solid border-gray-500 p-2">B</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 1.200</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 90</td>
                                     <td class="border border-solid border-gray-500 p-2">A</td>
                                 </tr>
                                 <tr>
-                                    <td class="border border-solid border-gray-500 p-2">>= 1.500</td>
+                                    <td class="border border-solid border-gray-500 p-2">= 100</td>
                                     <td class="border border-solid border-gray-500 p-2">CN</td>
                                 </tr>
                             </tbody>

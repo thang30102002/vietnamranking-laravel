@@ -170,11 +170,6 @@ class AdminTournamentController extends Controller
             'money_top_2' => ['required', 'integer'],
             'money_top_3' => ['required', 'integer'],
             'ranking' => 'required',
-            'email' => ['string', 'lowercase', 'email', 'max:255'],
-            'top1' => ['nullable', 'different:top2', 'different:top3.*'],
-            'top2' => ['nullable', 'different:top1', 'different:top3.*'],
-            'top3.*' => ['nullable', 'different:top2,top1'],
-
         ], [
             'name.required' => 'Vui lòng nhập tên giải đấu.',
             'type.required' => 'Vui lòng chọn loại giải đấu.',
@@ -192,12 +187,10 @@ class AdminTournamentController extends Controller
             'money_top_3.required' => 'Vui lòng nhập tiền thưởng cho hạng 3.',
             'money_top_3.integer' => 'Tiền thưởng phải là số nguyên.',
             'ranking.required' => 'Vui lòng chọn hạng có thể tham gia.',
-            'email.email' => 'Vui lòng nhập đúng định dạng email.',
-            'different' => 'Người chiến thắng không được trùng nhau.',
         ]);
+
         try {
             DB::transaction(function () use ($request, $id) {
-                //thay đổi thông tin giải đấu
                 $tournament = Tournament::find($id);
                 $tournament->name = $request->name;
                 $tournament->number_players = $request->number_player;
@@ -231,144 +224,6 @@ class AdminTournamentController extends Controller
                     $set_ranking->ranking_id = $input_rankings[$i];
                     $set_ranking->save();
                 }
-                //////////////////////
-
-                //cập nhật trạng thái đăng ký của cơ thủ và point
-                $registed = $tournament->player_registed_tournament;
-                for ($i = 0; $i < count($registed); $i++) {
-
-                    $registed[$i]->status = $request->status[$i];
-                    $registed[$i]->save();
-                }
-                ////////
-
-                //cập nhật số tiền và hạng của cơ thủ khi giải đấu kết thúc
-                if ($request->tournament_end == 2) {
-                    //cập nhật ranking
-                    $registeds = $tournament->player_registed_tournament;
-                    foreach ($registeds as $registed) {
-                        updateRanking($registed->player->id);
-                    }
-                    ////////
-
-                    //cập nhật tiền thưởng
-                    if ($request->top1 != null) {
-                        $user = User::where('email', $request->top1)->first();
-                        $top_1_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 1)->first();
-                        $achievement_top_1 = Achievement::where('tournament_top_money_id', $top_1_Tournament->id)->first();
-                        if ($achievement_top_1) {
-                            $achievement_top_1->delete();
-                            $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
-                            $achievement_top_1->player->player_money->save();
-                            $achievement_top_1->player->save();
-                            updateRanking($achievement_top_1->player->id);
-                        }
-                        $create_achievement_top_1 = Achievement::create([
-                            'player_id' => $user->player->id,
-                            'tournament_top_money_id' => $top_1_Tournament->id,
-                        ]);
-                        $create_achievement_top_1->player->player_money->money = $create_achievement_top_1->player->player_money->money + $top_1_Tournament->money;
-                        $create_achievement_top_1->player->player_money->save();
-                        // $create_achievement_top_1->player->point = $create_achievement_top_1->player->point + 400;
-                        $create_achievement_top_1->player->save();
-                        updateRanking($create_achievement_top_1->player->id);
-                    }
-
-                    if ($request->top2 != null) {
-                        $user = User::where('email', $request->top2)->first();
-                        $top_2_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 2)->first();
-                        $achievement_top_2 = Achievement::where('tournament_top_money_id', $top_2_Tournament->id)->first();
-                        if ($achievement_top_2) {
-                            $achievement_top_2->delete();
-                            $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
-                            $achievement_top_2->player->player_money->save();
-                            $achievement_top_2->player->save();
-                            updateRanking($achievement_top_2->player->id);
-                        }
-                        $create_achievement_top_2 = Achievement::create([
-                            'player_id' => $user->player->id,
-                            'tournament_top_money_id' => $top_2_Tournament->id,
-                        ]);
-                        $create_achievement_top_2->player->player_money->money = $create_achievement_top_2->player->player_money->money + $top_2_Tournament->money;
-                        $create_achievement_top_2->player->player_money->save();
-                        $create_achievement_top_2->player->save();
-                        updateRanking($create_achievement_top_2->player->id);
-                    }
-                    // dd($request->top3[0]);
-                    if ($request->top3 != null) {
-                        if ($request->top3[0] != null || $request->top3[1] != null) {
-                            $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
-                            $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
-                            if ($achievement_top_3s) {
-                                foreach ($achievement_top_3s as $achievement_top_3) {
-                                    $achievement_top_3->delete();
-                                    $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
-                                    $achievement_top_3->player->player_money->save();
-
-                                    $achievement_top_3->player->save();
-                                    updateRanking($achievement_top_3->player->id);
-                                }
-                            }
-
-                            foreach ($request->top3 as $top3) {
-                                if ($top3 != null) {
-                                    $user = User::where('email', $top3)->first();
-
-                                    $create_achievement_top_3 = Achievement::create([
-                                        'player_id' => $user->player->id,
-                                        'tournament_top_money_id' => $top_3_Tournament->id,
-                                    ]);
-                                    $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
-                                    $create_achievement_top_3->player->player_money->save();
-                                    // $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 200;
-                                    $create_achievement_top_3->player->save();
-                                    updateRanking($create_achievement_top_3->player->id);
-                                }
-                            }
-                        }
-                    }
-                    // // ///////
-
-                    // //xoá giải thưởng nếu input giải thưởng bot trống
-                    if ($request->top1 == null) {
-                        $top_1_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 1)->first();
-                        $achievement_top_1 = Achievement::where('tournament_top_money_id', $top_1_Tournament->id)->first();
-                        if ($achievement_top_1) {
-                            $achievement_top_1->delete();
-                            $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
-                            $achievement_top_1->player->player_money->save();
-                            $achievement_top_1->player->save();
-                            updateRanking($achievement_top_1->player->id);
-                        }
-                    }
-                    if ($request->top2 == null) {
-                        $top_2_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 2)->first();
-                        $achievement_top_2 = Achievement::where('tournament_top_money_id', $top_2_Tournament->id)->first();
-                        if ($achievement_top_2) {
-                            $achievement_top_2->delete();
-                            $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
-                            $achievement_top_2->player->player_money->save();
-                            $achievement_top_2->player->save();
-                            updateRanking($achievement_top_2->player->id);
-                        }
-                    }
-                    if ($request->top3 != null) {
-                        if ($request->top3[0] == null && $request->top3[1] == null) {
-                            $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
-                            $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
-                            foreach ($achievement_top_3s as $achievement_top_3) {
-                                $achievement_top_3->delete();
-                                $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
-                                $achievement_top_3->player->player_money->save();
-                                $achievement_top_3->player->save();
-                                updateRanking($achievement_top_3->player->id);
-                            }
-                        }
-                    }
-                    ////////
-                }
-                ///////////////////////
-
             });
             return back()->with('success', 'Thao tác thành công!');
         } catch (\Exception $e) {
@@ -376,6 +231,179 @@ class AdminTournamentController extends Controller
         }
     }
 
+    public function updatePlayerRegisted($id, Request $request)
+    {
+        //cập nhật trạng thái đăng ký của cơ thủ và point
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $tournament = Tournament::find($id);
+                $registed = $tournament->player_registed_tournament;
+                for ($i = 0; $i < count($registed); $i++) {
+
+                    $registed[$i]->status = $request->status[$i];
+                    $registed[$i]->save();
+                }
+                }
+            );
+            return back()->with('success', 'Thao tác thành công!');
+        } catch (\Exception $e) {
+            return redirect()->route('adminTournament.showEditTournament', ['id' => $id])->with('error', 'Chỉnh sửa giải đấu không thành công!');
+        }
+        ////////////
+    }
+
+    public function updatePlayerWin($id, Request $request)
+    {
+        $tournament = Tournament::find($id);
+        $request->validate([
+            'email' => ['string', 'lowercase', 'email', 'max:255'],
+            'top1' => ['nullable', 'different:top2', 'different:top3.*'],
+            'top2' => ['nullable', 'different:top1', 'different:top3.*'],
+            'top3.*' => ['nullable', 'different:top2,top1'],
+
+        ], [
+            'email.email' => 'Vui lòng nhập đúng định dạng email.',
+            'different' => 'Người chiến thắng không được trùng nhau.',
+        ]);
+
+       // cập nhật số tiền và hạng của cơ thủ khi giải đấu kết thúc
+        if ($tournament->tournament_end == 2) {
+            //cập nhật ranking
+            $registeds = $tournament->player_registed_tournament;
+            foreach ($registeds as $registed) {
+                if($registed->status == 1){
+                    $registed->player->point = $registed->player->point - 5;
+                    $registed->status = 2;
+                }
+                $registed->player->save();
+                $registed->save();
+                updateRanking($registed->player->id);
+            }
+            ////////
+
+            //cập nhật tiền thưởng
+            if ($request->top1 != null) {
+                $user = User::where('email', $request->top1)->first();
+                $top_1_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 1)->first();
+                $achievement_top_1 = Achievement::where('tournament_top_money_id', $top_1_Tournament->id)->first();
+                if ($achievement_top_1) {
+                    $achievement_top_1->delete();
+                    $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
+                    $achievement_top_1->player->player_money->save();
+                    $achievement_top_1->player->point = $achievement_top_1->player->point - 10;
+                    $achievement_top_1->player->save();
+                    updateRanking($achievement_top_1->player->id);
+                }
+                $create_achievement_top_1 = Achievement::create([
+                    'player_id' => $user->player->id,
+                    'tournament_top_money_id' => $top_1_Tournament->id,
+                ]);
+                $create_achievement_top_1->player->player_money->money = $create_achievement_top_1->player->player_money->money + $top_1_Tournament->money;
+                $create_achievement_top_1->player->player_money->save();
+                $create_achievement_top_1->player->point = $create_achievement_top_1->player->point + 10;
+                $create_achievement_top_1->player->save();
+                updateRanking($create_achievement_top_1->player->id);
+            }
+
+            if ($request->top2 != null) {
+                $user = User::where('email', $request->top2)->first();
+                $top_2_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 2)->first();
+                $achievement_top_2 = Achievement::where('tournament_top_money_id', $top_2_Tournament->id)->first();
+                if ($achievement_top_2) {
+                    $achievement_top_2->delete();
+                    $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
+                    $achievement_top_2->player->player_money->save();
+                    $achievement_top_2->player->point = $achievement_top_2->player->point - 10;
+                    $achievement_top_2->player->save();
+                    updateRanking($achievement_top_2->player->id);
+                }
+                $create_achievement_top_2 = Achievement::create([
+                    'player_id' => $user->player->id,
+                    'tournament_top_money_id' => $top_2_Tournament->id,
+                ]);
+                $create_achievement_top_2->player->player_money->money = $create_achievement_top_2->player->player_money->money + $top_2_Tournament->money;
+                $create_achievement_top_2->player->player_money->save();
+                $create_achievement_top_2->player->point = $create_achievement_top_2->player->point + 10;
+                $create_achievement_top_2->player->save();
+                updateRanking($create_achievement_top_2->player->id);
+            }
+
+            if ($request->top3 != null) {
+                if ($request->top3[0] != null || $request->top3[1] != null) {
+                    $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
+                    $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
+                    if ($achievement_top_3s) {
+                        foreach ($achievement_top_3s as $achievement_top_3) {
+                            $achievement_top_3->delete();
+                            $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
+                            $achievement_top_3->player->player_money->save();
+                            $achievement_top_3->player->point = $achievement_top_3->player->point - 10;
+                            $achievement_top_3->player->save();
+                            updateRanking($achievement_top_3->player->id);
+                        }
+                    }
+
+                    foreach ($request->top3 as $top3) {
+                        if ($top3 != null) {
+                            $user = User::where('email', $top3)->first();
+
+                            $create_achievement_top_3 = Achievement::create([
+                                'player_id' => $user->player->id,
+                                'tournament_top_money_id' => $top_3_Tournament->id,
+                            ]);
+                            $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
+                            $create_achievement_top_3->player->player_money->save();
+                            $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 10;
+                            $create_achievement_top_3->player->save();
+                            updateRanking($create_achievement_top_3->player->id);
+                        }
+                    }
+                }
+            }
+            // // ///////
+            // //xoá giải thưởng nếu input giải thưởng bot trống
+            if ($request->top1 == null) {
+                $top_1_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 1)->first();
+                $achievement_top_1 = Achievement::where('tournament_top_money_id', $top_1_Tournament->id)->first();
+                if ($achievement_top_1) {
+                    $achievement_top_1->delete();
+                    $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
+                    $achievement_top_1->player->player_money->save();
+                    $achievement_top_1->player->point = $achievement_top_1->player->point - 10;
+                    $achievement_top_1->player->save();
+                    updateRanking($achievement_top_1->player->id);
+                }
+            }
+            if ($request->top2 == null) {
+                $top_2_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 2)->first();
+                $achievement_top_2 = Achievement::where('tournament_top_money_id', $top_2_Tournament->id)->first();
+                if ($achievement_top_2) {
+                    $achievement_top_2->delete();
+                    $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
+                    $achievement_top_2->player->player_money->save();
+                    $achievement_top_2->player->point = $achievement_top_2->player->point - 10;
+                    $achievement_top_2->player->save();
+                    updateRanking($achievement_top_2->player->id);
+                }
+            }
+            if ($request->top3 != null) {
+                if ($request->top3[0] == null && $request->top3[1] == null) {
+                    $top_3_Tournament = Tournament_top_money::where('tournament_id', $tournament->id)->where('top', 3)->first();
+                    $achievement_top_3s = Achievement::where('tournament_top_money_id', $top_3_Tournament->id)->get();
+                    foreach ($achievement_top_3s as $achievement_top_3) {
+                        $achievement_top_3->delete();
+                        $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
+                        $achievement_top_3->player->player_money->save();
+                        $achievement_top_3->player->point = $achievement_top_3->player->point - 10;
+                        $achievement_top_3->player->save();
+                        updateRanking($achievement_top_3->player->id);
+                    }
+                }
+            }
+            return back()->with('success', 'Thao tác thành công!');
+        }
+        return back()->with('error', 'Thao tác thất bại!');
+    }
     public function profile()
     {
         $admin_tournament = Auth::user()->admin_tournament;
@@ -452,160 +480,160 @@ class AdminTournamentController extends Controller
             }
         }
     }
-    public function addMatches(Request $request)
-    {
-        $request->validate([
-            'player_1' => ['required', 'email'],
-            'player_2' => ['required', 'email', 'different:player_1'],
-            'location' => ['required', 'integer'],
-        ], [
-            'player_1.required' => 'Vui lòng nhập email người chơi 1.',
-            'player_2.required' => 'Vui lòng nhập email người chơi 2.',
-            'player_2.different' => 'Hai người chơi không được trùng nhau.',
-            'location.required' => 'Vui lòng nhập số bàn thi đấu.',
-            'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
-        ]);
-        try {
-            DB::transaction(function () {});
-            $player_1 = User::where('email', $request->player_1)->first();
-            $player_2 = User::where('email', $request->player_2)->first();
-            $match = Matches::create([
-                'tournament_id' => $request->tournament_id,
-                'round' => $request->round,
-                'player_id_1' => $player_1->player->id,
-                'player_id_2' => $player_2->player->id,
-                'location' => $request->location,
-            ]);
-            return back()->with('success', 'Thêm trận đấu thành công!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Thêm trận đấu thất bại!');
-        }
-    }
+    // public function addMatches(Request $request)
+    // {
+    //     $request->validate([
+    //         'player_1' => ['required', 'email'],
+    //         'player_2' => ['required', 'email', 'different:player_1'],
+    //         'location' => ['required', 'integer'],
+    //     ], [
+    //         'player_1.required' => 'Vui lòng nhập email người chơi 1.',
+    //         'player_2.required' => 'Vui lòng nhập email người chơi 2.',
+    //         'player_2.different' => 'Hai người chơi không được trùng nhau.',
+    //         'location.required' => 'Vui lòng nhập số bàn thi đấu.',
+    //         'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
+    //     ]);
+    //     try {
+    //         DB::transaction(function () {});
+    //         $player_1 = User::where('email', $request->player_1)->first();
+    //         $player_2 = User::where('email', $request->player_2)->first();
+    //         $match = Matches::create([
+    //             'tournament_id' => $request->tournament_id,
+    //             'round' => $request->round,
+    //             'player_id_1' => $player_1->player->id,
+    //             'player_id_2' => $player_2->player->id,
+    //             'location' => $request->location,
+    //         ]);
+    //         return back()->with('success', 'Thêm trận đấu thành công!');
+    //     } catch (\Exception $e) {
+    //         return back()->with('error', 'Thêm trận đấu thất bại!');
+    //     }
+    // }
 
-    public function showEditMatches($id, $tournament_id)
-    {
-        $tournament = Tournament::find($tournament_id);
-        $match = Matches::find($id);
-        $player_1 = Player::find($match->player_id_1);
-        $player_2 = Player::find($match->player_id_2);
-        !empty($match->player_id_win) ? $player_win = Player::find($match->player_id_win) : '';
-        $player_registed = $tournament->player_registed_tournament->where('status', 1);
-        return view('adminTournament/edit-matches', ['match' => $match, 'tournament' => $tournament, 'player_registed' => $player_registed, 'player_1' => $player_1, 'player_2' => $player_2, 'player_win' => $player_win ?? null]);
-    }
+    // public function showEditMatches($id, $tournament_id)
+    // {
+    //     $tournament = Tournament::find($tournament_id);
+    //     $match = Matches::find($id);
+    //     $player_1 = Player::find($match->player_id_1);
+    //     $player_2 = Player::find($match->player_id_2);
+    //     !empty($match->player_id_win) ? $player_win = Player::find($match->player_id_win) : '';
+    //     $player_registed = $tournament->player_registed_tournament->where('status', 1);
+    //     return view('adminTournament/edit-matches', ['match' => $match, 'tournament' => $tournament, 'player_registed' => $player_registed, 'player_1' => $player_1, 'player_2' => $player_2, 'player_win' => $player_win ?? null]);
+    // }
 
-    public function editMatches(Request $request)
-    {
-        $request->validate([
-            'player_1' => ['required'],
-            'player_2' => ['required', 'different:player_1'],
-            'player_win' => ['nullable', 'in:' . $request->player_1 . ',' . $request->player_2],  // Kiểm tra player_win phải trùng với player_1 hoặc player_2
-            'location' => ['required', 'integer'],
-            'point.*' => ['nullable', 'min:0'],
-        ], [
-            'player_1.required' => 'Vui lòng nhập email người chơi 1.',
-            'player_2.required' => 'Vui lòng nhập email người chơi 2.',
-            'player_2.different' => 'Hai người chơi không được trùng nhau.',
-            'location.required' => 'Vui lòng nhập số bàn thi đấu.',
-            'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
-            'player_win.in' => 'Người chiến thắng phải là một trong hai người chơi.',
-        ]);
-        if ($request->player_win != null) {
-            if ($request->point[0] == null ||  $request->point[1] == null) {
-                return back()->withErrors([
-                    'point' => 'Nếu trận đấu kết thúc cần nhập người chiến thắng và tỉ số trận đấu.',
-                ]);
-            }
-        }
-        if ($request->point[0] != null && $request->point[1] == null || $request->point[0] == null && $request->point[1] != null) {
-            return back()->withErrors([
-                'point' => 'Vui lòng nhập lại tỉ số trận đấu.',
-            ]);
-        }
-        if ($request->point[0] != null && $request->point[1] != null) {
-            if ($request->player_win == null) {
-                return back()->withErrors([
-                    'player_win' => 'Nếu trận đấu kết thúc cần nhập người chiến thắng và tỉ số trận đấu.',
-                ]);
-            }
-            if ($request->point[0] == $request->point[1]) {
-                return back()->withErrors([
-                    'point' => 'Tỉ số trận đấu không được hòa.'
-                ]);
-            }
-        }
-        try {
-            // dd($request);
-            DB::transaction(function () {});
-            $user_1 = User::where('email', $request->player_1)->first();
-            $user_2 = User::where('email', $request->player_2)->first();
-            if ($request->player_win != null) {
-                $user_win = User::where('email', $request->player_win)->first();
-            }
-            $match = Matches::find($request->match_id);
-            $match->player_id_1 = $user_1->player->id;
-            $match->player_id_2 = $user_2->player->id;
-            $match->location = $request->location;
-            if ($request->player_win != null) {
-                if ($match->player_id_win == null) {
-                    $match->player_id_win = $user_win->player->id;
-                    $match->point_1 = $request->point[0];
-                    $match->point_2 = $request->point[1];
-                    $user_win->player->point = $user_win->player->point + 50 / $request->round;
-                    $user_win->player->save();
-                    if ($user_win->id == $user_1->id) {
-                        $user_2->player->point = $user_2->player->point - 5;
-                        $user_2->player->save();
-                    } else {
-                        $user_1->player->point = $user_1->player->point - 5;
-                        $user_1->player->save();
-                    }
-                } else {
-                    $match->player_id_win = $user_win->player->id;
-                    $match->point_1 = $request->point[0];
-                    $match->point_2 = $request->point[1];
-                    $user_win->player->point = $user_win->player->point + 50 / $request->round + 5;
-                    $user_win->player->save();
-                    if ($user_win->id == $user_1->id) {
-                        $user_2->player->point = $user_2->player->point - 50 / $request->round - 5;
-                        $user_2->player->save();
-                    } else {
-                        $user_1->player->point = $user_1->player->point - 50 / $request->round - 5;
-                        $user_1->player->save();
-                    }
-                }
-            }
-            $match->round = $request->round;
-            $match->save();
-            return redirect(route('adminTournament.showEditTournament', ['id' => $request->tournament_id]))->with('success', 'Cập nhật trận đấu thành công!');
-        } catch (\Exception $e) {
-            return redirect(route('adminTournament.showEditTournament', ['id' => $request->tournament_id]))->with('error', 'Cập nhật trận đấu thất bại!');
-        }
-    }
+    // public function editMatches(Request $request)
+    // {
+    //     $request->validate([
+    //         'player_1' => ['required'],
+    //         'player_2' => ['required', 'different:player_1'],
+    //         'player_win' => ['nullable', 'in:' . $request->player_1 . ',' . $request->player_2],  // Kiểm tra player_win phải trùng với player_1 hoặc player_2
+    //         'location' => ['required', 'integer'],
+    //         'point.*' => ['nullable', 'min:0'],
+    //     ], [
+    //         'player_1.required' => 'Vui lòng nhập email người chơi 1.',
+    //         'player_2.required' => 'Vui lòng nhập email người chơi 2.',
+    //         'player_2.different' => 'Hai người chơi không được trùng nhau.',
+    //         'location.required' => 'Vui lòng nhập số bàn thi đấu.',
+    //         'location.integer' => 'Số bàn thi đấu phải là số nguyên.',
+    //         'player_win.in' => 'Người chiến thắng phải là một trong hai người chơi.',
+    //     ]);
+    //     if ($request->player_win != null) {
+    //         if ($request->point[0] == null ||  $request->point[1] == null) {
+    //             return back()->withErrors([
+    //                 'point' => 'Nếu trận đấu kết thúc cần nhập người chiến thắng và tỉ số trận đấu.',
+    //             ]);
+    //         }
+    //     }
+    //     if ($request->point[0] != null && $request->point[1] == null || $request->point[0] == null && $request->point[1] != null) {
+    //         return back()->withErrors([
+    //             'point' => 'Vui lòng nhập lại tỉ số trận đấu.',
+    //         ]);
+    //     }
+    //     if ($request->point[0] != null && $request->point[1] != null) {
+    //         if ($request->player_win == null) {
+    //             return back()->withErrors([
+    //                 'player_win' => 'Nếu trận đấu kết thúc cần nhập người chiến thắng và tỉ số trận đấu.',
+    //             ]);
+    //         }
+    //         if ($request->point[0] == $request->point[1]) {
+    //             return back()->withErrors([
+    //                 'point' => 'Tỉ số trận đấu không được hòa.'
+    //             ]);
+    //         }
+    //     }
+    //     try {
+    //         // dd($request);
+    //         DB::transaction(function () {});
+    //         $user_1 = User::where('email', $request->player_1)->first();
+    //         $user_2 = User::where('email', $request->player_2)->first();
+    //         if ($request->player_win != null) {
+    //             $user_win = User::where('email', $request->player_win)->first();
+    //         }
+    //         $match = Matches::find($request->match_id);
+    //         $match->player_id_1 = $user_1->player->id;
+    //         $match->player_id_2 = $user_2->player->id;
+    //         $match->location = $request->location;
+    //         if ($request->player_win != null) {
+    //             if ($match->player_id_win == null) {
+    //                 $match->player_id_win = $user_win->player->id;
+    //                 $match->point_1 = $request->point[0];
+    //                 $match->point_2 = $request->point[1];
+    //                 $user_win->player->point = $user_win->player->point + 50 / $request->round;
+    //                 $user_win->player->save();
+    //                 if ($user_win->id == $user_1->id) {
+    //                     $user_2->player->point = $user_2->player->point - 5;
+    //                     $user_2->player->save();
+    //                 } else {
+    //                     $user_1->player->point = $user_1->player->point - 5;
+    //                     $user_1->player->save();
+    //                 }
+    //             } else {
+    //                 $match->player_id_win = $user_win->player->id;
+    //                 $match->point_1 = $request->point[0];
+    //                 $match->point_2 = $request->point[1];
+    //                 $user_win->player->point = $user_win->player->point + 50 / $request->round + 5;
+    //                 $user_win->player->save();
+    //                 if ($user_win->id == $user_1->id) {
+    //                     $user_2->player->point = $user_2->player->point - 50 / $request->round - 5;
+    //                     $user_2->player->save();
+    //                 } else {
+    //                     $user_1->player->point = $user_1->player->point - 50 / $request->round - 5;
+    //                     $user_1->player->save();
+    //                 }
+    //             }
+    //         }
+    //         $match->round = $request->round;
+    //         $match->save();
+    //         return redirect(route('adminTournament.showEditTournament', ['id' => $request->tournament_id]))->with('success', 'Cập nhật trận đấu thành công!');
+    //     } catch (\Exception $e) {
+    //         return redirect(route('adminTournament.showEditTournament', ['id' => $request->tournament_id]))->with('error', 'Cập nhật trận đấu thất bại!');
+    //     }
+    // }
 
-    public function deleteMatch(Request $request)
-    {
-        try {
-            DB::transaction(function () use ($request) {
-                $match = Matches::find($request->match_id);
-                if ($match->player_id_win != null) {
-                    $player_win = Player::find($match->player_id_win);
-                    $player_1 = Player::find($match->player_id_1);
-                    $player_2 = Player::find($match->player_id_2);
-                    $player_win->point = $player_win->point - 50 / $match->round;
-                    $player_win->save();
-                    if ($player_win->id == $player_1->id) {
-                        $player_2->point = $player_2->point + 5;
-                        $player_2->save();
-                    } else {
-                        $player_1->point = $player_1->point + 5;
-                        $player_1->save();
-                    }
-                }
-                $match->delete();
-            });
-            return back()->with('success', 'Xoá trận đấu thành công!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Xoá trận đấu thất bại!');
-        }
-    }
+    // public function deleteMatch(Request $request)
+    // {
+    //     try {
+    //         DB::transaction(function () use ($request) {
+    //             $match = Matches::find($request->match_id);
+    //             if ($match->player_id_win != null) {
+    //                 $player_win = Player::find($match->player_id_win);
+    //                 $player_1 = Player::find($match->player_id_1);
+    //                 $player_2 = Player::find($match->player_id_2);
+    //                 $player_win->point = $player_win->point - 50 / $match->round;
+    //                 $player_win->save();
+    //                 if ($player_win->id == $player_1->id) {
+    //                     $player_2->point = $player_2->point + 5;
+    //                     $player_2->save();
+    //                 } else {
+    //                     $player_1->point = $player_1->point + 5;
+    //                     $player_1->save();
+    //                 }
+    //             }
+    //             $match->delete();
+    //         });
+    //         return back()->with('success', 'Xoá trận đấu thành công!');
+    //     } catch (\Exception $e) {
+    //         return back()->with('error', 'Xoá trận đấu thất bại!');
+    //     }
+    // }
 }

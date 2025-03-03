@@ -330,7 +330,6 @@
 <body>
 
     <div class="main-wrapper">
-
         <x-notification />
         <x-admin-tournament.menu />
         <x-admin-tournament.sidebar />
@@ -463,74 +462,7 @@
                                     <x-input-error :messages="$errors->get('ranking')" class="mt-2" />
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Quán quân</label>
-                                        <input type="email" name="top1"
-                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                            value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
-                                            class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="Nhập email người tham gia" />
-                                        <div
-                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                        </div>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('top1')" class="mt-2" />
-                                    <p
-                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[0]->achievements) == 0 ? 'block' : '' }}">
-                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Á quân</label>
-                                        <input type="email" name="top2"
-                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                            value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}"
-                                            class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="Nhập email người tham gia" />
-                                        <div
-                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                        </div>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('top2')" class="mt-2" />
-                                    <p
-                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[1]->achievements) == 0 ? 'block' : '' }}">
-                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Hạng 3 </label>
-                                        <input type="email" name="top3[]"
-                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                            value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}"
-                                            class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="Nhập email người tham gia" />
-                                        <div
-                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                        </div>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('top3.0')" class="mt-2" />
-                                    <p
-                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
-                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Hạng 3</label>
-                                        <input type="email" name="top3[]"
-                                            {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                            value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}"
-                                            class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            placeholder="Nhập email người tham gia" />
-                                        <div
-                                            class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                        </div>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('top3.1')" class="mt-2" />
-                                    <p
-                                        class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
-                                        Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                                </div>
+                                
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Trạng thái giải đấu</label>
@@ -549,73 +481,151 @@
                                     <x-input-error :messages="$errors->get('tournament_end')" class="mt-2" />
                                 </div>
                             </div>
-
                         </div>
                     </div>
+                    <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Lưu thông tin giải đấu</button></div>
+                </form>
             </div>
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
-                    {{ count($player_registed) }} người đã đăng ký</h3>
-                <div class=" text-right mb-3">
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm..."
-                        class=" sm:w-[30%] w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                        oninput="searchTable()" />
-                </div>
-                @if (count($player_registed) == 0)
-                    <h1 class=" text-center text-[13px] mt-[60px]">Chưa có người chơi nào đăng ký giải đấu
-                    </h1>
-                @else
-                    <div class=" overflow-auto">
-                        <table class="table" id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Tên</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Hạng</th>
-                                    <th scope="col">Giới tính</th>
-                                    <th scope="col">Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $stt = 1;
-                                @endphp
-                                @foreach ($player_registed as $player)
-                                    <tr class="{{ $player->status == 0 ? 'bg-yellow-100' : '' }}">
-                                        <th scope="row">{{ $stt }}</th>
-                                        <td>{{ $player->player->name }}</td>
-                                        <td>{{ $player->player->user->email }}</td>
-                                        <td>{{ $player->player->phone }}
-                                        </td>
-                                        <td>{{ $player->player->player_ranking->ranking->name }}</td>
-                                        <td>{{ $player->player->sex }}</td>
-                                        <input type="hidden" name="player_id[]" value="{{ $player->player->id }}">
-                                        <td><select class="form-control" id="sel1" name="status[]">
-                                                <option value="0" {{ $player->status == 0 ? 'selected' : '' }}>
-                                                    Chờ xét duyệt</option>
-                                                <option value="1" {{ $player->status == 1 ? 'selected' : '' }}>
-                                                    Thành công</option>
-                                            </select></td>
-                                        <td><a type="button"
-                                                href="{{ route('adminTournament.showEditPlayer', ['id' => $player->player->id]) }}"
-                                                class="btn btn-primary buttonedit">Cập
-                                                nhật
-                                            </a></td>
-                                    </tr>
-                                    @php
-                                        $stt++;
-                                    @endphp
-                                @endforeach
-                            </tbody>
-                        </table>
+                <form action="{{ route('adminTournament.updatePlayerRegisted', ['id' => $tournament->id]) }}" method="POST">
+                    @csrf
+                    <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
+                        {{ count($player_registed) }} người đã đăng ký</h3>
+                    <div class=" text-right mb-3">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm..."
+                            class=" sm:w-[30%] w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                            oninput="searchTable()" />
                     </div>
-                @endif
+                    @if (count($player_registed) == 0)
+                        <h1 class=" text-center text-[13px] mt-[60px]">Chưa có người chơi nào đăng ký giải đấu
+                        </h1>
+                    @else
+                        <div class=" overflow-auto">
+                            <table class="table" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tên</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Số điện thoại</th>
+                                        <th scope="col">Hạng</th>
+                                        <th scope="col">Giới tính</th>
+                                        <th scope="col">Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $stt = 1;
+                                    @endphp
+                                    @foreach ($player_registed as $player)
+                                        <tr class="{{ $player->status == 0 ? 'bg-yellow-100' : '' }}">
+                                            <th scope="row">{{ $stt }}</th>
+                                            <td>{{ $player->player->name }}</td>
+                                            <td>{{ $player->player->user->email }}</td>
+                                            <td>{{ $player->player->phone }}
+                                            </td>
+                                            <td>{{ $player->player->player_ranking->ranking->name }}</td>
+                                            <td>{{ $player->player->sex }}</td>
+                                            <input type="hidden" name="player_id[]" value="{{ $player->player->id }}">
+                                            <td><select class="form-control" id="sel1" name="status[]">
+                                                    <option value="0" {{ $player->status == 0 ? 'selected' : '' }}>
+                                                        Chờ xét duyệt</option>
+                                                    <option value="1" {{ $player->status == 1 || $player->status == 2 ? 'selected' : '' }}>
+                                                        Thành công</option>
+                                                </select></td>
+                                            <td><a type="button"
+                                                    href="{{ route('adminTournament.showEditPlayer', ['id' => $player->player->id]) }}"
+                                                    class="btn btn-primary buttonedit">Cập
+                                                    nhật
+                                                </a></td>
+                                        </tr>
+                                        @php
+                                            $stt++;
+                                        @endphp
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                    <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Cập nhật thông trạng thái người chơi</button></div>
+                </form>
             </div>
-            <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Lưu thay
-                    đổi</button></div>
-            </form>
+            
+            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
+                <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đạt giải</h3>
+                <form action="{{ route('adminTournament.updatePlayerWin', ['id' => $tournament->id]) }}" method="POST">
+                    @csrf
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Quán quân</label>
+                            <input type="email" name="top1"
+                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
+                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Nhập email người tham gia" />
+                            <div
+                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                            </div>
+                        </div>
+                        <x-input-error :messages="$errors->get('top1')" class="mt-2" />
+                        <p
+                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[0]->achievements) == 0 ? 'block' : '' }}">
+                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Á quân</label>
+                            <input type="email" name="top2"
+                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}"
+                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Nhập email người tham gia" />
+                            <div
+                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                            </div>
+                        </div>
+                        <x-input-error :messages="$errors->get('top2')" class="mt-2" />
+                        <p
+                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[1]->achievements) == 0 ? 'block' : '' }}">
+                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Hạng 3 </label>
+                            <input type="email" name="top3[]"
+                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}"
+                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Nhập email người tham gia" />
+                            <div
+                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                            </div>
+                        </div>
+                        <x-input-error :messages="$errors->get('top3.0')" class="mt-2" />
+                        <p
+                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
+                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Hạng 3</label>
+                            <input type="email" name="top3[]"
+                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}"
+                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Nhập email người tham gia" />
+                            <div
+                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                            </div>
+                        </div>
+                        <x-input-error :messages="$errors->get('top3.1')" class="mt-2" />
+                        <p
+                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
+                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
+                    </div>
+                    <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Cập nhật người chơi đạt giải</button></div>
+                </form>
+            </div>
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
                 <div>
                     <h3>Danh sách trận đấu</h3>
