@@ -63,14 +63,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Mật khẩu</label>
-                                        <input class="form-control" type="password" name="password"
-                                            value="{{ $user->password }}">
-                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label>Họ và tên</label>
                                         <input class="form-control" type="name" name="name"
                                             value="{{ $user->player->name }}">
@@ -105,7 +97,14 @@
                                         <x-input-error :messages="$errors->get('point')" class="mt-2" />
                                     </div>
                                 </div>
-
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Căn cước công dân</label>
+                                        <input class="form-control" type="text" name="cccd"
+                                            value="{{ $user->player->cccd }}">
+                                        <x-input-error :messages="$errors->get('cccd')" class="mt-2" />
+                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     @php
                                         $file_name = 'players/' . $user->player->id . '/' . $user->player->img;
@@ -129,14 +128,7 @@
                                     </div>
                                     <x-input-error :messages="$errors->get('img')" class="mt-2" />
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Căn cước công dân</label>
-                                        <input class="form-control" type="text" name="cccd"
-                                            value="{{ $user->player->cccd }}">
-                                        <x-input-error :messages="$errors->get('cccd')" class="mt-2" />
-                                    </div>
-                                </div>
+                                
                             </div>
                             <button type="submit" class="btn btn-primary buttonedit">Cập nhật</button>
                         </form>
@@ -145,10 +137,8 @@
 
             </div>
         </div>
-
     </div>
-
-
+    
     <script src="assets/js/jquery-3.5.1.min.js"></script>
 
     <script src="assets/js/popper.min.js"></script>
@@ -165,26 +155,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    {{-- <script src="assets/js/jquery-3.5.1.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/jquery-3.5.1.min.js') }}"></script>
-
-
-    {{-- <script src="assets/js/popper.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/popper.min.js') }}"></script>
-    {{-- <script src="assets/js/bootstrap.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/bootstrap.min.js') }}"></script>
-
-    {{-- <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/bootstrap.min.js') }}"></script>
-
-    {{-- <script src="assets/plugins/raphael/raphael.min.js"></script> --}}
     <script src="{{ asset('plugins/adminTournament/raphael/raphael.min.js') }}"></script>
-
     <script src="assets/plugins/morris/morris.min.js"></script>
-    {{-- <script src="assets/js/chart.morris.js"></script> --}}
     <script src="{{ asset('js/adminTournament/chart.morris.js') }}"></script>
-
-    {{-- <script src="assets/js/script.js"></script> --}}
     <script src="{{ asset('js/adminTournament/script.js') }}"></script>
     <script>
         $(function() {

@@ -73,7 +73,6 @@ class AdminController extends Controller
         $request->validate([
             'name' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
             'phone' => ['required', 'regex:/^[0-9]{10}$/', 'unique:players,phone,' . $user->player->id],
             'point' => ['required', 'numeric'],
             'cccd' => $request->cccd != null ? ['digits:12', 'unique:players,cccd,' . $user->player->id] : '',
@@ -81,8 +80,6 @@ class AdminController extends Controller
             'name.required' => 'Vui lòng nhập tên cơ thủ.',
             'email.required' => 'Vui lòng nhập email.',
             'email.email' => 'Vui lòng nhập đúng định dạng email.',
-            'password.required' => 'Vui lòng nhập mật khẩu mới.',
-            'password.min' => 'Mật khẩu ít nhất phải có 8 kí tự.',
             'phone.regex' => 'Vui lòng nhập đúng định dạng số điện thoại',
             'phone.required' => 'Vui lòng nhập số điện thoại',
             'phone.unique' => 'Số điện thoại đã được sử dụng',
@@ -116,7 +113,7 @@ class AdminController extends Controller
                 }
                 $user->player->name = $request->name;
                 $user->email = $request->email;
-                $user->password = Hash::make($request->password);
+                // $user->password = Hash::make($request->password);
                 $user->player->phone = $request->phone;
                 $user->player->point = $request->point;
                 $user->player->cccd = $request->cccd;
@@ -142,5 +139,25 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return redirect('/admin/users')->with('error', 'Xóa thất bại');
         }
+    }
+
+    public function change_password_user(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'min:8'],
+            'userID' => 'required',
+        ], [
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.min' => 'Mật khẩu ít nhất phải có 8 kí tự.',
+        ]);
+
+        if($request->password != $request->password_confirmation)
+        {
+            return back()->with('error', 'Vui lòng nhập mật khẩu trùng khớp');
+        }
+        $user = User::find($request->userID);
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return back()->with('success', 'Đổi mật khẩu thành công');
     }
 }

@@ -76,6 +76,7 @@ Route::middleware('is_admin')->group(
         Route::post('/news', [NewsController::class, 'create'])->name('news.create');
         Route::put('/editNews/{id}', [NewsController::class, 'store'])->name('editNews.store');
         Route::delete('/news/{id}', [NewsController::class, 'delete'])->name('news.delete');
+        Route::post('/change-password-user', [AdminController::class, 'change_password_user'])->name('ranking.change_password_user');
     }
 );
 
