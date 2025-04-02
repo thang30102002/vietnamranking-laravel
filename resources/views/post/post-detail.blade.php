@@ -84,16 +84,16 @@
                     </div>
                     <div class="flex-1">
                     <p class=" text-black">{{ $post->content}}</p>
-                    <div class="w3-row-padding bg-black mx-2 overflow-hidden aspect-[4/3]">
                         @foreach ($post->post_images as $image)
                             @php
                                 $file_name = $image->image;
                             @endphp
                             @if (Storage::disk('public')->exists($file_name))
+                            <div class="w3-row-padding bg-black mx-2 overflow-hidden aspect-[4/3]">
                                 <img class=" m-auto h-full w-auto" src="{{ Storage::url($file_name) }}" alt='Ảnh bài viết'>
+                            </div>
                             @endif
                         @endforeach
-                    </div>
                     </div>
                     @php
                         $liked = auth()->check() && $post->likes->contains('user_id', auth()->id());
