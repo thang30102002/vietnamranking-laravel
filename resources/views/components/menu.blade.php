@@ -25,6 +25,8 @@
                                 hạng</a></li>
                         <li><a class="{{ request()->path() === 'tournament' ? 'active' : '' }}"
                                 href={{ route('ranking.tournament') }}>Giải đấu</a></li>
+                        <li><a class="{{ request()->path() === 'posts' ? 'active' : '' }}"
+                        href={{ route('posts.index') }}>Cộng đồng</a></li>
                         {{-- <li><a class="{{ request()->path() === 'news' ? 'active' : '' }}"
                                 href={{ route('news.index') }}>Tin tức</a></li> --}}
                         @if (Auth::check())

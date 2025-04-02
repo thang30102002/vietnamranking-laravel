@@ -8,11 +8,9 @@ use App\Http\Middleware\CheckPlayerRole;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PostController;
 
-// Route::get('/', function () {
-//     return view('home');
-// });
-Route::get('/', [RankingController::class, 'index'])->name('ranking.index');
+Route::get('/', [RankingController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return redirect('/home');
@@ -22,6 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
+    Route::post('/like/{postId}', [PostController::class, 'like'])->name('posts.like');
 });
 Route::get('/home', [RankingController::class, 'index'])->name('ranking.index');
 Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.ranking');
@@ -32,9 +34,16 @@ Route::get('/register_tournament/{tournament_id}', [RankingController::class, 'r
 Route::post('/register_tournament/{tournament_id}', [RankingController::class, 'register_tournament_success'])->name('ranking.register_tournament_success')->middleware('register_tournament');
 Route::post('/change-password', [RankingController::class, 'change_password'])->name('ranking.change_password');
 
+
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 
-
+Route::middleware('is_player')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
+    Route::post('/like/{postId}', [PostController::class, 'like'])->name('posts.like');
+    Route::post('/posts/comment/{postId}', [PostController::class, 'comment'])->name('posts.comment');
+});
 
 
 
@@ -42,7 +51,6 @@ Route::middleware('is_admin_tournament')->group(
     function () {
         Route::get('/adminTournament', [AdminTournamentController::class, 'index'])->name('adminTournament.index');
         Route::get('/adminTournament/profile', [AdminTournamentController::class, 'profile'])->name('adminTournament.profile');
-        Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament');
         Route::get('/adminTournament/add_tournament', [AdminTournamentController::class, 'get_add'])->name('adminTournament.addtournament');
         Route::post('/adminTournament/add_tournament', [AdminTournamentController::class, 'add_tournament']);
         Route::get('/adminTournament/tournaments', [AdminTournamentController::class, 'showAllTournament'])->name('adminTournament.showAllTournament');

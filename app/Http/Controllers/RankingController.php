@@ -107,3 +107,4 @@ class RankingController extends Controller
         }
     }
 }
+

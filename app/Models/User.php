@@ -65,4 +65,19 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin_tournament::class);
     }
+
+     public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Post_comment::class);
+    }
 }
