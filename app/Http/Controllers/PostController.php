@@ -41,14 +41,17 @@ class PostController extends Controller
                     'slug' => 'post-' . time(),
                 ]);
                 
-                foreach ($request->file('files') as $file) {
-                    $filePath = $file->store('posts/' . $post->id, 'public');
-                    $post->post_images()->create([
-                        'image' => $filePath,
-                        'post_id' => $post->id,
-                    ]);
+                if ($request->hasFile('images')) {
+                    foreach ($request->file('images') as $image) {
+                        $imageName = time() . '_' . $image->getClientOriginalName();
+                        $image->move(public_path('images/posts'), $imageName);
+                        $post->post_images()->create([
+                            'image' => $imageName,
+                        ]);
+                    }
                 }
             });
+
             return back()->with('success', 'Đăng tải bài viết thành công.');
         } catch (\Exception $e) {
             return back()->with('error', 'Đăng tải bài viết không thành công.');
