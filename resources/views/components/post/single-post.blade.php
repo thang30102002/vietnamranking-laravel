@@ -17,18 +17,15 @@
     <a href="{{ route('posts.show', $post->id) }}">
         <hr class="w3-clear">
         <p class="text-black">{{ $post->content }}</p>
-
-        <div class="w3-row-padding flex flex-wrap gap-2 max-w-md mx-auto p-4">
-            @if (count($post->post_images) > 0)
-                @php
-                    $image = $post->post_images[0];
-                    $file_name = $post->post_images[0]->image;
-                @endphp
-                <div class="relative">
-                    <img class="m-auto w-full h-auto rounded-lg" src="{{ Storage::url($file_name) }}" alt="Ảnh bài viết">
-                </div>
-            @endif
-        </div>
+        @if (count($post->post_images) > 0)
+            @php
+                $image = $post->post_images[0];
+                $file_name = $post->post_images[0]->image;
+            @endphp
+            <div class="bg-black mx-2 overflow-hidden aspect-[4/3]">
+                <img class="m-auto h-full w-auto" src="{{ Storage::url($file_name) }}" alt="Ảnh bài viết">
+            </div>
+        @endif
     </a>
     @php
         $liked = auth()->check() && $post->likes->contains('user_id', auth()->id());

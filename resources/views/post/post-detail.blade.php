@@ -84,13 +84,13 @@
                     </div>
                     <div class="flex-1">
                     <p class=" text-black">{{ $post->content}}</p>
-                    <div class="w3-row-padding" style="margin:0 -16px">
+                    <div class="w3-row-padding bg-black mx-2 overflow-hidden aspect-[4/3]">
                         @foreach ($post->post_images as $image)
                             @php
                                 $file_name = $image->image;
                             @endphp
                             @if (Storage::disk('public')->exists($file_name))
-                                <img class=" m-auto" src="{{ Storage::url($file_name) }}" alt='Ảnh bài viết'>
+                                <img class=" m-auto h-full w-auto" src="{{ Storage::url($file_name) }}" alt='Ảnh bài viết'>
                             @endif
                         @endforeach
                     </div>
