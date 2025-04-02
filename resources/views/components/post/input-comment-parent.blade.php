@@ -2,7 +2,7 @@
     <form action="{{route('posts.comment',['postId'=>$comment->post->id])}}" method="post" class="w-full flex">
         @csrf
         <input type="hidden" name="parent_id" value="{{$comment->id}}">
-        <input type="text" id="commentInputParent{{$comment->id}}" name="comment" class="flex-1 bg-transparent outline-none text-gray-600" placeholder="Trả lời">
+        <input type="text" id="commentInputParent{{$comment->id}}" name="comment" style="width: inherit;" class="bg-transparent outline-none text-gray-600" placeholder="Trả lời">
         <div class="flex space-x-2 text-gray-500">
             <button id="submitButtonParent{{$comment->id}}" disabled class="p-1 bg-[#21324C] text-white px-3 py-1 rounded-full text-sm opacity-50 cursor-not-allowed">
                 Gửi
