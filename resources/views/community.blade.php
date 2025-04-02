@@ -241,12 +241,10 @@
 </script>
 <script>
      function openModal() {
-        console.log("Opening modal");
         document.getElementById('postModal').classList.remove('hidden');
     }
 
     function closeModal() {
-        console.log("Closing modal");
         document.getElementById('postModal').classList.add('hidden');
         resetForm();
     }

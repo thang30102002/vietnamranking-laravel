@@ -26,7 +26,7 @@ class PostController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'content' => ['required', 'max:255'],
+            'content' => ['required'],
         ], [
             'content.max' => 'Nội dung không được vượt quá 255 kí tự.',
             'content.required' => 'Nội dung không được để trống.',
@@ -40,16 +40,17 @@ class PostController extends Controller
                     'status' => 1,
                     'slug' => 'post-' . time(),
                 ]);
-                
-                if ($request->hasFile('images')) {
-                    foreach ($request->file('images') as $image) {
-                        $imageName = time() . '_' . $image->getClientOriginalName();
-                        $image->move(public_path('images/posts'), $imageName);
+                if($request->file('files'))
+                {
+                    foreach ($request->file('files') as $file) {
+                        $filePath = $file->store('posts/' . $post->id, 'public');
                         $post->post_images()->create([
-                            'image' => $imageName,
+                            'image' => $filePath,
+                            'post_id' => $post->id,
                         ]);
                     }
                 }
+                
             });
 
             return back()->with('success', 'Đăng tải bài viết thành công.');
