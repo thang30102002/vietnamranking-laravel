@@ -101,21 +101,23 @@ class PostController extends Controller
                 $post->update([
                     'content' => $request->content,
                 ]);
+                if($request->file('files'))
+                {
+                    // Xóa tất cả ảnh cũ trong storage và database
+                    foreach ($post->post_images as $image) {
+                        Storage::disk('public')->delete($image->image); // Xóa file vật lý
+                        $image->delete(); // Xóa record trong database
+                    }
 
-                // Xóa tất cả ảnh cũ trong storage và database
-                foreach ($post->post_images as $image) {
-                    Storage::disk('public')->delete($image->image); // Xóa file vật lý
-                    $image->delete(); // Xóa record trong database
-                }
-
-                // Thêm ảnh mới nếu có
-                if ($request->hasFile('files')) {
-                    foreach ($request->file('files') as $file) {
-                        $filePath = $file->store('posts/' . $post->id, 'public');
-                        $post->post_images()->create([
-                            'image' => $filePath,
-                            'post_id' => $post->id,
-                        ]);
+                    // Thêm ảnh mới nếu có
+                    if ($request->hasFile('files')) {
+                        foreach ($request->file('files') as $file) {
+                            $filePath = $file->store('posts/' . $post->id, 'public');
+                            $post->post_images()->create([
+                                'image' => $filePath,
+                                'post_id' => $post->id,
+                            ]);
+                        }
                     }
                 }
             });
