@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Like;
 use App\Models\Post_comment;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -91,75 +92,62 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $postId, Request $request)
     {
-        //
-    }
+        $post = Post::find($postId);
+        try {
+            DB::transaction(function () use ($request, $post) {
+                // Cập nhật nội dung bài viết
+                $post->update([
+                    'content' => $request->content,
+                ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+                // Xóa tất cả ảnh cũ trong storage và database
+                foreach ($post->post_images as $image) {
+                    Storage::disk('public')->delete($image->image); // Xóa file vật lý
+                    $image->delete(); // Xóa record trong database
+                }
 
+                // Thêm ảnh mới nếu có
+                if ($request->hasFile('files')) {
+                    foreach ($request->file('files') as $file) {
+                        $filePath = $file->store('posts/' . $post->id, 'public');
+                        $post->post_images()->create([
+                            'image' => $filePath,
+                            'post_id' => $post->id,
+                        ]);
+                    }
+                }
+            });
+
+            return back()->with('success', 'Cập nhật bài viết thành công.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Cập nhật bài viết không thành công.');
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $postId)
     {
-        //
-    }
-
-    public function like($postId)
-    {
-        // Lấy bài viết cần like
-        $post = Post::find($postId);
-        $user = Auth::user();
-
-        // Kiểm tra nếu user đã like bài viết này chưa
-        $like = Like::where('user_id', $user->id)->where('post_id', $postId)->first();
-
-        if ($like) {
-            // Nếu đã like thì bỏ like (Unlike)
-            $like->delete();
-            $liked = false;
-        } else {
-            // Nếu chưa like thì thêm vào database
-            Like::create([
-                'user_id' => $user->id,
-                'post_id' => $postId,
-            ]);
-            $liked = true;
-        }
-
-        // Trả về số lượt like mới
-        $likeCount = Like::where('post_id', $postId)->count();
-
-        return response()->json([
-            'status' => 'success',
-            'liked' => $liked,
-            'likeCount' => $likeCount,
-        ]);
-    }
-
-    public function comment(Request $request,$postId)
-    {
-        $user = auth()->user();
-        $comment = Post_comment::create([
-        'user_id' => $user->id,
-        'post_id' => $postId,
-        'content' => $request->comment,
-        'parent_id' => isset($request->parent_id) ? $request->parent_id : null,
-        ]);
-        if($comment)
+        try
         {
-            return back()->with('success','Bình luận bài viết thành công');
+            DB::transaction(function () use ($postId) {
+                $post = Post::find($postId);
+                if ($post) {
+                    // Xóa tất cả ảnh trong storage và database
+                    foreach ($post->post_images as $image) {
+                        Storage::disk('public')->delete($image->image); // Xóa file vật lý
+                        $image->delete(); // Xóa record trong database
+                    }
+                    // Xóa bài viết
+                    $post->delete();
+                }
+            });
+        } catch (\Exception $e) {
+            return back()->with('error', 'Xóa bài viết không thành công.');
         }
-        else
-        {
-            return back()->with('error','Bình luận bài viết thất bại');
-        }
+
+        return back()->with('success', 'Xóa bài viết thành công.');
     }
 }

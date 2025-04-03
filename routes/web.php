@@ -20,10 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-    Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
-    Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
-    Route::post('/like/{postId}', [PostController::class, 'like'])->name('posts.like');
+    // Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    // Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
+    // Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
+    // Route::post('/like/{postId}', [PostController::class, 'like'])->name('posts.like');
 });
 Route::get('/home', [RankingController::class, 'index'])->name('ranking.index');
 Route::get('/ranking', [RankingController::class, 'ranking'])->name('ranking.ranking');
@@ -40,6 +40,8 @@ Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::middleware('is_player')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/posts/edit/{postId}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::post('/posts/delete/{postId}', [PostController::class, 'delete'])->name('posts.delete');
     Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
     Route::post('/like/{postId}', [PostController::class, 'like'])->name('posts.like');
     Route::post('/posts/comment/{postId}', [PostController::class, 'comment'])->name('posts.comment');
