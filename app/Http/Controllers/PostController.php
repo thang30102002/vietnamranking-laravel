@@ -152,4 +152,53 @@ class PostController extends Controller
 
         return back()->with('success', 'Xóa bài viết thành công.');
     }
+
+    public function like($postId)
+    {
+        // Lấy bài viết cần like
+        $post = Post::find($postId);
+        $user = Auth::user();
+
+        // Kiểm tra nếu user đã like bài viết này chưa
+        $like = Like::where('user_id', $user->id)->where('post_id', $postId)->first();
+
+        if ($like) {
+            // Nếu đã like thì bỏ like (Unlike)
+            $like->delete();
+            $liked = false;
+        } else {
+            // Nếu chưa like thì thêm vào database
+            Like::create([
+                'user_id' => $user->id,
+                'post_id' => $postId,
+            ]);
+            $liked = true;
+            }
+                // Trả về số lượt like mới
+        $likeCount = Like::where('post_id', $postId)->count();
+
+        return response()->json([
+            'status' => 'success',
+            'liked' => $liked,
+            'likeCount' => $likeCount,
+        ]);
+    }
+
+    public function comment(Request $request,$postId)
+    {
+        $user = auth()->user();
+        $comment = Post_comment::create([
+        'user_id' => $user->id,
+        'post_id' => $postId,
+        'content' => $request->comment,
+        'parent_id' => isset($request->parent_id) ? $request->parent_id : null,
+        ]);
+        if($comment)
+        {
+            return back()->with('success','Bình luận bài viết thành công');
+        }
+        else
+        {
+        return back()->with('error','Bình luận bài viết thất bại'); }
+    }
 }

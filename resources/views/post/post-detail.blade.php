@@ -67,7 +67,7 @@
                     <div class="">
                     @php
                         $player = $post->user->player;
-                        $file_name = 'players/' . $player->id . '/' . auth()->user()->player->img;
+                        $file_name = 'players/' . $player->id . '/' . $player->img;
                     @endphp
                     <a href="{{ route('ranking.detail', $post->user->player->id) }}">
                         @if (Storage::disk('public')->exists($file_name))
