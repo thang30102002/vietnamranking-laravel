@@ -207,7 +207,6 @@ class PostController extends Controller
     {
         $posts = Post::with('post_images')->where('user_id', $id)->orderBy('created_at', 'desc')->paginate(5);
         $user = User::find($id);
-        // dd($posts);
         return view('post.player-posts', compact('posts','user'));
     }
 }
