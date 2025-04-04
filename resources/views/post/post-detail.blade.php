@@ -107,7 +107,7 @@
             </div>
             <!-- Right Column -->
             <div class="">
-                <div class="w3-twothird bg-white rounded-sm p-2">
+                <div class="w3-twothird bg-white rounded-sm p-2 w-full">
                     <div class="overflow-y-scroll h-[400px]">
                         @if ($comments->count() == 0)
                             <span class=" text-center block text-gray-400">Chưa có bình luận nào</span>
