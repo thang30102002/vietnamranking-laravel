@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Like;
 use App\Models\Post_comment;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -200,5 +201,13 @@ class PostController extends Controller
         else
         {
         return back()->with('error','Bình luận bài viết thất bại'); }
+    }
+
+    public function getPlayerPost($id)
+    {
+        $posts = Post::with('post_images')->where('user_id', $id)->orderBy('created_at', 'desc')->paginate(5);
+        $user = User::find($id);
+        // dd($posts);
+        return view('post.player-posts', compact('posts','user'));
     }
 }

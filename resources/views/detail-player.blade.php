@@ -51,6 +51,67 @@
             color: #fff;
             background-color: #21324C;
         }
+        .navMenu {
+            }
+
+            .navMenu a {
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 500;
+            display: inline-block;
+            width: 80px;
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            }
+
+            .navMenu a:hover {
+            color: burlywood;
+            }
+
+            .navMenu .dot {
+            width: 6px;
+            height: 6px;
+            background: burlywood;
+            border-radius: 50%;
+            opacity: 0;
+            -webkit-transform: translateX(30px);
+            transform: translateX(30px);
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            }
+
+            .navMenu a:nth-child(1):hover ~ .dot {
+            -webkit-transform: translateX(30px);
+            transform: translateX(30px);
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            opacity: 1;
+            }
+
+            .navMenu a:nth-child(2):hover ~ .dot {
+            -webkit-transform: translateX(110px);
+            transform: translateX(110px);
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            opacity: 1;
+            }
+
+            .navMenu a:nth-child(3):hover ~ .dot {
+            -webkit-transform: translateX(200px);
+            transform: translateX(200px);
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            opacity: 1;
+            }
+
+            .navMenu a:nth-child(4):hover ~ .dot {
+            -webkit-transform: translateX(285px);
+            transform: translateX(285px);
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+            opacity: 1;
+            }
+
     </style>
 </head>
 
@@ -60,6 +121,11 @@
     <x-notification />
     <!-- Page Container -->
     <div class="w3-content mt-[90px]" style="max-width:1400px;">
+        <nav class="navMenu text-[12px] pl-5 mb-4">
+            <a class=" text-white" href="{{ route('posts.getPlayerPost', ['id' => $player->user->id]) }}">Bài viết</a>
+            <a class="border-b border-solid border-b-[burlywood] text-[burlywood]" href="#">Hồ sơ</a>
+            <div class="dot"></div>
+        </nav>
         <!-- The Grid -->
         <div class="w3-row-padding">
             <!-- Left Column -->

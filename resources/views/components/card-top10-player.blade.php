@@ -1,7 +1,7 @@
 @php
     use App\Models\Player;
 @endphp
-<a href="{{ route('ranking.detail', ['id' => $player->id]) }}">
+<a href="{{ route('posts.getPlayerPost', ['id' => $player->user->id]) }}">
     <div class="card-top10-player relative">
         <div class="card-top10-left">
             <span class="number-ranking-top10 text-[0.7rem] sm:text-[1rem] 2xl:text-[2.5rem]">#{{ $top }}</span>
