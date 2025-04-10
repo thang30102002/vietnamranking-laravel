@@ -61,6 +61,24 @@ class AdminController extends Controller
         return view('admin/users', ['users' => $users]);
     }
 
+    public static function showAdminTournament(Request $request)
+    {
+        $search = $request->query('search');
+        $users = User::whereHas('user_role', function ($query) {
+            $query->where('role_id', 2);
+        })
+            ->when($search, function ($query, $search) {
+                return $query->where('email', 'like', "%{$search}%")
+                    ->orWhereHas('player', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            })
+            ->paginate(5);
+
+        return view('admin/adminTournament', ['users' => $users]);
+    }
+
     public static function showEditUser($id)
     {
         $user = User::find($id);

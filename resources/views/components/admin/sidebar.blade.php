@@ -10,6 +10,9 @@
                     <li class={{ request()->route()->getName() == 'adminTournament.index' ? 'active' : '' }}> <a
                             href={{ route('admin.showUser') }}><i class="fa fa-user" aria-hidden="true"></i>
                             <span>Quản lý cơ thủ</span></a> </li>
+                    <li class={{ request()->route()->getName() == 'adminTournament.index' ? 'active' : '' }}> <a
+                            href={{ route('admin.showAdminTournament') }}><i class="fa fa-user" aria-hidden="true"></i>
+                            <span>Quản lý đơn vị tổ chức</span></a> </li>
                     <li class="list-divider"></li>
                     <li> <a class="{{ request()->route()->getName() == 'adminTournament.showAllTournament' || request()->route()->getName() == 'adminTournament.addtournament' || request()->route()->getName() == 'adminTournament.showEditTournament' || request()->route()->getName() == 'adminTournament.showEditPlayer' ? 'rounded-lg text-white bg-[#009688] shadow-lg opacity-100' : '' }}"
                             href="#"><i class="fa-solid fa-newspaper"></i><span> Tin tức </span>

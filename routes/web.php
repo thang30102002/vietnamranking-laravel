@@ -6,9 +6,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckPlayerRole;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MessageController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PostController;
+use App\Models\Message;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [RankingController::class, 'index']);
 
@@ -20,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/message', [MessageController::class, 'index'])->name('message.index');
     // Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     // Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
     // Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
@@ -46,7 +50,7 @@ Route::middleware('is_player')->group(function () {
     Route::post('/like/{postId}', [PostController::class, 'like'])->name('posts.like');
     Route::post('/posts/comment/{postId}', [PostController::class, 'comment'])->name('posts.comment');
     Route::get('/player-posts/{id}', [PostController::class, 'getPlayerPost'])->name('posts.getPlayerPost');
-
+    Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
 
@@ -78,6 +82,7 @@ Route::middleware('is_admin')->group(
         Route::post('/admin', [AdminController::class, 'update'])->name('admin.update');
 
         Route::get('/admin/users', [AdminController::class, 'showUser'])->name('admin.showUser');
+        Route::get('/admin/admin-tournament', [AdminController::class, 'showAdminTournament'])->name('admin.showAdminTournament');
         Route::get('/admin/edit-player/{id}', [AdminController::class, 'showEditUser'])->name('admin.showEditUser');
         Route::post('/admin/edit-player/{id}', [AdminController::class, 'updatePlayer'])->name('admin.updatePlayer');
         Route::delete('/admin/delete', [AdminController::class, 'deletePlayer'])->name('admin.deletePlayer');
