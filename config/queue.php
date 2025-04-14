@@ -29,6 +29,13 @@ return [
     */
 
     'connections' => [
+        'mysql' => [
+        'driver' => 'mysql',
+        'table' => 'jobs',
+        'queue' => 'default',
+        'retry_after' => 90,
+        'after_commit' => false,
+        ],
 
         'sync' => [
             'driver' => 'sync',

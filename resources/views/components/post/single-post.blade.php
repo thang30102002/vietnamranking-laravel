@@ -27,10 +27,7 @@
                 {{-- ////// --}}
             @endif
         </div>
-        
-        <a href="{{ route('ranking.detail', $post->user->player->id) }}">
-            <h4>{{ $post->user->player->name }}</h4><br>
-        </a>
+        <h4>{{ $post->user->player->name }}</h4><br>
     <a href="{{ route('posts.show', $post->id) }}">
         <hr class="w3-clear">
         <p class="text-black">{{ $post->content }}</p>

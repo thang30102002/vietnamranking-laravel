@@ -10,6 +10,7 @@ use App\Models\Like;
 use App\Models\Post_comment;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Notifications\NewPostNotification;
 
 class PostController extends Controller
 {
@@ -168,14 +169,15 @@ class PostController extends Controller
             $like->delete();
             $liked = false;
         } else {
-            // Nếu chưa like thì thêm vào database
-            Like::create([
-                'user_id' => $user->id,
-                'post_id' => $postId,
-            ]);
-            $liked = true;
-            }
-                // Trả về số lượt like mới
+        // Nếu chưa like thì thêm vào database
+        $addlike = Like::create([
+            'user_id' => $user->id,
+            'post_id' => $postId,
+        ]);
+        $liked = true;
+        $addlike->post->user->notify(new NewPostNotification($addlike->post, $user, NewPostNotification::POST_TYPE['like']));
+        }
+        // Trả về số lượt like mới
         $likeCount = Like::where('post_id', $postId)->count();
 
         return response()->json([
@@ -196,6 +198,16 @@ class PostController extends Controller
         ]);
         if($comment)
         {
+            if(isset($request->parent_id))
+            {
+                $comment_parent = Post_comment::find($request->parent_id);
+                $comment_parent->user->notify(new NewPostNotification($comment->post, $user, NewPostNotification::POST_TYPE['reply_comment']));
+            }
+            else
+            {
+                $comment->post->user->notify(new NewPostNotification($comment->post, $user, NewPostNotification::POST_TYPE['comment']));
+            }
+
             return back()->with('success','Bình luận bài viết thành công');
         }
         else

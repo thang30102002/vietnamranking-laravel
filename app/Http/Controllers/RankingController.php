@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\TournamentNotification;
 
 class RankingController extends Controller
 {
@@ -77,6 +78,9 @@ class RankingController extends Controller
                 'player_id' => $request->player_id,
             ]);
             if ($player_register) {
+                $player = Player::find($request->player_id);
+                $tournament = Tournament::find($request->tournament_id);
+                $player->user->notify(new TournamentNotification($tournament, TournamentNotification::TOURNAMENT_TYPE['register']));
                 return redirect('/tournament')->with('success', "Đơn đăng ký đã được ghi nhận");
             } else {
                 return redirect('/tournament')->with('error', "Đăng ký không thành công");
