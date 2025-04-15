@@ -78,9 +78,7 @@ class RankingController extends Controller
                 'player_id' => $request->player_id,
             ]);
             if ($player_register) {
-                $player = Player::find($request->player_id);
-                $tournament = Tournament::find($request->tournament_id);
-                $player->user->notify(new TournamentNotification($tournament, TournamentNotification::TOURNAMENT_TYPE['register']));
+                // $player_register->player->user->notify(new TournamentNotification($player_register->tournament, TournamentNotification::TOURNAMENT_TYPE['register']));
                 return redirect('/tournament')->with('success', "Đơn đăng ký đã được ghi nhận");
             } else {
                 return redirect('/tournament')->with('error', "Đăng ký không thành công");
