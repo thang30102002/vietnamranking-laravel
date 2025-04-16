@@ -152,9 +152,9 @@ a.no-style {
                                 href={{ route('ranking.tournament') }}>Giải đấu</a></li>
                         <li><a class="{{ request()->path() === 'posts' ? 'active' : '' }}"
                         href={{ route('posts.index') }}>Cộng đồng</a></li>
-                        {{-- <li><a class="{{ request()->path() === 'message' ? 'active' : '' }}"
-                        href={{ route('message.index') }}>Tin nhắn</a></li> --}}
-                        @if (Auth::check())
+                        <li><a class="{{ request()->path() === 'message' ? 'active' : '' }}"
+                        href={{ route('message.index') }}>Tin nhắn</a></li>
+                        {{-- @if (Auth::check())
                             <li class=" md:hidden"><a class="{{ request()->path() === 'message' ? 'active' : '' }}"
                             href={{ route('message.index') }}>Thông Báo</a></li>
                             <li class=" relative hidden md:block">
@@ -206,7 +206,7 @@ a.no-style {
                                     </ul>
                                 </div>
                             </li>
-                        @endif
+                        @endif --}}
                         @if (Auth::check())
                             <form action={{ route('logout') }} method="post">
                                 @csrf
