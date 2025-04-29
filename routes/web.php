@@ -73,6 +73,7 @@ Route::middleware('is_admin_tournament')->group(
         Route::post('/adminTournament/delete-matches', [AdminTournamentController::class, 'deleteMatch'])->name('adminTournament.deleteMatch');
         Route::post('/adminTournament/updatePlayerRegisted/{id}', [AdminTournamentController::class, 'updatePlayerRegisted'])->name('adminTournament.updatePlayerRegisted');
         Route::post('/adminTournament/updatePlayerWin/{id}', [AdminTournamentController::class, 'updatePlayerWin'])->name('adminTournament.updatePlayerWin');
+        Route::post('/adminTournament/addPlayerRegister/{id_tournament}', [AdminTournamentController::class, 'addPlayerRegister'])->name('adminTournament.addPlayerRegister');
     }
 );
 

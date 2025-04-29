@@ -9,13 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Chỉnh sửa giải đấu</title>
     <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
-    {{-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> --}}
     <link rel="stylesheet" href="{{ asset('images/adminTournament/favicon.png') }}">
-
-    {{-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/bootstrap.min.css') }}">
 
-    {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/fontawesome.min.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -26,15 +22,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
-    {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css"> --}}
-    <link rel="stylesheet" href="{{ asset('css/adminTournament/all.min.css') }}">
-    {{-- <link rel="stylesheet" href="assets/css/feathericon.min.css"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/adminTournament/all.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/feathericon.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
-    {{-- <link rel="stylesheet" href="assets/plugins/morris/morris.css"> --}}
     <link rel="stylesheet" href="{{ asset('plugins/adminTournament/morris/morris.css') }}">
 
     {{-- <link rel="stylesheet" href="assets/css/style.css"> </head> --}}
@@ -487,10 +480,22 @@
                 </form>
             </div>
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
+                <div class=" text-right mb-3">
+                    <form method="POST" action="{{ route('adminTournament.addPlayerRegister', ['id_tournament' => $tournament->id]) }}" class=" flex">
+                        @csrf
+                        <div class="sm:w-[30%] w-full">
+                            <input type="text" id="addPLayer" name="email" placeholder="Thêm email cơ thủ..."
+                            class="  border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300" /><br>
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        </div>
+                        <button type="submit" class="btn btn-primary ml-1">Thêm</button>
+                    </form>
+                </div>
                 <form action="{{ route('adminTournament.updatePlayerRegisted', ['id' => $tournament->id]) }}" method="POST">
                     @csrf
                     <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
                         {{ count($player_registed) }} người đã đăng ký</h3>
+                    
                     <div class=" text-right mb-3">
                         <input type="text" id="searchInput" placeholder="Tìm kiếm..."
                             class=" sm:w-[30%] w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
@@ -786,6 +791,19 @@
             });
         });
     </script>
+    @if (session('scroll_to_input'))
+        <script>
+            console.log('asdfasdf');
+            
+            window.onload = function() {
+                const input = document.getElementById("addPLayer");
+                if (input) {
+                    input.scrollIntoView({ behavior: "smooth", block: "center" });
+                    input.focus();
+                }
+            };
+        </script>
+    @endif
 </body>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -937,5 +955,8 @@
         });
     });
 </script>
+//hodel khi thêm cơ thủ
+
+
 
 </html>

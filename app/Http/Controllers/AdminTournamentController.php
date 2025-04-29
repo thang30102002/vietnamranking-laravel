@@ -480,6 +480,42 @@ class AdminTournamentController extends Controller
             }
         }
     }
+
+    public function addPlayerRegister($id_tournament, Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'exists:users,email'],
+        ], [
+            'email.required' => 'Bạn phải nhập email',
+            'email.email' => 'Bạn phải nhập đúng định dạng email',
+            'email.exists' => 'Không tìm thấy email cơ thủ',
+        ]);
+
+        $user = User::where('email', $request->email)->with('player')->first();
+
+        if (!$user || !$user->player) {
+            return back()->with('error', 'Thêm cơ thủ vào giải đấu không thành công!')->with('scroll_to_input', true);;
+        }
+
+        $player = $user->player;
+
+        $isAlreadyRegistered = Player_registed_tournament::where([
+            ['tournament_id', '=', $id_tournament],
+            ['player_id', '=', $player->id],
+        ])->exists();
+
+        if ($isAlreadyRegistered) {
+            return back()->with('error', 'Có vẻ cơ thủ đã đăng ký giải đấu')->with('scroll_to_input', true);;
+        }
+
+        Player_registed_tournament::create([
+            'tournament_id' => $id_tournament,
+            'player_id' => $player->id,
+        ]);
+
+        return back()->with('success', 'Thêm cơ thủ vào giải đấu thành công!')->with('scroll_to_input', true);;
+    }
+
     // public function addMatches(Request $request)
     // {
     //     $request->validate([
