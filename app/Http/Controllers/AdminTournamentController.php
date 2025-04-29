@@ -269,16 +269,16 @@ class AdminTournamentController extends Controller
        // cập nhật số tiền và hạng của cơ thủ khi giải đấu kết thúc
         if ($tournament->tournament_end == 2) {
             //cập nhật ranking
-            $registeds = $tournament->player_registed_tournament;
-            foreach ($registeds as $registed) {
-                if($registed->status == 1){
-                    $registed->player->point = $registed->player->point - 5;
-                    $registed->status = 2;
-                }
-                $registed->player->save();
-                $registed->save();
-                updateRanking($registed->player->id);
-            }
+            // $registeds = $tournament->player_registed_tournament;
+            // foreach ($registeds as $registed) {
+            //     if($registed->status == 1){
+            //         // $registed->player->point = $registed->player->point - 5;
+            //         $registed->status = 2;
+            //     }
+            //     $registed->player->save();
+            //     $registed->save();
+            //     updateRanking($registed->player->id);
+            // }
             ////////
 
             //cập nhật tiền thưởng
@@ -290,7 +290,7 @@ class AdminTournamentController extends Controller
                     $achievement_top_1->delete();
                     $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
                     $achievement_top_1->player->player_money->save();
-                    $achievement_top_1->player->point = $achievement_top_1->player->point - 10;
+                    $achievement_top_1->player->point = $achievement_top_1->player->point - 5;
                     $achievement_top_1->player->save();
                     updateRanking($achievement_top_1->player->id);
                 }
@@ -300,7 +300,7 @@ class AdminTournamentController extends Controller
                 ]);
                 $create_achievement_top_1->player->player_money->money = $create_achievement_top_1->player->player_money->money + $top_1_Tournament->money;
                 $create_achievement_top_1->player->player_money->save();
-                $create_achievement_top_1->player->point = $create_achievement_top_1->player->point + 10;
+                $create_achievement_top_1->player->point = $create_achievement_top_1->player->point + 5;
                 $create_achievement_top_1->player->save();
                 updateRanking($create_achievement_top_1->player->id);
             }
@@ -313,7 +313,7 @@ class AdminTournamentController extends Controller
                     $achievement_top_2->delete();
                     $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
                     $achievement_top_2->player->player_money->save();
-                    $achievement_top_2->player->point = $achievement_top_2->player->point - 10;
+                    $achievement_top_2->player->point = $achievement_top_2->player->point - 5;
                     $achievement_top_2->player->save();
                     updateRanking($achievement_top_2->player->id);
                 }
@@ -323,7 +323,7 @@ class AdminTournamentController extends Controller
                 ]);
                 $create_achievement_top_2->player->player_money->money = $create_achievement_top_2->player->player_money->money + $top_2_Tournament->money;
                 $create_achievement_top_2->player->player_money->save();
-                $create_achievement_top_2->player->point = $create_achievement_top_2->player->point + 10;
+                $create_achievement_top_2->player->point = $create_achievement_top_2->player->point + 5;
                 $create_achievement_top_2->player->save();
                 updateRanking($create_achievement_top_2->player->id);
             }
@@ -337,7 +337,7 @@ class AdminTournamentController extends Controller
                             $achievement_top_3->delete();
                             $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
                             $achievement_top_3->player->player_money->save();
-                            $achievement_top_3->player->point = $achievement_top_3->player->point - 10;
+                            $achievement_top_3->player->point = $achievement_top_3->player->point - 5;
                             $achievement_top_3->player->save();
                             updateRanking($achievement_top_3->player->id);
                         }
@@ -353,7 +353,7 @@ class AdminTournamentController extends Controller
                             ]);
                             $create_achievement_top_3->player->player_money->money = $create_achievement_top_3->player->player_money->money + $top_3_Tournament->money;
                             $create_achievement_top_3->player->player_money->save();
-                            $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 10;
+                            $create_achievement_top_3->player->point = $create_achievement_top_3->player->point + 5;
                             $create_achievement_top_3->player->save();
                             updateRanking($create_achievement_top_3->player->id);
                         }
@@ -369,7 +369,7 @@ class AdminTournamentController extends Controller
                     $achievement_top_1->delete();
                     $achievement_top_1->player->player_money->money = $achievement_top_1->player->player_money->money - $top_1_Tournament->money;
                     $achievement_top_1->player->player_money->save();
-                    $achievement_top_1->player->point = $achievement_top_1->player->point - 10;
+                    $achievement_top_1->player->point = $achievement_top_1->player->point - 5;
                     $achievement_top_1->player->save();
                     updateRanking($achievement_top_1->player->id);
                 }
@@ -381,7 +381,7 @@ class AdminTournamentController extends Controller
                     $achievement_top_2->delete();
                     $achievement_top_2->player->player_money->money = $achievement_top_2->player->player_money->money - $top_2_Tournament->money;
                     $achievement_top_2->player->player_money->save();
-                    $achievement_top_2->player->point = $achievement_top_2->player->point - 10;
+                    $achievement_top_2->player->point = $achievement_top_2->player->point - 5;
                     $achievement_top_2->player->save();
                     updateRanking($achievement_top_2->player->id);
                 }
@@ -394,7 +394,7 @@ class AdminTournamentController extends Controller
                         $achievement_top_3->delete();
                         $achievement_top_3->player->player_money->money = $achievement_top_3->player->player_money->money - $top_3_Tournament->money;
                         $achievement_top_3->player->player_money->save();
-                        $achievement_top_3->player->point = $achievement_top_3->player->point - 10;
+                        $achievement_top_3->player->point = $achievement_top_3->player->point - 5;
                         $achievement_top_3->player->save();
                         updateRanking($achievement_top_3->player->id);
                     }
