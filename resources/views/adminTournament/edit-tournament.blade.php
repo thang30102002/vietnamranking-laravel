@@ -480,12 +480,12 @@
                 </form>
             </div>
             <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <div class=" text-right mb-3">
+                <div class="">
                     <form method="POST" action="{{ route('adminTournament.addPlayerRegister', ['id_tournament' => $tournament->id]) }}" class=" flex">
                         @csrf
                         <div class="sm:w-[30%] w-full">
                             <input type="text" id="addPLayer" name="email" placeholder="Thêm email cơ thủ..."
-                            class="  border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300" /><br>
+                            class=" w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300" /><br>
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
                         <button type="submit" class="btn btn-primary ml-1">Thêm</button>
