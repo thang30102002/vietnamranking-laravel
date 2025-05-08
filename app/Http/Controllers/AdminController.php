@@ -22,7 +22,7 @@ class AdminController extends Controller
         $tournaments = Tournament::when($search, function ($query, $search) {
             return $query->where('name', 'like', "%{$search}%")
                 ->orWhere('start_date', 'like', "%{$search}%");
-        })->paginate(10);
+        })->where('status', 0)->orderBy('created_at', 'desc')->paginate(10);
         return view('admin/index', ['players' => $players, 'admin_tournaments' => $admin_tournaments, 'tournaments' => $tournaments]);
     }
     public static function update(Request $request)

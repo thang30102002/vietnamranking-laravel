@@ -20,6 +20,10 @@
 </head>
 
 <body>
+    @php
+    use Carbon\Carbon;
+    Carbon::setLocale('vi');
+    @endphp
     <div class="main-wrapper">
         <x-notification />
         <x-admin.menu />
@@ -131,20 +135,16 @@
                                             <table class="table table-hover table-center">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID</th>
                                                         <th>Tên</th>
                                                         <th>Đơn vị tổ chức</th>
                                                         <th>Thể loại</th>
                                                         <th>Hạng tham gia</th>
-                                                        <th>Số lượng người tham gia</th>
                                                         <th>Ngày bắt đầu</th>
                                                         <th>Địa điểm thi đấu</th>
                                                         <th>Lệ phí</th>
-                                                        <th>Số người đã đăng ký</th>
                                                         <th>Quán quân</th>
                                                         <th>Á quân</th>
                                                         <th>Giải 3</th>
-                                                        <th>Trạng thái</th>
                                                         <th>Duyệt</th>
                                                     </tr>
                                                 </thead>
@@ -152,9 +152,6 @@
                                                     @foreach ($tournaments as $tournament)
                                                         <tr
                                                             class="{{ $tournament->status == 0 ? 'bg-yellow-100' : '' }}">
-                                                            <td class="text-nowrap">
-                                                                <div>{{ $tournament->id }}</div>
-                                                            </td>
                                                             <td class="text-nowrap">
                                                                 <div>{{ $tournament->name }}</div>
                                                             </td>
@@ -173,11 +170,8 @@
                                                                     @endforeach
                                                                 </div>
                                                             </td>
-                                                            <td class="text-center">
-                                                                <div>{{ $tournament->number_players }}</div>
-                                                            </td>
                                                             <td class="text-nowrap">
-                                                                <div>{{ $tournament->start_date }}</div>
+                                                                <div>{{ Carbon::parse($tournament->start_date )->isoFormat('dddd, D / M / YYYY') }}</div>
                                                             </td>
                                                             <td class="text-nowrap">
                                                                 <div>{{ $tournament->address }}</div>
@@ -185,11 +179,6 @@
                                                             <td class="text-nowrap">
                                                                 <div>
                                                                     {{ number_format($tournament->fees, 0, ',', '.') . ' VNĐ' }}
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <div>
-                                                                    {{ count($tournament->player_registed_tournament) }}
                                                                 </div>
                                                             </td>
                                                             <td class="text-nowrap">
@@ -206,16 +195,6 @@
                                                                 <div>
                                                                     {{ number_format($tournament->tournament_top_money[2]->money, 0, ',', '.') . ' VNĐ' }}
                                                                 </div>
-                                                            </td>
-
-                                                            <td class="text-nowrap">
-                                                                @if ($tournament->tournament_end == 0)
-                                                                    <div>Chưa bắt đầu</div>
-                                                                @elseif ($tournament->tournament_end == 1)
-                                                                    <div>Đang diễn ra</div>
-                                                                @else
-                                                                    <div>Đã kết thúc</div>
-                                                                @endif
                                                             </td>
                                                             <td>
                                                                 <select class="form-control w-[100px]" id="sel1"

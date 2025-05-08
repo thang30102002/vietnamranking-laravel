@@ -31,6 +31,10 @@
 </head>
 
 <body>
+    @php
+    use Carbon\Carbon;
+    Carbon::setLocale('vi');
+    @endphp
     <div class="main-wrapper">
 
         <x-notification />
@@ -56,20 +60,15 @@
                             <div class="card-body booking_card">
                                 <div class="table-responsive">
 
-                                    <table class="datatable table table-stripped table table-hover table-center mb-0">
+                                    <table class="datatable table table-stripped table-hover table-center mb-0">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Tên</th>
                                                 <th>Thể loại</th>
-                                                <th>Số người tham gia</th>
                                                 <th>Thời gian bắt đầu</th>
                                                 <th>Địa điểm thi đấu</th>
                                                 <th>Lệ phí</th>
                                                 <th>Hạng</th>
-                                                <th>Quán quân</th>
-                                                <th>Á quân</th>
-                                                <th>Hạng 3</th>
                                                 <th>Trạng thái</th>
                                             </tr>
                                         </thead>
@@ -79,11 +78,9 @@
 
                                             @foreach ($tournaments as $tournament)
                                                 <tr>
-                                                    <td>{{ $tournament->id }}</td>
                                                     <td>{{ $tournament->name }}</td>
                                                     <td>{{ $tournament->tournament_game_type->game_type->name }}</td>
-                                                    <td>{{ $tournament->number_players }}</td>
-                                                    <td>{{ $tournament->start_date }}</td>
+                                                    <td>{{ Carbon::parse($tournament->start_date )->isoFormat('dddd, D / M / YYYY')}}</td>
                                                     <td>{{ $tournament->address }}</td>
                                                     <td>{{ number_format($tournament->fees, 0, ',', '.') . ' VNĐ' }}
                                                     </td>
@@ -91,13 +88,6 @@
                                                         @foreach ($tournament->ranking_tournament as $ranking)
                                                             {{ $ranking->ranking->name }}
                                                         @endforeach
-                                                    </td>
-
-                                                    <td>{{ number_format($tournament->tournament_top_money[0]->money, 0, ',', '.') . ' VNĐ' }}
-                                                    </td>
-                                                    <td>{{ number_format($tournament->tournament_top_money[1]->money, 0, ',', '.') . ' VNĐ' }}
-                                                    </td>
-                                                    <td>{{ number_format($tournament->tournament_top_money[2]->money, 0, ',', '.') . ' VNĐ' }}
                                                     </td>
                                                     @if ($tournament->status == 0)
                                                         <td>

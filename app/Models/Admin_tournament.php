@@ -28,6 +28,6 @@ class Admin_tournament extends Model
 
     public function tournament()
     {
-        return $this->hasMany(Tournament::class); 
+        return $this->hasMany(Tournament::class)->orderBy('start_date', 'desc'); 
     }
 }
