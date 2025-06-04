@@ -44,8 +44,26 @@
     function saveFn(data, userData) {
         var json = jQuery.toJSON(data);
         $('#saveOutput').text('POST ' + userData + ' ' + json);
-        console.log(data);
+        console.log(json);
 
+        fetch(userData, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Lỗi khi gọi API");
+            return response.json();
+        })
+        .then(result => {
+            console.log("API Response:", result);
+        })
+        .catch(error => {
+            console.error("API Error:", error);
+        });
     }
 
     $(function() {
@@ -53,7 +71,7 @@
         container.bracket({
         init: saveData,
         save: saveFn,
-        userData: "http://myapi"
+        userData: "http://127.0.0.1:8001/api/tournament/bracket/1"
         });
 
         var data = container.bracket('data');
@@ -68,7 +86,7 @@
         roundMargin: 50,
         init: saveData,
         save: saveFn,
-        userData: "http://myapi"
+        userData: "http://127.0.0.1:8001/api/tournament/bracket/1"
     };
 
     $(function() {
