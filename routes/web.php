@@ -4,13 +4,9 @@ use App\Http\Controllers\AdminTournamentController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckPlayerRole;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\MessageController;
-use App\Http\Middleware\CheckAdmin;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PostController;
-use App\Models\Message;
 use App\Http\Controllers\NotificationController;
 
 Route::get('/', [RankingController::class, 'index']);
@@ -23,7 +19,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/message', [MessageController::class, 'index'])->name('message.index');
     // Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     // Route::post('/posts', [PostController::class, 'create'])->name('posts.create');
     // Route::get('/posts/{postId}', [PostController::class, 'show'])->name('posts.show');
@@ -74,6 +69,7 @@ Route::middleware('is_admin_tournament')->group(
         Route::post('/adminTournament/updatePlayerRegisted/{id}', [AdminTournamentController::class, 'updatePlayerRegisted'])->name('adminTournament.updatePlayerRegisted');
         Route::post('/adminTournament/updatePlayerWin/{id}', [AdminTournamentController::class, 'updatePlayerWin'])->name('adminTournament.updatePlayerWin');
         Route::post('/adminTournament/addPlayerRegister/{id_tournament}', [AdminTournamentController::class, 'addPlayerRegister'])->name('adminTournament.addPlayerRegister');
+        Route::get('/adminTournament/bracket/{id_tournament}', [AdminTournamentController::class, 'bracket'])->name('adminTournament.bracket');
     }
 );
 
