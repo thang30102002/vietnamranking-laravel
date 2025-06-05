@@ -98,7 +98,7 @@
         container.bracket({
         init: saveData,
         save: saveFn,
-        userData: "vietnampool.org/api/tournament/bracket/" + tournamentId
+        userData: " https://vietnampool.org/api/tournament/bracket/" + tournamentId
         });
 
         var data = container.bracket('data');
@@ -113,7 +113,7 @@
         roundMargin: 50,
         init: saveData,
         save: saveFn,
-        userData: "vietnampool.org/api/tournament/bracket/" + tournamentId
+        userData: " https://vietnampool.org/api/tournament/bracket/" + tournamentId
     };
 
     $(function() {
