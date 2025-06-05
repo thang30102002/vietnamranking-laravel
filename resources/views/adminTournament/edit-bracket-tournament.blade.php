@@ -25,7 +25,6 @@
   </style>
 </head>
 <body>
-
 <div>
   <div class="my-4 flex gap-2 items-center">
       <button onclick="zoomOut()" class="btn btn-secondary">Thu nhỏ</button>
@@ -40,6 +39,8 @@
 </div>
 
 <script>
+    var api_url = {!! json_encode(env('APP_URL')) !!};
+    
     var bracket_data = {!! json_encode($bracket_data) !!};
     var bracketData = JSON.parse(bracket_data);
     var tournamentId = {!! json_encode($tournament->id) !!};
@@ -98,7 +99,7 @@
         container.bracket({
         init: saveData,
         save: saveFn,
-        userData: "http://127.0.0.1:8000/api/tournament/bracket/" + tournamentId
+        userData: api_url + "/api/tournament/bracket/" + tournamentId
         });
 
         var data = container.bracket('data');
@@ -113,7 +114,7 @@
         roundMargin: 50,
         init: saveData,
         save: saveFn,
-        userData: "http://127.0.0.1:8000/api/tournament/bracket/" + tournamentId
+        userData: api_url + "/api/tournament/bracket/" + tournamentId
     };
 
     $(function() {
