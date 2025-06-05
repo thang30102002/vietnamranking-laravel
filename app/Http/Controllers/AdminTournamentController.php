@@ -677,11 +677,13 @@ class AdminTournamentController extends Controller
         $tournament = Tournament::find($id);
         $player_registed = $tournament->player_registed_tournament->where('status', 1);
         $players = $player_registed->pluck('player.name')->toArray();
+        $teams = null;
         for ($i = 0; $i < count($players); $i += 2) {
             $team1 = $players[$i] ?? null;
             $team2 = $players[$i + 1] ?? null;
             $teams[] = [$team1, $team2];
         }
-        return view('adminTournament/edit-bracket-tournament', ['tournament' => $tournament, 'teams' => $teams]);
+        $bracket_data = $tournament->bracket;
+        return view('adminTournament/edit-bracket-tournament', ['tournament' => $tournament, 'teams' => $teams, 'bracket_data' => $bracket_data]);
     }
 }

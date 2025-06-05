@@ -55,7 +55,9 @@ class RankingController extends Controller
     public function tournament()
     {
         $tournaments = Tournament::get_all_apply();
-        return view('tournament', ['tournaments' => $tournaments]);
+        $tournaments_taking_place = Tournament::get_all_taking_place();
+        $tournaments_took_place = Tournament::get_all_took_place();
+        return view('tournament', ['tournaments' => $tournaments, 'tournaments_taking_place' => $tournaments_taking_place, 'tournaments_took_place' => $tournaments_took_place]);
     }
 
     public function register_tournament(Request $request)
@@ -107,6 +109,21 @@ class RankingController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Cập nhật mật khẩu thất bại!');
         }
+    }
+
+    public function tournament_bracket($tournamentId)
+    {
+        $tournament = Tournament::find($tournamentId);
+        $player_registed = $tournament->player_registed_tournament->where('status', 1);
+        $players = $player_registed->pluck('player.name')->toArray();
+        $teams = null;
+        for ($i = 0; $i < count($players); $i += 2) {
+            $team1 = $players[$i] ?? null;
+            $team2 = $players[$i + 1] ?? null;
+            $teams[] = [$team1, $team2];
+        }
+        $bracket_data = $tournament->bracket;
+        return view('tournament-bracket', ['tournament' => $tournament, 'teams' => $teams, 'bracket_data' => $bracket_data]);
     }
 }
 

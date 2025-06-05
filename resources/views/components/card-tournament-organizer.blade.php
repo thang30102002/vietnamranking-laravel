@@ -1,5 +1,6 @@
 @php
     use Carbon\Carbon;
+        $today = now();
 @endphp
 <div class="antialiased font-sans animate__animated animate__slideInUp">
     <div class="max-w-6xl mx-auto">
@@ -66,8 +67,11 @@
                     <button class="w-full" id="toggleButton{{ $organizer->id }}">Xem thêm</button>
                     <a id="registerTournament{{ $organizer->id }}"
                         href={{ route('ranking.register_tournament', ['tournament_id' => $organizer->id]) }}
-                        class=" block text-center w-full bg-[#E3353E] text-[1rem] font-bold text-white p-2">Đăng ký
+                        class=" block text-center w-full bg-[#E3353E] text-[1rem] font-bold text-white p-2 {{$organizer->start_date < $today ? 'hidden' : ''}}">Đăng ký
                         ngay</a>
+                    <a id="registerTournament{{ $organizer->id }}"
+                        href={{ route('ranking.tournament_bracket', ['tournamentId' => $organizer->id]) }}
+                        class=" block text-center w-full bg-[cornflowerblue] text-[1rem] font-bold text-white p-2">Xem sơ đồ thi đấu</a>
                 </div>
             </div>
         </div>

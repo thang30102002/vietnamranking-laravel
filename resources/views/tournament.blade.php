@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="{{ asset('css/ranking.css') }}">
-    {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('fontawesome-free-6.7.2-web/css/all.min.css') }}">
 </head>
@@ -41,11 +40,33 @@
             <h1 class=" text-white text-center text-[13px] mt-[60px]">Chưa có giải đấu nào sắp diễn ra</h1>
         @endif
     @endif
-    <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
-        @foreach ($tournaments as $tournament)
-            <x-card-tournament-organizer :organizer="$tournament" />
-        @endforeach
+    <div>
+        <h3 class="text-white ">Chưa diễn ra</h3>
+        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
+            @foreach ($tournaments as $tournament)
+                <x-card-tournament-organizer :organizer="$tournament" />
+            @endforeach
 
+        </div>
+    </div>
+
+    <div>
+        <h3 class="text-white ">Đang diễn ra</h3>
+        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
+            @foreach ($tournaments_taking_place as $tournament)
+                <x-card-tournament-organizer :organizer="$tournament" />
+            @endforeach
+
+        </div>
+    </div>
+
+    <div>
+        <h3 class="text-white ">Đã diễn ra</h3>
+        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
+            @foreach ($tournaments_took_place as $tournament)
+                <x-card-tournament-organizer :organizer="$tournament" />
+            @endforeach
+        </div>
     </div>
     <x-footer />
 </body>

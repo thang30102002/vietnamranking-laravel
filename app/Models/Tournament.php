@@ -14,6 +14,7 @@ class Tournament extends Model
         'fees',
         'status',
         'admin_tournament_id',
+        'bracket'
     ];
 
     public function player_registed_tournament()
@@ -55,7 +56,23 @@ class Tournament extends Model
     public static function get_all_apply()
     {
         $today = now();
-        $tournament = self::where('status', '=', '1')->where('start_date', '>=', $today)->get();
+        $tournament = self::where('status', '=', '1')->where('start_date', '>', $today)->get();
+        return $tournament;
+    }
+
+    public static function get_all_taking_place()
+    {
+        $today = now()->toDateString(); // Lấy chuỗi ngày hôm nay: '2025-06-04'
+    
+        return self::where('status', '1')
+                ->whereDate('start_date', $today)
+                ->get();
+    }
+
+    public static function get_all_took_place()
+    {
+        $today = now();
+        $tournament = self::where('status', '=', '1')->where('start_date', '<', $today)->get();
         return $tournament;
     }
 }

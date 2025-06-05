@@ -15,7 +15,7 @@ class ApiTournament
     {
         $tournament = \App\Models\Tournament::findOrFail($id);
         $tournament->bracket = json_encode($request->all()); // ✅ Đúng
-$tournament->save();
+        $tournament->save();
         return response()->json(['message' => 'Bracket updated successfully'], 200);
     }
 }

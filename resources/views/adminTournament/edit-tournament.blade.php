@@ -328,6 +328,7 @@
         <x-admin-tournament.sidebar />
         <div class="page-wrapper">
             <div class="content container-fluid w-[95%] bg-white m-auto">
+            <div class=" text-right px-4"><a href="{{ route('adminTournament.bracket', ['id_tournament' => $tournament->id]) }}" class="btn btn-primary ml-2 mt-4">Sơ đồ nhánh thì đấu</a></div>
                 <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col">

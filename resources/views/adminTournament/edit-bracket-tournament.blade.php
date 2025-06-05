@@ -10,27 +10,53 @@
 
   <style>
     #bracket-wrapper {
-      transform-origin: top left;
-      transition: transform 0.2s ease;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll; /* Bắt buộc để kích hoạt scroll khi nội dung lớn */
+  transform-origin: top left;
+  transition: transform 0.2s ease;
+  cursor: grab;
+  position: relative;
+}
+    #bracket-wrapper:active {
+      cursor: grabbing;
     }
+
   </style>
 </head>
 <body>
 
 <div>
-    Zoom: <input type="range" id="zoomSlider" min="0.3" max="2" step="0.1" value="1" />
-</div>
-<div id="save">
-    <div id="bracket-wrapper">
-      <div class="demo"></div>
-    </div>
+  <div class="my-4 flex gap-2 items-center">
+      <button onclick="zoomOut()" class="btn btn-secondary">Thu nhỏ</button>
+      <button onclick="zoomIn()" class="btn btn-secondary">Phóng to</button>
   </div>
+    
+  <div id="save">
+      <div id="bracket-wrapper" class="relative overflow-auto p-2" style="height: 80vh; width: 100vw;">
+          <div id="bracket-content" class="demo"></div>
+      </div>
+  </div>
+</div>
 
-<pre id="saveOutput"></pre>
-<pre id="dataOutput"></pre>
 <script>
+    var bracket_data = {!! json_encode($bracket_data) !!};
+    var bracketData = JSON.parse(bracket_data);
+    var tournamentId = {!! json_encode($tournament->id) !!};
+    
     var teamsFromPHP = {!! json_encode($teams) !!};
-    var saveData = {
+    if(teamsFromPHP == null)
+    {
+      teamsFromPHP = [['player 1', 'player 2']];
+    }
+
+    if(bracketData != null)
+    {
+      var saveData = bracketData;
+    }
+    else
+    {
+      var saveData = {
         teams: teamsFromPHP,
         results: [
         [
@@ -40,6 +66,7 @@
         ]
         ]
     };
+    }
 
     function saveFn(data, userData) {
         var json = jQuery.toJSON(data);
@@ -71,7 +98,7 @@
         container.bracket({
         init: saveData,
         save: saveFn,
-        userData: "http://127.0.0.1:8001/api/tournament/bracket/1"
+        userData: "http://127.0.0.1:8000/api/tournament/bracket/" + tournamentId
         });
 
         var data = container.bracket('data');
@@ -86,7 +113,7 @@
         roundMargin: 50,
         init: saveData,
         save: saveFn,
-        userData: "http://127.0.0.1:8001/api/tournament/bracket/1"
+        userData: "http://127.0.0.1:8000/api/tournament/bracket/" + tournamentId
     };
 
     $(function() {
@@ -100,23 +127,74 @@
 
 
 <script>
-    let zoomLevel = 1;
+  let currentZoom = 1;
   
-    document.getElementById('zoomSlider').addEventListener('input', function () {
-      zoomLevel = parseFloat(this.value);
-      document.getElementById('bracket-wrapper').style.transform = `scale(${zoomLevel})`;
-    });
+  function applyZoom() {
+    document.getElementById("bracket-content").style.transform = `scale(${currentZoom})`;
+    document.getElementById("bracket-content").style.transformOrigin = "top left";
+  }
   
-    document.getElementById('bracket-wrapper').addEventListener('wheel', function(e) {
-      if (e.ctrlKey) {
-        e.preventDefault();
-        zoomLevel += (e.deltaY < 0 ? 0.1 : -0.1);
-        zoomLevel = Math.max(0.3, Math.min(zoomLevel, 2));
-        this.style.transform = `scale(${zoomLevel})`;
-        document.getElementById('zoomSlider').value = zoomLevel.toFixed(1);
-      }
-    });
+  function zoomIn() {
+    currentZoom += 0.1;
+    applyZoom();
+  }
+  
+  function zoomOut() {
+    currentZoom = Math.max(0.2, currentZoom - 0.1);
+    applyZoom();
+  }
+  
+  function zoomReset() {
+    currentZoom = 1;
+    applyZoom();
+  }
+  
+  $(function () {
+    var resizeParameters = {
+      teamWidth: 200,
+      skipGrandFinalComeback: true,
+      init: eightTeams,
+    };
+  
+    $('div#bracket-content').bracket(resizeParameters);
+    applyZoom(); // Khởi động với zoom 100%
+  });
   </script>
+  
+  <script>
+      let isDragging = false;
+      let startX, startY, scrollLeft, scrollTop;
+      const wrapper = document.getElementById('bracket-wrapper');
+      
+      wrapper.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        wrapper.classList.add('active');
+        startX = e.pageX - wrapper.offsetLeft;
+        startY = e.pageY - wrapper.offsetTop;
+        scrollLeft = wrapper.scrollLeft;
+        scrollTop = wrapper.scrollTop;
+      });
+      
+      wrapper.addEventListener('mouseleave', () => {
+        isDragging = false;
+      });
+      
+      wrapper.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+      
+      wrapper.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - wrapper.offsetLeft;
+        const y = e.pageY - wrapper.offsetTop;
+        const walkX = (x - startX) * 1; // tốc độ kéo theo chiều ngang
+        const walkY = (y - startY) * 1; // tốc độ kéo theo chiều dọc (nếu có)
+        wrapper.scrollLeft = scrollLeft - walkX;
+        wrapper.scrollTop = scrollTop - walkY;
+      });
+      </script>
+  
 
 </body>
 </html>
