@@ -98,7 +98,7 @@
         container.bracket({
         init: saveData,
         save: saveFn,
-        userData: " https://vietnampool.org/api/tournament/bracket/" + tournamentId
+        userData: "http://127.0.0.1:8000/api/tournament/bracket/" + tournamentId
         });
 
         var data = container.bracket('data');
@@ -113,7 +113,7 @@
         roundMargin: 50,
         init: saveData,
         save: saveFn,
-        userData: " https://vietnampool.org/api/tournament/bracket/" + tournamentId
+        userData: "http://127.0.0.1:8000/api/tournament/bracket/" + tournamentId
     };
 
     $(function() {
@@ -148,17 +148,6 @@
     currentZoom = 1;
     applyZoom();
   }
-  
-  $(function () {
-    var resizeParameters = {
-      teamWidth: 200,
-      skipGrandFinalComeback: true,
-      init: eightTeams,
-    };
-  
-    $('div#bracket-content').bracket(resizeParameters);
-    applyZoom(); // Khởi động với zoom 100%
-  });
   </script>
   
   <script>
