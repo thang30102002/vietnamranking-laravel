@@ -234,7 +234,7 @@ a.no-style {
                                                     đổi mật khẩu</button></li>
                                         @endif
                                         @if (auth()->user()->user_role->role_id == 2)
-                                            <li><a class="dropdown-item p-0"
+                                            <li><a class="dropdown-item p-0" style="color: #212529!important; font-weight:500!important;"
                                                     href={{ route('adminTournament.index') }}>Quản
                                                     lý giải
                                                     đấu</a></li>
