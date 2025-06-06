@@ -80,7 +80,7 @@ class AdminTournamentController extends Controller
                     'start_date' => $request->date_start,
                     'address' => $request->address,
                     'fees' => $request->fees,
-                    'status' => 0,
+                    'status' => 1,
                     'admin_tournament_id' => Auth::user()->admin_tournament->id,
                 ]);
 

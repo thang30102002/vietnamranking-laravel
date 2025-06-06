@@ -6,27 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Quản lý giải đấu</title>
     <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
-    {{-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> --}}
     <link rel="stylesheet" href="{{ asset('images/adminTournament/favicon.png') }}">
-
-    {{-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/bootstrap.min.css') }}">
-
-    {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css"> --}}
-    <link rel="stylesheet" href="{{ asset('css/adminTournament/fontawesome.min.css') }}">
-    {{-- <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css"> --}}
-    <link rel="stylesheet" href="{{ asset('css/adminTournament/all.min.css') }}">
-    {{-- <link rel="stylesheet" href="assets/css/feathericon.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/feathericon.min.css') }}">
-
     <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
-    {{-- <link rel="stylesheet" href="assets/plugins/morris/morris.css"> --}}
     <link rel="stylesheet" href="{{ asset('plugins/adminTournament/morris/morris.css') }}">
-
-    {{-- <link rel="stylesheet" href="assets/css/style.css"> </head> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -59,8 +45,12 @@
                         <div class="card card-table">
                             <div class="card-body booking_card">
                                 <div class="table-responsive">
-
-                                    <table class="datatable table table-stripped table-hover table-center mb-0">
+                                    <div class=" text-right mb-3">
+                                        <input type="text" id="searchInput" placeholder="Tìm kiếm..."
+                                            class=" sm:w-[30%] w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                                            oninput="searchTable()" />
+                                    </div>
+                                    <table class="datatable table table-stripped table-hover table-center mb-0" id="dataTable">
                                         <thead>
                                             <tr>
                                                 <th>Tên</th>
@@ -73,11 +63,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            {{-- @dd(count($tournaments)) --}}
-
                                             @foreach ($tournaments as $tournament)
-                                                <tr>
+                                                <tr  onclick="window.location='{{ route('adminTournament.showEditTournament', ['id' => $tournament->id]) }}'" class="cursor-pointer hover:bg-gray-100">
                                                     <td>{{ $tournament->name }}</td>
                                                     <td>{{ $tournament->tournament_game_type->game_type->name }}</td>
                                                     <td>{{ Carbon::parse($tournament->start_date )->isoFormat('dddd, D / M / YYYY')}}</td>
@@ -160,27 +147,14 @@
             </div>
         </div>
     </div>
-    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    {{-- <script src="assets/js/jquery-3.5.1.min.js"></script> --}}
+    {{-- <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/jquery-3.5.1.min.js') }}"></script>
-
-
-    {{-- <script src="assets/js/popper.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/popper.min.js') }}"></script>
-    {{-- <script src="assets/js/bootstrap.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/bootstrap.min.js') }}"></script>
-
-    {{-- <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script> --}}
     <script src="{{ asset('js/adminTournament/bootstrap.min.js') }}"></script>
-
-    {{-- <script src="assets/plugins/raphael/raphael.min.js"></script> --}}
     <script src="{{ asset('plugins/adminTournament/raphael/raphael.min.js') }}"></script>
-
     <script src="assets/plugins/morris/morris.min.js"></script>
-    {{-- <script src="assets/js/chart.morris.js"></script> --}}
     <script src="{{ asset('js/adminTournament/chart.morris.js') }}"></script>
-
-    {{-- <script src="assets/js/script.js"></script> --}}
     <script src="{{ asset('js/adminTournament/script.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -200,6 +174,30 @@
             });
         });
     </script>
+
+<script>
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('dataTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) { // Bỏ qua hàng tiêu đề
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent || cells[j].innerText;
+                if (cellText.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+</script>
 </body>
 
 </html>

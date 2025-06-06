@@ -506,7 +506,7 @@
                         <h1 class=" text-center text-[13px] mt-[60px]">Chưa có người chơi nào đăng ký giải đấu
                         </h1>
                     @else
-                        <div class=" overflow-auto">
+                        <div class=" overflow-y-auto max-h-[500px]">
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
@@ -632,7 +632,7 @@
                     <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Cập nhật người chơi đạt giải</button></div>
                 </form>
             </div>
-            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
+            {{-- <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
                 <div>
                     <h3>Danh sách trận đấu</h3>
                     <form method="POST" action="{{ route('adminTournament.addMatches') }}">
@@ -747,7 +747,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>
