@@ -59,53 +59,84 @@
         </div>
     </div>
 </body>
+
 <script>
-var bracket_data = {!! json_encode($bracket_data) !!};
-    var bracketData = JSON.parse(bracket_data);
-    var tournamentId = {!! json_encode($tournament->id) !!};
-    
-    var teamsFromPHP = {!! json_encode($teams) !!};
-    if(teamsFromPHP == null)
-    {
-      teamsFromPHP = [['player 1', 'player 2']];
-    }
+  var api_url = {!! json_encode(env('APP_URL')) !!};
+  
+  var bracket_data = {!! json_encode($bracket_data) !!};
+  var bracketData = JSON.parse(bracket_data);
+  var tournamentId = {!! json_encode($tournament->id) !!};
+  
+  var teamsFromPHP = {!! json_encode($teams) !!};
+  if(teamsFromPHP == null)
+  {
+    teamsFromPHP = [['player 1', 'player 2']];
+  }
 
-    if(bracketData != null)
-    {
-      var eightTeams = bracketData;
-    }
-    else
-    {
-      var eightTeams = {
-        teams : [
-            ["Team 1",  "Team 2" ],
-            ["Team 3",  "Team 4" ],
-            ["Team 5",  "Team 6" ],
-            ["Team 7",  "Team 8" ]
-        ],
-        results : [[ /* WINNER BRACKET */
-            [[1,2], [3,4], [5,6], [7,8]],
-            [[9,1], [8,2]],
-            [[1,3]]
-        ], [         /* LOSER BRACKET */
-            [[5,1], [1,2], [3,2], [6,9]],
-            [[1,2], [3,1]],
-            [[4,2]]
-        ]]
-        }
-    }
- 
-    var resizeParameters = {
-    teamWidth: 200,
-    // scoreWidth: 30,
-    // matchMargin: 10,
-    // roundMargin: 50,
-    init: eightTeams,   // dữ liệu khởi tạo bracket
-    // Nếu có hàm save, có thể thêm save: saveFn
-    // Nếu có userData url thì thêm userData: "..."
-};
+  if(bracketData != null)
+  {
+    var saveData = bracketData;
+  }
+  else
+  {
+    var saveData = {
+      teams: teamsFromPHP,
+      results: [
+      [
+          [[1, 0], [null, null], [null, null], [null, null]],
+          [[null, null], [1, 4]],
+          [[null, null], [null, null]]
+      ]
+      ]
+  };
+  }
 
-$('div#save .demo').bracket(resizeParameters);
+  function saveFn(data, userData) {
+      var json = jQuery.toJSON(data);
+      $('#saveOutput').text('POST ' + userData + ' ' + json);
+      fetch(userData, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          },
+          body: json
+      })
+      .then(response => {
+          if (!response.ok) throw new Error("Lỗi khi gọi API");
+          return response.json();
+      })
+      .then(result => {
+          console.log("API Response:", result);
+      })
+      .catch(error => {
+          console.error("API Error:", error);
+      });
+  }
+
+  $(function() {
+      var container = $('div#save .demo');
+      container.bracket({
+      init: saveData,
+      });
+
+      var data = container.bracket('data');
+      $('#dataOutput').text(jQuery.toJSON(data));
+  });
+
+
+  var resizeParameters = {
+      teamWidth: 200,
+      init: saveData,
+  };
+
+  $(function() {
+      var container = $('div#save .demo');
+      container.bracket(resizeParameters);
+
+      var data = container.bracket('data');
+      $('#dataOutput').text(jQuery.toJSON(data));
+  });
 </script>
 
 <script>
