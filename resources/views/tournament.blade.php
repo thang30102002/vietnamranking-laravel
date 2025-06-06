@@ -40,29 +40,32 @@
             <h1 class=" text-white text-center text-[13px] mt-[60px]">Chưa có giải đấu nào sắp diễn ra</h1>
         @endif
     @endif
+    @if (count($tournaments) > 0)
     <div>
-        <h3 class="text-white ">Chưa diễn ra</h3>
-        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
+        <h3 class="text-white p-3 ">Chưa diễn ra</h3>
+        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[200px]">
             @foreach ($tournaments as $tournament)
                 <x-card-tournament-organizer :organizer="$tournament" />
             @endforeach
 
         </div>
     </div>
-
+    @endif
+    @if (count($tournaments_taking_place) > 0)
     <div>
-        <h3 class="text-white ">Đang diễn ra</h3>
-        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
+        <h3 class="text-white p-3 ">Đang diễn ra</h3>
+        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[200px]">
             @foreach ($tournaments_taking_place as $tournament)
                 <x-card-tournament-organizer :organizer="$tournament" />
             @endforeach
 
         </div>
     </div>
+    @endif
 
     <div>
-        <h3 class="text-white ">Đã diễn ra</h3>
-        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[500px]">
+        <h3 class="text-white p-3 ">Đã diễn ra</h3>
+        <div class=" grid grid-cols-1 gap-4 md:grid-cols-3 mt-[15px] min-h-[200px]">
             @foreach ($tournaments_took_place as $tournament)
                 <x-card-tournament-organizer :organizer="$tournament" />
             @endforeach

@@ -30,9 +30,10 @@
       <button onclick="zoomOut()" class="btn btn-secondary">Thu nhỏ</button>
       <button onclick="zoomIn()" class="btn btn-secondary">Phóng to</button>
   </div>
+  <div class=" text-right px-4" style="text-align: right; position: fixed; z-index: 999; right:15px; top: 0;"><a href="{{ route('adminTournament.showEditTournament', ['id' => $tournament->id]) }}" class="btn btn-primary ml-2 mt-4">Quay về trang quản lý giải đấu</a></div>
     
   <div id="save">
-      <div id="bracket-wrapper" class="relative overflow-auto p-2" style="height: 80vh; width: 100vw;">
+      <div id="bracket-wrapper" class="relative overflow-auto p-2" style="height: 100vh; width: 100vw;">
           <div id="bracket-content" class="demo"></div>
       </div>
   </div>
