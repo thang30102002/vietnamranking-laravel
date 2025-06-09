@@ -29,6 +29,7 @@
   <div class="my-4 flex gap-2 items-center">
       <button onclick="zoomOut()" class="btn btn-secondary">Thu nhỏ</button>
       <button onclick="zoomIn()" class="btn btn-secondary">Phóng to</button>
+      <button onclick="deleteData()" class="btn btn-secondary">Xoá dữ liệu quay về trạng thái ban đầu</button>
   </div>
   <div class=" text-right px-4" style="text-align: right; position: fixed; z-index: 999; right:15px; top: 0;"><a href="{{ route('adminTournament.showEditTournament', ['id' => $tournament->id]) }}" class="btn btn-primary ml-2 mt-4">Quay về trang quản lý giải đấu</a></div>
     
@@ -185,7 +186,32 @@
         wrapper.scrollTop = scrollTop - walkY;
       });
       </script>
-  
+  <script>
+    function deleteData() {
+        if (confirm("Bạn có chắc chắn muốn xoá dữ liệu bảng đấu?")) {
+            fetch(api_url + "/api/tournament/delete-bracket/" + tournamentId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Lỗi khi gọi API");
+                return response.json();
+            })
+            .then(result => {
+                console.log("API Response:", result);
+                alert("Dữ liệu bảng đấu đã được xoá thành công.");
+                location.reload(); // Tải lại trang để cập nhật giao diện
+            })
+            .catch(error => {
+                console.error("API Error:", error);
+                alert("Đã xảy ra lỗi khi xoá dữ liệu bảng đấu.");
+            });
+        }
+  }
+  </script>
 
 </body>
 </html>
