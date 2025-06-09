@@ -80,6 +80,7 @@ class RankingController extends Controller
             $player_register = Player_registed_tournament::create([
                 'tournament_id' => $request->tournament_id,
                 'player_id' => $request->player_id,
+                'status' => 1, 
             ]);
             if ($player_register) {
                 // $player_register->player->user->notify(new TournamentNotification($player_register->tournament, TournamentNotification::TOURNAMENT_TYPE['register']));
