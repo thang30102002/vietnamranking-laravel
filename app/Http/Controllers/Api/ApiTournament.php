@@ -18,4 +18,12 @@ class ApiTournament
         $tournament->save();
         return response()->json(['message' => 'Bracket updated successfully'], 200);
     }
+
+    public function deleteBracket($id)
+    {
+        $tournament = \App\Models\Tournament::findOrFail($id);
+        $tournament->bracket = null;
+        $tournament->save();
+        return response()->json(['message' => 'Bracket updated successfully'], 200);
+    }
 }
