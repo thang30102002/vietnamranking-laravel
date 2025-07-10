@@ -26,19 +26,8 @@
   </style>
 </head>
 <body>
+  {{-- @dd($players) --}}
 <div>
-  {{-- <div class="my-4 flex gap-2 items-center">
-      <button onclick="zoomOut()" class="btn btn-secondary">Thu nhỏ</button>
-      <button onclick="zoomIn()" class="btn btn-secondary">Phóng to</button>
-      <button onclick="deleteData()" class="btn btn-secondary">Xoá dữ liệu quay về trạng thái ban đầu</button>
-  </div>
-  <div class=" text-right px-4" style="text-align: right; position: fixed; z-index: 999; right:15px; top: 0;"><a href="{{ route('adminTournament.showEditTournament', ['id' => $tournament->id]) }}" class="btn btn-primary ml-2 mt-4">Quay về trang quản lý giải đấu</a></div>
-    
-  <div id="save">
-      <div id="bracket-wrapper" class="relative overflow-auto p-2" style="height: 100vh; width: 100vw;">
-          <div id="bracket-content" class="demo"></div>
-      </div>
-  </div> --}}
   <!-- PHẦN CHỌN SỐ LƯỢNG VÀ NHẬP TÊN NGƯỜI CHƠI -->
 <div id="setup-section" class="mb-4">
   <label for="player-count">Chọn số lượng người chơi:</label>
@@ -92,6 +81,8 @@
     {
       teamsFromPHP = [['player 1', 'player 2']];
     }
+    // Danh sách người chơi lấy từ backend
+    let playersList = {!! json_encode($players) !!};
 
     if(bracketData != null)
     {
@@ -250,7 +241,6 @@
                 alert("Đã xảy ra lỗi khi xoá dữ liệu bảng đấu.");
             });
         }
-  }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -261,9 +251,52 @@ let defaultPlayerCount = 32;
 function renderPlayerNameInputs(count) {
   let html = '';
   for (let i = 0; i < count; i++) {
-    html += `<div class="mb-2"><label>Người chơi ${i+1}: <input type="text" class="form-control d-inline-block w-auto player-name-input" data-idx="${i}" value="Player ${i+1}" required></label></div>`;
+    let options = '<option value="">Chọn người chơi</option>';
+    options += '<option value="null">null</option>';
+    options += playersList.map((name, index) => {
+      let selected = (index === i) ? 'selected' : '';
+      return `<option value="${name}" ${selected}>${name}</option>`;
+    }).join('');
+    
+    html += `<div class="mb-2">
+      <label>Người chơi ${i+1}: 
+        <select class="form-control d-inline-block w-auto player-name-input" data-idx="${i}" required>
+          ${options}
+        </select>
+      </label>
+      <span class="error-message" id="error-${i}" style="color: red; display: none;"></span>
+    </div>`;
   }
   document.getElementById('player-names-list').innerHTML = html;
+  
+  // Thêm event listener cho từng select
+  document.querySelectorAll('.player-name-input').forEach((select, index) => {
+    select.addEventListener('change', function() {
+      checkDuplicatePlayers();
+    });
+  });
+}
+
+function checkDuplicatePlayers() {
+  let selects = document.querySelectorAll('.player-name-input');
+  let selectedValues = Array.from(selects).map(select => select.value);
+  
+  // Ẩn tất cả thông báo lỗi trước
+  document.querySelectorAll('.error-message').forEach(span => {
+    span.style.display = 'none';
+  });
+  
+  // Kiểm tra trùng tên, bỏ qua 'null'
+  selects.forEach((select, index) => {
+    let currentValue = select.value;
+    if (currentValue !== '' && currentValue !== 'null') {
+      let duplicates = selectedValues.filter((value, idx) => value === currentValue && idx !== index && value !== 'null');
+      if (duplicates.length > 0) {
+        document.getElementById(`error-${index}`).textContent = 'Người chơi đã tham gia';
+        document.getElementById(`error-${index}`).style.display = 'inline';
+      }
+    }
+  });
 }
 document.getElementById('setup-names').onclick = function() {
   let count = +document.getElementById('player-count').value;
@@ -274,10 +307,24 @@ document.getElementById('player-names-form').onsubmit = function(e) {
   e.preventDefault();
   let count = +document.getElementById('player-count').value;
   let nameInputs = document.querySelectorAll('.player-name-input');
-  players = Array.from(nameInputs).map(input => input.value.trim() || `Player ${input.dataset.idx*1+1}`);
+  players = Array.from(nameInputs).map(input => input.value);
+  
+  // Kiểm tra trùng tên, bỏ qua 'null'
+  let duplicates = players.filter((item, index) => players.indexOf(item) !== index && item !== '' && item !== 'null');
+  if (duplicates.length > 0) {
+    alert('Có tên người chơi bị chọn trùng: ' + [...new Set(duplicates)].join(', '));
+    return;
+  }
+  
+  // Kiểm tra có slot nào chưa chọn
+  if (players.some(name => name === '')) {
+    alert('Vui lòng chọn đầy đủ người chơi cho tất cả các slot!');
+    return;
+  }
+  
   if (players.length < count) {
     for (let i = players.length + 1; i <= count; i++) {
-      players.push('Player ' + i);
+      players.push('null');
     }
   }
   document.getElementById('setup-section').style.display = 'none';
@@ -293,7 +340,7 @@ function createPairs(players) {
   let pairs = [];
   for (let i = 0; i < shuffled.length; i += 2) {
     let p1 = shuffled[i];
-    let p2 = (i + 1 < shuffled.length) ? shuffled[i + 1] : null;
+    let p2 = (i + 1 < shuffled.length) ? shuffled[i + 1] : 'null';
     pairs.push([p1, p2]);
   }
   return pairs;
@@ -324,6 +371,64 @@ function startTournament() {
     window._round1Results = results;
   });
 }
+// Hàm gọi API lưu dữ liệu bảng đấu
+function saveBracketData() {
+  let roundData = [];
+  // Lấy dữ liệu các vòng bảng (table)
+  document.querySelectorAll('#tournament-tables table').forEach((table, roundIdx) => {
+    let matches = [];
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      let tds = tr.querySelectorAll('td');
+      let player1 = tds[1]?.textContent.trim();
+      let player2 = tds[3]?.textContent.trim();
+      let score1 = tds[2]?.querySelector('input')?.value;
+      let score2 = tds[4]?.querySelector('input')?.value;
+      matches.push({ player1, player2, score1, score2, round: roundIdx + 1 });
+    });
+    roundData.push(matches);
+  });
+
+  // Lấy dữ liệu vòng loại trực tiếp từ jQuery Bracket nếu có
+  if ($('#elimination-bracket').is(':visible')) {
+    let bracketData = $('#elimination-bracket').bracket('data');
+    let matches = [];
+    if (bracketData && bracketData.teams && bracketData.results && bracketData.results[0]) {
+      bracketData.teams.forEach((pair, idx) => {
+        let [player1, player2] = pair;
+        let [score1, score2] = bracketData.results[0][idx] || [null, null];
+        matches.push({
+          player1,
+          player2,
+          score1,
+          score2,
+          round: roundData.length + 1 // Vòng loại trực tiếp là vòng tiếp theo
+        });
+      });
+      roundData.push(matches);
+    }
+  }
+
+  // Gửi dữ liệu lên API
+  fetch(api_url + "/api/tournament/bracket/" + tournamentId, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({ rounds: roundData })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Lỗi khi gọi API");
+    return response.json();
+  })
+  .then(result => {
+    // Có thể thông báo thành công nếu muốn
+  })
+  .catch(error => {
+    // Có thể thông báo lỗi nếu muốn
+  });
+}
+// Gắn sự kiện onchange cho input nhập điểm
 function renderTable(containerId, pairs, results, onSubmit) {
   let html = '<form onsubmit="return false;">';
   html += '<table class="table table-bordered"><thead><tr><th>STT</th><th>Người chơi 1</th><th>Điểm</th><th>Người chơi 2</th><th>Điểm</th></tr></thead><tbody>';
@@ -332,9 +437,9 @@ function renderTable(containerId, pairs, results, onSubmit) {
     html += `<tr>
       <td>${idx + 1}</td>
       <td>${p1}</td>
-      <td><input type="number" min="0" class="score-input" data-idx="${idx}" data-side="0" value="${results[idx]?.[0] ?? ''}" ${!p2 ? 'disabled' : ''}></td>
-      <td>${p2 ? p2 : '<i>BYE</i>'}</td>
-      <td><input type="number" min="0" class="score-input" data-idx="${idx}" data-side="1" value="${results[idx]?.[1] ?? ''}" ${!p2 ? 'disabled' : ''}></td>
+      <td><input type="number" min="0" class="score-input" data-idx="${idx}" data-side="0" value="${results[idx]?.[0] ?? ''}" ${(p2 === 'null') ? 'disabled' : ''} onchange="saveBracketData()"></td>
+      <td>${p2 !== 'null' ? p2 : '<i>BYE</i>'}</td>
+      <td><input type="number" min="0" class="score-input" data-idx="${idx}" data-side="1" value="${results[idx]?.[1] ?? ''}" ${(p2 === 'null') ? 'disabled' : ''} onchange="saveBracketData()"></td>
     </tr>`;
   });
   html += '</tbody></table>';
@@ -346,7 +451,7 @@ function renderTable(containerId, pairs, results, onSubmit) {
   form.onsubmit = function() {
     let newResults = pairs.map((pair, idx) => {
       let [p1, p2] = pair;
-      if (!p2) return [1, 0]; // BYE: p1 thắng
+      if (p2 === 'null') return [1, 0]; // BYE: p1 thắng
       let s1 = +form.querySelector(`.score-input[data-idx="${idx}"][data-side="0"]`).value;
       let s2 = +form.querySelector(`.score-input[data-idx="${idx}"][data-side="1"]`).value;
       if (isNaN(s1) || isNaN(s2)) return null;
@@ -421,7 +526,7 @@ function onRound3Submit(results) {
   $(function() {
     $('#elimination-bracket').bracket({
       init: { teams: eliminationPairs, results: [Array(eliminationPairs.length).fill([null, null])] },
-      save: function() {},
+      save: function() { saveBracketData(); },
       disableToolbar: false,
       disableTeamEdit: false
     });
