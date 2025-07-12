@@ -684,6 +684,6 @@ class AdminTournamentController extends Controller
             $teams[] = [$team1, $team2];
         }
         $bracket_data = $tournament->bracket;
-        return view('adminTournament/edit-bracket-tournament', ['tournament' => $tournament, 'teams' => $teams, 'bracket_data' => $bracket_data]);
+        return view('adminTournament/edit-bracket-tournament', ['tournament' => $tournament, 'teams' => $teams, 'bracket_data' => $bracket_data, 'players' => $players]);
     }
 }
