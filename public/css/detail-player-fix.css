@@ -1,0 +1,135 @@
+/* Fix color and text issues on detail player page */
+
+/* Override body background from original CSS */
+body {
+    background: linear-gradient(135deg, #21324C 0%, #264653 100%) !important;
+    color: #fff !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Ensure text colors work properly */
+.text-white {
+    color: #fff !important;
+}
+
+.text-gray-200 {
+    color: #e5e7eb !important;
+}
+
+.text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.text-gray-700 {
+    color: #374151 !important;
+}
+
+.text-gray-800 {
+    color: #1f2937 !important;
+}
+
+.text-gray-900 {
+    color: #111827 !important;
+}
+
+/* Fix card backgrounds */
+.bg-white {
+    background-color: #fff !important;
+}
+
+/* Fix gradient backgrounds */
+.gradient-bg {
+    background: linear-gradient(135deg, #21324C 0%, #264653 100%) !important;
+}
+
+/* Fix skill bar colors */
+.skill-bar {
+    background: linear-gradient(90deg, #F4A261 0%, #E76F51 100%) !important;
+}
+
+/* Fix primary colors */
+.text-primary {
+    color: #21324C !important;
+}
+
+.bg-primary {
+    background-color: #21324C !important;
+}
+
+/* Fix secondary colors */
+.text-secondary {
+    color: #F4A261 !important;
+}
+
+.bg-secondary {
+    background-color: #F4A261 !important;
+}
+
+/* Fix accent colors */
+.text-accent {
+    color: #E76F51 !important;
+}
+
+.bg-accent {
+    background-color: #E76F51 !important;
+}
+
+/* Fix dark colors */
+.text-dark {
+    color: #264653 !important;
+}
+
+.bg-dark {
+    background-color: #264653 !important;
+}
+
+/* Ensure proper contrast for readability */
+.bg-white .text-gray-800 {
+    color: #1f2937 !important;
+}
+
+.bg-white .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.bg-white .text-gray-700 {
+    color: #374151 !important;
+}
+
+/* Fix table text colors */
+table th {
+    color: #374151 !important;
+}
+
+table td {
+    color: #1f2937 !important;
+}
+
+/* Fix footer text */
+footer .text-white {
+    color: #fff !important;
+}
+
+/* Fix button colors */
+.btn {
+    color: #fff !important;
+}
+
+/* Fix link colors */
+a {
+    color: inherit !important;
+}
+
+/* Fix border colors */
+.border-gray-100 {
+    border-color: #f3f4f6 !important;
+}
+
+.border-gray-200 {
+    border-color: #e5e7eb !important;
+}
+
+/* Fix hover effects */
+.hover\:bg-gray-50:hover {
+    background-color: #f9fafb !important;
+}

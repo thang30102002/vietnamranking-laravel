@@ -1,0 +1,23 @@
+/* Fix hero section text visibility */
+.hero-badge {
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+}
+
+.hero-badge i {
+    color: #fff !important;
+}
+
+/* Alternative: Use solid background with better contrast */
+.hero-badge-solid {
+    background: rgba(33, 50, 76, 0.8) !important;
+    color: #fff !important;
+    border: 1px solid rgba(244, 162, 97, 0.5) !important;
+}
+
+.hero-badge-solid i {
+    color: #F4A261 !important;
+}
