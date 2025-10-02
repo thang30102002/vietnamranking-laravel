@@ -1,0 +1,140 @@
+/* Global Header Fix for all pages */
+
+/* Desktop Header Styles */
+.header-area {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: rgba(33, 50, 76, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.header-area .main-nav {
+    background: transparent !important;
+    padding: 10px 0 !important;
+}
+
+.header-area .main-nav .logo {
+    color: #fff !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
+}
+
+.header-area .main-nav .nav li a {
+    color: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+.header-area .main-nav .nav li a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #F4A261 !important;
+}
+
+.header-area .main-nav .nav li:last-child a {
+    background-color: #F4A261 !important;
+    color: #fff !important;
+}
+
+.header-area .main-nav .nav li:last-child a:hover {
+    background-color: #E76F51 !important;
+}
+
+.header-area .main-nav .menu-trigger {
+    color: #fff !important;
+}
+
+/* Mobile Header Styles */
+@media (max-width: 767px) {
+    /* Ensure header background is visible */
+    .header-area {
+        background: rgba(33, 50, 76, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+    }
+    
+    /* Fix header navigation background */
+    .header-area .main-nav .nav {
+        background-color: rgba(33, 50, 76, 0.9) !important;
+        border-radius: 0px 0px 25px 25px !important;
+    }
+    
+    /* Fix header navigation items */
+    .header-area .main-nav .nav li {
+        background-color: transparent !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Fix header navigation links */
+    .header-area .main-nav .nav li a {
+        color: #fff !important;
+        background-color: transparent !important;
+        border-radius: 0px 0px 25px 25px !important;
+        font-weight: 400 !important;
+    }
+    
+    /* Fix header navigation links hover */
+    .header-area .main-nav .nav li a:hover {
+        color: #F4A261 !important;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Fix header logo */
+    .header-area .main-nav .logo {
+        color: #fff !important;
+    }
+    
+    /* Fix menu trigger button */
+    .header-area .main-nav .menu-trigger {
+        color: #fff !important;
+    }
+    
+    /* Fix menu trigger button hover */
+    .header-area .main-nav .menu-trigger:hover {
+        color: #F4A261 !important;
+    }
+    
+    /* Ensure proper contrast */
+    .header-area .main-nav .nav li:first-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Fix dropdown menu if exists */
+    .header-area .main-nav .nav li:last-child a {
+        background-color: #F4A261 !important;
+        color: #fff !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+    }
+    
+    .header-area .main-nav .nav li:last-child a:hover {
+        background-color: #E76F51 !important;
+        color: #fff !important;
+    }
+}
+
+/* Additional fixes for very small screens */
+@media (max-width: 480px) {
+    .header-area .main-nav .nav li a {
+        font-size: 14px !important;
+        padding: 0 15px !important;
+    }
+    
+    .header-area .main-nav .logo {
+        font-size: 20px !important;
+    }
+}
+
+/* Ensure proper spacing for content below fixed header */
+body {
+    padding-top: 80px !important;
+}
+
+/* Override any conflicting styles */
+.gradient-bg {
+    padding-top: 0 !important;
+}

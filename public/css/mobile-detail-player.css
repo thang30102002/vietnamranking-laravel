@@ -1,0 +1,349 @@
+/* Mobile Detail Player Responsive Design */
+
+/* Mobile Hero Section */
+@media (max-width: 768px) {
+    /* Hero Section Mobile */
+    .hero-section-mobile {
+        padding: 60px 0 30px 0 !important;
+        text-align: center !important;
+    }
+    
+    .hero-section-mobile .player-avatar {
+        width: 120px !important;
+        height: 120px !important;
+        margin: 0 auto 20px auto !important;
+    }
+    
+    .hero-section-mobile .player-name {
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        color: #fff !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .hero-section-mobile .player-info {
+        font-size: 16px !important;
+        color: #e5e7eb !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .hero-section-mobile .player-badges {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        align-items: center !important;
+    }
+    
+    .hero-section-mobile .player-badge {
+        background: rgba(33, 50, 76, 0.8) !important;
+        color: #fff !important;
+        padding: 8px 16px !important;
+        border-radius: 20px !important;
+        font-size: 14px !important;
+        border: 1px solid rgba(244, 162, 97, 0.5) !important;
+        min-width: 200px !important;
+        text-align: center !important;
+    }
+    
+    .hero-section-mobile .player-badge i {
+        color: #F4A261 !important;
+        margin-right: 8px !important;
+    }
+    
+    /* Main Content Mobile */
+    .main-content-mobile {
+        padding: 20px 15px !important;
+    }
+    
+    .main-content-mobile .content-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    
+    /* Cards Mobile */
+    .card-mobile {
+        background: #fff !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+        overflow: hidden !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .card-mobile .card-header {
+        padding: 16px 20px !important;
+        background: linear-gradient(135deg, #21324C 0%, #264653 100%) !important;
+        color: #fff !important;
+    }
+    
+    .card-mobile .card-header h3 {
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    
+    .card-mobile .card-header .badge {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #fff !important;
+        padding: 4px 12px !important;
+        border-radius: 12px !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+    }
+    
+    .card-mobile .card-body {
+        padding: 20px !important;
+    }
+    
+    /* Stats Card Mobile */
+    .stats-card-mobile .stat-item {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 0 !important;
+        border-bottom: 1px solid #f3f4f6 !important;
+    }
+    
+    .stats-card-mobile .stat-item:last-child {
+        border-bottom: none !important;
+    }
+    
+    .stats-card-mobile .stat-label {
+        font-size: 14px !important;
+        color: #6b7280 !important;
+        font-weight: 500 !important;
+    }
+    
+    .stats-card-mobile .stat-value {
+        font-size: 16px !important;
+        color: #21324C !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Skills Card Mobile */
+    .skills-card-mobile .skill-item {
+        margin-bottom: 16px !important;
+    }
+    
+    .skills-card-mobile .skill-label {
+        font-size: 14px !important;
+        color: #374151 !important;
+        margin-bottom: 6px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+    
+    .skills-card-mobile .skill-bar {
+        height: 8px !important;
+        background: #e5e7eb !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+    
+    .skills-card-mobile .skill-progress {
+        height: 100% !important;
+        background: linear-gradient(90deg, #F4A261 0%, #E76F51 100%) !important;
+        border-radius: 4px !important;
+        transition: width 0.3s ease !important;
+    }
+    
+    /* Table Mobile */
+    .table-mobile {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+    
+    .table-mobile th {
+        background: #f8fafc !important;
+        color: #374151 !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        padding: 12px 8px !important;
+        text-align: left !important;
+        border-bottom: 2px solid #e5e7eb !important;
+    }
+    
+    .table-mobile td {
+        padding: 12px 8px !important;
+        font-size: 13px !important;
+        color: #1f2937 !important;
+        border-bottom: 1px solid #f3f4f6 !important;
+    }
+    
+    .table-mobile tr:hover {
+        background: #f9fafb !important;
+    }
+    
+    /* Status Badges Mobile */
+    .status-badge {
+        padding: 4px 8px !important;
+        border-radius: 8px !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+    }
+    
+    .status-badge.success {
+        background: #dcfce7 !important;
+        color: #166534 !important;
+    }
+    
+    .status-badge.pending {
+        background: #fef3c7 !important;
+        color: #92400e !important;
+    }
+    
+    /* Empty State Mobile */
+    .empty-state-mobile {
+        text-align: center !important;
+        padding: 40px 20px !important;
+        color: #6b7280 !important;
+    }
+    
+    .empty-state-mobile i {
+        font-size: 48px !important;
+        color: #d1d5db !important;
+        margin-bottom: 16px !important;
+    }
+    
+    .empty-state-mobile p {
+        font-size: 16px !important;
+        margin: 0 !important;
+    }
+    
+    /* Achievements Grid Mobile */
+    .achievements-grid-mobile {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .achievement-item-mobile {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+        padding: 16px !important;
+        border-radius: 12px !important;
+        border: 1px solid #f59e0b !important;
+    }
+    
+    .achievement-item-mobile h4 {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #92400e !important;
+        margin: 0 0 8px 0 !important;
+    }
+    
+    .achievement-item-mobile .achievement-rank {
+        font-size: 14px !important;
+        color: #b45309 !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .achievement-item-mobile .achievement-prize {
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        color: #F4A261 !important;
+        text-align: right !important;
+    }
+    
+    /* Matches List Mobile */
+    .matches-list-mobile {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+    
+    .match-item-mobile {
+        background: #f8fafc !important;
+        padding: 16px !important;
+        border-radius: 12px !important;
+        border: 1px solid #e5e7eb !important;
+    }
+    
+    .match-item-mobile .match-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .match-item-mobile .match-title {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #1f2937 !important;
+    }
+    
+    .match-item-mobile .match-round {
+        background: #21324C !important;
+        color: #fff !important;
+        padding: 4px 8px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+    }
+    
+    .match-item-mobile .match-details {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        font-size: 13px !important;
+        color: #6b7280 !important;
+    }
+    
+    .match-item-mobile .match-result {
+        margin-top: 12px !important;
+        padding-top: 12px !important;
+        border-top: 1px solid #e5e7eb !important;
+        font-size: 14px !important;
+    }
+    
+    .match-item-mobile .match-winner {
+        color: #059669 !important;
+        font-weight: 600 !important;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+    .hero-section-mobile .player-avatar {
+        width: 100px !important;
+        height: 100px !important;
+    }
+    
+    .hero-section-mobile .player-name {
+        font-size: 24px !important;
+    }
+    
+    .hero-section-mobile .player-info {
+        font-size: 14px !important;
+    }
+    
+    .hero-section-mobile .player-badge {
+        font-size: 13px !important;
+        padding: 6px 12px !important;
+        min-width: 180px !important;
+    }
+    
+    .main-content-mobile {
+        padding: 15px 10px !important;
+    }
+    
+    .card-mobile .card-header {
+        padding: 12px 16px !important;
+    }
+    
+    .card-mobile .card-header h3 {
+        font-size: 16px !important;
+    }
+    
+    .card-mobile .card-body {
+        padding: 16px !important;
+    }
+    
+    .table-mobile th,
+    .table-mobile td {
+        padding: 8px 4px !important;
+        font-size: 12px !important;
+    }
+}

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
 <link rel="stylesheet" href="{{ asset('css/owl.css') }}">
 <link rel="stylesheet" href="{{ asset('css/templatemo-lugx-gaming.css') }}">
+<link rel="stylesheet" href="{{ asset('css/global-header-fix.css') }}">
 <style>
     /* Đảm bảo thẻ a không bị ảnh hưởng bởi các thuộc tính không mong muốn */
 a.no-style {
