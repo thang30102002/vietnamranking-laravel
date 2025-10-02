@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="{{ asset('css/owl.css') }}">
     <link rel="stylesheet" href="{{ asset('css/templatemo-lugx-gaming.css') }}">
     
+    <!-- Close Icon Fix CSS -->
+    <link rel="stylesheet" href="{{ asset('css/close-icon-fix.css') }}">
+    
+    <!-- Image Modal CSS -->
+    <link rel="stylesheet" href="{{ asset('css/image-modal.css') }}">
+    
     <!-- Hero Fix CSS -->
     <link rel="stylesheet" href="{{ asset('css/hero-fix.css') }}">
     
@@ -100,10 +106,10 @@
                         $file_name = 'players/' . $player->id . '/' . $player->img;
                     @endphp
                     @if (Storage::disk('public')->exists($file_name))
-                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover" 
+                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover player-image-clickable" onclick="openImageModal(this)" 
                              src="{{ Storage::url($file_name) }}" alt="{{ $player->name }}">
                     @else
-                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover" 
+                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover player-image-clickable" onclick="openImageModal(this)" 
                              src="{{ asset('images/players/player.webp') }}" alt="{{ $player->name }}">
                     @endif
                     <div class="absolute -bottom-2 -right-2 bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg shadow-lg">
@@ -401,5 +407,58 @@
             observer.observe(card);
         });
     </script>
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal">
+    <div class="image-modal-content">
+        <span class="image-modal-close" onclick="closeImageModal()"><i class="fas fa-times"></i></span>
+        <img id="modalImage" src="" alt="">
+    </div>
+</div>
+
+<script>
+function openImageModal(img) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    
+    modal.style.display = "flex";
+    modalImg.src = img.src;
+    modalImg.alt = img.alt;
+    
+    // Add show class for animation
+    setTimeout(() => {
+        modal.classList.add("show");
+    }, 10);
+    
+    // Prevent body scroll
+    document.body.style.overflow = "hidden";
+}
+
+function closeImageModal() {
+    const modal = document.getElementById("imageModal");
+    
+    modal.classList.remove("show");
+    
+    // Wait for animation to complete
+    setTimeout(() => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }, 300);
+}
+
+// Close modal when clicking outside the image
+document.getElementById("imageModal").addEventListener("click", function(e) {
+    if (e.target === this) {
+        closeImageModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        closeImageModal();
+    }
+});
+</script>
+
 </body>
 </html>
