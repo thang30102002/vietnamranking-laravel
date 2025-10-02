@@ -39,6 +39,8 @@
     <!-- Detail Player Fix CSS -->
     <link rel="stylesheet" href="{{ asset('css/detail-player-fix.css') }}">
     <link rel="stylesheet" href="{{ asset('css/mobile-detail-player.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mobile-spacing-fix.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/avatar-mobile-fix.css') }}">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>

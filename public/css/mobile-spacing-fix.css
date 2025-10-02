@@ -1,0 +1,70 @@
+/* Fix Tailwind spacing issues on mobile */
+
+/* Remove Tailwind space-x margin on mobile */
+@media (max-width: 768px) {
+    /* Override Tailwind space-x utility for player badges */
+    .player-badges > * + * {
+        margin-left: 0 !important;
+    }
+    
+    /* Ensure flex direction column on mobile */
+    .player-badges {
+        flex-direction: column !important;
+        gap: 10px !important;
+        align-items: center !important;
+    }
+    
+    /* Remove any horizontal spacing utilities on mobile */
+    .space-x-4 > * + * {
+        margin-left: 0 !important;
+    }
+    
+    .space-x-2 > * + * {
+        margin-left: 0 !important;
+    }
+    
+    .space-x-6 > * + * {
+        margin-left: 0 !important;
+    }
+    
+    .space-x-8 > * + * {
+        margin-left: 0 !important;
+    }
+    
+    /* Use gap instead for better mobile layout */
+    .player-badges {
+        gap: 10px !important;
+    }
+    
+    /* Fix any other spacing issues */
+    .flex.space-x-4 {
+        gap: 10px !important;
+    }
+    
+    .flex.space-x-2 {
+        gap: 8px !important;
+    }
+    
+    .flex.space-x-6 {
+        gap: 12px !important;
+    }
+    
+    .flex.space-x-8 {
+        gap: 16px !important;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .player-badges {
+        gap: 8px !important;
+    }
+    
+    .flex.space-x-4 {
+        gap: 8px !important;
+    }
+    
+    .flex.space-x-2 {
+        gap: 6px !important;
+    }
+}
