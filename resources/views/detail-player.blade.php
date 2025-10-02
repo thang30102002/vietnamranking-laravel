@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="{{ asset('css/owl.css') }}">
     <link rel="stylesheet" href="{{ asset('css/templatemo-lugx-gaming.css') }}">
     
+    <!-- Mobile Header Fix CSS -->
+    <link rel="stylesheet" href="{{ asset('css/mobile-header-fix.css') }}">
+    
     <!-- Close Icon Fix CSS -->
     <link rel="stylesheet" href="{{ asset('css/close-icon-fix.css') }}">
     
@@ -35,6 +38,7 @@
     
     <!-- Detail Player Fix CSS -->
     <link rel="stylesheet" href="{{ asset('css/detail-player-fix.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mobile-detail-player.css') }}">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -97,7 +101,7 @@
     <x-notification />
     
     <!-- Hero Section -->
-    <div class="relative pt-20 pb-16">
+    <div class="relative pt-20 pb-16 hero-section-mobile">
         <div class="absolute inset-0 bg-black opacity-20"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
@@ -106,23 +110,23 @@
                         $file_name = 'players/' . $player->id . '/' . $player->img;
                     @endphp
                     @if (Storage::disk('public')->exists($file_name))
-                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover player-image-clickable" onclick="openImageModal(this)" 
+                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover player-image-clickable player-avatar" onclick="openImageModal(this)" 
                              src="{{ Storage::url($file_name) }}" alt="{{ $player->name }}">
                     @else
-                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover player-image-clickable" onclick="openImageModal(this)" 
+                        <img class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white shadow-2xl object-cover player-image-clickable player-avatar" onclick="openImageModal(this)" 
                              src="{{ asset('images/players/player.webp') }}" alt="{{ $player->name }}">
                     @endif
                     <div class="absolute -bottom-2 -right-2 bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg shadow-lg">
                         #{{ $top }}
                     </div>
                 </div>
-                <h1 class="mt-6 text-4xl sm:text-5xl font-bold text-white">{{ $player->name }}</h1>
-                <p class="mt-2 text-xl text-gray-200">{{ $player->player_ranking->ranking->name }} • {{ $player->point }} điểm</p>
-                <div class="mt-4 flex justify-center space-x-4 text-white">
-                    <span class="hero-badge-solid px-4 py-2 rounded-full text-sm font-medium">
+                <h1 class="mt-6 text-4xl sm:text-5xl font-bold text-white player-name">{{ $player->name }}</h1>
+                <p class="mt-2 text-xl text-gray-200 player-info">{{ $player->player_ranking->ranking->name }} • {{ $player->point }} điểm</p>
+                <div class="mt-4 flex justify-center space-x-4 text-white player-badges">
+                    <span class="hero-badge-solid px-4 py-2 rounded-full text-sm font-medium player-badge">
                         <i class="fas fa-trophy mr-2"></i>{{ $money }}
                     </span>
-                    <span class="hero-badge-solid px-4 py-2 rounded-full text-sm font-medium">
+                    <span class="hero-badge-solid px-4 py-2 rounded-full text-sm font-medium player-badge">
                         <i class="fas fa-phone mr-2"></i>{{ preg_replace('/(\d{4})(\d{3})(\d{3})/', '$1 $2 $3', $player->phone) }}
                     </span>
                 </div>
@@ -131,14 +135,14 @@
     </div>
 
     <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 main-content-mobile">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 content-grid">
             
             <!-- Left Column - Player Info & Skills -->
             <div class="lg:col-span-1 space-y-6">
                 
                 <!-- Player Stats Card -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 card-hover animate-fade-in">
+                <div class="bg-white rounded-2xl shadow-xl p-6 card-hover animate-fade-in card-mobile">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-chart-line text-primary mr-3"></i>
                         Thống kê
@@ -168,7 +172,7 @@
                 </div>
 
                 <!-- Skills Card -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 card-hover animate-fade-in">
+                <div class="bg-white rounded-2xl shadow-xl p-6 card-hover animate-fade-in card-mobile">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-star text-secondary mr-3"></i>
                         Kỹ năng
