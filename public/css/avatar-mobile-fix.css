@@ -1,0 +1,75 @@
+/* Fix avatar visibility on mobile - prevent header overlap */
+
+/* Mobile Hero Section Avatar Fix */
+@media (max-width: 768px) {
+    /* Increase top padding to account for fixed header */
+    .hero-section-mobile {
+        padding-top: 100px !important; /* Increased from 60px */
+        padding-bottom: 30px !important;
+        text-align: center !important;
+    }
+    
+    /* Ensure avatar is fully visible */
+    .hero-section-mobile .player-avatar {
+        width: 120px !important;
+        height: 120px !important;
+        margin: 0 auto 20px auto !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+    
+    /* Add extra margin to ensure avatar is not cut off */
+    .hero-section-mobile .inline-block {
+        margin-top: 20px !important;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .hero-section-mobile {
+        padding-top: 90px !important; /* Slightly less for very small screens */
+        padding-bottom: 25px !important;
+    }
+    
+    .hero-section-mobile .player-avatar {
+        width: 100px !important;
+        height: 100px !important;
+        margin: 0 auto 15px auto !important;
+    }
+    
+    .hero-section-mobile .inline-block {
+        margin-top: 15px !important;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .hero-section-mobile {
+        padding-top: 85px !important;
+        padding-bottom: 20px !important;
+    }
+    
+    .hero-section-mobile .player-avatar {
+        width: 90px !important;
+        height: 90px !important;
+        margin: 0 auto 10px auto !important;
+    }
+    
+    .hero-section-mobile .inline-block {
+        margin-top: 10px !important;
+    }
+}
+
+/* Ensure header doesn't overlap content */
+@media (max-width: 768px) {
+    /* Override body padding if needed */
+    body {
+        padding-top: 80px !important;
+    }
+    
+    /* Ensure hero section starts below header */
+    .hero-section-mobile {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+}
