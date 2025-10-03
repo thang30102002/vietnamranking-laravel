@@ -1,0 +1,179 @@
+/* Tournament Header Consistency Fix */
+
+/* Remove custom body styles that conflict with original theme */
+body {
+    background-color: #ffffff !important;
+    padding-top: 0 !important;
+    font-family: inherit !important;
+    color: inherit !important;
+}
+
+/* Remove custom tournament hero styles */
+.tournament-hero {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    background: none !important;
+}
+
+.tournament-hero::before {
+    display: none !important;
+}
+
+.tournament-hero-content {
+    position: static !important;
+    z-index: auto !important;
+}
+
+.tournament-title {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    background-clip: unset !important;
+    text-shadow: none !important;
+    margin-bottom: 0 !important;
+}
+
+.tournament-subtitle {
+    font-size: inherit !important;
+    color: inherit !important;
+    margin-bottom: 0 !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Ensure header works like other pages */
+.header-area {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.header-area .main-nav {
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.header-area .main-nav .logo {
+    color: inherit !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+}
+
+.header-area .main-nav .nav li a {
+    color: inherit !important;
+    transition: none !important;
+}
+
+.header-area .main-nav .nav li a:hover {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+.header-area .main-nav .nav li:last-child a {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+.header-area .main-nav .nav li:last-child a:hover {
+    background-color: inherit !important;
+}
+
+.header-area .main-nav .menu-trigger {
+    color: inherit !important;
+}
+
+/* Remove mobile header overrides */
+@media (max-width: 767px) {
+    body {
+        padding-top: 0 !important;
+    }
+    
+    .tournament-hero {
+        padding-top: 0 !important;
+    }
+    
+    .header-area {
+        background-color: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
+    .header-area .main-nav .nav {
+        background-color: inherit !important;
+        border-radius: 0 !important;
+    }
+    
+    .header-area .main-nav .nav li {
+        background-color: inherit !important;
+        border-top: none !important;
+    }
+    
+    .header-area .main-nav .nav li a {
+        color: inherit !important;
+        background-color: inherit !important;
+        border-radius: 0 !important;
+        font-weight: inherit !important;
+    }
+    
+    .header-area .main-nav .nav li a:hover {
+        color: inherit !important;
+        background-color: inherit !important;
+    }
+    
+    .header-area .main-nav .logo {
+        color: inherit !important;
+    }
+    
+    .header-area .main-nav .menu-trigger {
+        color: inherit !important;
+    }
+    
+    .header-area .main-nav .menu-trigger:hover {
+        color: inherit !important;
+    }
+    
+    .header-area .main-nav .nav li:first-child {
+        border-top: none !important;
+    }
+    
+    .header-area .main-nav .nav li:last-child a {
+        background-color: inherit !important;
+        color: inherit !important;
+        font-weight: inherit !important;
+        text-transform: none !important;
+    }
+    
+    .header-area .main-nav .nav li:last-child a:hover {
+        background-color: inherit !important;
+        color: inherit !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 0 !important;
+    }
+    
+    .tournament-hero {
+        padding-top: 0 !important;
+    }
+    
+    .header-area .main-nav .nav li a {
+        font-size: inherit !important;
+        padding: inherit !important;
+    }
+    
+    .header-area .main-nav .logo {
+        font-size: inherit !important;
+    }
+}
