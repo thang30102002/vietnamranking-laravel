@@ -151,8 +151,8 @@ a.no-style {
                                 hạng</a></li>
                         <li><a class="{{ request()->path() === 'tournament' ? 'active' : '' }}"
                                 href={{ route('ranking.tournament') }}>Giải đấu</a></li>
-                        <li><a class="{{ request()->path() === 'posts' ? 'active' : '' }}"
-                        href={{ route('posts.index') }}>Cộng đồng</a></li>
+                        {{-- <li><a class="{{ request()->path() === 'posts' ? 'active' : '' }}"
+                        href={{ route('posts.index') }}>Cộng đồng</a></li> --}}
                         {{-- <li><a class="{{ request()->path() === 'message' ? 'active' : '' }}"
                         href={{ route('message.index') }}>Tin nhắn</a></li> --}}
                         {{-- @if (Auth::check())
@@ -212,7 +212,7 @@ a.no-style {
                             <form action={{ route('logout') }} method="post">
                                 @csrf
                                 <div class="dropdown">
-                                    <button class="btn dropdown-toggle sm:text-white" type="button"
+                                    <button class="btn dropdown-toggle sm:text-white text-white" type="button"
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         @if (auth()->user()->user_role->role_id == 3)
                                             {{ auth()->user()->player->name }}
