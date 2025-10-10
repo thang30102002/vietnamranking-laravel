@@ -61,6 +61,41 @@ class CreatePlayerSeeder extends Seeder
                 'id' => '9',
                 'email' => 'long9@gmail.com',
                 'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '10',
+                'email' => 'player10@gmail.com',
+                'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '11',
+                'email' => 'player11@gmail.com',
+                'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '12',
+                'email' => 'player12@gmail.com',
+                'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '13',
+                'email' => 'player13@gmail.com',
+                'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '14',
+                'email' => 'player14@gmail.com',
+                'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '15',
+                'email' => 'player15@gmail.com',
+                'password' => Hash::make('123123123'),
+            ],
+            [
+                'id' => '16',
+                'email' => 'player16@gmail.com',
+                'password' => Hash::make('123123123'),
             ]
         ], ['id'], ['email', 'password']);
 
@@ -108,6 +143,41 @@ class CreatePlayerSeeder extends Seeder
             [
                 'id' => '9',
                 'user_id' => '9',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '10',
+                'user_id' => '10',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '11',
+                'user_id' => '11',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '12',
+                'user_id' => '12',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '13',
+                'user_id' => '13',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '14',
+                'user_id' => '14',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '15',
+                'user_id' => '15',
+                'role_id' => '3',
+            ],
+            [
+                'id' => '16',
+                'user_id' => '16',
                 'role_id' => '3',
             ]
         ], ['id'], ['user_id', 'role_id']);
@@ -193,6 +263,69 @@ class CreatePlayerSeeder extends Seeder
                 'img' => 'fedor.webp',
                 'sex' => 'Nam',
                 'point' => 400,
+            ],
+            [
+                'id' => '10',
+                'name' => 'Trần Văn Hoàng',
+                'phone' => '0385656510',
+                'user_id' => '10',
+                'img' => 'fedor.webp',
+                'sex' => 'Nam',
+                'point' => 550,
+            ],
+            [
+                'id' => '11',
+                'name' => 'Lê Thị Hương',
+                'phone' => '0385656511',
+                'user_id' => '11',
+                'img' => 'fedor.webp',
+                'sex' => 'Nữ',
+                'point' => 480,
+            ],
+            [
+                'id' => '12',
+                'name' => 'Phạm Minh Tuấn',
+                'phone' => '0385656512',
+                'user_id' => '12',
+                'img' => 'fedor.webp',
+                'sex' => 'Nam',
+                'point' => 520,
+            ],
+            [
+                'id' => '13',
+                'name' => 'Hoàng Văn Nam',
+                'phone' => '0385656513',
+                'user_id' => '13',
+                'img' => 'fedor.webp',
+                'sex' => 'Nam',
+                'point' => 450,
+            ],
+            [
+                'id' => '14',
+                'name' => 'Đặng Thị Mai',
+                'phone' => '0385656514',
+                'user_id' => '14',
+                'img' => 'fedor.webp',
+                'sex' => 'Nữ',
+                'point' => 490,
+            ],
+            [
+                'id' => '15',
+                'name' => 'Võ Văn Đức',
+                'phone' => '0385656515',
+                'user_id' => '15',
+                'img' => 'fedor.webp',
+                'sex' => 'Nam',
+                'point' => 580,
+            ],
+            [
+                'id' => '16',
+                'name' => 'Ngô Thị Lan',
+                'phone' => '0385656516',
+                'user_id' => '16',
+                'img' => 'fedor.webp',
+                'sex' => 'Nữ',
+                'point' => 510,
             ]
 
         ], ['id'], ['name', 'phone', 'user_id', 'sex']);
@@ -241,6 +374,41 @@ class CreatePlayerSeeder extends Seeder
             [
                 'id' => '9',
                 'player_id' => '9',
+                'ranking_id' => '9',
+            ],
+            [
+                'id' => '10',
+                'player_id' => '10',
+                'ranking_id' => '8',
+            ],
+            [
+                'id' => '11',
+                'player_id' => '11',
+                'ranking_id' => '9',
+            ],
+            [
+                'id' => '12',
+                'player_id' => '12',
+                'ranking_id' => '8',
+            ],
+            [
+                'id' => '13',
+                'player_id' => '13',
+                'ranking_id' => '9',
+            ],
+            [
+                'id' => '14',
+                'player_id' => '14',
+                'ranking_id' => '9',
+            ],
+            [
+                'id' => '15',
+                'player_id' => '15',
+                'ranking_id' => '8',
+            ],
+            [
+                'id' => '16',
+                'player_id' => '16',
                 'ranking_id' => '9',
             ]
 
@@ -291,6 +459,41 @@ class CreatePlayerSeeder extends Seeder
                 'id' => '9',
                 'player_id' => '9',
                 'money' => 500000,
+            ],
+            [
+                'id' => '10',
+                'player_id' => '10',
+                'money' => 2000000,
+            ],
+            [
+                'id' => '11',
+                'player_id' => '11',
+                'money' => 800000,
+            ],
+            [
+                'id' => '12',
+                'player_id' => '12',
+                'money' => 1200000,
+            ],
+            [
+                'id' => '13',
+                'player_id' => '13',
+                'money' => 600000,
+            ],
+            [
+                'id' => '14',
+                'player_id' => '14',
+                'money' => 900000,
+            ],
+            [
+                'id' => '15',
+                'player_id' => '15',
+                'money' => 2500000,
+            ],
+            [
+                'id' => '16',
+                'player_id' => '16',
+                'money' => 1100000,
             ]
 
         ], ['id'], ['player_id', 'money']);
