@@ -8,10 +8,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Chỉnh sửa giải đấu</title>
+    <meta name="description" content="Cập nhật thông tin giải đấu pool Vietnam">
     <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('images/adminTournament/favicon.png') }}">
+    
+    <!-- Font Awesome - Latest Version -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Bootstrap CSS -->
+    <link rel='preload' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' as='style' onload='this.onload=null;this.rel='stylesheet'>
+    <noscript><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'></noscript>
+    
     <link rel="stylesheet" href="{{ asset('css/adminTournament/bootstrap.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('css/adminTournament/fontawesome.min.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -27,14 +36,158 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
+    <link rel="stylesheet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
     <link rel="stylesheet" href="{{ asset('plugins/adminTournament/morris/morris.css') }}">
 
     {{-- <link rel="stylesheet" href="assets/css/style.css"> </head> --}}
     <link rel="stylesheet" href="{{ asset('css/adminTournament/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- @vite('resources/css/app.css') --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Tab Styles */
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 8px 8px 0 0;
+            background: rgba(255, 255, 255, 0.7);
+            color: #6c757d;
+            font-weight: 600;
+            padding: 12px 20px;
+            margin-right: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            color: #495057;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: white;
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            font-weight: 700;
+        }
+        
+        .tab-content {
+            border-radius: 0 0 16px 16px;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 16px 16px 0 0;
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .badge {
+            font-size: 0.75em;
+        }
+        
+        .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+        
+        /* Money Input Styling */
+        .money-input {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            text-align: right;
+            font-size: 1.1rem;
+        }
+        
+        .money-input:focus {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        
+        .input-group-text {
+            font-weight: 600;
+            border-radius: 0;
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+            border-right: none;
+        }
+        
+        .input-group .form-control:focus {
+            border-left: none;
+            border-right: none;
+        }
+        
+        .money-input::placeholder {
+            font-family: inherit;
+            font-weight: normal;
+            text-align: left;
+        }
+        
+        /* Font Awesome Backup */
+        .fas, .fa-trophy, .fa-sitemap, .fa-edit, .fa-users, .fa-medal, .fa-cog, .fa-user-plus, .fa-crown, .fa-award, .fa-medal, .fa-save, .fa-plus, .fa-search, .fa-sync-alt, .fa-trophy {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brands", sans-serif !important;
+            font-weight: 900 !important;
+            font-style: normal !important;
+            font-variant: normal !important;
+            text-rendering: auto !important;
+            line-height: 1 !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+        
+        /* Fix menu overlap */
+        .page-wrapper .content {
+            margin-top: 80px !important;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .content .d-flex {
+            margin-top: 20px;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .page-wrapper .content {
+                margin-top: 60px !important;
+                padding: 1rem !important;
+            }
+            
+            .content .d-flex {
+                margin-top: 15px;
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 15px;
+            }
+            
+            .content .d-flex .btn {
+                width: 100%;
+            }
+        }
+    </style>
     <style>
         .bracket {
             display: grid;
@@ -327,42 +480,82 @@
         <x-admin-tournament.menu />
         <x-admin-tournament.sidebar />
         <div class="page-wrapper">
-            <div class="content container-fluid w-[95%] bg-white m-auto">
-            <div class=" text-right px-4"><a href="{{ route('adminTournament.bracket', ['id_tournament' => $tournament->id]) }}" class="btn btn-primary ml-2 mt-4">Sơ đồ nhánh thì đấu</a></div>
-                <div class="page-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="page-title mt-5 text-[15px]">Chỉnh sửa giải đấu</h3>
-                        </div>
-                    </div>
+            <div class="content container-fluid w-[95%] bg-white m-auto p-4">
+                <!-- Header Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4 mt-5 pt-3">
+                    <h3 class="page-title mb-0">
+                        <i class="fas fa-trophy text-warning me-2"></i>
+                        Quản lý giải đấu: {{ $tournament->name }}
+                    </h3>
+                    <a href="{{ route('adminTournament.bracket', ['id_tournament' => $tournament->id]) }}" 
+                       class="btn btn-primary">
+                        <i class="fas fa-sitemap me-2"></i>
+                        Sơ đồ nhánh thi đấu
+                    </a>
                 </div>
-                <form action="{{ route('adminTournament.editTournament', ['id' => $tournament->id]) }}" method="POST">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            @csrf
-                            @method('PUT')
-                            <div class="row formtype">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Tên giải đấu</label>
-                                        <input class="form-control" type="text" name="name"
-                                            placeholder="Nhập tên giải đấu" value="{{ $tournament->name }}">
-                                    </div>
-                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Thể loại</label>
-                                        <select class="form-control" id="sel1" name="type">
-                                            @foreach ($game_types as $game_type)
-                                                <option value="{{ $game_type->id }}"
-                                                    {{ $tournament->tournament_game_type->game_type_id == $game_type->id ? 'selected' : '' }}>
-                                                    {{ $game_type->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('type')" class="mt-2" />
-                                </div>
+
+                <!-- Bootstrap Tabs -->
+                <ul class="nav nav-tabs nav-justified" id="tournamentTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit-tournament" 
+                                type="button" role="tab" aria-controls="edit-tournament" aria-selected="true">
+                            <i class="fas fa-edit me-2"></i>
+                            Chỉnh sửa giải đấu
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#player-management" 
+                                type="button" role="tab" aria-controls="player-management" aria-selected="false">
+                            <i class="fas fa-users me-2"></i>
+                            Danh sách người chơi đã đăng ký
+                            @if(count($player_registed) > 0)
+                                <span class="badge bg-primary ms-2">{{ count($player_registed) }}</span>
+                            @endif
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="winners-tab" data-bs-toggle="tab" data-bs-target="#winners-management" 
+                                type="button" role="tab" aria-controls="winners-management" aria-selected="false">
+                            <i class="fas fa-medal me-2"></i>
+                            Danh sách người chơi đạt giải
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content mt-4" id="tournamentTabContent">
+                    <!-- Tab 1: Chỉnh sửa giải đấu -->
+                    <div class="tab-pane fade show active" id="edit-tournament" role="tabpanel" aria-labelledby="edit-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-cog text-primary me-2"></i>
+                                    Thông tin giải đấu
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('adminTournament.editTournament', ['id' => $tournament->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Tên giải đấu</label>
+                                            <input class="form-control" type="text" name="name"
+                                                placeholder="Nhập tên giải đấu" value="{{ $tournament->name }}">
+                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Thể loại</label>
+                                            <select class="form-control" name="type">
+                                                @foreach ($game_types as $game_type)
+                                                    <option value="{{ $game_type->id }}"
+                                                        {{ $tournament->tournament_game_type->game_type_id == $game_type->id ? 'selected' : '' }}>
+                                                        {{ $game_type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('type')" class="mt-2" />
+                                        </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Số lượng người tham gia</label><br />
@@ -403,42 +596,103 @@
                                     </div>
                                     <x-input-error :messages="$errors->get('address')" class="mt-2" />
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Lệ phí tham gia</label>
-                                        <input class="form-control " type="number" name="fees"
-                                            placeholder="Nhập lệ phí tham gia" value={{ $tournament->fees }}>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('fees')" class="mt-2" />
-                                </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-money-bill-wave text-success me-1"></i>
+                                                Lệ phí tham gia (VND)
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-success text-white">
+                                                    <i class="fas fa-coins"></i>
+                                                </span>
+                                                <input class="form-control money-input" 
+                                                       type="text" 
+                                                       name="fees"
+                                                       id="fees"
+                                                       placeholder="Nhập lệ phí tham gia..." 
+                                                       value="{{ number_format($tournament->fees, 0, ',', '.') }}"
+                                                       data-original-value="{{ $tournament->fees }}">
+                                                <span class="input-group-text">VND</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Ví dụ: 100.000 VND
+                                            </small>
+                                            <x-input-error :messages="$errors->get('fees')" class="mt-2" />
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Tiền thưởng vô địch (VND)</label>
-                                        <input class="form-control" type="text" name="money_top_1"
-                                            placeholder="Nhập số tiền thưởng hạng 1"
-                                            value={{ $tournament->tournament_top_money[0]->money }}>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('money_top_1')" class="mt-2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Tiền thưởng á quân (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_2"
-                                            placeholder="Nhập số tiền thưởng hạng 2"
-                                            value={{ $tournament->tournament_top_money[1]->money }}>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('money_top_2')" class="mt-2" />
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Tiền thưởng hạng 3 (VND)</label>
-                                        <input class="form-control" type="number" name="money_top_3"
-                                            placeholder="Nhập số tiền hạng 3"
-                                            value={{ $tournament->tournament_top_money[2]->money }}>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
-                                </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-crown text-warning me-1"></i>
+                                                Tiền thưởng vô địch (VND)
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-warning text-dark">
+                                                    <i class="fas fa-trophy"></i>
+                                                </span>
+                                                <input class="form-control money-input" 
+                                                       type="text" 
+                                                       name="money_top_1"
+                                                       id="money_top_1"
+                                                       placeholder="Nhập số tiền thưởng hạng 1..." 
+                                                       value="{{ number_format($tournament->tournament_top_money[0]->money, 0, ',', '.') }}"
+                                                       data-original-value="{{ $tournament->tournament_top_money[0]->money }}">
+                                                <span class="input-group-text">VND</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Ví dụ: 5.000.000 VND
+                                            </small>
+                                            <x-input-error :messages="$errors->get('money_top_1')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-award text-secondary me-1"></i>
+                                                Tiền thưởng á quân (VND)
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-secondary text-white">
+                                                    <i class="fas fa-medal"></i>
+                                                </span>
+                                                <input class="form-control money-input" 
+                                                       type="text" 
+                                                       name="money_top_2"
+                                                       id="money_top_2"
+                                                       placeholder="Nhập số tiền thưởng hạng 2..." 
+                                                       value="{{ number_format($tournament->tournament_top_money[1]->money, 0, ',', '.') }}"
+                                                       data-original-value="{{ $tournament->tournament_top_money[1]->money }}">
+                                                <span class="input-group-text">VND</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Ví dụ: 3.000.000 VND
+                                            </small>
+                                            <x-input-error :messages="$errors->get('money_top_2')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-medal text-warning me-1"></i>
+                                                Tiền thưởng hạng 3 (VND)
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-warning text-dark">
+                                                    <i class="fas fa-medal"></i>
+                                                </span>
+                                                <input class="form-control money-input" 
+                                                       type="text" 
+                                                       name="money_top_3"
+                                                       id="money_top_3"
+                                                       placeholder="Nhập số tiền thưởng hạng 3..." 
+                                                       value="{{ number_format($tournament->tournament_top_money[2]->money, 0, ',', '.') }}"
+                                                       data-original-value="{{ $tournament->tournament_top_money[2]->money }}">
+                                                <span class="input-group-text">VND</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Ví dụ: 1.000.000 VND
+                                            </small>
+                                            <x-input-error :messages="$errors->get('money_top_3')" class="mt-2" />
+                                        </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Hạng người chơi được tham gia</label>
@@ -474,76 +728,111 @@
                                     </div>
                                     <x-input-error :messages="$errors->get('tournament_end')" class="mt-2" />
                                 </div>
+                                    </div>
+
+                                    <div class="text-end mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>
+                                            Lưu thông tin giải đấu
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Lưu thông tin giải đấu</button></div>
-                </form>
-            </div>
-            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <div class="">
-                    <form method="POST" action="{{ route('adminTournament.addPlayerRegister', ['id_tournament' => $tournament->id]) }}" class=" flex">
-                        @csrf
-                        <div class="sm:w-[30%] w-full">
-                            <input type="text" id="addPLayer" name="email" placeholder="Thêm email cơ thủ..."
-                            class=" w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300" /><br>
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
-                        <button type="submit" class="btn btn-primary ml-1">Thêm</button>
-                    </form>
-                </div>
-                <form action="{{ route('adminTournament.updatePlayerRegisted', ['id' => $tournament->id]) }}" method="POST">
-                    @csrf
-                    <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đã đăng ký:
-                        {{ count($player_registed) }} người đã đăng ký</h3>
-                    
-                    <div class=" text-right mb-3">
-                        <input type="text" id="searchInput" placeholder="Tìm kiếm..."
-                            class=" sm:w-[30%] w-full border rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                            oninput="searchTable()" />
-                    </div>
-                    @if (count($player_registed) == 0)
-                        <h1 class=" text-center text-[13px] mt-[60px]">Chưa có người chơi nào đăng ký giải đấu
-                        </h1>
-                    @else
-                        <div class=" overflow-y-auto max-h-[500px]">
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Tên</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Số điện thoại</th>
-                                        <th scope="col">Hạng</th>
-                                        <th scope="col">Giới tính</th>
-                                        <th scope="col">Trạng thái</th>
-                                    </tr>
-                                </thead>
+
+                    <!-- Tab 2: Quản lý người chơi -->
+                    <div class="tab-pane fade" id="player-management" role="tabpanel" aria-labelledby="players-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-user-plus text-success me-2"></i>
+                                    Quản lý người chơi
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Add Player Form -->
+                                <form method="POST" action="{{ route('adminTournament.addPlayerRegister', ['id_tournament' => $tournament->id]) }}">
+                                    @csrf
+                                    <div class="row mb-4">
+                                        <div class="col-md-8">
+                                            <label class="form-label">Thêm người chơi</label>
+                                            <input type="text" id="addPLayer" name="email" 
+                                                placeholder="Nhập email người chơi để thêm vào giải đấu..." 
+                                                class="form-control" required />
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">&nbsp;</label>
+                                            <button type="submit" class="btn btn-success w-100">
+                                                <i class="fas fa-plus me-2"></i>
+                                                Thêm người chơi
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- Players List -->
+                                <form action="{{ route('adminTournament.updatePlayerRegisted', ['id' => $tournament->id]) }}" method="POST">
+                                    @csrf
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-users text-primary me-2"></i>
+                                            Danh sách người chơi đã đăng ký: {{ count($player_registed) }} người
+                                        </h6>
+                                        <div class="col-md-4">
+                                            <input type="text" id="searchInput" placeholder="Tìm kiếm người chơi..."
+                                                class="form-control" oninput="searchTable()" />
+                                        </div>
+                                    </div>
+                                    @if (count($player_registed) == 0)
+                                        <div class="text-center py-5">
+                                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                                            <h5 class="text-muted">Chưa có người chơi nào đăng ký giải đấu</h5>
+                                        </div>
+                                    @else
+                                        <div class="table-responsive" style="max-height: 500px;">
+                                            <table class="table table-hover" id="dataTable">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Tên</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Số điện thoại</th>
+                                                        <th scope="col">Hạng</th>
+                                                        <th scope="col">Giới tính</th>
+                                                        <th scope="col">Trạng thái</th>
+                                                        <th scope="col">Thao tác</th>
+                                                    </tr>
+                                                </thead>
                                 <tbody>
                                     @php
                                         $stt = 1;
                                     @endphp
                                     @foreach ($player_registed as $player)
-                                        <tr class="{{ $player->status == 0 ? 'bg-yellow-100' : '' }}">
+                                                        <tr class="{{ $player->status == 0 ? 'table-warning' : '' }}">
                                             <th scope="row">{{ $stt }}</th>
                                             <td>{{ $player->player->name }}</td>
                                             <td>{{ $player->player->user->email }}</td>
                                             <td>{{ $player->player->phone }}
                                             </td>
-                                            <td>{{ $player->player->player_ranking->ranking->name }}</td>
+                                                            <td><span class="badge bg-primary">{{ $player->player->player_ranking->ranking->name }}</span></td>
                                             <td>{{ $player->player->sex }}</td>
                                             <input type="hidden" name="player_id[]" value="{{ $player->player->id }}">
-                                            <td><select class="form-control" id="sel1" name="status[]">
-                                                    <option value="0" {{ $player->status == 0 ? 'selected' : '' }}>
-                                                        Chờ xét duyệt</option>
-                                                    <option value="1" {{ $player->status == 1 || $player->status == 2 ? 'selected' : '' }}>
-                                                        Thành công</option>
-                                                </select></td>
-                                            <td><a type="button"
-                                                    href="{{ route('adminTournament.showEditPlayer', ['id' => $player->player->id]) }}"
-                                                    class="btn btn-primary buttonedit">Cập
-                                                    nhật
-                                                </a></td>
+                                                            <td>
+                                                                <select class="form-select form-select-sm" name="status[]">
+                                                                    <option value="0" {{ $player->status == 0 ? 'selected' : '' }}>Chờ xét duyệt</option>
+                                                                    <option value="1" {{ ($player->status == 1 || $player->status == 2) ? 'selected' : '' }}>Thành công</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('adminTournament.showEditPlayer', ['id' => $player->player->id]) }}"
+                                                                   class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-edit"></i>
+                                                                    Cập nhật
+                                                                </a>
+                                                            </td>
                                         </tr>
                                         @php
                                             $stt++;
@@ -551,204 +840,114 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-                    @endif
-                    <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Cập nhật thông trạng thái người chơi</button></div>
-                </form>
-            </div>
-            
-            <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <h3 class="sm:page-title mt-5 text-[17px mb-[10px]">Danh sách người chơi đạt giải</h3>
-                <form action="{{ route('adminTournament.updatePlayerWin', ['id' => $tournament->id]) }}" method="POST">
-                    @csrf
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Quán quân</label>
-                            <input type="email" name="top1"
-                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
-                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Nhập email người tham gia" />
-                            <div
-                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                            </div>
-                        </div>
-                        <x-input-error :messages="$errors->get('top1')" class="mt-2" />
-                        <p
-                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[0]->achievements) == 0 ? 'block' : '' }}">
-                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Á quân</label>
-                            <input type="email" name="top2"
-                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}"
-                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Nhập email người tham gia" />
-                            <div
-                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                            </div>
-                        </div>
-                        <x-input-error :messages="$errors->get('top2')" class="mt-2" />
-                        <p
-                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[1]->achievements) == 0 ? 'block' : '' }}">
-                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Hạng 3 </label>
-                            <input type="email" name="top3[]"
-                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}"
-                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Nhập email người tham gia" />
-                            <div
-                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                            </div>
-                        </div>
-                        <x-input-error :messages="$errors->get('top3.0')" class="mt-2" />
-                        <p
-                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
-                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Hạng 3</label>
-                            <input type="email" name="top3[]"
-                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
-                                value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}"
-                                class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Nhập email người tham gia" />
-                            <div
-                                class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                            </div>
-                        </div>
-                        <x-input-error :messages="$errors->get('top3.1')" class="mt-2" />
-                        <p
-                            class="hidden text-red-400 {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'block' : '' }}">
-                            Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.</p>
-                    </div>
-                    <div class=" text-right px-4"><button type="submit" class="btn btn-primary ml-2 mt-4">Cập nhật người chơi đạt giải</button></div>
-                </form>
-            </div>
-            {{-- <div class="p-[30px] w-[95%] bg-white mt-[20px] mx-auto">
-                <div>
-                    <h3>Danh sách trận đấu</h3>
-                    <form method="POST" action="{{ route('adminTournament.addMatches') }}">
-                        @csrf
-                        <div class="row formtype">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Vòng đấu</label>
-                                    <div class=" grid grid-cols-3">
-                                        <select class="form-control" id="round" name="round">
-                                            @for ($i = 2; $i <= $tournament->number_players; $i *= 2)
-                                                <option value="{{ $i }}"
-                                                    {{ old('round') == $i ? 'selected' : '' }}>
-                                                    Vòng {{ $i }}</option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Cơ thủ 1</label>
-                                    <input type="email" name="player_1" value="{{ old('player_1') }}"
-                                        class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Nhập email người tham gia" />
-                                    <div
-                                        class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                    </div>
-                                </div>
-                                <x-input-error :messages="$errors->get('player_1')" class="mt-2" />
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Cơ thủ 2</label>
-                                    <input type="email" name="player_2" value="{{ old('player_2') }}"
-                                        class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Nhập email người tham gia" />
-                                    <div
-                                        class="search-results mt-3 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                    </div>
-                                </div>
-                                <x-input-error :messages="$errors->get('player_2')" class="mt-2" />
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Vị trí thi đấu</label>
-                                    <input type="number" name="location"
-                                        class="search-input w-full py-[6px] px-[12px] text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        value="{{ old('location') }}" placeholder="Nhập số bàn thi đấu" />
-                                </div>
-                                <x-input-error :messages="$errors->get('location')" class="mt-2" />
-                            </div>
-                            <input type="hidden" name="tournament_id" value="{{ $tournament->id }}">
-                        </div>
-                        <div class=" text-right px-4 py-4"><button type="submit" class="btn btn-primary ">Thêm trận
-                                đấu</button></div>
-                    </form>
-                </div>
-                <div class=" overflow-auto">
-                    <table class="table" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Vòng đấu</th>
-                                <th scope="col">Cơ thủ 1 </th>
-                                <th scope="col">Cơ thủ 2</th>
-                                <th scope="col">Vị trí thi đấu</th>
-                                <th scope="col">Cơ thủ thắng trận</th>
-                                <th scope="col">Tỉ số trận đấu</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $stt = 1;
-                            @endphp
-                            @foreach ($matches as $match)
-                                @php
-                                    $player_match_1 = Player::find($match->player_id_1);
-                                    $player_match_2 = Player::find($match->player_id_2);
-                                    if ($match->player_id_win != null) {
-                                        $player_win = Player::find($match->player_id_win);
-                                    }
-                                @endphp
-                                <tr class="{{ $match->player_id_win == null ? 'bg-yellow-100' : '' }}">
-                                    <th scope="row">{{ $stt }}</th>
-                                    <td>{{ $match->round }}</td>
-                                    <td>{{ $player_match_1->name }} -
-                                        {{ $player_match_1->player_ranking->ranking->name }}</td>
-                                    <td>{{ $player_match_2->name }} -
-                                        {{ $player_match_2->player_ranking->ranking->name }}</td>
-                                    <td>Bàn số {{ $match->location }} </td>
-                                    <td>{{ $match->player_id_win == null ? 'Chưa có kết quả' : $player_win->name }}
-                                    </td>
-                                    @php
-                                        $point = $match->point_1 . '-' . $match->point_2;
-                                    @endphp
-                                    <td>{{ $match->player_id_win == null ? 'Chưa có kết quả' : $point }}
-                                    </td>
-                                    <td><a href="{{ route('adminTournament.showEditMatches', ['id' => $match->id, 'tournament_id' => $tournament->id]) }}"
-                                            class="btn btn-primary">
-                                            Cập nhật
-                                        </a></td>
-                                    <td><button type="button" class="btn bg-red-500 text-white" data-toggle="modal"
-                                            data-target="#delete_match" data-id="{{ $match->id }}">
-                                            Xóa
-                                        </button></td>
-                                </tr>
-                                @php
-                                    $stt++;
-                                @endphp
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div> --}}
+                                            </table>
+                                        </div>
+                                    @endif
 
+                                    <div class="text-end mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-sync-alt me-2"></i>
+                                            Cập nhật trạng thái người chơi
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Quản lý người chơi đạt giải -->
+                    <div class="tab-pane fade" id="winners-management" role="tabpanel" aria-labelledby="winners-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-medal text-warning me-2"></i>
+                                    Danh sách người chơi đạt giải
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('adminTournament.updatePlayerWin', ['id' => $tournament->id]) }}" method="POST">
+                                    @csrf
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-crown text-warning me-1"></i>
+                                                Quán quân
+                                            </label>
+                                            <input type="email" name="top1"
+                                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                                value="{{ count($tournament->tournament_top_money[0]->achievements) != 0 ? $tournament->tournament_top_money[0]->achievements[0]->player->user->email : '' }}"
+                                                class="search-input form-control" 
+                                                placeholder="Nhập email người tham gia" />
+                                            <div class="search-results mt-2 bg-white border rounded shadow-sm d-none"></div>
+                                            <x-input-error :messages="$errors->get('top1')" class="mt-2" />
+                                            <small class="text-muted {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[0]->achievements) == 0 ? 'text-danger' : 'd-none' }}">
+                                                Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.
+                                            </small>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-award text-secondary me-1"></i>
+                                                Á quân
+                                            </label>
+                                            <input type="email" name="top2"
+                                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                                value="{{ count($tournament->tournament_top_money[1]->achievements) != 0 ? $tournament->tournament_top_money[1]->achievements[0]->player->user->email : '' }}"
+                                                class="search-input form-control" 
+                                                placeholder="Nhập email người tham gia" />
+                                            <div class="search-results mt-2 bg-white border rounded shadow-sm d-none"></div>
+                                            <x-input-error :messages="$errors->get('top2')" class="mt-2" />
+                                            <small class="text-muted {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[1]->achievements) == 0 ? 'text-danger' : 'd-none' }}">
+                                                Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.
+                                            </small>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-medal text-warning me-1"></i>
+                                                Hạng 3
+                                            </label>
+                                            <input type="email" name="top3[]"
+                                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                                value="{{ count($tournament->tournament_top_money[2]->achievements) != 0 ? $tournament->tournament_top_money[2]->achievements[0]->player->user->email : '' }}"
+                                                class="search-input form-control" 
+                                                placeholder="Nhập email người tham gia" />
+                                            <div class="search-results mt-2 bg-white border rounded shadow-sm d-none"></div>
+                                            <x-input-error :messages="$errors->get('top3.0')" class="mt-2" />
+                                            <small class="text-muted {{ $tournament->tournament_end == 2 && count($tournament->tournament_top_money[2]->achievements) == 0 ? 'text-danger' : 'd-none' }}">
+                                                Vui lòng cập nhật giải thưởng khi trận đấu kết thúc.
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-medal text-warning me-1"></i>
+                                                Hạng 3 (thứ 2)
+                                            </label>
+                                            <input type="email" name="top3[]"
+                                                {{ $tournament->tournament_end != 2 ? 'disabled' : '' }}
+                                                value="{{ count($tournament->tournament_top_money[2]->achievements) > 1 ? $tournament->tournament_top_money[2]->achievements[1]->player->user->email : '' }}"
+                                                class="search-input form-control" 
+                                                placeholder="Nhập email người tham gia" />
+                                            <div class="search-results mt-2 bg-white border rounded shadow-sm d-none"></div>
+                                            <x-input-error :messages="$errors->get('top3.1')" class="mt-2" />
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-4">
+                                        <button type="submit" class="btn btn-warning">
+                                            <i class="fas fa-trophy me-2"></i>
+                                            Cập nhật người chơi đạt giải
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="delete_match" class="modal fade    " role="dialog" tabindex="-1" role="dialog"
@@ -833,19 +1032,130 @@
 <script src="{{ asset('js/adminTournament/script.js') }}"></script>
 
 <script>
+    // Font Awesome Check
+    document.addEventListener('DOMContentLoaded', function() {
+        const fasIcons = document.querySelectorAll('.fas');
+        fasIcons.forEach(function(icon) {
+            if (!icon.style.fontFamily.includes('Font Awesome')) {
+                icon.style.fontFamily = '"Font Awesome 6 Free", sans-serif';
+                icon.style.fontWeight = '900';
+            }
+        });
+        
+        console.log('FontAwesome icons loaded:', fasIcons.length);
+        
+        // Money Input Formatting
+        const moneyInputs = document.querySelectorAll('.money-input');
+        moneyInputs.forEach(function(input) {
+            // Format on input
+            input.addEventListener('input', function() {
+                formatMoneyInput(this);
+            });
+            
+            // Format on focus
+            input.addEventListener('focus', function() {
+                if (this.value === '') {
+                    this.placeholder = 'Nhập số tiền...';
+                }
+            });
+            
+            // Store original value on blur
+            input.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.value = this.getAttribute('data-original-value') || '';
+                    formatMoneyInput(this);
+                }
+            });
+            
+            // Format on paste
+            input.addEventListener('paste', function(e) {
+                setTimeout(() => {
+                    formatMoneyInput(this);
+                }, 10);
+            });
+        });
+        
+        function formatMoneyInput(input) {
+            let value = input.value.replace(/[^\d]/g, ''); // Remove non-digits
+            
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+            
+            // Format with dots as thousands separators
+            let formattedValue = parseInt(value).toLocaleString('vi-VN');
+            input.value = formattedValue;
+            
+            // Add visual feedback
+            input.style.color = '#28a745';
+            setTimeout(() => {
+                input.style.color = '';
+            }, 1000);
+        }
+        
+        // Form submission handler for money inputs
+        const forms = document.querySelectorAll('form');
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                const moneyInputs = form.querySelectorAll('.money-input');
+                moneyInputs.forEach(function(input) {
+                    // Convert formatted value back to number for submission
+                    let numericValue = input.value.replace(/[^\d]/g, '');
+                    input.value = numericValue;
+                });
+            });
+        });
+        
+        // Bootstrap Tab Fix
+        const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabLinks.forEach(function(tabLink) {
+            tabLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all tabs
+                tabLinks.forEach(function(link) {
+                    link.classList.remove('active');
+                    link.setAttribute('aria-selected', 'false');
+                });
+                
+                // Hide all tab panes
+                tabPanes.forEach(function(pane) {
+                    pane.classList.remove('show', 'active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                
+                // Show corresponding tab pane
+                const targetPane = document.querySelector(this.getAttribute('data-bs-target'));
+                if (targetPane) {
+                    targetPane.classList.add('show', 'active');
+                }
+                
+                console.log('Tab switched to:', this.getAttribute('data-bs-target'));
+            });
+        });
+    });
+
     const openFilter = document.getElementById('openFilter');
     const filter = document.getElementById('filter');
     const bgFilter = document.getElementById('bgFilter');
     const close_Filter = document.getElementById('closeFilter');
 
-    openFilter.addEventListener('click', function() {
-        filter.classList.remove('hidden');
-        bgFilter.classList.remove('hidden');
-    });
-    close_Filter.addEventListener('click', function() {
-        filter.classList.add('hidden');
-        bgFilter.classList.add('hidden');
-    });
+    if (openFilter && filter && bgFilter && close_Filter) {
+        openFilter.addEventListener('click', function() {
+            filter.classList.remove('hidden');
+            bgFilter.classList.remove('hidden');
+        });
+        close_Filter.addEventListener('click', function() {
+            filter.classList.add('hidden');
+            bgFilter.classList.add('hidden');
+        });
+    }
 </script>
 
 <script>
