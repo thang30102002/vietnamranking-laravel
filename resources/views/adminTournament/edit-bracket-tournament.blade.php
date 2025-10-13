@@ -781,6 +781,25 @@
             from { transform: translateX(-100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+        
+        /* Tournament type selection styles */
+        .form-check-input:checked {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+        
+        .form-check-label {
+            cursor: pointer;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-check-input:checked + .form-check-label {
+            border-color: #ffc107;
+            background-color: #fff3cd;
+        }
   </style>
 </head>
 <body>
@@ -804,72 +823,73 @@
                 Thiết lập giải đấu
             </h3>
             
+            <!-- Tournament Type Selection -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-trophy me-2"></i>
+                        Loại giải đấu
+                    </label>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tournament-type" id="ranking-tournament" value="ranking" checked>
+                                <label class="form-check-label" for="ranking-tournament">
+                                    <i class="fas fa-star text-warning me-2"></i>
+                                    <strong>Giải đấu tự do</strong>
+                                    <br>
+                                    <small class="text-muted">Nhập tên cơ thủ thủ công, không tính điểm ranking vietnampool</small>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tournament-type" id="free-tournament" value="free">
+                                <label class="form-check-label" for="free-tournament">
+                                    <i class="fas fa-users text-primary me-2"></i>
+                                    <strong>Giải đấu tính điểm ranking vietnampool</strong>
+                                    <br>
+                                    <small class="text-muted">Chọn cơ thủ từ danh sách đã đăng ký, tính điểm ranking vietnampool</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-12 col-md-6 mb-3">
                     <label for="player-count" class="form-label">
                         <i class="fas fa-users me-1"></i>
                         Số lượng người chơi
                     </label>
-                    <select id="player-count" class="form-select">
-                        <option value="16">16 người chơi</option>
-                        <option value="32" selected>32 người chơi</option>
-                        <option value="64">64 người chơi</option>
-                        <option value="128">128 người chơi</option>
-                    </select>
+                    <div class="form-control-plaintext bg-light p-3 rounded">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-users me-2 text-primary"></i>
+                            <span class="fw-bold">{{ $tournament->number_players ?? 16 }} người chơi</span>
+                            <small class="text-muted ms-2">(Số lượng cố định của giải đấu)</small>
+                        </div>
+                    </div>
+                    <input type="hidden" id="player-count" value="{{ $tournament->number_players ?? 16 }}">
                 </div>
                 <div class="col-12 col-md-6 d-flex align-items-end">
                     <button id="setup-names" class="btn btn-primary w-100">
                         <i class="fas fa-edit me-2"></i>
-                        Nhập tên người chơi
+                        Danh sách cơ thủ 
                     </button>
                 </div>
             </div>
             
-            <!-- Debug Section -->
-            <div class="row mt-3 d-none d-md-block">
-                <div class="col-12">
-                    <div class="alert alert-info">
-                        <h6><i class="fas fa-bug me-2"></i>Debug Tools</h6>
-                        <div class="d-flex flex-wrap gap-2">
-                            <button type="button" class="btn btn-sm btn-outline-info" id="test-player-inputs-btn">
-                                <i class="fas fa-vial me-1"></i>Test Player Inputs
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-info" id="log-players-list-btn">
-                                <i class="fas fa-list me-1"></i>Log Players List
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-warning" id="test-form-submit-btn">
-                                <i class="fas fa-play me-1"></i>Test Form Submit
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-success" id="auto-fill-players-btn">
-                                <i class="fas fa-magic me-1"></i>Auto Fill Players
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-primary" id="test-tournament-creation-btn">
-                                <i class="fas fa-trophy me-1"></i>Test Tournament Creation
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-info" id="test-bracket-update-btn">
-                                <i class="fas fa-sync me-1"></i>Test Bracket Update
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger" id="test-full-tournament-btn">
-                                <i class="fas fa-rocket me-1"></i>Test Full Tournament
-                            </button>
-                        </div>
-                        <small class="d-block mt-2 text-muted">
-                            Mở Developer Console (F12) để xem debug logs
-                        </small>
-                    </div>
-                </div>
-            </div>
-
             <!-- Player Names Form -->
             <form id="player-names-form" style="display:none;" class="mt-4">
                 <div class="row" id="player-names-list"></div>
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-success btn-lg">
+                    <button type="submit" id="tournament-start-btn" class="btn btn-success btn-lg">
                         <i class="fas fa-play me-2"></i>
                         Bắt đầu giải đấu
                     </button>
                 </div>
-  </form>
+            </form>
 </div>
 
         <!-- Controls Panel -->
@@ -1009,6 +1029,11 @@ if (!Array.isArray(playersList)) {
 }
 
 console.log('Final playersList:', playersList);
+
+// Global tournament variables
+var tournamentPlayerCount = {!! json_encode($tournament->number_players ?? 16) !!};
+var databasePlayers = {!! json_encode($players ?? []) !!};
+var tournamentType = 'ranking'; // Default tournament type
 
 // Tournament creation functions
 let tournamentData = {
@@ -1218,13 +1243,17 @@ function addScoreInputListeners() {
             const playerIndex = this.dataset.player;
             console.log(`Score updated: Match ${matchIndex}, Player ${playerIndex}, Score: ${this.value}`);
             
-            // Auto-update winner when both scores are entered
-            updateWinnerDisplay(matchIndex);
+            // Don't auto-update winner display - wait for "Cập nhật" button click
+            // This ensures winner display only changes when "Cập nhật" is clicked
         });
     });
 }
 
 function updateWinnerDisplay(matchIndex) {
+    // This function is now only used for manual updates, not auto-updates
+    // The actual winner display update happens in updateMatchResult()
+    console.log('updateWinnerDisplay called for match', matchIndex);
+    
     const matchInputs = document.querySelectorAll(`input[data-match="${matchIndex}"]`);
     const player1Score = parseInt(matchInputs[0].value) || 0;
     const player2Score = parseInt(matchInputs[1].value) || 0;
@@ -1232,7 +1261,8 @@ function updateWinnerDisplay(matchIndex) {
     const winnerDisplay = document.getElementById(`winner-${matchIndex}`);
     const matchRow = document.getElementById(`round1-match-${matchIndex}`);
     
-    if (player1Score > 0 || player2Score > 0) {
+    // Only update if both scores are entered and valid
+    if (player1Score > 0 && player2Score > 0) {
         if (player1Score > player2Score) {
             winnerDisplay.textContent = tournamentData.round1.pairs[matchIndex][0];
             winnerDisplay.className = 'winner-display text-success fw-bold';
@@ -1241,12 +1271,13 @@ function updateWinnerDisplay(matchIndex) {
             winnerDisplay.textContent = tournamentData.round1.pairs[matchIndex][1];
             winnerDisplay.className = 'winner-display text-success fw-bold';
             matchRow.className = 'table-success';
-        } else if (player1Score === player2Score && player1Score > 0) {
+        } else if (player1Score === player2Score) {
             winnerDisplay.textContent = 'Hòa';
             winnerDisplay.className = 'winner-display text-warning fw-bold';
             matchRow.className = 'table-warning';
         }
     } else {
+        // Don't change display if scores are not complete
         winnerDisplay.textContent = 'Chưa có kết quả';
         winnerDisplay.className = 'winner-display text-muted';
         matchRow.className = '';
@@ -1477,6 +1508,859 @@ function createBracketVisualization(players) {
 }
 
 // Match result update function
+
+/**
+ * Render player name inputs for ranking tournament (manual input only)
+ */
+function renderRankingPlayerNameInputs(count) {
+    console.log('Rendering ranking player name inputs for', count, 'players');
+    
+    const playerNamesList = document.getElementById('player-names-list');
+    if (!playerNamesList) {
+        console.error('Player names list element not found!');
+        return;
+    }
+    
+    let html = '';
+    for (let i = 0; i < count; i++) {
+        html += `<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+            <div class="player-input-group">
+                <label class="form-label">
+                    <i class="fas fa-user me-1"></i>
+                    <span class="d-none d-sm-inline">Người chơi ${i+1}</span>
+                    <span class="d-sm-none">P${i+1}</span>
+                </label>
+                <input type="text" class="form-control player-name-input" data-idx="${i}" placeholder="Nhập tên người chơi" required>
+                <span class="error-message text-danger small" id="error-${i}" style="display: none;"></span>
+            </div>
+        </div>`;
+    }
+    
+    playerNamesList.innerHTML = html;
+    console.log('Ranking player name inputs rendered');
+    
+    // Add event listeners for name changes
+    addPlayerNameChangeListeners();
+}
+
+/**
+ * Add event listeners for player name changes
+ */
+function addPlayerNameChangeListeners() {
+    console.log('Adding player name change listeners');
+    
+    const playerInputs = document.querySelectorAll('.player-name-input');
+    playerInputs.forEach((input, index) => {
+        input.addEventListener('input', function() {
+            console.log(`Player ${index + 1} name changed to:`, this.value);
+            updatePlayerNameInTournamentData(index, this.value);
+        });
+        
+        input.addEventListener('change', function() {
+            console.log(`Player ${index + 1} name changed to:`, this.value);
+            updatePlayerNameInTournamentData(index, this.value);
+        });
+    });
+    
+    console.log('Player name change listeners added');
+}
+
+/**
+ * Update player name in tournament data and all rounds
+ */
+function updatePlayerNameInTournamentData(playerIndex, newName) {
+    console.log(`Updating player ${playerIndex + 1} name to: ${newName}`);
+    
+    // Validate inputs
+    if (typeof playerIndex !== 'number' || playerIndex < 0) {
+        console.error('Invalid player index:', playerIndex);
+        return;
+    }
+    
+    if (typeof newName !== 'string') {
+        console.error('Invalid new name:', newName);
+        return;
+    }
+    
+    // Initialize players array if not exists
+    if (!players) {
+        players = [];
+    }
+    
+    // Ensure players array has enough length
+    while (players.length <= playerIndex) {
+        players.push('');
+    }
+    
+    // Update global players array
+    const oldName = players[playerIndex];
+    players[playerIndex] = newName;
+    console.log(`Updated players array: ${oldName} -> ${newName}`);
+    
+    // Only update tournament rounds if we have a valid old name
+    if (oldName && oldName !== newName) {
+        updatePlayerNameInAllRounds(oldName, newName);
+    }
+    
+    // Save updated data
+    saveTournamentData();
+}
+
+/**
+ * Update player name in all tournament rounds
+ */
+function updatePlayerNameInAllRounds(oldName, newName) {
+    console.log(`Updating player name in all rounds: ${oldName} -> ${newName}`);
+    
+    // Validate tournament data exists
+    if (!tournamentData) {
+        console.warn('Tournament data not initialized');
+        return;
+    }
+    
+    // Update Round 1
+    if (tournamentData.round1 && tournamentData.round1.pairs) {
+        tournamentData.round1.pairs.forEach(pair => {
+            if (pair && pair.length >= 2) {
+                if (pair[0] === oldName) pair[0] = newName;
+                if (pair[1] === oldName) pair[1] = newName;
+            }
+        });
+    }
+    
+    // Update Round 2 Winners
+    if (tournamentData.round2 && tournamentData.round2.winners && tournamentData.round2.winners.pairs) {
+        tournamentData.round2.winners.pairs.forEach(pair => {
+            if (pair && pair.length >= 2) {
+                if (pair[0] === oldName) pair[0] = newName;
+                if (pair[1] === oldName) pair[1] = newName;
+            }
+        });
+    }
+    
+    // Update Round 2 Losers
+    if (tournamentData.round2 && tournamentData.round2.losers && tournamentData.round2.losers.pairs) {
+        tournamentData.round2.losers.pairs.forEach(pair => {
+            if (pair && pair.length >= 2) {
+                if (pair[0] === oldName) pair[0] = newName;
+                if (pair[1] === oldName) pair[1] = newName;
+            }
+        });
+    }
+    
+    // Update Round 3
+    if (tournamentData.round3 && tournamentData.round3.pairs) {
+        tournamentData.round3.pairs.forEach(pair => {
+            if (pair && pair.length >= 2) {
+                if (pair[0] === oldName) pair[0] = newName;
+                if (pair[1] === oldName) pair[1] = newName;
+            }
+        });
+    }
+    
+    // Update Elimination
+    if (tournamentData.elimination && tournamentData.elimination.pairs) {
+        tournamentData.elimination.pairs.forEach(pair => {
+            if (pair && pair.length >= 2) {
+                if (pair[0] === oldName) pair[0] = newName;
+                if (pair[1] === oldName) pair[1] = newName;
+            }
+        });
+    }
+    
+    // Update Final Elimination
+    if (tournamentData.finalElimination && tournamentData.finalElimination.pairs) {
+        tournamentData.finalElimination.pairs.forEach(pair => {
+            if (pair && pair.length >= 2) {
+                if (pair[0] === oldName) pair[0] = newName;
+                if (pair[1] === oldName) pair[1] = newName;
+            }
+        });
+    }
+    
+    // Update UI displays
+    updatePlayerNameInUI(oldName, newName);
+    
+    console.log('Player name updated in all tournament rounds');
+}
+
+/**
+ * Update player name in UI displays
+ */
+function updatePlayerNameInUI(oldName, newName) {
+    console.log(`Updating player name in UI: ${oldName} -> ${newName}`);
+    
+    // Validate inputs
+    if (!oldName || !newName || oldName === newName) {
+        console.log('No UI update needed');
+        return;
+    }
+    
+    try {
+        // Update only specific tournament table elements
+        updateTournamentTableDisplays();
+        
+        // Update winner displays in tournament tables
+        updateWinnerDisplays(oldName, newName);
+        
+        // Update player names in specific table cells only
+        updatePlayerNamesInTableCells(oldName, newName);
+        
+        // Update elimination bracket visualization
+        updateEliminationBracketPlayerNames(oldName, newName);
+        
+        // Update Round 3 table if it exists
+        updateRound3PlayerNames(oldName, newName);
+        
+        console.log('Player name updated in UI');
+    } catch (error) {
+        console.error('Error updating player name in UI:', error);
+    }
+}
+
+/**
+ * Add event listeners for name changes in elimination bracket
+ */
+function addEliminationBracketNameChangeListeners() {
+    console.log('Adding elimination bracket name change listeners');
+    
+    try {
+        // Clean up existing observer if any
+        if (window.eliminationBracketObserver) {
+            window.eliminationBracketObserver.disconnect();
+        }
+        
+        // Clean up existing periodic check if any
+        if (window.eliminationBracketCheckInterval) {
+            clearInterval(window.eliminationBracketCheckInterval);
+        }
+        
+        // Listen for changes in team names within the bracket
+        const bracketContainer = document.getElementById('elimination-bracket-wrapper');
+        if (bracketContainer) {
+            // Use a more comprehensive approach to detect changes
+            const observer = new MutationObserver(function(mutations) {
+                let hasChanges = false;
+                
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList' || mutation.type === 'characterData' || mutation.type === 'attributes') {
+                        hasChanges = true;
+                    }
+                });
+                
+                if (hasChanges) {
+                    // Debounce the update to avoid too many calls
+                    clearTimeout(window.eliminationBracketUpdateTimeout);
+                    window.eliminationBracketUpdateTimeout = setTimeout(function() {
+                        updateEliminationBracketFromUI();
+                    }, 300);
+                }
+            });
+            
+            // Start observing with more comprehensive options
+            observer.observe(bracketContainer, {
+                childList: true,
+                subtree: true,
+                characterData: true,
+                attributes: true,
+                attributeOldValue: true,
+                characterDataOldValue: true
+            });
+            
+            // Also add direct event listeners to team elements
+            setTimeout(function() {
+                const teamElements = bracketContainer.querySelectorAll('.team');
+                teamElements.forEach(function(teamElement) {
+                    if (teamElement) {
+                        // Add input event listener for direct editing
+                        teamElement.addEventListener('input', function() {
+                            console.log('Team name changed via input event');
+                            updateEliminationBracketFromUI();
+                        });
+                        
+                        // Add blur event listener for when editing is finished
+                        teamElement.addEventListener('blur', function() {
+                            console.log('Team name editing finished');
+                            updateEliminationBracketFromUI();
+                        });
+                        
+                        // Add keyup event listener for real-time changes
+                        teamElement.addEventListener('keyup', function() {
+                            console.log('Team name changed via keyup event');
+                            updateEliminationBracketFromUI();
+                        });
+                    }
+                });
+            }, 1000); // Wait for bracket to be fully rendered
+            
+            // Start periodic checking for changes
+            startEliminationBracketPeriodicCheck();
+            
+            // Store observer for cleanup
+            window.eliminationBracketObserver = observer;
+        }
+        
+        console.log('Elimination bracket name change listeners added');
+    } catch (error) {
+        console.error('Error adding elimination bracket name change listeners:', error);
+    }
+}
+
+/**
+ * Start periodic checking for elimination bracket changes
+ */
+function startEliminationBracketPeriodicCheck() {
+    console.log('Starting periodic check for elimination bracket changes');
+    
+    // Clear existing interval if any
+    if (window.eliminationBracketCheckInterval) {
+        clearInterval(window.eliminationBracketCheckInterval);
+    }
+    
+    // Store current state for comparison
+    let lastKnownState = null;
+    
+    // Check every 2 seconds
+    window.eliminationBracketCheckInterval = setInterval(function() {
+        try {
+            if (window.eliminationBracket && window.eliminationBracket.getData) {
+                const currentData = window.eliminationBracket.getData();
+                
+                if (currentData && currentData.teams) {
+                    const currentState = JSON.stringify(currentData.teams);
+                    
+                    if (lastKnownState && lastKnownState !== currentState) {
+                        console.log('Periodic check detected elimination bracket changes');
+                        updateEliminationBracketFromUI();
+                    }
+                    
+                    lastKnownState = currentState;
+                }
+            }
+        } catch (error) {
+            console.error('Error in periodic elimination bracket check:', error);
+        }
+    }, 2000);
+    
+    console.log('Periodic elimination bracket check started');
+}
+
+/**
+ * Update elimination bracket data from UI changes
+ */
+function updateEliminationBracketFromUI() {
+    console.log('Updating elimination bracket from UI changes');
+    
+    try {
+        if (window.eliminationBracket && window.eliminationBracket.getData) {
+            const currentData = window.eliminationBracket.getData();
+            
+            if (currentData && currentData.teams) {
+                // Update tournament data with current team names
+                const newPairs = [];
+                for (let i = 0; i < currentData.teams.length; i += 2) {
+                    const player1 = currentData.teams[i] || 'null';
+                    const player2 = currentData.teams[i + 1] || 'null';
+                    newPairs.push([player1, player2]);
+                }
+                
+                // Check if pairs actually changed
+                let pairsChanged = false;
+                if (newPairs.length !== tournamentData.elimination.pairs.length) {
+                    pairsChanged = true;
+                } else {
+                    for (let i = 0; i < newPairs.length; i++) {
+                        if (newPairs[i][0] !== tournamentData.elimination.pairs[i][0] ||
+                            newPairs[i][1] !== tournamentData.elimination.pairs[i][1]) {
+                            pairsChanged = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (pairsChanged) {
+                    // Update tournament data
+                    tournamentData.elimination.pairs = newPairs;
+                    
+                    // Update players array if needed
+                    newPairs.forEach(pair => {
+                        pair.forEach(player => {
+                            if (player && player !== 'null' && player !== 'TBD' && !players.includes(player)) {
+                                players.push(player);
+                            }
+                        });
+                    });
+                    
+                    // Save the updated data
+                    saveTournamentData();
+                    
+                    console.log('Elimination bracket data updated from UI:', newPairs);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error updating elimination bracket from UI:', error);
+    }
+}
+
+/**
+ * Update player names in Round 3 table
+ */
+function updateRound3PlayerNames(oldName, newName) {
+    console.log(`Updating Round 3 player names: ${oldName} -> ${newName}`);
+    
+    try {
+        // Update tournament data first
+        if (tournamentData && tournamentData.round3 && tournamentData.round3.pairs) {
+            tournamentData.round3.pairs.forEach(pair => {
+                if (pair && pair.length >= 2) {
+                    if (pair[0] === oldName) pair[0] = newName;
+                    if (pair[1] === oldName) pair[1] = newName;
+                }
+            });
+        }
+        
+        // Update Round 3 table display
+        const round3Table = document.getElementById('round3-table');
+        if (round3Table && tournamentData && tournamentData.round3 && tournamentData.round3.pairs) {
+            tournamentData.round3.pairs.forEach((pair, index) => {
+                if (pair && pair.length >= 2) {
+                    const matchRow = document.getElementById(`round3-match-${index}`);
+                    if (matchRow) {
+                        const player1Cell = matchRow.querySelector('td:nth-child(2) strong');
+                        const player2Cell = matchRow.querySelector('td:nth-child(4) strong');
+                        
+                        if (player1Cell) player1Cell.textContent = pair[0] || '';
+                        if (player2Cell) player2Cell.textContent = pair[1] || '';
+                    }
+                }
+            });
+        }
+        
+        console.log('Round 3 player names updated');
+    } catch (error) {
+        console.error('Error updating Round 3 player names:', error);
+    }
+}
+
+/**
+ * Update player names in elimination bracket visualization
+ */
+function updateEliminationBracketPlayerNames(oldName, newName) {
+    console.log(`Updating elimination bracket player names: ${oldName} -> ${newName}`);
+    
+    try {
+        // Update tournament data first
+        if (tournamentData && tournamentData.elimination && tournamentData.elimination.pairs) {
+            tournamentData.elimination.pairs.forEach(pair => {
+                if (pair && pair.length >= 2) {
+                    if (pair[0] === oldName) pair[0] = newName;
+                    if (pair[1] === oldName) pair[1] = newName;
+                }
+            });
+        }
+        
+        // Update the bracket visualization if it exists
+        const bracketContainer = document.getElementById('elimination-bracket-wrapper');
+        if (bracketContainer && window.eliminationBracket) {
+            // Get current bracket data
+            const currentData = window.eliminationBracket.getData();
+            
+            // Update team names in the data
+            if (currentData && currentData.teams) {
+                currentData.teams.forEach((team, index) => {
+                    if (team === oldName) {
+                        currentData.teams[index] = newName;
+                    }
+                });
+            }
+            
+            // Recreate the bracket with updated data
+            window.eliminationBracket = $(bracketContainer).bracket({
+                init: currentData,
+                save: updateEliminationBracketData,
+                disableToolbar: true
+            });
+            
+            // Add event listeners for name changes in elimination bracket
+            addEliminationBracketNameChangeListeners();
+        }
+        
+        console.log('Elimination bracket player names updated');
+    } catch (error) {
+        console.error('Error updating elimination bracket player names:', error);
+    }
+}
+
+/**
+ * Update player names in specific table cells only
+ */
+function updatePlayerNamesInTableCells(oldName, newName) {
+    console.log(`Updating player names in table cells: ${oldName} -> ${newName}`);
+    
+    try {
+        // Update only strong elements within table cells
+        const playerNameElements = document.querySelectorAll('table strong');
+        playerNameElements.forEach(element => {
+            if (element && element.textContent && element.textContent.trim() === oldName) {
+                element.textContent = newName;
+            }
+        });
+        
+        console.log('Player names in table cells updated');
+    } catch (error) {
+        console.error('Error updating player names in table cells:', error);
+    }
+}
+
+/**
+ * Update winner displays in tournament tables
+ */
+function updateWinnerDisplays(oldName, newName) {
+    console.log(`Updating winner displays: ${oldName} -> ${newName}`);
+    
+    try {
+        // Update Round 1 winner displays
+        const round1WinnerDisplays = document.querySelectorAll('#round1-table .winner-display');
+        round1WinnerDisplays.forEach(display => {
+            if (display && display.textContent && display.textContent.includes(oldName)) {
+                display.textContent = display.textContent.replace(oldName, newName);
+            }
+        });
+        
+        // Update Round 2 Winners winner displays
+        const round2wWinnerDisplays = document.querySelectorAll('#round2w-table .winner-display');
+        round2wWinnerDisplays.forEach(display => {
+            if (display && display.textContent && display.textContent.includes(oldName)) {
+                display.textContent = display.textContent.replace(oldName, newName);
+            }
+        });
+        
+        // Update Round 2 Losers winner displays
+        const round2lWinnerDisplays = document.querySelectorAll('#round2l-table .winner-display');
+        round2lWinnerDisplays.forEach(display => {
+            if (display && display.textContent && display.textContent.includes(oldName)) {
+                display.textContent = display.textContent.replace(oldName, newName);
+            }
+        });
+        
+        // Update Round 3 winner displays
+        const round3WinnerDisplays = document.querySelectorAll('#round3-table .winner-display');
+        round3WinnerDisplays.forEach(display => {
+            if (display && display.textContent && display.textContent.includes(oldName)) {
+                display.textContent = display.textContent.replace(oldName, newName);
+            }
+        });
+        
+        console.log('Winner displays updated');
+    } catch (error) {
+        console.error('Error updating winner displays:', error);
+    }
+}
+
+/**
+ * Update tournament table displays
+ */
+function updateTournamentTableDisplays() {
+    console.log('Updating tournament table displays');
+    
+    try {
+        // Update Round 1 table player names only
+        if (tournamentData && tournamentData.round1 && tournamentData.round1.pairs) {
+            tournamentData.round1.pairs.forEach((pair, index) => {
+                if (pair && pair.length >= 2) {
+                    const matchRow = document.getElementById(`round1-match-${index}`);
+                    if (matchRow) {
+                        const player1Cell = matchRow.querySelector('td:nth-child(2) strong');
+                        const player2Cell = matchRow.querySelector('td:nth-child(4) strong');
+                        
+                        if (player1Cell) player1Cell.textContent = pair[0] || '';
+                        if (player2Cell) player2Cell.textContent = pair[1] || '';
+                    }
+                }
+            });
+        }
+    
+        // Update Round 2 Winners table
+        if (tournamentData.round2 && tournamentData.round2.winners && tournamentData.round2.winners.pairs) {
+            tournamentData.round2.winners.pairs.forEach((pair, index) => {
+                if (pair && pair.length >= 2) {
+                    const matchRow = document.getElementById(`round2w-match-${index}`);
+                    if (matchRow) {
+                        const player1Cell = matchRow.querySelector('td:nth-child(2) strong');
+                        const player2Cell = matchRow.querySelector('td:nth-child(4) strong');
+                        
+                        if (player1Cell) player1Cell.textContent = pair[0] || '';
+                        if (player2Cell) player2Cell.textContent = pair[1] || '';
+                    }
+                }
+            });
+        }
+        
+        // Update Round 2 Losers table
+        if (tournamentData.round2 && tournamentData.round2.losers && tournamentData.round2.losers.pairs) {
+            tournamentData.round2.losers.pairs.forEach((pair, index) => {
+                if (pair && pair.length >= 2) {
+                    const matchRow = document.getElementById(`round2l-match-${index}`);
+                    if (matchRow) {
+                        const player1Cell = matchRow.querySelector('td:nth-child(2) strong');
+                        const player2Cell = matchRow.querySelector('td:nth-child(4) strong');
+                        
+                        if (player1Cell) player1Cell.textContent = pair[0] || '';
+                        if (player2Cell) player2Cell.textContent = pair[1] || '';
+                    }
+                }
+            });
+        }
+        
+        // Update Round 3 table
+        if (tournamentData.round3 && tournamentData.round3.pairs) {
+            tournamentData.round3.pairs.forEach((pair, index) => {
+                if (pair && pair.length >= 2) {
+                    const matchRow = document.getElementById(`round3-match-${index}`);
+                    if (matchRow) {
+                        const player1Cell = matchRow.querySelector('td:nth-child(2) strong');
+                        const player2Cell = matchRow.querySelector('td:nth-child(4) strong');
+                        
+                        if (player1Cell) player1Cell.textContent = pair[0] || '';
+                        if (player2Cell) player2Cell.textContent = pair[1] || '';
+                    }
+                }
+            });
+        }
+        
+        console.log('Tournament table displays updated');
+    } catch (error) {
+        console.error('Error updating tournament table displays:', error);
+    }
+}
+
+/**
+ * Restore player names in form inputs
+ */
+function restorePlayerNamesInForm(playerNames) {
+    console.log('Restoring player names in form:', playerNames);
+    
+    const playerInputs = document.querySelectorAll('.player-name-input');
+    console.log('Found player inputs:', playerInputs.length);
+    
+    playerInputs.forEach((input, index) => {
+        if (index < playerNames.length && playerNames[index]) {
+            if (input.tagName === 'INPUT') {
+                // Text input for ranking tournament
+                input.value = playerNames[index];
+                console.log(`Restored text input ${index + 1}: ${playerNames[index]}`);
+            } else if (input.tagName === 'SELECT') {
+                // Select input for free tournament
+                // Find the option with matching text or value
+                const options = input.querySelectorAll('option');
+                let found = false;
+                
+                options.forEach(option => {
+                    if (option.textContent === playerNames[index] || option.value === playerNames[index]) {
+                        input.value = option.value;
+                        found = true;
+                        console.log(`Restored select input ${index + 1}: ${playerNames[index]} (value: ${option.value})`);
+                    }
+                });
+                
+                if (!found) {
+                    // If not found in options, set as custom value
+                    input.value = playerNames[index];
+                    console.log(`Set custom value for select input ${index + 1}: ${playerNames[index]}`);
+                }
+            }
+        }
+    });
+    
+    console.log('Player names restored in form');
+}
+
+/**
+ * Update UI based on tournament type selection
+ */
+function updateTournamentTypeUI(tournamentType) {
+    console.log('Updating UI for tournament type:', tournamentType);
+    
+    const setupNamesBtn = document.getElementById('setup-names');
+    const playerNamesForm = document.getElementById('player-names-form');
+    const playerNamesList = document.getElementById('player-names-list');
+    
+    if (tournamentType === 'ranking') {
+        // Ranking tournament - manual player input for ranking
+        console.log('Setting up ranking tournament');
+        if (setupNamesBtn) {
+            setupNamesBtn.innerHTML = '<i class="fas fa-star me-2"></i>Nhập cơ thủ cho giải đấu tự do';
+            setupNamesBtn.className = 'btn btn-warning w-100';
+        }
+        
+        // Clear any existing form
+        if (playerNamesForm) {
+            playerNamesForm.style.display = 'none';
+        }
+        if (playerNamesList) {
+            playerNamesList.innerHTML = '';
+        }
+        
+    } else if (tournamentType === 'free') {
+        // Free tournament - manual player input
+        console.log('Setting up free tournament');
+        if (setupNamesBtn) {
+            setupNamesBtn.innerHTML = '<i class="fas fa-users me-2"></i>Chọn cơ thủ từ danh sách';
+            setupNamesBtn.className = 'btn btn-primary w-100';
+        }
+        
+        // Clear any existing form
+        if (playerNamesForm) {
+            playerNamesForm.style.display = 'none';
+        }
+        if (playerNamesList) {
+            playerNamesList.innerHTML = '';
+        }
+    }
+}
+
+/**
+ * Check if tournament has already started and update UI accordingly
+ */
+function checkTournamentStatus() {
+    console.log('Checking tournament status...');
+    
+    // Check if there's saved tournament data
+    const savedData = loadTournamentData();
+    if (savedData && savedData.tournamentData) {
+        const hasRound1Data = savedData.tournamentData.round1 && 
+                              savedData.tournamentData.round1.pairs && 
+                              savedData.tournamentData.round1.pairs.length > 0;
+        
+        if (hasRound1Data) {
+            console.log('Tournament has already started, updating UI...');
+            updateTournamentButtonForRestart();
+            return true;
+        }
+    }
+    
+    console.log('Tournament has not started yet');
+    return false;
+}
+
+/**
+ * Update tournament button for restart scenario
+ */
+function updateTournamentButtonForRestart() {
+    const startBtn = document.getElementById('tournament-start-btn');
+    if (startBtn) {
+        startBtn.innerHTML = '<i class="fas fa-redo me-2"></i>Bắt đầu lại giải đấu';
+        startBtn.className = 'btn btn-warning btn-lg';
+        startBtn.type = 'button'; // Change from submit to button
+        startBtn.onclick = function(e) {
+            e.preventDefault();
+            confirmRestartTournament();
+        };
+        console.log('Tournament button updated for restart');
+    }
+}
+
+/**
+ * Confirm and restart tournament
+ */
+function confirmRestartTournament() {
+    if (confirm('Bạn có chắc chắn muốn bắt đầu lại giải đấu?\n\nTất cả dữ liệu trận đấu hiện tại sẽ bị xóa và tạo lại từ đầu.')) {
+        console.log('User confirmed tournament restart');
+        restartTournament();
+    } else {
+        console.log('User cancelled tournament restart');
+    }
+}
+
+/**
+ * Restart tournament by clearing all data and resetting UI
+ */
+function restartTournament() {
+    console.log('Restarting tournament...');
+    
+    try {
+        // Clear saved tournament data from localStorage
+        const storageKey = getTournamentStorageKey();
+        localStorage.removeItem(storageKey);
+        console.log('Saved tournament data cleared from localStorage');
+        
+        // Reset tournament data
+        tournamentData = {
+            round1: { pairs: [], results: [], winners: [], losers: [] },
+            round2: {
+                winners: { pairs: [], results: [], winners: [], losers: [] },
+                losers: { pairs: [], results: [], winners: [], losers: [] }
+            },
+            round3: { pairs: [], results: [], winners: [], losers: [] },
+            elimination: { pairs: [], results: [], winners: [], losers: [], bracketWinners: [], bracketResults: [] },
+            finalElimination: { pairs: [], results: [], winners: [], losers: [] }
+        };
+        players = [];
+        tournamentType = 'ranking'; // Reset to default tournament type
+        
+        // Reset tournament type selection
+        const rankingRadio = document.querySelector('input[name="tournament-type"][value="ranking"]');
+        if (rankingRadio) {
+            rankingRadio.checked = true;
+            updateTournamentTypeUI('ranking');
+        }
+        
+        // Hide all tournament sections
+        document.getElementById('tournament-tables').style.display = 'none';
+        document.getElementById('round2-section').style.display = 'none';
+        document.getElementById('round3-section').style.display = 'none';
+        document.getElementById('elimination-section').style.display = 'none';
+        
+        // Reset button to original state
+        const startBtn = document.getElementById('tournament-start-btn');
+        if (startBtn) {
+            startBtn.innerHTML = '<i class="fas fa-play me-2"></i>Bắt đầu giải đấu';
+            startBtn.className = 'btn btn-success btn-lg';
+            startBtn.onclick = null; // Remove custom onclick
+            startBtn.type = 'submit'; // Restore submit type
+            startBtn.disabled = false; // Ensure button is enabled
+        }
+        
+        // Hide controls panel
+        const controlsPanel = document.getElementById('controls-panel');
+        if (controlsPanel) {
+            controlsPanel.style.display = 'none';
+        }
+        
+        // Hide player names form initially (user needs to click "Danh sách cơ thủ")
+        const playerNamesForm = document.getElementById('player-names-form');
+        if (playerNamesForm) {
+            playerNamesForm.style.display = 'none';
+        }
+        
+        // Clear any existing player names list
+        const playerNamesList = document.getElementById('player-names-list');
+        if (playerNamesList) {
+            playerNamesList.innerHTML = '';
+        }
+        
+        // Ensure setup-names button is visible and functional
+        const setupNamesBtn = document.getElementById('setup-names');
+        if (setupNamesBtn) {
+            setupNamesBtn.style.display = 'block';
+            setupNamesBtn.disabled = false;
+        }
+        
+        // Update save indicator
+        updateSaveIndicator('cleared');
+        
+        // Show success message
+        showNotification('Giải đấu đã được reset. Bạn có thể bắt đầu lại!', 'success');
+        
+        console.log('Tournament restarted successfully');
+        
+    } catch (error) {
+        console.error('Error restarting tournament:', error);
+        showNotification('Có lỗi khi restart giải đấu: ' + error.message, 'error');
+    }
+}
+
 /**
  * Auto-process all BYE matches in the tournament
  * This function runs after tournament creation to automatically advance players facing BYE
@@ -1917,6 +2801,9 @@ function createEliminationBracketVisualization(eliminationPairs, savedResults = 
                 bracketMargin: 50
             });
             
+            // Add event listeners for name changes in elimination bracket
+            addEliminationBracketNameChangeListeners();
+            
             console.log('Elimination bracket visualization created successfully');
             
         } catch (error) {
@@ -2208,6 +3095,9 @@ function updateEliminationBracketVisualization() {
                 roundMargin: 50,
                 bracketMargin: 50
             });
+            
+            // Add event listeners for name changes in elimination bracket
+            addEliminationBracketNameChangeListeners();
             
             console.log('Elimination bracket visualization updated successfully');
             
@@ -2638,39 +3528,6 @@ function createEliminationRound(round2wWinners) {
     console.log('Elimination bracket created');
 }
 
-function announceTournamentWinner(winner) {
-    console.log(`🏆 TOURNAMENT WINNER: ${winner} 🏆`);
-    
-    // Create winner announcement
-    const winnerAnnouncement = document.createElement('div');
-    winnerAnnouncement.className = 'alert alert-success alert-dismissible fade show text-center';
-    winnerAnnouncement.innerHTML = `
-        <h2 class="mb-3">
-            <i class="fas fa-trophy text-warning me-2"></i>
-            CHÚC MỪNG NGƯỜI THẮNG CUỐI CÙNG!
-        </h2>
-        <h1 class="display-4 text-primary mb-3">${winner}</h1>
-        <p class="lead">Đã xuất sắc giành chiến thắng trong giải đấu!</p>
-        <button type="button" class="btn btn-success btn-lg" onclick="this.parentElement.remove()">
-            <i class="fas fa-check me-2"></i>Đóng
-        </button>
-    `;
-    
-    // Insert at the top of tournament tables
-    const tournamentTables = document.getElementById('tournament-tables');
-    if (tournamentTables) {
-        tournamentTables.insertBefore(winnerAnnouncement, tournamentTables.firstChild);
-    }
-    
-    // Show confetti effect (if available)
-    if (typeof confetti !== 'undefined') {
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
-    }
-}
 
 function updateBracketVisualization() {
     console.log('Updating bracket visualization...');
@@ -2903,6 +3760,9 @@ function renderPlayerNameInputs(count) {
     setTimeout(() => {
         autoFillPlayers(count);
     }, 50);
+    
+    // Add event listeners for name changes
+    addPlayerNameChangeListeners();
 }
 
 function checkDuplicatePlayers() {
@@ -2951,20 +3811,45 @@ function checkDuplicatePlayers() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded - Initializing bracket UI');
     
+    // Tournament type selection
+    const tournamentTypeRadios = document.querySelectorAll('input[name="tournament-type"]');
+    tournamentTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            console.log('Tournament type changed to:', this.value);
+            tournamentType = this.value;
+            updateTournamentTypeUI(this.value);
+            // Save tournament type when changed
+            saveTournamentData();
+        });
+    });
+    
+    // Initialize with default tournament type (ranking)
+    updateTournamentTypeUI('ranking');
+    
     // Setup names button
     const setupNamesBtn = document.getElementById('setup-names');
     if (setupNamesBtn) {
         setupNamesBtn.addEventListener('click', function() {
             console.log('Setup names button clicked');
             
-            // Get player count
+            // Get tournament type
+            const selectedType = document.querySelector('input[name="tournament-type"]:checked');
+            if (!selectedType) {
+                alert('Vui lòng chọn loại giải đấu!');
+                return;
+            }
+            
+            const tournamentType = selectedType.value;
+            console.log('Tournament type:', tournamentType);
+            
+            // Get player count from tournament data
             const countElement = document.getElementById('player-count');
             if (!countElement) {
                 console.error('Player count element not found!');
-                alert('Không tìm thấy dropdown chọn số lượng người chơi!');
-    return;
-  }
-  
+                alert('Không tìm thấy thông tin số lượng người chơi của giải đấu!');
+                return;
+            }
+            
             let count = +countElement.value;
             console.log('Player count:', count);
             
@@ -2972,12 +3857,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!count || count < 1 || count > 128) {
                 console.error('Invalid count:', count);
                 alert('Số lượng người chơi phải từ 1 đến 128!');
-    return;
-  }
-  
+                return;
+            }
+            
             try {
-                console.log('Calling renderPlayerNameInputs...');
-  renderPlayerNameInputs(count);
+                if (tournamentType === 'ranking') {
+                    // Ranking tournament - use manual input without database players
+                    console.log('Setting up ranking tournament with manual input');
+                    renderRankingPlayerNameInputs(count);
+                } else if (tournamentType === 'free') {
+                    // Free tournament - use manual input with database players
+                    console.log('Setting up free tournament with manual input');
+                    renderPlayerNameInputs(count);
+                }
                 
                 const formElement = document.getElementById('player-names-form');
                 if (!formElement) {
@@ -3015,17 +3907,18 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('2. Players list type:', typeof playersList);
             console.log('3. Players list length:', playersList ? playersList.length : 'N/A');
             console.log('4. Player count element:', document.getElementById('player-count'));
-            console.log('5. Setup names button:', document.getElementById('setup-names'));
-            console.log('6. Player names form:', document.getElementById('player-names-form'));
-            console.log('7. Player names list container:', document.getElementById('player-names-list'));
+            console.log('5. Tournament player count:', tournamentPlayerCount);
+            console.log('6. Setup names button:', document.getElementById('setup-names'));
+            console.log('7. Player names form:', document.getElementById('player-names-form'));
+            console.log('8. Player names list container:', document.getElementById('player-names-list'));
             
-            // Test render function with small count
+            // Test render function with tournament count
             try {
-                console.log('8. Testing renderPlayerNameInputs with count 4...');
-                renderPlayerNameInputs(4);
-                console.log('9. Render test successful');
+                console.log('9. Testing renderPlayerNameInputs with tournament count...');
+                renderPlayerNameInputs(tournamentPlayerCount);
+                console.log('10. Render test successful');
             } catch (error) {
-                console.error('10. Render test failed:', error);
+                console.error('11. Render test failed:', error);
             }
             
             console.log('=== END TEST ===');
@@ -3091,7 +3984,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const countElement = document.getElementById('player-count');
             if (!countElement) {
                 console.error('Player count element not found!');
-                alert('Không tìm thấy dropdown chọn số lượng người chơi!');
+                alert('Không tìm thấy thông tin số lượng người chơi của giải đấu!');
                 return;
             }
             
@@ -3396,6 +4289,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Validate count matches tournament requirement
+            if (count !== tournamentPlayerCount) {
+                console.error('Count mismatch:', count, 'vs tournament:', tournamentPlayerCount);
+                alert(`Số lượng người chơi phải là ${tournamentPlayerCount} theo quy định của giải đấu!`);
+                return;
+            }
+            
             // Check for duplicates
   let duplicates = players.filter((item, index) => players.indexOf(item) !== index && item !== '' && item !== 'null');
   if (duplicates.length > 0) {
@@ -3462,6 +4362,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Save initial tournament data
                 saveTournamentData();
+                
+                // Update button to show restart option since tournament has started
+                updateTournamentButtonForRestart();
+                
                 showNotification('Giải đấu đã được tạo và lưu tự động!', 'success');
                 
             }, 1500);
@@ -3500,6 +4404,7 @@ function saveTournamentData() {
         const dataToSave = {
             tournamentData: tournamentData,
             players: players,
+            tournamentType: tournamentType,
             timestamp: new Date().toISOString(),
             version: '1.0'
         };
@@ -3583,12 +4488,54 @@ function restoreTournamentUI(savedData) {
     console.log('Restoring tournament UI from saved data...');
     
     try {
+        // Validate saved data
+        if (!savedData || !savedData.tournamentData || !savedData.players) {
+            console.error('Invalid saved data structure');
+            return false;
+        }
+        
         // Restore global variables
         tournamentData = savedData.tournamentData;
         players = savedData.players;
+        tournamentType = savedData.tournamentType || 'ranking';
         
         console.log('Restored tournament data:', tournamentData);
         console.log('Restored players:', players);
+        console.log('Restored tournament type:', tournamentType);
+        
+        // Restore tournament type selection
+        const selectedRadio = document.querySelector(`input[name="tournament-type"][value="${tournamentType}"]`);
+        if (selectedRadio) {
+            selectedRadio.checked = true;
+            updateTournamentTypeUI(tournamentType);
+        }
+        
+        // Restore player names in form if they exist
+        if (players && players.length > 0) {
+            // Show the player names form
+            const playerNamesForm = document.getElementById('player-names-form');
+            if (playerNamesForm) {
+                playerNamesForm.style.display = 'block';
+            }
+            
+            // Recreate the form with the correct tournament type
+            if (tournamentType === 'ranking') {
+                renderRankingPlayerNameInputs(players.length);
+            } else if (tournamentType === 'free') {
+                renderPlayerNameInputs(players.length);
+            }
+            
+            // Restore player names in the form
+            setTimeout(() => {
+                restorePlayerNamesInForm(players);
+            }, 100);
+        }
+        
+        // Create tournament tables from saved data if they don't exist
+        if (tournamentData.round1.pairs.length > 0) {
+            console.log('Creating tournament tables from saved data...');
+            createTournamentTablesFromSavedData();
+        }
         
         // Show tournament tables
         const tournamentTables = document.getElementById('tournament-tables');
@@ -3606,6 +4553,9 @@ function restoreTournamentUI(savedData) {
         if (tournamentData.round1.pairs.length > 0) {
             restoreRound1UI();
         }
+        
+        // Update button to show restart option since tournament has data
+        updateTournamentButtonForRestart();
         
         // Restore Round 2 - Need to rebuild tables first to update player names
         if (tournamentData.round2.winners.pairs.length > 0 || tournamentData.round2.losers.pairs.length > 0) {
@@ -3634,6 +4584,9 @@ function restoreTournamentUI(savedData) {
         
         console.log('Tournament UI restored successfully');
         updateSaveIndicator('loaded');
+        
+        // Update button to show restart option since tournament has data
+        updateTournamentButtonForRestart();
         
         // Show success message
         showNotification('Dữ liệu giải đấu đã được khôi phục thành công!', 'success');
@@ -4081,28 +5034,177 @@ function initializeBracketFunctionality() {
         teamsFromPHP = [['player 1', 'player 2']];
     }
     
+    // Set the player count from tournament data
+    console.log('Tournament player count:', tournamentPlayerCount);
+    const playerCountElement = document.getElementById('player-count');
+    if (playerCountElement) {
+        playerCountElement.value = tournamentPlayerCount;
+        console.log('Set player count to:', tournamentPlayerCount);
+    }
+    
+    // Check if tournament has already started
+    checkTournamentStatus();
+    
     // Try to load saved tournament data
     const savedData = loadTournamentData();
     if (savedData) {
         console.log('Found saved tournament data, attempting to restore...');
         
-        // Ask user if they want to restore
-        if (confirm('Tìm thấy dữ liệu giải đấu đã lưu. Bạn có muốn khôi phục không?')) {
-            // First create the tables structure
-            if (savedData.players && savedData.players.length > 0) {
-                createTournamentTables(savedData.players, savedData.players.length);
-                
-                // Wait for tables to be created, then restore data
-                setTimeout(() => {
-                    restoreTournamentUI(savedData);
-                }, 500);
+        // Check if tournament has already started
+        const hasStarted = checkTournamentStatus();
+        
+        if (hasStarted) {
+            // Tournament has started, ask if user wants to restore or restart
+            if (confirm('Tìm thấy dữ liệu giải đấu đã lưu. Bạn có muốn khôi phục không?\n\nChọn "OK" để khôi phục, "Cancel" để bắt đầu lại.')) {
+                console.log('User chose to restore tournament data');
+                // Restore data directly without creating new tables
+                const restoreResult = restoreTournamentUI(savedData);
+                console.log('Restore result:', restoreResult);
+            } else {
+                console.log('User chose to restart tournament');
+                // Clear saved data and restart
+                clearSavedTournamentData();
             }
         } else {
-            console.log('User declined to restore saved data');
+            // Tournament hasn't started yet, restore data silently
+            console.log('Tournament not started yet, restoring data silently');
+            // Restore data directly without creating new tables
+            const restoreResult = restoreTournamentUI(savedData);
+            console.log('Restore result:', restoreResult);
         }
     }
     
     console.log('Bracket functionality initialized');
+}
+
+/**
+ * Restore Round 1 winner displays from saved data
+ */
+function restoreRound1WinnerDisplays() {
+    console.log('Restoring Round 1 winner displays...');
+    
+    try {
+        tournamentData.round1.pairs.forEach((pair, index) => {
+            const result = tournamentData.round1.results[index];
+            if (result && result[0] !== null && result[1] !== null) {
+                const winnerDisplay = document.getElementById(`winner-${index}`);
+                const matchRow = document.getElementById(`round1-match-${index}`);
+                
+                if (result[0] > result[1]) {
+                    if (winnerDisplay) {
+                        winnerDisplay.textContent = pair[0];
+                        winnerDisplay.className = 'winner-display text-success fw-bold';
+                    }
+                    if (matchRow) matchRow.className = 'table-success';
+                } else if (result[1] > result[0]) {
+                    if (winnerDisplay) {
+                        winnerDisplay.textContent = pair[1];
+                        winnerDisplay.className = 'winner-display text-success fw-bold';
+                    }
+                    if (matchRow) matchRow.className = 'table-success';
+                }
+            }
+        });
+        
+        console.log('Round 1 winner displays restored');
+    } catch (error) {
+        console.error('Error restoring Round 1 winner displays:', error);
+    }
+}
+
+/**
+ * Create tournament tables from saved data without overwriting tournament data
+ */
+function createTournamentTablesFromSavedData() {
+    console.log('Creating tournament tables from saved data...');
+    
+    try {
+        // Create Round 1 table from saved data
+        const round1Table = document.getElementById('round1-table');
+        if (round1Table && tournamentData.round1.pairs.length > 0) {
+            let tableHTML = `
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Người chơi 1</th>
+                                <th>VS</th>
+                                <th>Người chơi 2</th>
+                                <th>Kết quả</th>
+                                <th>Người thắng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            tournamentData.round1.pairs.forEach((pair, index) => {
+                const [player1, player2] = pair;
+                const isBYEMatch = (player1 === 'BYE' || player2 === 'BYE');
+                const rowClass = isBYEMatch ? 'table-info' : '';
+                const player1Display = player1 === 'BYE' ? '<em class="text-muted">BYE</em>' : `<strong>${player1}</strong>`;
+                const player2Display = player2 === 'BYE' ? '<em class="text-muted">BYE</em>' : `<strong>${player2}</strong>`;
+                const buttonText = isBYEMatch ? '<i class="fas fa-forward"></i> Tự động' : '<i class="fas fa-save"></i> Cập nhật';
+                const buttonClass = isBYEMatch ? 'btn btn-sm btn-info' : 'btn btn-sm btn-primary';
+                
+                // Get saved scores
+                const savedResult = tournamentData.round1.results[index];
+                const score1 = savedResult ? savedResult[0] || '' : '';
+                const score2 = savedResult ? savedResult[1] || '' : '';
+                
+                tableHTML += `
+                    <tr id="round1-match-${index}" class="${rowClass}">
+                        <td>${index + 1}</td>
+                        <td>${player1Display}</td>
+                        <td class="text-center">VS</td>
+                        <td>${player2Display}</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control form-control-sm score-input" 
+                                       data-match="${index}" data-player="1" style="width: 60px;" placeholder="0" min="0" 
+                                       ${isBYEMatch ? 'disabled' : ''} value="${score1}">
+                                <span class="align-self-center">-</span>
+                                <input type="number" class="form-control form-control-sm score-input" 
+                                       data-match="${index}" data-player="2" style="width: 60px;" placeholder="0" min="0" 
+                                       ${isBYEMatch ? 'disabled' : ''} value="${score2}">
+                            </div>
+                        </td>
+                        <td>
+                            <span class="winner-display" id="winner-${index}">Chưa có kết quả</span>
+                        </td>
+                        <td>
+                            <button class="${buttonClass}" onclick="updateMatchResult(${index}, 'round1')">
+                                ${buttonText}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            round1Table.innerHTML = tableHTML;
+            
+            // Add score input listeners
+            addScoreInputListeners();
+            
+            // Restore winner displays after table is created
+            setTimeout(() => {
+                restoreRound1WinnerDisplays();
+            }, 100);
+            
+            console.log('Round 1 table created from saved data');
+        }
+        
+        console.log('Tournament tables created from saved data successfully');
+    } catch (error) {
+        console.error('Error creating tournament tables from saved data:', error);
+    }
 }
 
 // Initialize bracket functionality after DOM is ready
