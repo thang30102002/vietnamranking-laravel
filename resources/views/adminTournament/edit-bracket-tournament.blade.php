@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Bảng đấu - {{ $tournament->name ?? 'Giải đấu' }}</title>
     
     <!-- Bootstrap CSS -->
@@ -1128,7 +1129,7 @@ function normalizePlayersForBracket(players) {
     return normalizedPlayers;
 }
 
-function createTournamentTables(players, count) {
+async function createTournamentTables(players, count) {
     console.log('Creating tournament tables for', players.length, 'players');
     
     // Normalize players to ensure bracket size is power of 2
@@ -1568,7 +1569,7 @@ function addPlayerNameChangeListeners() {
 /**
  * Update player name in tournament data and all rounds
  */
-function updatePlayerNameInTournamentData(playerIndex, newName) {
+async function updatePlayerNameInTournamentData(playerIndex, newName) {
     console.log(`Updating player ${playerIndex + 1} name to: ${newName}`);
     
     // Validate inputs
@@ -1603,7 +1604,7 @@ function updatePlayerNameInTournamentData(playerIndex, newName) {
     }
     
     // Save updated data
-    saveTournamentData();
+    await saveTournamentData();
 }
 
 /**
@@ -1848,7 +1849,7 @@ function startEliminationBracketPeriodicCheck() {
 /**
  * Update elimination bracket data from UI changes
  */
-function updateEliminationBracketFromUI() {
+async function updateEliminationBracketFromUI() {
     console.log('Updating elimination bracket from UI changes');
     
     try {
@@ -1892,7 +1893,7 @@ function updateEliminationBracketFromUI() {
                     });
                     
                     // Save the updated data
-                    saveTournamentData();
+                    await saveTournamentData();
                     
                     console.log('Elimination bracket data updated from UI:', newPairs);
                 }
@@ -2223,11 +2224,11 @@ function updateTournamentTypeUI(tournamentType) {
 /**
  * Check if tournament has already started and update UI accordingly
  */
-function checkTournamentStatus() {
+async function checkTournamentStatus() {
     console.log('Checking tournament status...');
     
     // Check if there's saved tournament data
-    const savedData = loadTournamentData();
+    const savedData = await loadTournamentData();
     if (savedData && savedData.tournamentData) {
         const hasRound1Data = savedData.tournamentData.round1 && 
                               savedData.tournamentData.round1.pairs && 
@@ -2387,7 +2388,7 @@ function autoProcessBYEMatches() {
     }
 }
 
-function updateMatchResult(matchIndex, bracket = 'round1') {
+async function updateMatchResult(matchIndex, bracket = 'round1') {
     console.log(`Updating match result for match ${matchIndex} in ${bracket} bracket`);
     
     let matchInputs, winnerDisplay, matchRow, pairs, results;
@@ -2461,18 +2462,18 @@ function updateMatchResult(matchIndex, bracket = 'round1') {
         
         // Auto-update next rounds based on current bracket
         if (bracket === 'round1') {
-            updateRound2Brackets(matchIndex, winner, loser);
+            await updateRound2Brackets(matchIndex, winner, loser);
         } else if (bracket === 'round2w' || bracket === 'round2l') {
-            checkAndCreateAdvancedRounds();
+            await checkAndCreateAdvancedRounds();
         } else if (bracket === 'round3') {
-            updateEliminationFromRound3(matchIndex, winner, null);
+            await updateEliminationFromRound3(matchIndex, winner, null);
         } else if (bracket === 'elimination') {
-            updateEliminationBracketVisualization();
-            checkAndCreateAdvancedRounds();
+            await updateEliminationBracketVisualization();
+            await checkAndCreateAdvancedRounds();
         }
         
         // Auto-save tournament data
-        saveTournamentData();
+        await saveTournamentData();
         
         showNotification(`${winner} tự động thắng (đối thủ BYE)`, 'info');
         return;
@@ -2531,18 +2532,18 @@ function updateMatchResult(matchIndex, bracket = 'round1') {
     
     // Auto-update next rounds based on current bracket
     if (bracket === 'round1') {
-        updateRound2Brackets(matchIndex, winner, loser);
+        await updateRound2Brackets(matchIndex, winner, loser);
     } else if (bracket === 'round2w' || bracket === 'round2l') {
         // Check if we can create advanced rounds after round 2
-        checkAndCreateAdvancedRounds();
+        await checkAndCreateAdvancedRounds();
     } else if (bracket === 'round3') {
         // Round 3 winners go to elimination round
-        updateEliminationFromRound3(matchIndex, winner, oldWinner);
+        await updateEliminationFromRound3(matchIndex, winner, oldWinner);
     } else if (bracket === 'elimination') {
         // Update elimination bracket visualization
-        updateEliminationBracketVisualization();
+        await updateEliminationBracketVisualization();
         // Check if we can create advanced rounds after elimination
-        checkAndCreateAdvancedRounds();
+        await checkAndCreateAdvancedRounds();
     } else if (bracket === 'final-elimination') {
         // Final elimination round - this is the ultimate final round
         console.log('Final elimination round completed - tournament finished!');
@@ -2550,19 +2551,19 @@ function updateMatchResult(matchIndex, bracket = 'round1') {
     }
     
     // Auto-save tournament data to localStorage
-    saveTournamentData();
+    await saveTournamentData();
     
     alert(`Cập nhật kết quả trận đấu ${matchIndex + 1} thành công!\nNgười thắng: ${winner}`);
 }
 
-function updateEliminationFromRound3(matchIndex, winner, oldWinner = null) {
+async function updateEliminationFromRound3(matchIndex, winner, oldWinner = null) {
     console.log(`Updating elimination round from round 3 match ${matchIndex}: Winner: ${winner}`);
     console.log('Old winner from round 3 match:', oldWinner);
     console.log('New winner from round 3 match:', winner);
     
     // Remove old winner from elimination round if exists and is different from new winner
     if (oldWinner && oldWinner !== winner && oldWinner !== 'Hòa') {
-        removePlayerFromEliminationRound(oldWinner);
+        await removePlayerFromEliminationRound(oldWinner);
         console.log('Removed old winner from elimination round:', oldWinner);
     }
     
@@ -2604,14 +2605,14 @@ function updateEliminationFromRound3(matchIndex, winner, oldWinner = null) {
     
     // Add round 3 winners to elimination round
     if (round3Winners.length > 0) {
-        updateEliminationRoundWithRound3Winners(round3Winners, round3WinnersMapping);
+        await updateEliminationRoundWithRound3Winners(round3Winners, round3WinnersMapping);
     }
     
     // Note: Final elimination is now handled directly in the bracket visualization
     // All rounds are managed through the elimination bracket
 }
 
-function removePlayerFromEliminationRound(playerToRemove) {
+async function removePlayerFromEliminationRound(playerToRemove) {
     console.log('Removing player from elimination round:', playerToRemove);
     
     const eliminationPairs = tournamentData.elimination.pairs;
@@ -2649,7 +2650,7 @@ function removePlayerFromEliminationRound(playerToRemove) {
     return removed;
 }
 
-function updateEliminationRoundWithRound3Winners(round3Winners, round3WinnersMapping = {}) {
+async function updateEliminationRoundWithRound3Winners(round3Winners, round3WinnersMapping = {}) {
     console.log('Adding Round 3 winners to elimination round:', round3Winners);
     console.log('With mapping:', round3WinnersMapping);
     
@@ -2709,10 +2710,10 @@ function updateEliminationRoundWithRound3Winners(round3Winners, round3WinnersMap
     console.log('Round 3 to Elimination mapping:', tournamentData.round3ToEliminationMapping);
     
     // Update elimination bracket
-    updateEliminationBracket(currentEliminationPairs);
+    await updateEliminationBracket(currentEliminationPairs);
 }
 
-function updateEliminationBracket(eliminationPairs) {
+async function updateEliminationBracket(eliminationPairs) {
     console.log('Updating elimination bracket with pairs:', eliminationPairs);
     
     // Update tournament data
@@ -2726,12 +2727,12 @@ function updateEliminationBracket(eliminationPairs) {
     }
     
     // Update bracket visualization for elimination round
-    createEliminationBracketVisualization(eliminationPairs);
+    await createEliminationBracketVisualization(eliminationPairs);
     
     console.log('Elimination bracket updated');
 }
 
-function createEliminationBracketVisualization(eliminationPairs, savedResults = null) {
+async function createEliminationBracketVisualization(eliminationPairs, savedResults = null) {
     console.log('Creating elimination bracket visualization for pairs:', eliminationPairs);
     console.log('Saved results:', savedResults);
     
@@ -2785,12 +2786,12 @@ function createEliminationBracketVisualization(eliminationPairs, savedResults = 
             
             $(eliminationBracketWrapper).bracket({
                 init: bracketData,
-                save: function(data) {
+                save: async function(data) {
                     console.log('Elimination bracket data saved:', data);
                     // Update tournament data with bracket results
                     updateEliminationBracketData(data);
                     // Auto-save to localStorage
-                    saveTournamentData();
+                    await saveTournamentData();
                 },
                 disableToolbar: false,
                 disableTeamEdit: false,
@@ -3037,7 +3038,7 @@ function addEliminationBracketCSS() {
     console.log('Elimination bracket CSS added');
 }
 
-function updateEliminationBracketVisualization() {
+async function updateEliminationBracketVisualization() {
     console.log('Updating elimination bracket visualization...');
     
     const eliminationBracketWrapper = document.getElementById('elimination-bracket-wrapper');
@@ -3110,7 +3111,7 @@ function updateEliminationBracketVisualization() {
 // Final elimination is now handled directly in the bracket visualization
 // No separate function needed
 
-function updateRound2Brackets(matchIndex, winner, loser) {
+async function updateRound2Brackets(matchIndex, winner, loser) {
     console.log(`Updating round 2 brackets for match ${matchIndex}: Winner: ${winner}, Loser: ${loser}`);
     
     // Don't propagate BYE to next rounds
@@ -3176,13 +3177,13 @@ function updateRound2Brackets(matchIndex, winner, loser) {
     }
     
     // Check if we can create round 3 and elimination rounds
-    checkAndCreateAdvancedRounds();
+    await checkAndCreateAdvancedRounds();
     
     // Update bracket visualization
     updateBracketVisualization();
 }
 
-function checkAndCreateAdvancedRounds() {
+async function checkAndCreateAdvancedRounds() {
     console.log('Checking if we can create advanced rounds...');
     
     // Check if round 2 winners bracket has results
@@ -3241,7 +3242,7 @@ function checkAndCreateAdvancedRounds() {
             updateEliminationPlayers(round2wWinners);
         } else {
             console.log('Creating new Elimination Round...');
-            createEliminationRound(round2wWinners);
+            await createEliminationRound(round2wWinners);
         }
     }
 }
@@ -3250,7 +3251,7 @@ function checkAndCreateAdvancedRounds() {
  * Update Round 3 players when Round 2 results change
  * This function dynamically updates player names in existing Round 3 matches
  */
-function updateRound3Players(round2wLosers, round2lWinners) {
+async function updateRound3Players(round2wLosers, round2lWinners) {
     console.log('Updating Round 3 players...');
     console.log('New Round 2 Winners Bracket Losers:', round2wLosers);
     console.log('New Round 2 Losers Bracket Winners:', round2lWinners);
@@ -3310,7 +3311,7 @@ function updateRound3Players(round2wLosers, round2lWinners) {
                         const oldWinnerData = oldRound3Winners.find(w => w.matchIndex === i);
                         if (oldWinnerData) {
                             console.log(`Removing old Round 3 winner from elimination: ${oldWinnerData.winner}`);
-                            removePlayerFromEliminationRound(oldWinnerData.winner);
+                            await removePlayerFromEliminationRound(oldWinnerData.winner);
                         }
                     }
                     
@@ -3341,7 +3342,7 @@ function updateRound3Players(round2wLosers, round2lWinners) {
     }
     
     // Save updated tournament data
-    saveTournamentData();
+    await saveTournamentData();
 }
 
 function createRound3(round2wLosers, round2lWinners) {
@@ -3440,7 +3441,7 @@ function createRound3(round2wLosers, round2lWinners) {
  * Update Elimination Round players when Round 2 Winners results change
  * This function dynamically updates player names in existing Elimination matches
  */
-function updateEliminationPlayers(round2wWinners) {
+async function updateEliminationPlayers(round2wWinners) {
     console.log('Updating Elimination Round players...');
     console.log('New Round 2 Winners Bracket Winners:', round2wWinners);
     
@@ -3488,13 +3489,13 @@ function updateEliminationPlayers(round2wWinners) {
         showNotification('Cơ thủ trong Vòng Loại Trực Tiếp đã được cập nhật do thay đổi kết quả Vòng 2', 'info');
         
         // Save updated tournament data
-        saveTournamentData();
+        await saveTournamentData();
     } else {
         console.log('Elimination pairs unchanged, no update needed');
     }
 }
 
-function createEliminationRound(round2wWinners) {
+async function createEliminationRound(round2wWinners) {
     console.log('Creating Elimination Round...');
     console.log('Round 2 Winners Bracket Winners:', round2wWinners);
     
@@ -3523,7 +3524,7 @@ function createEliminationRound(round2wWinners) {
     }
     
     // Create bracket visualization for elimination round
-    createEliminationBracketVisualization(eliminationPairs);
+    await createEliminationBracketVisualization(eliminationPairs);
     
     console.log('Elimination bracket created');
 }
@@ -3814,12 +3815,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tournament type selection
     const tournamentTypeRadios = document.querySelectorAll('input[name="tournament-type"]');
     tournamentTypeRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
+        radio.addEventListener('change', async function() {
             console.log('Tournament type changed to:', this.value);
             tournamentType = this.value;
             updateTournamentTypeUI(this.value);
             // Save tournament type when changed
-            saveTournamentData();
+            await saveTournamentData();
         });
     });
     
@@ -4267,7 +4268,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const playerForm = document.getElementById('player-names-form');
     if (playerForm) {
         console.log('Form found, adding submit listener');
-        playerForm.addEventListener('submit', function(e) {
+        playerForm.addEventListener('submit', async function(e) {
   e.preventDefault();
             console.log('Form submitted - preventDefault called');
             
@@ -4342,9 +4343,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Create tournament tables with actual data
-            setTimeout(() => {
+            setTimeout(async () => {
                 console.log('Creating tournament tables...');
-                createTournamentTables(players, count);
+                await createTournamentTables(players, count);
                 
                 // Show tournament tables
                 const tournamentTables = document.getElementById('tournament-tables');
@@ -4361,7 +4362,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // Save initial tournament data
-                saveTournamentData();
+                await saveTournamentData();
                 
                 // Update button to show restart option since tournament has started
                 updateTournamentButtonForRestart();
@@ -4398,24 +4399,36 @@ function getTournamentStorageKey() {
     return `tournament_data_${tournamentId}`;
 }
 
-function saveTournamentData() {
+async function saveTournamentData() {
     try {
-        const storageKey = getTournamentStorageKey();
         const dataToSave = {
-            tournamentData: tournamentData,
+            tournament_id: {{ $tournament->id }},
+            tournament_data: tournamentData,
             players: players,
-            tournamentType: tournamentType,
-            timestamp: new Date().toISOString(),
-            version: '1.0'
+            tournament_type: tournamentType,
+            status: 'active'
         };
         
-        localStorage.setItem(storageKey, JSON.stringify(dataToSave));
-        console.log('Tournament data saved to localStorage:', storageKey);
+        const response = await fetch('/api/tournament-data/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            },
+            body: JSON.stringify(dataToSave)
+        });
         
-        // Update save indicator
-        updateSaveIndicator('saved');
+        const result = await response.json();
         
-        return true;
+        if (result.success) {
+            console.log('Tournament data saved to database:', result.data);
+            updateSaveIndicator('saved');
+            return true;
+        } else {
+            console.error('Failed to save tournament data:', result.message);
+            updateSaveIndicator('error');
+            return false;
+        }
     } catch (error) {
         console.error('Error saving tournament data:', error);
         updateSaveIndicator('error');
@@ -4423,24 +4436,38 @@ function saveTournamentData() {
     }
 }
 
-function loadTournamentData() {
+async function loadTournamentData() {
     try {
-        const storageKey = getTournamentStorageKey();
-        const savedData = localStorage.getItem(storageKey);
+        const response = await fetch(`/api/tournament-data/get/{{ $tournament->id }}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            }
+        });
         
-        if (!savedData) {
-            console.log('No saved tournament data found');
-            return null;
-        }
+        const result = await response.json();
         
-        const parsedData = JSON.parse(savedData);
-        console.log('Loaded tournament data from localStorage:', parsedData);
-        
-        // Validate data structure
-        if (parsedData.tournamentData && parsedData.players) {
-            return parsedData;
+        if (result.success) {
+            console.log('Loaded tournament data from database:', result.data);
+            
+            // Validate data structure
+            if (result.data.tournament_data && result.data.players) {
+                return {
+                    tournamentData: result.data.tournament_data,
+                    players: result.data.players,
+                    tournamentType: result.data.tournament_type,
+                    status: result.data.status,
+                    last_updated: result.data.last_updated,
+                    created_at: result.data.created_at,
+                    updated_at: result.data.updated_at
+                };
+            } else {
+                console.warn('Invalid saved data structure');
+                return null;
+            }
         } else {
-            console.warn('Invalid saved data structure');
+            console.log('No saved tournament data found:', result.message);
             return null;
         }
     } catch (error) {
@@ -4449,11 +4476,23 @@ function loadTournamentData() {
     }
 }
 
-function clearSavedTournamentData() {
+async function clearSavedTournamentData() {
     try {
-        const storageKey = getTournamentStorageKey();
-        localStorage.removeItem(storageKey);
-        console.log('Saved tournament data cleared');
+        const response = await fetch(`/api/tournament-data/delete/{{ $tournament->id }}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            console.log('Saved tournament data cleared from database');
+        } else {
+            console.warn('Failed to clear tournament data from database:', result.message);
+        }
         
         // Reset tournament data
         tournamentData = {
@@ -4484,7 +4523,7 @@ function clearSavedTournamentData() {
     }
 }
 
-function restoreTournamentUI(savedData) {
+async function restoreTournamentUI(savedData) {
     console.log('Restoring tournament UI from saved data...');
     
     try {
@@ -4534,7 +4573,7 @@ function restoreTournamentUI(savedData) {
         // Create tournament tables from saved data if they don't exist
         if (tournamentData.round1.pairs.length > 0) {
             console.log('Creating tournament tables from saved data...');
-            createTournamentTablesFromSavedData();
+            await createTournamentTablesFromSavedData();
         }
         
         // Show tournament tables
@@ -4992,10 +5031,10 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-function confirmClearSavedData() {
+async function confirmClearSavedData() {
     if (confirm('⚠️ CẢNH BÁO: Bạn có chắc chắn muốn xóa toàn bộ dữ liệu giải đấu đã lưu?\n\nHành động này KHÔNG THỂ hoàn tác!')) {
         if (confirm('Bạn có THỰC SỰ chắc chắn không? Tất cả kết quả trận đấu sẽ bị xóa vĩnh viễn!')) {
-            const result = clearSavedTournamentData();
+            const result = await clearSavedTournamentData();
             if (result) {
                 showNotification('Dữ liệu giải đấu đã được xóa thành công!', 'warning');
                 
@@ -5011,7 +5050,7 @@ function confirmClearSavedData() {
 }
 
 // Initialize bracket functionality
-function initializeBracketFunctionality() {
+async function initializeBracketFunctionality() {
     console.log('Initializing bracket functionality...');
     
     var api_url = {!! json_encode(env('APP_URL')) !!};
@@ -5043,33 +5082,33 @@ function initializeBracketFunctionality() {
     }
     
     // Check if tournament has already started
-    checkTournamentStatus();
+    await checkTournamentStatus();
     
     // Try to load saved tournament data
-    const savedData = loadTournamentData();
+    const savedData = await loadTournamentData();
     if (savedData) {
         console.log('Found saved tournament data, attempting to restore...');
         
         // Check if tournament has already started
-        const hasStarted = checkTournamentStatus();
+        const hasStarted = await checkTournamentStatus();
         
         if (hasStarted) {
             // Tournament has started, ask if user wants to restore or restart
             if (confirm('Tìm thấy dữ liệu giải đấu đã lưu. Bạn có muốn khôi phục không?\n\nChọn "OK" để khôi phục, "Cancel" để bắt đầu lại.')) {
                 console.log('User chose to restore tournament data');
                 // Restore data directly without creating new tables
-                const restoreResult = restoreTournamentUI(savedData);
+                const restoreResult = await restoreTournamentUI(savedData);
                 console.log('Restore result:', restoreResult);
             } else {
                 console.log('User chose to restart tournament');
                 // Clear saved data and restart
-                clearSavedTournamentData();
+                await clearSavedTournamentData();
             }
         } else {
             // Tournament hasn't started yet, restore data silently
             console.log('Tournament not started yet, restoring data silently');
             // Restore data directly without creating new tables
-            const restoreResult = restoreTournamentUI(savedData);
+            const restoreResult = await restoreTournamentUI(savedData);
             console.log('Restore result:', restoreResult);
         }
     }
@@ -5115,7 +5154,7 @@ function restoreRound1WinnerDisplays() {
 /**
  * Create tournament tables from saved data without overwriting tournament data
  */
-function createTournamentTablesFromSavedData() {
+async function createTournamentTablesFromSavedData() {
     console.log('Creating tournament tables from saved data...');
     
     try {
