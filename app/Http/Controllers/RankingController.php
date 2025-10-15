@@ -117,16 +117,34 @@ class RankingController extends Controller
     public function tournament_bracket($tournamentId)
     {
         $tournament = Tournament::find($tournamentId);
+        
+        if (!$tournament) {
+            abort(404, 'Tournament not found');
+        }
+        
+        // Get tournament data from database
+        $tournamentData = \App\Models\TournamentData::where('tournament_id', $tournamentId)->first();
+        
+        // Get registered players
         $player_registed = $tournament->player_registed_tournament->where('status', 1);
         $players = $player_registed->pluck('player.name')->toArray();
+        
+        // Create teams for bracket
         $teams = null;
         for ($i = 0; $i < count($players); $i += 2) {
             $team1 = $players[$i] ?? null;
             $team2 = $players[$i + 1] ?? null;
             $teams[] = [$team1, $team2];
         }
+        
         $bracket_data = $tournament->bracket;
-        return view('tournament-bracket', ['tournament' => $tournament, 'teams' => $teams, 'bracket_data' => $bracket_data]);
+        
+        return view('tournament-bracket-view', [
+            'tournament' => $tournament, 
+            'teams' => $teams, 
+            'bracket_data' => $bracket_data,
+            'tournamentData' => $tournamentData
+        ]);
     }
 }
 
