@@ -129,6 +129,40 @@
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+        }
+
+        .flex-fill {
+            min-width: 0;
+        }
+
+        .gap-2 {
+            gap: 0.5rem !important;
+        }
+
         .player-input-group {
             background: white;
             border-radius: 10px;
@@ -858,37 +892,71 @@
                 </div>
             </div>
             
-            <div class="row">
-                <div class="col-12 col-md-6 mb-3">
-                    <label for="player-count" class="form-label">
-                        <i class="fas fa-users me-1"></i>
-                        Số lượng người chơi
-                    </label>
-                    <div class="form-control-plaintext bg-light p-3 rounded">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-users me-2 text-primary"></i>
-                            <span class="fw-bold">{{ $tournament->number_players ?? 16 }} người chơi</span>
-                            <small class="text-muted ms-2">(Số lượng cố định của giải đấu)</small>
+            <!-- Tournament Info Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Thông tin giải đấu
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-6">
+                                    <label for="player-count" class="form-label fw-bold">
+                                        <i class="fas fa-users me-1"></i>
+                                        Số lượng người chơi
+                                    </label>
+                                    <div class="form-control-plaintext bg-light p-3 rounded">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-users me-2 text-primary"></i>
+                                            <span class="fw-bold fs-5">{{ $tournament->number_players ?? 16 }} người chơi</span>
+                                            <small class="text-muted ms-2">(Số lượng cố định của giải đấu)</small>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="player-count" value="{{ $tournament->number_players ?? 16 }}">
+                                </div>
+                                <div class="col-12 col-md-6 d-flex align-items-end">
+                                    <div class="w-100">
+                                        <small class="text-muted d-block mb-2">Quản lý danh sách cơ thủ</small>
+                                        <div class="d-flex gap-2">
+                                            <button id="setup-names" class="btn btn-primary flex-fill">
+                                                <i class="fas fa-edit me-2"></i>
+                                                Chọn cơ thủ
+                                            </button>
+                                            <button id="shuffle-players-btn" class="btn btn-warning flex-fill">
+                                                <i class="fas fa-random me-2"></i>
+                                                Đảo ngẫu nhiên
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <input type="hidden" id="player-count" value="{{ $tournament->number_players ?? 16 }}">
-                </div>
-                <div class="col-12 col-md-6 d-flex align-items-end">
-                    <button id="setup-names" class="btn btn-primary w-100">
-                        <i class="fas fa-edit me-2"></i>
-                        Danh sách cơ thủ 
-                    </button>
                 </div>
             </div>
             
             <!-- Player Names Form -->
             <form id="player-names-form" style="display:none;" class="mt-4">
-                <div class="row" id="player-names-list"></div>
-                <div class="text-center mt-4">
-                    <button type="submit" id="tournament-start-btn" class="btn btn-success btn-lg">
-                        <i class="fas fa-play me-2"></i>
-                        Bắt đầu giải đấu
-                    </button>
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-users me-2"></i>
+                            Danh sách cơ thủ tham gia
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="player-names-list"></div>
+                        <div class="text-center mt-4">
+                            <button type="submit" id="tournament-start-btn" class="btn btn-success btn-lg">
+                                <i class="fas fa-play me-2"></i>
+                                Bắt đầu giải đấu
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
 </div>
@@ -3640,6 +3708,75 @@ function autoFillPlayers(count) {
     checkDuplicatePlayers();
 }
 
+/**
+ * Shuffle players randomly
+ */
+function shufflePlayers() {
+    console.log('Shuffling players...');
+    
+    // Get all player name inputs
+    const playerInputs = document.querySelectorAll('.player-name-input');
+    if (playerInputs.length === 0) {
+        console.log('No player inputs found');
+        alert('Vui lòng nhập danh sách cơ thủ trước!');
+        return;
+    }
+    
+    // Get current values
+    const currentValues = Array.from(playerInputs).map(input => input.value);
+    console.log('Current values:', currentValues);
+    
+    // Filter out empty values and null
+    const validValues = currentValues.filter(value => value && value !== 'null' && value.trim() !== '');
+    console.log('Valid values:', validValues);
+    
+    if (validValues.length === 0) {
+        console.log('No valid players to shuffle');
+        alert('Không có người chơi hợp lệ để xáo trộn!');
+        return;
+    }
+    
+    // Shuffle the valid values using Fisher-Yates algorithm
+    for (let i = validValues.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [validValues[i], validValues[j]] = [validValues[j], validValues[i]];
+    }
+    
+    console.log('Shuffled values:', validValues);
+    
+    // Fill the inputs with shuffled values
+    let validIndex = 0;
+    playerInputs.forEach((input, index) => {
+        if (input.value && input.value !== 'null' && input.value.trim() !== '') {
+            input.value = validValues[validIndex];
+            validIndex++;
+        }
+    });
+    
+    // Trigger duplicate check
+    checkDuplicatePlayers();
+    
+    // Show notification with animation
+    showNotification('🎲 Đã xáo trộn danh sách người chơi ngẫu nhiên!', 'success');
+    
+    // Add visual feedback to the shuffle button
+    const shuffleBtn = document.getElementById('shuffle-players-btn');
+    if (shuffleBtn) {
+        shuffleBtn.innerHTML = '<i class="fas fa-check me-2"></i>Đã xáo trộn!';
+        shuffleBtn.classList.remove('btn-warning');
+        shuffleBtn.classList.add('btn-success');
+        
+        // Reset button after 2 seconds
+        setTimeout(() => {
+            shuffleBtn.innerHTML = '<i class="fas fa-random me-2"></i>Đảo ngẫu nhiên';
+            shuffleBtn.classList.remove('btn-success');
+            shuffleBtn.classList.add('btn-warning');
+        }, 2000);
+    }
+    
+    console.log('Players shuffled successfully');
+}
+
 // Player input functions
 function renderPlayerNameInputs(count) {
     console.log('Rendering player name inputs for count:', count);
@@ -3889,6 +4026,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error in setup-names click:', error);
                 alert('Có lỗi xảy ra khi tạo form nhập tên người chơi: ' + error.message);
             }
+        });
+    }
+    
+    // Shuffle players button
+    const shufflePlayersBtn = document.getElementById('shuffle-players-btn');
+    if (shufflePlayersBtn) {
+        shufflePlayersBtn.addEventListener('click', function() {
+            console.log('Shuffle players button clicked');
+            shufflePlayers();
         });
     }
     
