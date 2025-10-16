@@ -4,135 +4,246 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
-use Str;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use App\Models\Topic;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
+    // Public methods - for viewing news
     public function index()
     {
-        $news = News::latest()->paginate(5);
-        return view('news.index', compact('news'));
+        // Hot news (most viewed in last 7 days)
+        $hotNews = News::published()
+            ->with(['author', 'category'])
+            ->where('created_at', '>=', now()->subDays(7))
+            ->orderBy('views', 'desc')
+            ->take(5)
+            ->get();
+
+        // Latest news
+        $latestNews = News::published()
+            ->with(['author', 'category'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // Featured news (with images)
+        $featuredNews = News::published()
+            ->with(['author', 'category'])
+            ->whereNotNull('image')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        // Category-based news
+        $categories = Category::with(['news' => function($query) {
+            $query->published()->latest()->take(3);
+        }])->active()->ordered()->get();
+
+        // All news for pagination
+        $news = News::published()
+            ->with(['author', 'category'])
+            ->latest()
+            ->paginate(12);
+        
+        return view('news.index', compact('news', 'hotNews', 'latestNews', 'featuredNews', 'categories'));
     }
 
+    public function show($slug)
+    {
+        $news = News::published()
+            ->where('slug', $slug)
+            ->with(['author', 'category', 'comments'])
+            ->firstOrFail();
+        
+        // Increment views
+        $news->incrementViews();
+        
+        // Get related news
+        $relatedNews = News::published()
+            ->where('id', '!=', $news->id)
+            ->latest()
+            ->limit(3)
+            ->get();
+        
+        return view('news.show', compact('news', 'relatedNews'));
+    }
+
+    // Admin methods - for managing news
+    public function adminIndex()
+    {
+        $news = News::with(['author', 'category', 'topic'])
+            ->latest()
+            ->paginate(10);
+        
+        return view('admin.news.index', compact('news'));
+    }
+
+    public function create()
+    {
+        $categories = Category::with('parent')->active()->ordered()->get();
+        return view('admin.news.create', compact('categories'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'excerpt' => 'nullable|string|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:draft,published',
+            'category_id' => 'nullable|exists:categories,id'
+        ], [
+            'title.required' => 'Vui lòng nhập tiêu đề.',
+            'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            'content.required' => 'Vui lòng nhập nội dung.',
+            'excerpt.max' => 'Tóm tắt không được vượt quá 500 ký tự.',
+            'image.image' => 'File phải là hình ảnh.',
+            'image.mimes' => 'File phải có định dạng jpeg, png, jpg, gif.',
+            'image.max' => 'Dung lượng file không được vượt quá 2MB.',
+            'status.required' => 'Vui lòng chọn trạng thái.',
+            'status.in' => 'Trạng thái không hợp lệ.',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $news = new News();
+            $news->title = $request->title;
+            $news->content = $request->content;
+            $news->excerpt = $request->excerpt;
+            $news->status = $request->status;
+            $news->author_id = Auth::id();
+            $news->category_id = $request->category_id;
+            
+            // Generate slug
+            $news->slug = Str::slug($request->title);
+            
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('news', $imageName, 'public');
+                $news->image = $imageName;
+            }
+
+            $news->save();
+            
+            DB::commit();
+            
+            return redirect()->route('admin.news.index')
+                ->with('success', 'Tạo bài viết thành công!');
+                
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Tạo bài viết thất bại: ' . $e->getMessage());
+        }
+    }
+
+    public function edit($id)
+    {
+        $news = News::findOrFail($id);
+        $categories = Category::with('parent')->active()->ordered()->get();
+        
+        return view('admin.news.edit', compact('news', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $news = News::findOrFail($id);
+        
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'excerpt' => 'nullable|string|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:draft,published',
+            'category_id' => 'nullable|exists:categories,id'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $news->title = $request->title;
+            $news->content = $request->content;
+            $news->excerpt = $request->excerpt;
+            $news->status = $request->status;
+            $news->category_id = $request->category_id;
+            
+            // Update slug if title changed
+            if ($news->isDirty('title')) {
+                $news->slug = Str::slug($request->title);
+            }
+            
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                // Delete old image
+                if ($news->image) {
+                    Storage::disk('public')->delete('news/' . $news->image);
+                }
+                
+                $image = $request->file('image');
+                $imageName = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('news', $imageName, 'public');
+                $news->image = $imageName;
+            }
+
+            $news->save();
+            
+            DB::commit();
+            
+            return redirect()->route('admin.news.index')
+                ->with('success', 'Cập nhật bài viết thành công!');
+                
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Cập nhật bài viết thất bại: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        $news = News::findOrFail($id);
+        
+        try {
+            DB::beginTransaction();
+            
+            // Delete image
+            if ($news->image) {
+                Storage::disk('public')->delete('news/' . $news->image);
+            }
+            
+            $news->delete();
+            
+            DB::commit();
+            
+            return redirect()->route('admin.news.index')
+                ->with('success', 'Xóa bài viết thành công!');
+                
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Xóa bài viết thất bại: ' . $e->getMessage());
+        }
+    }
+
+    // Legacy methods for backward compatibility
     public function showAll()
     {
-        $news = News::latest()->paginate(5);
-        return view('admin.showAllNews', compact('news'));
+        return $this->adminIndex();
     }
 
     public function showEdit($id)
     {
-        $news = News::where('id', $id)->firstOrFail();
-        return view('admin.showEditNews', compact('news'));
+        return $this->edit($id);
     }
 
     public function showCreate()
     {
-        $topics = Topic::all();
-        return view('admin.createNews', compact('topics'));
-    }
-    public function create(Request $request)
-    {
-        $request->validate([
-            'title' => ['required'],
-            'slug' => ['required'],
-            'content' => ['required'],
-            'img' => ['image', 'mimes:jpeg,png,jpg', 'max:2048', 'required'],
-        ], [
-            'title.required' => 'Vui lòng nhập tiêu đề.',
-            'slug.required' => 'Vui lòng nhập slug.',
-            'content.required' => 'Vui lòng nhập nội dung.',
-            'img.image' => 'File phải là hình ảnh.',
-            'img.mimes' => 'File phải có định dạng jpeg, png, jpg.',
-            'img.max' => 'Dung lượng file không được vượt quá 2MB.',
-            'img.required' => 'Vui lòng chọn ảnh.',
-        ]);
-        try {
-            $fileName = $request->slug . '.' . $request->file('img')->extension();
-            // Lấy tất cả các file trong thư mục (không bao gồm thư mục con)
-            $files = Storage::disk('public')->files('news/' . $request->slug);
-
-            // Xóa tất cả các file
-            foreach ($files as $file) {
-                Storage::disk('public')->delete($file);
-            }
-            // Lưu file ảnh
-            $file = $request->file('img');
-            $filePath = $file->storeAs('news/' . $request->slug, $fileName, 'public');
-            DB::transaction(function () {});
-            $news = News::create([
-                'title' => $request->title,
-                'slug' => $request->slug,
-                'content' => $request->content,
-                'image' => $fileName,
-                'topic_id' => $request->topic_id,
-            ]);
-            $news->save();
-            return redirect()->route('news.showAll')->with('success', 'Thêm bài viết thành công!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Thêm bài viết thất bại!');
-        }
-    }
-
-    public function store(Request $request, $id)
-    {
-        $news = News::find($id);
-        $request->validate([
-            'title' => ['required'],
-            'slug' => ['required'],
-            'content' => ['required'],
-            'img' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
-        ], [
-            'title.required' => 'Vui lòng nhập tiêu đề.',
-            'slug.required' => 'Vui lòng nhập slug.',
-            'content.required' => 'Vui lòng nhập nội dung.',
-            'img.image' => 'File phải là hình ảnh.',
-            'img.mimes' => 'File phải có định dạng jpeg, png, jpg.',
-            'img.max' => 'Dung lượng file không được vượt quá 2MB.',
-        ]);
-        try {
-            DB::transaction(function () use ($request, $news) {
-
-                if ($request->img != null) {
-                    $fileName = $news->slug . '.' . $request->file('img')->extension();
-
-                    Storage::disk('public')->deleteDirectory('news/' . $news->slug);
-                    // Lưu file ảnh
-                    $file = $request->file('img');
-                    $filePath = $file->storeAs('news/' . $news->slug, $fileName, 'public');
-                    $news->image = $fileName;
-                }
-
-                $news->title = $request->title;
-                $news->slug = $request->slug;
-                $news->content = $request->content;
-                $news->save();
-            });
-            return redirect()->route('news.showAll')->with('success', 'Sửa bài viết thành công!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Sửa bài viết thất bại!');
-        }
-    }
-
-    public function delete($id)
-    {
-        $news = News::find($id);
-
-        if (!$news) {
-            return redirect()->route('news.showAll')->with('error', 'Bài viết không tồn tại!');
-        }
-        try {
-            $slug = $news->slug;
-            $news->delete();
-            // Xóa thư mục chứa các tệp liên quan đến bài viết
-            Storage::disk('public')->deleteDirectory('news/' . $slug);
-
-            return back()->with('success', 'Xoá bài viết thành công!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Xoá bài viết thất bại!');
-        }
+        return $this->create();
     }
 }
+

@@ -35,7 +35,9 @@ Route::post('/change-password', [RankingController::class, 'change_password'])->
 Route::get('/tournament/bracket/{tournamentId}', [RankingController::class, 'tournament_bracket'])->name('ranking.tournament_bracket');
 
 
+// Public news routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::middleware('is_player')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
@@ -85,6 +87,30 @@ Route::middleware('is_admin')->group(
         Route::post('/admin/edit-player/{id}', [AdminController::class, 'updatePlayer'])->name('admin.updatePlayer');
         Route::delete('/admin/delete', [AdminController::class, 'deletePlayer'])->name('admin.deletePlayer');
 
+// Admin news routes
+Route::prefix('admin/news')->name('admin.news.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\AdminNewsController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', [App\Http\Controllers\AdminNewsController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\AdminNewsController::class, 'create'])->name('create');
+    Route::post('/', [App\Http\Controllers\AdminNewsController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [App\Http\Controllers\AdminNewsController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [App\Http\Controllers\AdminNewsController::class, 'update'])->name('update');
+    Route::delete('/{id}', [App\Http\Controllers\AdminNewsController::class, 'destroy'])->name('destroy');
+    Route::post('/upload-image', [App\Http\Controllers\AdminNewsController::class, 'uploadImage'])->name('upload-image');
+});
+        
+        // Admin categories routes
+        Route::prefix('admin/categories')->name('admin.categories.')->group(function () {
+            Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('create');
+            Route::post('/', [App\Http\Controllers\CategoryController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [App\Http\Controllers\CategoryController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('update');
+            Route::delete('/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/toggle-status', [App\Http\Controllers\CategoryController::class, 'toggleStatus'])->name('toggle-status');
+        });
+        
+        // Legacy routes for backward compatibility
         Route::get('/showAllNews', [NewsController::class, 'showAll'])->name('news.showAll');
         Route::get('/showCreate', [NewsController::class, 'showCreate'])->name('news.showCreate');
         Route::get('/showEdit/{id}', [NewsController::class, 'showEdit'])->name('news.showEdit');
