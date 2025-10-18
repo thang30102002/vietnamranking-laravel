@@ -198,6 +198,9 @@
                                         <label for="content" class="form-label">Nội dung <span class="text-danger">*</span></label>
                                         <div class="content-editor">
                                             <div class="editor-toolbar mb-2">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="insertImageAtCursor()">
+                                                    <i class="fa fa-image"></i> Chèn ảnh
+                                                </button>
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="formatText('bold')">
                                                     <i class="fa fa-bold"></i> Đậm
                                                 </button>
@@ -227,7 +230,7 @@
                                         @error('content')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                        <div class="form-text">Sử dụng các nút trên để định dạng văn bản. Enter để xuống dòng mới.</div>
+                                        <div class="form-text">Sử dụng các nút trên để định dạng văn bản. Nhấn "Chèn ảnh" để thêm ảnh vào vị trí con trỏ.</div>
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -311,6 +314,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Insert Modal -->
+    <div id="imageInsertModal" class="image-insert-modal">
+        <div class="image-insert-content">
+            <span class="close" onclick="closeImageModal()">&times;</span>
+            <h3>Chọn ảnh để chèn</h3>
+            <div class="image-selection" id="imageSelection">
+                <!-- Images will be populated here -->
+            </div>
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-primary" onclick="insertSelectedImage()">
+                    <i class="fa fa-check"></i> Chèn ảnh
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="closeImageModal()">
+                    <i class="fa fa-times"></i> Hủy
+                </button>
             </div>
         </div>
     </div>
@@ -699,6 +721,111 @@
             const newPosition = cursorPos + 6;
             textarea.setSelectionRange(newPosition, newPosition);
             textarea.focus();
+        }
+
+        // Global variables for image insertion
+        let selectedImageForInsert = null;
+        let cursorPosition = 0;
+
+        // Function to insert image at cursor position
+        function insertImageAtCursor() {
+            const textarea = document.getElementById('content');
+            cursorPosition = textarea.selectionStart;
+            
+            // Show modal with available images
+            showImageModal();
+        }
+
+        // Function to show image modal
+        function showImageModal() {
+            const modal = document.getElementById('imageInsertModal');
+            const imageSelection = document.getElementById('imageSelection');
+            
+            // Clear previous content
+            imageSelection.innerHTML = '';
+            
+            // Add uploaded images to selection
+            const uploadedImages = window.uploadedImages || [];
+            
+            if (uploadedImages.length === 0) {
+                imageSelection.innerHTML = '<p class="text-muted">Chưa có ảnh nào được upload. Vui lòng upload ảnh trước.</p>';
+            } else {
+                uploadedImages.forEach((img, index) => {
+                    const imageOption = document.createElement('div');
+                    imageOption.className = 'image-option';
+                    imageOption.dataset.index = index;
+                    imageOption.onclick = () => selectImageForInsert(index);
+                    
+                    imageOption.innerHTML = `
+                        <img src="${img.url}" alt="${img.file.name}">
+                        <div class="image-name">${img.file.name}</div>
+                    `;
+                    
+                    imageSelection.appendChild(imageOption);
+                });
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        // Function to select image for insertion
+        function selectImageForInsert(index) {
+            // Remove previous selection
+            document.querySelectorAll('.image-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            const selectedOption = document.querySelector(`[data-index="${index}"]`);
+            selectedOption.classList.add('selected');
+            
+            selectedImageForInsert = index;
+        }
+
+        // Function to insert selected image
+        function insertSelectedImage() {
+            if (selectedImageForInsert === null) {
+                alert('Vui lòng chọn ảnh để chèn.');
+                return;
+            }
+            
+            const textarea = document.getElementById('content');
+            const uploadedImages = window.uploadedImages || [];
+            const selectedImage = uploadedImages[selectedImageForInsert];
+            
+            if (selectedImage) {
+                // Create image placeholder
+                const imagePlaceholder = `\n\n[IMAGE_${selectedImageForInsert + 1}: ${selectedImage.file.name}]\n\n`;
+                
+                // Insert at cursor position
+                const content = textarea.value;
+                const beforeCursor = content.substring(0, cursorPosition);
+                const afterCursor = content.substring(cursorPosition);
+                
+                textarea.value = beforeCursor + imagePlaceholder + afterCursor;
+                
+                // Update cursor position
+                const newPosition = cursorPosition + imagePlaceholder.length;
+                textarea.setSelectionRange(newPosition, newPosition);
+                textarea.focus();
+            }
+            
+            closeImageModal();
+        }
+
+        // Function to close image modal
+        function closeImageModal() {
+            const modal = document.getElementById('imageInsertModal');
+            modal.style.display = 'none';
+            selectedImageForInsert = null;
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageInsertModal');
+            if (event.target === modal) {
+                closeImageModal();
+            }
         }
     </script>
 </body>

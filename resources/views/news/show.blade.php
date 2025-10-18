@@ -3,6 +3,74 @@
 @section('title', $news->title . ' - VietNamPool')
 
 @section('content')
+<style>
+.content-image {
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: block;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.content-image img:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Đảm bảo ảnh không bị vỡ và giữ nguyên chất lượng */
+@media (max-width: 768px) {
+    .content-image img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+/* Đảm bảo ảnh không bị kéo giãn */
+.content-image img[style*="width"] {
+    width: auto !important;
+    max-width: 100% !important;
+}
+
+.content-image img[style*="height"] {
+    height: auto !important;
+}
+
+/* Đảm bảo tất cả ảnh trong nội dung không bị kéo giãn */
+.article-body img {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    image-rendering: auto !important;
+}
+
+/* Loại bỏ các thuộc tính width/height inline */
+.article-body img[width] {
+    width: auto !important;
+}
+
+.article-body img[height] {
+    height: auto !important;
+}
+</style>
 <div class="main-banner">
     <div class="container">
         <div class="row">
