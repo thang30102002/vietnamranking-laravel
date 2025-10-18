@@ -151,6 +151,8 @@ a.no-style {
                                 hạng</a></li>
                         <li><a class="{{ request()->path() === 'tournament' ? 'active' : '' }}"
                                 href={{ route('ranking.tournament') }}>Giải đấu</a></li>
+                        <li><a class="{{ request()->path() === 'news' ? 'active' : '' }}"
+                                href={{ route('news.index') }}>Tin tức</a></li>
                         @if (Auth::check() && auth()->user()->user_role->role_id == 2)
                             <li><a class="{{ request()->path() === 'adminTournament' ? 'active' : '' }}"
                                     href={{ route('adminTournament.index') }}>Quản lý giải đấu</a></li>
@@ -239,6 +241,7 @@ a.no-style {
                                                     đổi mật khẩu</button></li>
                                         @endif
                                         @if (auth()->user()->user_role->role_id == 2)
+                                            <li><a class="dropdown-item p-0" href="{{ route('admin.news.dashboard') }}">Quản lý tin tức</a></li>
                                             <li><button id="btnModalChangePass" type="button" data-bs-toggle="modal"
                                                     data-bs-target="#ChangePassModal" class="dropdown-item p-0"
                                                     aria-hidden="true">Thay

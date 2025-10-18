@@ -1,1326 +1,2323 @@
-<!--
-Template Name: Tailnews - Tailwind News Template
-Author: Aribudin
-Website: https://www.tailwindtemplate.net
-Contact: support@tailwindtemplate.net
-Purchase: https://themes.tailwindtemplate.net/tailnews
-License: You must have a valid license from official store to legally use the theme for your project.
--->
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.main')
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@section('title', 'Tin tức Billiard - VietNamPool')
 
-    <!-- Title  -->
-    <title>Tailwind News Template | Tailnews</title>
-    <meta name="description" content="Tailwind CSS News Template">
-
-    <!-- Development css -->
-    <link rel="stylesheet" href={{ asset('css/news/style.css') }}>
-    <script src="https://cdn.tailwindcss.com"></script>
-
-
-    <!-- Production css -->
-    <!-- <link rel="stylesheet" href="dist/css/style.css"> -->
-
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
-
-    <!-- Favicon  -->
-    <link rel="icon" href="src/img/favicon.jpg">
-    <link rel="icon" href="{{ asset('images/VietNamPool.png') }}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flex-slider.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/owl.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/templatemo-lugx-gaming.css') }}">
-    <link rel="stylesheet" href="{{ asset('fontawesome-free-6.7.2-web/css/all.min.css') }}">
-</head>
-
-<body class="text-gray-700 pt-[90px]"
-    style="    background-color: #21324C !important;
-    background-image: url(../images/background-dots.png);">
-    <!-- ========== { HEADER }==========  -->
-    <x-notification />
-    <x-menu />
-    <!-- end header -->
-
-    <!-- Mobile menu -->
-    <div class="side-area fixed w-full h-full inset-0 z-50">
-        <!-- bg open -->
-        <div class="back-menu fixed bg-gray-900 bg-opacity-70 w-full h-full inset-x-0 top-0">
-            <div class="cursor-pointer text-white absolute right-64 p-2">
-                <svg class="bi bi-x" width="2rem" height="2rem" viewBox="0 0 16 16" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z"
-                        clip-rule="evenodd"></path>
-                    <path fill-rule="evenodd"
-                        d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z"
-                        clip-rule="evenodd"></path>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Mobile navbar -->
-        <nav id="mobile-nav"
-            class="side-menu flex flex-col right-0 w-64 fixed top-0 bg-white dark:bg-gray-800 h-full overflow-auto z-40">
-            <div class="mb-auto">
-                <!--navigation-->
-                <nav class="relative flex flex-wrap">
-                    <div class="text-center py-4 w-full font-bold border-b border-gray-100">TAILNEWS</div>
-                    <ul id="side-menu" class="w-full float-none flex flex-col">
-                        <li class="relative">
-                            <a href="#" class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">Home</a>
-                        </li>
-
-                        <!-- dropdown with submenu-->
-                        <li class="dropdown relative">
-                            <a class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50" href="javascript:;">
-                                News
-                            </a>
-
-                            <!-- dropdown menu -->
-                            <ul class="dropdown-menu block rounded rounded-t-none top-full z-50 ml-4 py-0.5 text-left bg-white dark:bg-gray-800 mb-4"
-                                style="min-width: 12rem">
-                                <!--submenu-->
-                                <li class="subdropdown relative">
-                                    <a class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                        href="javascript:;">
-                                        Dropdown item
-                                    </a>
-
-                                    <!--dropdown submenu-->
-                                    <ul class="dropdown-menu block rounded rounded-t-none top-full z-50 ml-4 py-0.5 text-left bg-white dark:bg-gray-800"
-                                        style="min-width: 12rem">
-                                        <li><a class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                                href="#">Dropdown sub item</a></li>
-                                        <li><a class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                                href="#">Dropdown sub item</a></li>
-                                        <li><a class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                                href="#">Dropdown sub item</a></li>
-                                        <li><a class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                                href="#">Dropdown sub item</a></li>
-                                    </ul>
-                                </li><!--end submenu-->
-                                <li class="relative"><a
-                                        class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                        href="#">Dropdown item</a></li>
-                                <li class="relative"><a
-                                        class="block w-full py-2 px-5 border-b border-gray-100 hover:bg-gray-50"
-                                        href="#">Dropdown item</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="relative">
-                            <a href="#"
-                                class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">Sport</a>
-                        </li>
-
-                        <li class="relative">
-                            <a href="#"
-                                class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">Travel</a>
-                        </li>
-
-                        <li class="relative">
-                            <a href="#"
-                                class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">Techno</a>
-                        </li>
-
-                        <li class="relative">
-                            <a href="#"
-                                class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">Worklife</a>
-                        </li>
-
-                        <li class="relative">
-                            <a href="#"
-                                class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">Future</a>
-                        </li>
-
-                        <li class="relative">
-                            <a href="#"
-                                class="block py-2 px-5 border-b border-gray-100 hover:bg-gray-50">More</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- copyright -->
-            <div class="py-4 px-6 text-sm mt-6 text-center">
-                <p>Copyright <a href="#">Tailnews</a> - All right reserved</p>
-            </div>
-        </nav>
-    </div><!-- End Mobile menu -->
-
-    <!-- =========={ MAIN }==========  -->
-    <main id="content">
-        <!-- advertisement -->
-        <div class="bg-gray-50 py-4 hidden">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                <div class="mx-auto table text-center text-sm">
-                    <a class="uppercase" href="#">Advertisement</a>
-                    <a href="#">
-                        <img src={{ asset('images/news/ads/ads_728.jpg') }} alt="advertisement area">
+@section('content')
+<!-- Navigation Tabs -->
+<div class="news-nav">
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="hot">Nóng</button>
+            <button class="nav-tab" data-tab="latest">Mới</button>
+            <button class="nav-tab" data-tab="featured">Nổi bật</button>
+            <div class="nav-dropdown">
+                <button class="nav-tab dropdown-toggle" data-tab="categories">
+                    Chủ đề
+                </button>
+                <div class="dropdown-menu level-1">
+                    <!-- All Categories Option -->
+                    <a href="#" class="dropdown-item all-categories" data-category="all">
+                        <div class="category-icon">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <div class="category-info">
+                            <span class="category-name">Tất cả chủ đề</span>
+                            <span class="category-desc">Tất cả tin tức</span>
+                        </div>
+                        <div class="category-count">
+                            <span>{{ $categories->sum(function($cat) { return $cat->news->count(); }) }}</span>
+                        </div>
                     </a>
+                    
+                    <!-- Parent Categories with Children -->
+                    @foreach($categories as $category)
+                    <!-- Parent Category -->
+                    <div class="dropdown-item parent-category" data-category="{{ $category->id }}" style="border-color: {{ $category->color }}">
+                        <div class="category-icon" style="background-color: {{ $category->color }}">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="category-info">
+                            <span class="category-name">{{ $category->name }}</span>
+                            <span class="category-desc">{{ $category->children->count() }} chủ đề con</span>
+                        </div>
+                        <div class="category-count">
+                            <span>{{ $category->news->count() }}</span>
+                        </div>
+                        <div class="category-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Child Categories (Indented) -->
+                    @if($category->children->count() > 0)
+                        @foreach($category->children as $child)
+                        <a href="#" class="dropdown-item child-category" data-category="{{ $child->id }}" style="color: {{ $child->color }}">
+                            <div class="category-icon child-icon" style="background-color: {{ $child->color }}">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="category-info">
+                                <span class="category-name">{{ $child->name }}</span>
+                                <span class="category-desc">Chủ đề con</span>
+                            </div>
+                            <div class="category-count">
+                                <span>{{ $child->news->count() }}</span>
+                            </div>
+                        </a>
+                        @endforeach
+                    @endif
+                    @endforeach
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- hero big grid -->
-        <div class="bg-white py-6">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                <!-- big grid 1 -->
-                <div class="flex flex-row flex-wrap">
-                    <!--Start left cover-->
-                    <div class="flex-shrink max-w-full w-full lg:w-1/2 pb-1 lg:pb-0 lg:pr-1">
-                        <div class="relative hover-img max-h-98 overflow-hidden">
-                            <a href="#">
-                                <img class="max-w-full w-full mx-auto h-auto"
-                                    src={{ asset('images/news/dummy/img1.jpg') }} alt="Image description">
-                            </a>
-                            <div class="absolute px-5 pt-8 pb-5 bottom-0 w-full bg-gradient-cover">
-                                <a href="#">
-                                    <h2 class="text-3xl font-bold capitalize text-white mb-3">Amazon Shoppers Are
-                                        Ditching Designer Belts for This Best-Selling</h2>
-                                </a>
-                                <p class="text-gray-100 hidden sm:inline-block">This is a wider card with supporting
-                                    text below as a natural lead-in to additional content. This very helpfull for
-                                    generate default content..</p>
-                                <div class="pt-2">
-                                    <div class="text-gray-100">
-                                        <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>Europe
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Main Content -->
+<div class="news-content">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content Area -->
+            <div class="col-lg-8">
+                <!-- Hot News Section -->
+                <div class="news-section active" id="hot-section">
+                    <div class="section-header">
+                        <h2>Tin nóng</h2>
+                        <span class="section-subtitle">Những tin tức được quan tâm nhất</span>
                     </div>
-
-                    <!--Start box news-->
-                    <div class="flex-shrink max-w-full w-full lg:w-1/2">
-                        <div class="box-one flex flex-row flex-wrap">
-                            <article class="flex-shrink max-w-full w-full sm:w-1/2">
-                                <div class="relative hover-img max-h-48 overflow-hidden">
-                                    <a href="#">
-                                        <img class="max-w-full w-full mx-auto h-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="Image description">
-                                    </a>
-                                    <div class="absolute px-4 pt-7 pb-4 bottom-0 w-full bg-gradient-cover">
-                                        <a href="#">
-                                            <h2 class="text-lg font-bold capitalize leading-tight text-white mb-1">News
-                                                magazines are becoming obsolete, replaced by gadgets</h2>
-                                        </a>
-                                        <div class="pt-1">
-                                            <div class="text-gray-100">
-                                                <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>
-                                                Techno
-                                            </div>
+                    <div class="row">
+                        @if($hotNews->count() > 0)
+                            <div class="col-12">
+                                <div class="hot-news-main">
+                                    @php $firstNews = $hotNews->first(); @endphp
+                                    <div class="hot-news-card featured">
+                                        <div class="news-image">
+                                            @if($firstNews->image)
+                                                <img src="{{ Storage::url('news/' . $firstNews->image) }}" alt="{{ $firstNews->title }}">
+                                            @else
+                                                <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $firstNews->title }}">
+                                            @endif
+                                            <div class="news-badge hot">HOT</div>
                                         </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="flex-shrink max-w-full w-full sm:w-1/2">
-                                <div class="relative hover-img max-h-48 overflow-hidden">
-                                    <a href="#">
-                                        <img class="max-w-full w-full mx-auto h-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="Image description">
-                                    </a>
-                                    <div class="absolute px-4 pt-7 pb-4 bottom-0 w-full bg-gradient-cover">
-                                        <a href="#">
-                                            <h2 class="text-lg font-bold capitalize leading-tight text-white mb-1">
-                                                Minimalist designs are starting to be popular with the next generation
-                                            </h2>
-                                        </a>
-                                        <div class="pt-1">
-                                            <div class="text-gray-100">
-                                                <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>
-                                                Architecture
+                                        <div class="news-content">
+                                            <div class="news-meta">
+                                                @if($firstNews->category)
+                                                    <span class="category-tag" style="background-color: {{ $firstNews->category->color }}">
+                                                        {{ $firstNews->category->name }}
+                                                    </span>
+                                                @endif
+                                                <span class="time">{{ $firstNews->formatted_date }}</span>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="flex-shrink max-w-full w-full sm:w-1/2">
-                                <div class="relative hover-img max-h-48 overflow-hidden">
-                                    <a href="#">
-                                        <img class="max-w-full w-full mx-auto h-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="Image description">
-                                    </a>
-                                    <div class="absolute px-4 pt-7 pb-4 bottom-0 w-full bg-gradient-cover">
-                                        <a href="#">
-                                            <h2 class="text-lg font-bold capitalize leading-tight text-white mb-1">Tips
-                                                for decorating the interior of the living room</h2>
-                                        </a>
-                                        <div class="pt-1">
-                                            <div class="text-gray-100">
-                                                <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>
-                                                Interior
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <article class="flex-shrink max-w-full w-full sm:w-1/2">
-                                <div class="relative hover-img max-h-48 overflow-hidden">
-                                    <a href="#">
-                                        <img class="max-w-full w-full mx-auto h-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="Image description">
-                                    </a>
-                                    <div class="absolute px-4 pt-7 pb-4 bottom-0 w-full bg-gradient-cover">
-                                        <a href="#">
-                                            <h2 class="text-lg font-bold capitalize leading-tight text-white mb-1">
-                                                Online taxi users are increasing drastically ahead of the new year</h2>
-                                        </a>
-                                        <div class="pt-1">
-                                            <div class="text-gray-100">
-                                                <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>
-                                                Lifestyle
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- block news -->
-        <div class="bg-white">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                <div class="flex flex-row flex-wrap">
-                    <!-- Left -->
-                    <div class="flex-shrink max-w-full w-full lg:w-2/3 overflow-hidden">
-                        <div class="w-full py-3">
-                            <h2 class="text-gray-800 text-2xl font-bold">
-                                <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span>Europe
-                            </h2>
-                        </div>
-                        <div class="flex flex-row flex-wrap -mx-3">
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- right -->
-                    <div
-                        class="flex-shrink max-w-full w-full lg:w-1/3 lg:pl-8 lg:pt-14 lg:pb-8 order-first lg:order-last">
-                        <div class="w-full bg-gray-50 h-full">
-                            <div class="text-sm py-6 sticky">
-                                <div class="w-full text-center">
-                                    <a class="uppercase" href="#">Advertisement</a>
-                                    <a href="#">
-                                        <img class="mx-auto" src={{ asset('images/news/dummy/img2.jpg') }}
-                                            alt="advertisement area">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- slider news -->
-        <div class="relative bg-gray-50"
-            style="background-image: url('src/img/bg.jpg');background-size: cover;background-position: center center;background-attachment: fixed">
-            <div class="bg-black bg-opacity-70">
-                <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                    <div class="flex flex-row flex-wrap">
-                        <div class="flex-shrink max-w-full w-full py-12 overflow-hidden">
-                            <div class="w-full py-3">
-                                <h2 class="text-white text-2xl font-bold text-shadow-black">
-                                    <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span>American
-                                </h2>
-                            </div>
-                            <div id="post-carousel" class="splide post-carousel">
-                                <div class="splide__track">
-                                    <ul class="splide__list">
-                                        <li class="splide__slide">
-                                            <div class="w-full pb-3">
-                                                <div class="hover-img bg-white">
-                                                    <a href="">
-                                                        <img class="max-w-full w-full mx-auto"
-                                                            src={{ asset('images/news/dummy/img2.jpg') }}
-                                                            alt="alt title">
-                                                    </a>
-                                                    <div class="py-3 px-6">
-                                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                                            <a href="#">5 Tips to Save Money Booking Your Next
-                                                                Hotel Room</a>
-                                                        </h3>
-                                                        <a class="text-gray-500" href="#"><span
-                                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="splide__slide">
-                                            <div class="w-full pb-3">
-                                                <div class="hover-img bg-white">
-                                                    <a href="">
-                                                        <img class="max-w-full w-full mx-auto"
-                                                            src={{ asset('images/news/dummy/img2.jpg') }}
-                                                            alt="alt title">
-                                                    </a>
-                                                    <div class="py-3 px-6">
-                                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                                            <a href="#">5 Tips to Save Money Booking Your Next
-                                                                Hotel Room</a>
-                                                        </h3>
-                                                        <a class="text-gray-500" href="#"><span
-                                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="splide__slide">
-                                            <div class="w-full pb-3">
-                                                <div class="hover-img bg-white">
-                                                    <a href="">
-                                                        <img class="max-w-full w-full mx-auto"
-                                                            src={{ asset('images/news/dummy/img2.jpg') }}
-                                                            alt="alt title">
-                                                    </a>
-                                                    <div class="py-3 px-6">
-                                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                                            <a href="#">5 Tips to Save Money Booking Your Next
-                                                                Hotel Room</a>
-                                                        </h3>
-                                                        <a class="text-gray-500" href="#"><span
-                                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="splide__slide">
-                                            <div class="w-full pb-3">
-                                                <div class="hover-img bg-white">
-                                                    <a href="">
-                                                        <img class="max-w-full w-full mx-auto"
-                                                            src={{ asset('images/news/dummy/img2.jpg') }}
-                                                            alt="alt title">
-                                                    </a>
-                                                    <div class="py-3 px-6">
-                                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                                            <a href="#">5 Tips to Save Money Booking Your Next
-                                                                Hotel Room</a>
-                                                        </h3>
-                                                        <a class="text-gray-500" href="#"><span
-                                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="splide__slide">
-                                            <div class="w-full pb-3">
-                                                <div class="hover-img bg-white">
-                                                    <a href="">
-                                                        <img class="max-w-full w-full mx-auto"
-                                                            src={{ asset('images/news/dummy/img2.jpg') }}
-                                                            alt="alt title">
-                                                    </a>
-                                                    <div class="py-3 px-6">
-                                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                                            <a href="#">5 Tips to Save Money Booking Your Next
-                                                                Hotel Room</a>
-                                                        </h3>
-                                                        <a class="text-gray-500" href="#"><span
-                                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="splide__slide">
-                                            <div class="w-full pb-3">
-                                                <div class="hover-img bg-white">
-                                                    <a href="">
-                                                        <img class="max-w-full w-full mx-auto"
-                                                            src={{ asset('images/news/dummy/img2.jpg') }}
-                                                            alt="alt title">
-                                                    </a>
-                                                    <div class="py-3 px-6">
-                                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                                            <a href="#">5 Tips to Save Money Booking Your Next
-                                                                Hotel Room</a>
-                                                        </h3>
-                                                        <a class="text-gray-500" href="#"><span
-                                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- block news -->
-        <div class="bg-white py-6">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                <div class="flex flex-row flex-wrap">
-                    <div class="flex-shrink max-w-full w-full overflow-hidden">
-                        <div class="w-full py-3">
-                            <h2 class="text-gray-800 text-2xl font-bold">
-                                <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span>Africa
-                            </h2>
-                        </div>
-                        <div class="flex flex-row flex-wrap -mx-3">
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto"
-                                            src={{ asset('images/news/dummy/img2.jpg') }} alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 lg:w-1/4 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img26.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- block news -->
-        <div class="bg-gray-50 py-6">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                <div class="flex flex-row flex-wrap">
-                    <!-- Left -->
-                    <div class="flex-shrink max-w-full w-full lg:w-2/3  overflow-hidden">
-                        <div class="w-full py-3">
-                            <h2 class="text-gray-800 text-2xl font-bold">
-                                <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span>Asian
-                            </h2>
-                        </div>
-                        <div class="flex flex-row flex-wrap -mx-3">
-                            <div class="flex-shrink max-w-full w-full px-3 pb-5">
-                                <div class="relative hover-img max-h-98 overflow-hidden">
-                                    <!--thumbnail-->
-                                    <a href="#">
-                                        <img class="max-w-full w-full mx-auto h-auto" src="src/img/dummy/img2.jpg"
-                                            alt="Image description">
-                                    </a>
-                                    <div class="absolute px-5 pt-8 pb-5 bottom-0 w-full bg-gradient-cover">
-                                        <!--title-->
-                                        <a href="#">
-                                            <h2 class="text-3xl font-bold capitalize text-white mb-3">Amazon Shoppers
-                                                Are Ditching Designer Belts for This Best-Selling</h2>
-                                        </a>
-                                        <p class="text-gray-100 hidden sm:inline-block">This is a wider card with
-                                            supporting text below as a natural lead-in to additional content. This very
-                                            helpfull for generate default content..</p>
-                                        <!-- author and date -->
-                                        <div class="pt-2">
-                                            <div class="text-gray-100">
-                                                <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>
-                                                Europe
+                                            <h3 class="news-title">
+                                                <a href="{{ route('news.show', $firstNews->slug) }}">{{ $firstNews->title }}</a>
+                                            </h3>
+                                            <p class="news-excerpt">{{ $firstNews->excerpt }}</p>
+                                            <div class="news-stats">
+                                                <span><i class="fas fa-eye"></i> {{ $firstNews->views }} lượt xem</span>
+                                                <span><i class="fas fa-user"></i> {{ $firstNews->author->name }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img27.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
+                            @if($hotNews->count() > 1)
+                                <div class="col-12">
+                                    <div class="hot-news-list">
+                                        @foreach($hotNews->skip(1) as $index => $news)
+                                        <div class="hot-news-card">
+                                            <div class="news-image">
+                                                @if($news->image)
+                                                    <img src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}">
+                                                @else
+                                                    <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $news->title }}">
+                                                @endif
+                                                <div class="news-badge hot">{{ $index + 2 }}</div>
+                                            </div>
+                                            <div class="news-content">
+                                                <div class="news-meta">
+                                                    @if($news->category)
+                                                        <span class="category-tag" style="background-color: {{ $news->category->color }}">
+                                                            {{ $news->category->name }}
+                                                        </span>
+                                                    @endif
+                                                    <span class="time">{{ $news->formatted_date }}</span>
+                                                </div>
+                                                <h3 class="news-title">
+                                                    <a href="{{ route('news.show', $news->slug) }}">{{ $news->title }}</a>
+                                                </h3>
+                                                <p class="news-excerpt">{{ $news->excerpt }}</p>
+                                                <div class="news-stats">
+                                                    <span><i class="fas fa-eye"></i> {{ $news->views }} lượt xem</span>
+                                                    <span><i class="fas fa-user"></i> {{ $news->author->name }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img3.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
+                            @endif
+                        @else
+                            <div class="col-12">
+                                <div class="no-news">
+                                    <i class="fas fa-fire"></i>
+                                    <p>Chưa có tin nóng nào</p>
                                 </div>
                             </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img4.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img5.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img6.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img7.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- right -->
-                    <div
-                        class="flex-shrink max-w-full w-full lg:w-1/3 lg:pl-8 lg:pt-14 lg:pb-8 order-first lg:order-last">
-                        <div class="w-full bg-white">
-                            <div class="mb-6">
-                                <div class="p-4 bg-gray-100">
-                                    <h2 class="text-lg font-bold">Most Popular</h2>
-                                </div>
-                                <ul class="post-number">
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">Why the world would end without political polls</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">Meet The Man Who Designed The Ducati Monster</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">2020 Audi R8 Spyder spy shots release</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">Lamborghini makes Huracán GT3 racer faster for 2019</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">ZF plans $14 billion autonomous vehicle push, concept
-                                            van</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="text-sm py-6 sticky">
-                            <div class="w-full text-center">
-                                <a class="uppercase" href="#">Advertisement</a>
-                                <a href="#">
-                                    <img class="mx-auto" src="src/img/ads/250.jpg" alt="advertisement area">
-                                </a>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- block news -->
-        <div class="bg-gray-50 py-6">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2">
-                <div class="flex flex-row flex-wrap">
-                    <!-- post -->
-                    <div class="flex-shrink max-w-full w-full lg:w-2/3 overflow-hidden">
-                        <div class="w-full py-3">
-                            <h2 class="text-gray-800 text-2xl font-bold">
-                                <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span>Latest news
-                            </h2>
+                <!-- Latest News Section -->
+                <div class="news-section" id="latest-section">
+                    <div class="section-header">
+                        <h2>Tin mới nhất</h2>
+                        <span class="section-subtitle">Cập nhật liên tục</span>
+                    </div>
+                    <div class="row">
+                        @forelse($latestNews as $article)
+                        <div class="col-md-6 mb-4">
+                            <div class="news-card">
+                                <div class="news-image">
+                                    @if($article->image)
+                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                    @else
+                                        <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
+                                    @endif
+                                    @if($article->category)
+                                        <div class="category-badge" style="background-color: {{ $article->category->color }}">
+                                            {{ $article->category->name }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="news-content">
+                                    <h4 class="news-title">
+                                        <a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a>
+                                    </h4>
+                                    <p class="news-excerpt">{{ Str::limit($article->excerpt, 100) }}</p>
+                                    <div class="news-meta">
+                                        <span class="author">{{ $article->author->name }}</span>
+                                        <span class="time">{{ $article->formatted_date }}</span>
+                                        <span class="views">{{ $article->views }} lượt xem</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex flex-row flex-wrap -mx-3">
-                            <div class="flex-shrink max-w-full w-full px-3 pb-5">
-                                <div class="relative hover-img max-h-98 overflow-hidden">
-                                    <!--thumbnail-->
-                                    <a href="#">
-                                        <img class="max-w-full w-full mx-auto h-auto" src="src/img/dummy/img15.jpg"
-                                            alt="Image description">
-                                    </a>
-                                    <div class="absolute px-5 pt-8 pb-5 bottom-0 w-full bg-gradient-cover">
-                                        <!--title-->
-                                        <a href="#">
-                                            <h2 class="text-3xl font-bold capitalize text-white mb-3">Amazon Shoppers
-                                                Are Ditching Designer Belts for This Best-Selling</h2>
-                                        </a>
-                                        <p class="text-gray-100 hidden sm:inline-block">This is a wider card with
-                                            supporting text below as a natural lead-in to additional content. This very
-                                            helpfull for generate default content..</p>
-                                        <!-- author and date -->
-                                        <div class="pt-2">
-                                            <div class="text-gray-100">
-                                                <div class="inline-block h-3 border-l-2 border-red-600 mr-2"></div>
-                                                Europe
-                                            </div>
+                        @empty
+                        <div class="col-12">
+                            <div class="no-news">
+                                <i class="fas fa-newspaper"></i>
+                                <p>Chưa có tin tức nào</p>
+                            </div>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- Featured News Section -->
+                <div class="news-section" id="featured-section">
+                    <div class="section-header">
+                        <h2>Tin nổi bật</h2>
+                        <span class="section-subtitle">Những bài viết đặc biệt</span>
+                    </div>
+                    <div class="row">
+                        @forelse($featuredNews as $article)
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="featured-card">
+                                <div class="news-image">
+                                    @if($article->image)
+                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                    @else
+                                        <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
+                                    @endif
+                                    <div class="featured-badge">Nổi bật</div>
+                                </div>
+                                <div class="news-content">
+                                    <h5 class="news-title">
+                                        <a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a>
+                                    </h5>
+                                    <div class="news-meta">
+                                        <span class="time">{{ $article->formatted_date }}</span>
+                                        <span class="views">{{ $article->views }} lượt xem</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="col-12">
+                            <div class="no-news">
+                                <i class="fas fa-star"></i>
+                                <p>Chưa có tin nổi bật nào</p>
+                            </div>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <!-- Categories Section -->
+                <div class="news-section" id="categories-section">
+                    <div class="section-header">
+                        <h2>Theo chủ đề</h2>
+                        <span class="section-subtitle">Tin tức phân loại theo danh mục</span>
+                    </div>
+                    @forelse($categories as $category)
+                    <div class="category-section">
+                        <div class="category-header">
+                            <h3 style="color: {{ $category->color }}">
+                                {{ $category->name }}
+                            </h3>
+                            <span class="category-count">{{ $category->news->count() }} bài viết</span>
+                        </div>
+                        <div class="row">
+                            @forelse($category->news as $article)
+                            <div class="col-md-4 mb-3">
+                                <div class="category-news-item">
+                                    <div class="news-image">
+                                        @if($article->image)
+                                            <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                        @else
+                                            <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
+                                        @endif
+                                    </div>
+                                    <div class="news-content">
+                                        <h6 class="news-title">
+                                            <a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a>
+                                        </h6>
+                                        <div class="news-meta">
+                                            <span class="time">{{ $article->formatted_date }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img24.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
+                            @empty
+                            <div class="col-12">
+                                <p class="text-muted">Chưa có bài viết nào trong danh mục này</p>
                             </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img7.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img17.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img25.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img12.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                                <div class="flex flex-row sm:block hover-img">
-                                    <a href="">
-                                        <img class="max-w-full w-full mx-auto" src="src/img/dummy/img8.jpg"
-                                            alt="alt title">
-                                    </a>
-                                    <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                                        <h3 class="text-lg font-bold leading-tight mb-2">
-                                            <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                                        </h3>
-                                        <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider
-                                            card with supporting text below as a natural lead-in to additional content.
-                                        </p>
-                                        <a class="text-gray-500" href="#"><span
-                                                class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
-                    <!-- sidebar -->
-                    <div class="flex-shrink max-w-full w-full lg:w-1/3 lg:pr-8 lg:pt-14 lg:pb-8 order-first">
-                        <div class="w-full bg-white">
-                            <div class="mb-6">
-                                <div class="p-4 bg-gray-100">
-                                    <h2 class="text-lg font-bold">Most Popular</h2>
-                                </div>
-                                <ul class="post-number">
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">Why the world would end without political polls</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">Meet The Man Who Designed The Ducati Monster</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">2020 Audi R8 Spyder spy shots release</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">Lamborghini makes Huracán GT3 racer faster for 2019</a>
-                                    </li>
-                                    <li class="border-b border-gray-100 hover:bg-gray-50">
-                                        <a class="text-lg font-bold px-6 py-3 flex flex-row items-center"
-                                            href="#">ZF plans $14 billion autonomous vehicle push, concept
-                                            van</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                    @empty
+                    <div class="no-news">
+                        <i class="fas fa-folder"></i>
+                        <p>Chưa có danh mục nào</p>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
 
-                        <div class="text-sm py-6 sticky">
-                            <div class="w-full text-center">
-                                <a class="uppercase" href="#">Advertisement</a>
-                                <a href="#">
-                                    <img class="mx-auto" src="src/img/ads/250.jpg" alt="advertisement area">
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="news-sidebar">
+                    <!-- Latest News Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Tin mới</h3>
+                        <div class="widget-content">
+                            @foreach($latestNews->take(5) as $article)
+                            <div class="sidebar-news-item">
+                                <div class="news-image">
+                                    @if($article->image)
+                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                    @else
+                                        <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
+                                    @endif
+                                </div>
+                                <div class="news-content">
+                                    <h6><a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a></h6>
+                                    <span class="time">{{ $article->formatted_date }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Categories Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Danh mục</h3>
+                        <div class="widget-content">
+                            @foreach($categories as $category)
+                            <div class="category-item">
+                                <a href="#" class="sidebar-category-link" data-category="{{ $category->id }}" style="color: {{ $category->color }}">
+                                    <div class="category-icon-small" style="background-color: {{ $category->color }}">
+                                        <i class="fas fa-folder"></i>
+                                    </div>
+                                    <div class="category-info">
+                                        <span class="category-name">{{ $category->name }}</span>
+                                        <span class="category-desc">{{ $category->children->count() }} chủ đề con</span>
+                                    </div>
+                                    <div class="category-count">
+                                        <span>{{ $category->news->count() }}</span>
+                                    </div>
                                 </a>
                             </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Popular News Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Xem nhiều</h3>
+                        <div class="widget-content">
+                            @foreach($hotNews->take(5) as $index => $article)
+                            <div class="popular-news-item">
+                                <div class="rank">{{ $index + 1 }}</div>
+                                <div class="news-content">
+                                    <h6><a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a></h6>
+                                    <span class="views">{{ $article->views }} lượt xem</span>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-    </main><!-- end main -->
+<style>
+/* Header Styles */
+.news-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 60px 0;
+    color: white;
+    text-align: center;
+}
 
-    <!-- =========={ FOOTER }==========  -->
-    <footer class="bg-black text-gray-400">
-        <!--Footer content-->
-        <div id="footer-content" class="relative pt-8 xl:pt-16 pb-6 xl:pb-12">
-            <div class="xl:container mx-auto px-3 sm:px-4 xl:px-2 overflow-hidden">
-                <div class="flex flex-wrap flex-row lg:justify-between -mx-3">
-                    <div class="flex-shrink max-w-full w-full lg:w-2/5 px-3 lg:pr-16">
-                        <div class="flex items-center mb-2">
-                            <span class="text-3xl leading-normal mb-2 font-bold text-gray-100 mt-2">TailNews</span>
-                            <!-- <img src="src/img-min/logo.png" alt="LOGO"> -->
-                        </div>
-                        <p>Tailwind News Template for build great newspapper, magazine and news portal.</p>
-                        <ul class="space-x-3 mt-6 mb-6 Lg:mb-0">
-                            <!--facebook-->
-                            <li class="inline-block">
-                                <a target="_blank" class="hover:text-gray-100" rel="noopener noreferrer"
-                                    href="https://facebook.com" title="Facebook">
-                                    <!-- <i class="fab fa-facebook fa-2x"></i> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
-                                        viewBox="0 0 512 512">
-                                        <path fill="currentColor"
-                                            d="M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </li>
-                            <!--twitter-->
-                            <li class="inline-block">
-                                <a target="_blank" class="hover:text-gray-100" rel="noopener noreferrer"
-                                    href="https://twitter.com" title="Twitter">
-                                    <!-- <i class="fab fa-twitter fa-2x"></i> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
-                                        viewBox="0 0 512 512">
-                                        <path fill="currentColor"
-                                            d="M496,109.5a201.8,201.8,0,0,1-56.55,15.3,97.51,97.51,0,0,0,43.33-53.6,197.74,197.74,0,0,1-62.56,23.5A99.14,99.14,0,0,0,348.31,64c-54.42,0-98.46,43.4-98.46,96.9a93.21,93.21,0,0,0,2.54,22.1,280.7,280.7,0,0,1-203-101.3A95.69,95.69,0,0,0,36,130.4C36,164,53.53,193.7,80,211.1A97.5,97.5,0,0,1,35.22,199v1.2c0,47,34,86.1,79,95a100.76,100.76,0,0,1-25.94,3.4,94.38,94.38,0,0,1-18.51-1.8c12.51,38.5,48.92,66.5,92.05,67.3A199.59,199.59,0,0,1,39.5,405.6,203,203,0,0,1,16,404.2,278.68,278.68,0,0,0,166.74,448c181.36,0,280.44-147.7,280.44-275.8,0-4.2-.11-8.4-.31-12.5A198.48,198.48,0,0,0,496,109.5Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </li>
-                            <!--youtube-->
-                            <li class="inline-block">
-                                <a target="_blank" class="hover:text-gray-100" rel="noopener noreferrer"
-                                    href="https://youtube.com" title="Youtube">
-                                    <!-- <i class="fab fa-youtube fa-2x"></i> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
-                                        viewBox="0 0 512 512">
-                                        <path fill="currentColor"
-                                            d="M508.64,148.79c0-45-33.1-81.2-74-81.2C379.24,65,322.74,64,265,64H247c-57.6,0-114.2,1-169.6,3.6-40.8,0-73.9,36.4-73.9,81.4C1,184.59-.06,220.19,0,255.79q-.15,53.4,3.4,106.9c0,45,33.1,81.5,73.9,81.5,58.2,2.7,117.9,3.9,178.6,3.8q91.2.3,178.6-3.8c40.9,0,74-36.5,74-81.5,2.4-35.7,3.5-71.3,3.4-107Q512.24,202.29,508.64,148.79ZM207,353.89V157.39l145,98.2Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </li>
-                            <!--instagram-->
-                            <li class="inline-block">
-                                <a target="_blank" class="hover:text-gray-100" rel="noopener noreferrer"
-                                    href="https://instagram.com" title="Instagram">
-                                    <!-- <i class="fab fa-instagram fa-2x"></i> -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
-                                        viewBox="0 0 512 512">
-                                        <path fill="currentColor"
-                                            d="M349.33,69.33a93.62,93.62,0,0,1,93.34,93.34V349.33a93.62,93.62,0,0,1-93.34,93.34H162.67a93.62,93.62,0,0,1-93.34-93.34V162.67a93.62,93.62,0,0,1,93.34-93.34H349.33m0-37.33H162.67C90.8,32,32,90.8,32,162.67V349.33C32,421.2,90.8,480,162.67,480H349.33C421.2,480,480,421.2,480,349.33V162.67C480,90.8,421.2,32,349.33,32Z">
-                                        </path>
-                                        <path fill="currentColor"
-                                            d="M377.33,162.67a28,28,0,1,1,28-28A27.94,27.94,0,0,1,377.33,162.67Z">
-                                        </path>
-                                        <path fill="currentColor"
-                                            d="M256,181.33A74.67,74.67,0,1,1,181.33,256,74.75,74.75,0,0,1,256,181.33M256,144A112,112,0,1,0,368,256,112,112,0,0,0,256,144Z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </li><!--end instagram-->
-                        </ul>
-                    </div>
-                    <div class="flex-shrink max-w-full w-full lg:w-3/5 px-3">
-                        <div class="flex flex-wrap flex-row">
-                            <div class="flex-shrink max-w-full w-1/2 md:w-1/4 mb-6 lg:mb-0">
-                                <h4 class="text-base leading-normal mb-3 uppercase text-gray-100">Product</h4>
-                                <ul>
-                                    <li class="py-1 hover:text-white"><a href="#">Landing</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Pages</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Sections</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Sign Up</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Login</a></li>
-                                </ul>
-                            </div>
-                            <div class="flex-shrink max-w-full w-1/2 md:w-1/4 mb-6 lg:mb-0">
-                                <h4 class="text-base leading-normal mb-3 uppercase text-gray-100">Support</h4>
-                                <ul>
-                                    <li class="py-1 hover:text-white"><a href="#">Documentation</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Changelog</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Tools</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Icons</a></li>
-                                </ul>
-                            </div>
-                            <div class="flex-shrink max-w-full w-1/2 md:w-1/4 mb-6 lg:mb-0">
-                                <h4 class="text-base leading-normal mb-3 uppercase text-gray-100">Includes</h4>
-                                <ul>
-                                    <li class="py-1 hover:text-white"><a href="#">Utilities</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Components</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Example code</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Updates</a></li>
-                                </ul>
-                            </div>
-                            <div class="flex-shrink max-w-full w-1/2 md:w-1/4 mb-6 lg:mb-0">
-                                <h4 class="text-base leading-normal mb-3 uppercase text-gray-100">Legal</h4>
-                                <ul>
-                                    <li class="py-1 hover:text-white hover:text-white"><a href="#">Privacy
-                                            Policy</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">Terms of Use</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">License</a></li>
-                                    <li class="py-1 hover:text-white"><a href="#">GDPR</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+.news-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.news-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Navigation Tabs */
+.news-nav {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 0;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 0;
+}
+
+.nav-tab {
+    background: none;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tab:hover,
+.nav-tab.active {
+    color: #ff6b35;
+    border-bottom-color: #ff6b35;
+    background: #fff5f2;
+}
+
+/* Dropdown Navigation */
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropdown-toggle i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-dropdown:hover .dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    border: 1px solid #e5e7eb;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    min-width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+}
+
+/* Custom scrollbar for dropdown */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Two-level navigation */
+.dropdown-menu.level-1 {
+    display: block;
+}
+
+/* Parent Category Styling */
+.parent-category {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-left: 4px solid;
+    font-weight: 600;
+    position: relative;
+}
+
+.parent-category:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    transform: translateX(5px);
+}
+
+.parent-category .category-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.parent-category .category-desc {
+    font-size: 12px;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.parent-category .category-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.parent-category .category-arrow {
+    color: #4a5568;
+    font-size: 12px;
+}
+
+/* Child Category Styling */
+.child-category {
+    background: #ffffff;
+    border-left: 2px solid #e2e8f0;
+    margin-left: 20px;
+    padding-left: 20px;
+    position: relative;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.child-category:hover {
+    background: #f8fafc;
+    border-left-color: #667eea;
+    transform: translateX(8px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.child-category .category-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.child-category .category-desc {
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.child-category .category-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.child-category .category-count {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* Child Category Indentation */
+.child-category::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #cbd5e1;
+    border-radius: 50%;
+}
+
+.child-category:hover::before {
+    background: #667eea;
+}
+
+/* Visual Hierarchy */
+.parent-category + .child-category {
+    margin-top: 2px;
+}
+
+.child-category + .child-category {
+    margin-top: 1px;
+}
+
+.parent-category + .parent-category {
+    margin-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+}
+
+/* Submenu Header */
+.submenu-header {
+    padding: 16px 20px 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 12px 12px 0 0;
+}
+
+.submenu-title {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+/* Submenu Content */
+.submenu-content {
+    padding: 8px 0;
+}
+
+.submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.submenu-item:hover {
+    background: #f8fafc;
+    color: #667eea;
+    border-left-color: #667eea;
+    transform: translateX(5px);
+}
+
+.submenu-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.submenu-name {
+    flex: 1;
+    font-size: 13px;
+}
+
+.submenu-count {
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.submenu-empty {
+    padding: 20px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* Custom scrollbar for level 2 dropdown */
+.dropdown-menu.level-2::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu.level-2::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.dropdown-menu.level-2::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.dropdown-menu.level-2::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Firefox scrollbar */
+.dropdown-menu {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.dropdown-menu.level-2 {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Ensure dropdown items don't overflow */
+.dropdown-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Mobile responsive scrollbar */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        max-height: 300px;
+        min-width: 280px;
+    }
+    
+    .parent-category {
+        padding: 12px 16px;
+    }
+    
+    .child-category {
+        margin-left: 16px;
+        padding-left: 16px;
+    }
+    
+    .parent-category .category-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .child-category .category-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .parent-category .category-name {
+        font-size: 14px;
+    }
+    
+    .child-category .category-name {
+        font-size: 12px;
+    }
+    
+    .parent-category .category-desc {
+        font-size: 11px;
+    }
+    
+    .child-category .category-desc {
+        font-size: 10px;
+    }
+}
+
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown.show .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f1f5f9;
+    position: relative;
+    min-height: 60px;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+    color: #667eea;
+    transform: translateX(5px);
+}
+
+/* All Categories Special Styling */
+.all-categories {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+.all-categories:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateX(0);
+}
+
+.all-categories .category-icon {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.all-categories .category-count span {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Parent Category Styling */
+.parent-category {
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.parent-category:hover {
+    border-left-color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+/* Category Icon */
+.category-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+}
+
+/* Category Info */
+.category-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.category-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+    line-height: 1.3;
+}
+
+.category-desc {
+    font-size: 12px;
+    color: #718096;
+    line-height: 1.2;
+}
+
+/* Category Count */
+.category-count {
+    flex-shrink: 0;
+}
+
+.category-count span {
+    background: #f1f5f9;
+    color: #4a5568;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+    display: inline-block;
+}
+
+/* Category Arrow */
+.category-arrow {
+    flex-shrink: 0;
+    color: #9ca3af;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.parent-category:hover .category-arrow {
+    color: #667eea;
+    transform: translateX(3px);
+}
+
+/* Dropdown Header */
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 12px 12px 0 0;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #667eea;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateX(-2px);
+}
+
+.parent-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+/* Child Category Styling */
+.child-category {
+    border-left: 4px solid transparent;
+}
+
+.child-category:hover {
+    border-left-color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.child-category .category-icon {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+.child-category:hover .category-icon {
+    background: #667eea;
+    color: white;
+}
+
+.category-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.category-count {
+    margin-left: auto;
+    color: #9ca3af;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-info {
+    background-color: #dbeafe;
+    border-color: #93c5fd;
+    color: #1e40af;
+}
+
+.alert-success {
+    background-color: #d1fae5;
+    border-color: #86efac;
+    color: #065f46;
+}
+
+.alert-danger {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #991b1b;
+}
+
+.alert i {
+    font-size: 1.1rem;
+}
+
+/* Main Content */
+.news-content {
+    padding: 40px 0;
+    background: #f8f9fa;
+}
+
+.news-section {
+    display: none;
+}
+
+.news-section.active {
+    display: block;
+}
+
+/* Ensure only one section is visible at a time */
+.news-section:not(.active) {
+    display: none !important;
+}
+
+.section-header {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.section-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.section-subtitle {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Hot News Styles */
+.hot-news-main {
+    margin-bottom: 30px;
+}
+
+.hot-news-card.featured {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.hot-news-card .news-image {
+    flex: 0 0 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hot-news-card .news-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Small hot news cards - similar to main card but smaller */
+.hot-news-list .hot-news-card {
+    display: flex;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hot-news-list .hot-news-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.hot-news-list .hot-news-card .news-image {
+    flex: 0 0 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hot-news-list .hot-news-card .news-image img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.hot-news-list .hot-news-card .news-content {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hot-news-list .hot-news-card .news-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.hot-news-list .hot-news-card .category-tag {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 500;
+}
+
+.hot-news-list .hot-news-card .time {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.hot-news-list .hot-news-card .news-title {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.hot-news-list .hot-news-card .news-title a {
+    color: #1f2937;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.hot-news-list .hot-news-card .news-title a:hover {
+    color: #ef4444;
+}
+
+.hot-news-list .hot-news-card .news-excerpt {
+    color: #6b7280;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0 0 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hot-news-list .hot-news-card .news-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.hot-news-list .hot-news-card .news-stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.hot-news-list .hot-news-card .news-stats i {
+    font-size: 0.75rem;
+}
+
+.news-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.news-badge.hot {
+    background: #ff4757;
+}
+
+.hot-news-card .news-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.news-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.category-tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.time {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.news-title {
+    margin-bottom: 15px;
+}
+
+.news-title a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.news-title a:hover {
+    color: #ff6b35;
+}
+
+.news-excerpt {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.news-stats {
+    display: flex;
+    gap: 20px;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.news-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Hot News List */
+.hot-news-list {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.hot-news-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.3s ease;
+}
+
+.hot-news-item:hover {
+    background: #f8f9fa;
+}
+
+.hot-news-item:last-child {
+    border-bottom: none;
+}
+
+.news-number {
+    flex: 0 0 30px;
+    height: 30px;
+    background: #ff6b35;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.hot-news-item .news-content {
+    flex: 1;
+}
+
+.hot-news-item h4 {
+    margin-bottom: 5px;
+}
+
+.hot-news-item h4 a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.hot-news-item h4 a:hover {
+    color: #ff6b35;
+}
+
+.hot-news-item .news-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* News Cards */
+.news-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.news-card .news-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.news-card .news-image img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-image img {
+    transform: scale(1.05);
+}
+
+.category-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.news-card .news-content {
+    padding: 15px;
+}
+
+.news-card .news-title {
+    margin-bottom: 10px;
+}
+
+.news-card .news-title a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.news-card .news-title a:hover {
+    color: #ff6b35;
+}
+
+.news-card .news-excerpt {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.news-card .news-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+/* Featured Cards */
+.featured-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.featured-card:hover {
+    transform: translateY(-3px);
+}
+
+.featured-card .news-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-card .news-image img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff6b35;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.featured-card .news-content {
+    padding: 15px;
+}
+
+.featured-card .news-title a {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.featured-card .news-title a:hover {
+    color: #ff6b35;
+}
+
+/* Category Sections */
+.category-section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.category-header h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.category-count {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.category-news-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.category-news-item .news-image {
+    flex: 0 0 80px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.category-news-item .news-image img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+}
+
+.category-news-item .news-content {
+    flex: 1;
+}
+
+.category-news-item .news-title a {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+.category-news-item .news-title a:hover {
+    color: #ff6b35;
+}
+
+/* Modern Sidebar Design */
+.news-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-widget {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 16px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar-widget:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.widget-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 18px 20px;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.widget-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.widget-title:hover::before {
+    left: 100%;
+}
+
+.widget-content {
+    padding: 20px;
+}
+
+.sidebar-news-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-news-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-news-item:hover {
+    background: rgba(102, 126, 234, 0.05);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateX(5px);
+}
+
+.sidebar-news-item:hover::before {
+    transform: scaleY(1);
+}
+
+.sidebar-news-item:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-news-item .news-image {
+    flex: 0 0 70px;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sidebar-news-item .news-image img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-news-item:hover .news-image img {
+    transform: scale(1.05);
+}
+
+.sidebar-news-item .news-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-news-item h6 {
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.sidebar-news-item h6 a {
+    color: #2d3748;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sidebar-news-item h6 a:hover {
+    color: #667eea;
+    text-shadow: 0 1px 2px rgba(102, 126, 234, 0.2);
+}
+
+.sidebar-news-item .time {
+    color: #718096;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sidebar-news-item .time::before {
+    content: '🕒';
+    font-size: 0.7rem;
+}
+
+/* Modern Category Items */
+.category-item {
+    margin-bottom: 8px;
+}
+
+.category-item a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #4a5568;
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-item a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.category-item a:hover {
+    background: rgba(102, 126, 234, 0.08);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateX(5px);
+    color: #667eea;
+}
+
+.category-item a:hover::before {
+    left: 100%;
+}
+
+.category-item .count {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+}
+
+/* Sidebar Category Link Styling */
+.sidebar-category-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #4a5568;
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.category-icon-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.category-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+.category-desc {
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.category-count {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Modern Popular News Items */
+.popular-news-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.popular-news-item:hover {
+    background: rgba(102, 126, 234, 0.05);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateX(5px);
+}
+
+.popular-news-item:last-child {
+    margin-bottom: 0;
+}
+
+.popular-news-item .rank {
+    flex: 0 0 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.popular-news-item:hover .rank {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.popular-news-item .news-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.popular-news-item h6 {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.popular-news-item h6 a {
+    color: #2d3748;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.popular-news-item h6 a:hover {
+    color: #667eea;
+    text-shadow: 0 1px 2px rgba(102, 126, 234, 0.2);
+}
+
+.popular-news-item .views {
+    color: #718096;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.popular-news-item .views::before {
+    content: '👁️';
+    font-size: 0.7rem;
+}
+
+/* No News State */
+.no-news {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.no-news i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.no-news p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .news-header h1 {
+        font-size: 2rem;
+    }
+    
+    .nav-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .nav-tab {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+    
+    .hot-news-card.featured {
+        flex-direction: column;
+    }
+    
+    .hot-news-card .news-image {
+        flex: none;
+    }
+    
+    .news-sidebar {
+        position: static;
+        margin-top: 30px;
+    }
+    
+    .sidebar-widget {
+        margin-bottom: 20px;
+    }
+    
+    .sidebar-news-item {
+        padding: 10px;
+        margin-bottom: 12px;
+    }
+    
+    .sidebar-news-item .news-image {
+        flex: 0 0 60px;
+    }
+    
+    .sidebar-news-item .news-image img {
+        height: 50px;
+    }
+    
+    .category-item a {
+        padding: 10px 12px;
+    }
+    
+    .popular-news-item {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .popular-news-item .rank {
+        flex: 0 0 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
+    .category-news-item {
+        flex-direction: column;
+    }
+    
+    .category-news-item .news-image {
+        flex: none;
+        width: 100%;
+    }
+    
+    .category-news-item .news-image img {
+        height: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .news-header {
+        padding: 40px 0;
+    }
+    
+    .news-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .hot-news-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .news-number {
+        margin-bottom: 10px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const newsSections = document.querySelectorAll('.news-section');
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    
+    // Check if elements exist before proceeding
+    if (!navTabs.length || !newsSections.length) {
+        console.warn('Navigation elements not found');
+        return;
+    }
+    
+    // Handle regular tab clicks
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            // Handle dropdown toggle clicks
+            if (this.classList.contains('dropdown-toggle')) {
+                e.stopPropagation();
+                const dropdown = this.closest('.nav-dropdown');
+                if (dropdown) {
+                    dropdown.classList.toggle('show');
+                }
+                return;
+            }
+            
+            const targetTab = this.getAttribute('data-tab');
+            if (!targetTab) return;
+            
+            // Remove active class from all tabs and sections
+            navTabs.forEach(t => {
+                if (t) t.classList.remove('active');
+            });
+            newsSections.forEach(s => {
+                if (s) s.classList.remove('active');
+            });
+            
+            // Hide category section if it exists
+            const categorySection = document.getElementById('category-section');
+            if (categorySection) {
+                categorySection.classList.remove('active');
+            }
+            
+            // Add active class to clicked tab and corresponding section
+            this.classList.add('active');
+            const targetSection = document.getElementById(targetTab + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        });
+    });
+    
+    // Handle category dropdown clicks
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const categoryId = this.getAttribute('data-category');
+            const categoryName = this.querySelector('.category-name').textContent.trim();
+            
+            if (!categoryId || !categoryName) return;
+            
+            // Handle direct selection (all categories)
+            selectCategory(categoryId, categoryName);
+        });
+    });
+    
+    // Handle child category clicks
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.child-category')) {
+            e.preventDefault();
+            const childItem = e.target.closest('.child-category');
+            const categoryId = childItem.getAttribute('data-category');
+            const categoryName = childItem.querySelector('.category-name').textContent.trim();
+            
+            if (categoryId && categoryName) {
+                selectCategory(categoryId, categoryName);
+            }
+        }
+    });
+    
+    // Handle sidebar category clicks
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.sidebar-category-link')) {
+            e.preventDefault();
+            const sidebarItem = e.target.closest('.sidebar-category-link');
+            const categoryId = sidebarItem.getAttribute('data-category');
+            const categoryName = sidebarItem.querySelector('.category-name').textContent.trim();
+            
+            if (categoryId && categoryName) {
+                selectCategory(categoryId, categoryName);
+            }
+        }
+    });
+    
+    // Function to handle parent category hover
+    function handleParentHover(parentElement) {
+        // Add hover effect to parent
+        parentElement.classList.add('hovered');
+    }
+    
+    // Function to handle parent category leave
+    function handleParentLeave(parentElement) {
+        // Remove hover effect from parent
+        parentElement.classList.remove('hovered');
+    }
+    
+    // Function to select a category
+    function selectCategory(categoryId, categoryName) {
+        // Close dropdown
+        const dropdown = document.querySelector('.nav-dropdown');
+        if (dropdown) {
+            dropdown.classList.remove('show');
+        }
+        
+        // Update dropdown button text
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        if (dropdownToggle) {
+            dropdownToggle.innerHTML = categoryName + ' <i class="fas fa-chevron-down"></i>';
+        }
+        
+        // Remove active class from all tabs
+        navTabs.forEach(t => {
+            if (t) t.classList.remove('active');
+        });
+        newsSections.forEach(s => {
+            if (s) s.classList.remove('active');
+        });
+        
+        // Hide any existing category section
+        const existingCategorySection = document.getElementById('category-section');
+        if (existingCategorySection) {
+            existingCategorySection.classList.remove('active');
+        }
+        
+        // Add active class to categories tab
+        if (dropdownToggle) {
+            dropdownToggle.classList.add('active');
+        }
+        
+        // Show category content
+        showCategoryContent(categoryId, categoryName);
+    }
+    
+    // Add hover event listeners for parent categories
+    document.addEventListener('DOMContentLoaded', function() {
+        const parentCategories = document.querySelectorAll('.parent-category');
+        parentCategories.forEach(parent => {
+            parent.addEventListener('mouseenter', function() {
+                // Show submenu on hover
+                const submenu = this.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.display = 'block';
+                    setTimeout(() => {
+                        submenu.style.opacity = '1';
+                        submenu.style.visibility = 'visible';
+                        submenu.style.transform = 'translateX(0)';
+                    }, 10);
+                }
+            });
+            
+            parent.addEventListener('mouseleave', function() {
+                // Hide submenu when leaving
+                const submenu = this.querySelector('.submenu');
+                if (submenu) {
+                    submenu.style.opacity = '0';
+                    submenu.style.visibility = 'hidden';
+                    submenu.style.transform = 'translateX(-10px)';
+                    setTimeout(() => {
+                        submenu.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+    
+    // Function to show category content
+    function showCategoryContent(categoryId, categoryName) {
+        // Hide all existing sections first
+        newsSections.forEach(s => {
+            if (s) s.classList.remove('active');
+        });
+        
+        // Create or update category section
+        let categorySection = document.getElementById('category-section');
+        if (!categorySection) {
+            const mainContent = document.querySelector('.col-lg-8');
+            if (!mainContent) {
+                console.error('Main content area not found');
+                return;
+            }
+            
+            categorySection = document.createElement('div');
+            categorySection.id = 'category-section';
+            categorySection.className = 'news-section';
+            mainContent.appendChild(categorySection);
+        }
+        
+        // Update section header
+        categorySection.innerHTML = `
+            <div class="section-header">
+                <h2>${categoryName}</h2>
+                <span class="section-subtitle">Tin tức theo chủ đề</span>
+            </div>
+            <div class="category-news-container">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Đang tải tin tức...</p>
                 </div>
             </div>
-        </div>
-
-        <!--Start footer copyright-->
-        <div class="footer-dark">
-            <div class="container py-4 border-t border-gray-200 border-opacity-10">
+        `;
+        
+        // Show the section
+        categorySection.classList.add('active');
+        
+        // Load news for this category
+        loadCategoryNews(categoryId);
+    }
+    
+    // Function to load news for specific category
+    function loadCategoryNews(categoryId) {
+        // Create loading state
+        const container = document.querySelector('.category-news-container');
+        if (!container) {
+            console.error('Category news container not found');
+            return;
+        }
+        
+        // Make API call to get news by category
+        fetch(`/api/news/category/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayCategoryNews(data.data, data.count);
+                } else {
+                    container.innerHTML = `
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    ${data.message || 'Lỗi khi tải tin tức'}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading news:', error);
+                container.innerHTML = `
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Lỗi kết nối. Vui lòng thử lại sau.
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+    }
+    
+    // Function to display news articles
+    function displayCategoryNews(news, count) {
+        const container = document.querySelector('.category-news-container');
+        if (!container) return;
+        
+        if (count === 0) {
+            container.innerHTML = `
                 <div class="row">
-                    <div class="col-12 col-md text-center">
-                        <p class="d-block my-3">Copyright © Your Company | All rights reserved.</p>
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Không có tin tức nào trong chủ đề này.
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div><!--End footer copyright-->
-    </footer><!-- end footer -->
-
-    <!-- =========={ SCROLL TO TOP }==========  -->
-    <a href="#"
-        class="back-top fixed p-4 rounded bg-gray-100 border border-gray-100 text-gray-500 dark:bg-gray-900 dark:border-gray-800 right-4 bottom-4 hidden"
-        aria-label="Scroll To Top">
-        <svg width="1rem" height="1rem" viewBox="0 0 16 16" fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v9a.5.5 0 01-1 0V4a.5.5 0 01.5-.5z" clip-rule="evenodd">
-            </path>
-            <path fill-rule="evenodd"
-                d="M7.646 2.646a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8 3.707 5.354 6.354a.5.5 0 11-.708-.708l3-3z"
-                clip-rule="evenodd"></path>
-        </svg>
-    </a>
-
-    <!--Vendor js-->
-    {{-- <script src="src/vendors/hc-sticky/dist/hc-sticky.js"></script>
-    <script src="src/vendors/glightbox/dist/js/glightbox.min.js"></script>
-    <script src="src/vendors/@splidejs/splide/dist/js/splide.min.js"></script>
-    <script src="src/vendors/@splidejs/splide-extension-video/dist/js/splide-extension-video.min.js"></script>
-
-    <!-- Start development js -->
-    <script src="src/js/theme.js"></script> --}}
-    <!-- End development js -->
-
-    <!-- Production js -->
-    <!-- <script src="dist/js/scripts.js"></script> -->
-</body>
-
-</html>
+            `;
+            return;
+        }
+        
+        let newsHtml = '<div class="row">';
+        
+        news.forEach((article, index) => {
+            const imageUrl = article.image ? 
+                `/storage/news/${article.image}` : 
+                '/images/bi-a.jpg';
+            
+            const categoryColor = article.category ? article.category.color : '#667eea';
+            const categoryName = article.category ? article.category.name : 'Khác';
+            
+            newsHtml += `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="news-card">
+                        <div class="news-image">
+                            <img src="${imageUrl}" alt="${article.title}">
+                            <div class="news-badge" style="background-color: ${categoryColor}">
+                                ${categoryName}
+                            </div>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="time">${formatDate(article.created_at)}</span>
+                                <span class="views">${article.views} lượt xem</span>
+                            </div>
+                            <h3 class="news-title">
+                                <a href="/news/${article.slug}">${article.title}</a>
+                            </h3>
+                            <p class="news-excerpt">${article.excerpt || 'Không có tóm tắt'}</p>
+                            <div class="news-stats">
+                                <span><i class="fas fa-user"></i> ${article.author.name}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        newsHtml += '</div>';
+        container.innerHTML = newsHtml;
+    }
+    
+    // Helper function to format date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const dropdown = document.querySelector('.nav-dropdown');
+        if (dropdown && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+});
+</script>
+@endsection
