@@ -53,6 +53,9 @@ if (! function_exists('markdownToHtml')) {
         // Separators: --- -> <hr>
         $html = preg_replace('/^---$/m', '<hr>', $html);
         
+        // Image placeholders: [IMAGE_1: filename] -> <img>
+        $html = preg_replace('/\[IMAGE_(\d+): ([^\]]+)\]/', '<div class="content-image"><img src="/storage/news/content/$2" alt="$2" loading="lazy"></div>', $html);
+        
         // Bullet lists: • -> <li>
         $html = preg_replace('/^• (.+)$/m', '<li>$1</li>', $html);
         
