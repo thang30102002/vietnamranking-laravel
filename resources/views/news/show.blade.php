@@ -48,7 +48,7 @@
                         @endif
                         
                         <div class="article-body">
-                            {!! $news->content !!}
+                            {!! markdownToHtml($news->content) !!}
                         </div>
                     </div>
                     

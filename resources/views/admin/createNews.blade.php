@@ -89,7 +89,19 @@
 
     </div>
     <script>
-        CKEDITOR.replace('editor');
+        // Simple textarea with basic formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('editor');
+            if (textarea) {
+                textarea.style.minHeight = '400px';
+                textarea.style.fontFamily = 'Arial, sans-serif';
+                textarea.style.fontSize = '14px';
+                textarea.style.lineHeight = '1.6';
+                textarea.style.padding = '15px';
+                textarea.style.border = '1px solid #ddd';
+                textarea.style.borderRadius = '5px';
+            }
+        });
     </script>
 
     <script src="assets/js/jquery-3.5.1.min.js"></script>

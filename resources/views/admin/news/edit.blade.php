@@ -199,11 +199,23 @@
                                         <label for="content" class="form-label">Nội dung <span class="text-danger">*</span></label>
                                         <div class="content-editor">
                                             <div class="editor-toolbar mb-2">
-                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="insertImageAtCursor()">
-                                                    <i class="fa fa-image"></i> Chèn ảnh
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="formatText('bold')">
+                                                    <i class="fa fa-bold"></i> Đậm
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="formatText('italic')">
+                                                    <i class="fa fa-italic"></i> Nghiêng
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="formatText('underline')">
+                                                    <i class="fa fa-underline"></i> Gạch chân
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLineBreak()">
                                                     <i class="fa fa-level-down"></i> Xuống dòng
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertBulletList()">
+                                                    <i class="fa fa-list-ul"></i> Danh sách
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertNumberedList()">
+                                                    <i class="fa fa-list-ol"></i> Đánh số
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-outline-info" onclick="insertSeparator()">
                                                     <i class="fa fa-minus"></i> Phân cách
@@ -216,7 +228,7 @@
                                         @error('content')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                        <div class="form-text">Sử dụng nút "Chèn ảnh" để thêm ảnh vào vị trí con trỏ</div>
+                                        <div class="form-text">Sử dụng các nút trên để định dạng văn bản. Enter để xuống dòng mới.</div>
                                     </div>
 
                                     @if($news->image)
@@ -595,6 +607,112 @@
     <script src="{{ asset('js/adminTournament/Chart.bundle.js') }}"></script>
     <script src="{{ asset('js/adminTournament/chart.js') }}"></script>
     <script src="{{ asset('js/adminTournament/app.js') }}"></script>
+    
+    <!-- Simple textarea styling and formatting functions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('content');
+            if (textarea) {
+                textarea.style.minHeight = '400px';
+                textarea.style.fontFamily = 'Arial, sans-serif';
+                textarea.style.fontSize = '14px';
+                textarea.style.lineHeight = '1.6';
+                textarea.style.padding = '15px';
+                textarea.style.border = '1px solid #ddd';
+                textarea.style.borderRadius = '5px';
+                textarea.style.resize = 'vertical';
+            }
+        });
+
+        // Format text functions
+        function formatText(type) {
+            const textarea = document.getElementById('content');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formattedText = '';
+            switch(type) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    break;
+                case 'italic':
+                    formattedText = `*${selectedText}*`;
+                    break;
+                case 'underline':
+                    formattedText = `__${selectedText}__`;
+                    break;
+            }
+            
+            const newText = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.value = newText;
+            
+            // Set cursor position after the formatted text
+            const newCursorPos = start + formattedText.length;
+            textarea.setSelectionRange(newCursorPos, newCursorPos);
+            textarea.focus();
+        }
+
+        function insertLineBreak() {
+            const textarea = document.getElementById('content');
+            const cursorPos = textarea.selectionStart;
+            const content = textarea.value;
+            
+            const beforeCursor = content.substring(0, cursorPos);
+            const afterCursor = content.substring(cursorPos);
+            
+            textarea.value = beforeCursor + '\n\n' + afterCursor;
+            
+            const newPosition = cursorPos + 2;
+            textarea.setSelectionRange(newPosition, newPosition);
+            textarea.focus();
+        }
+
+        function insertBulletList() {
+            const textarea = document.getElementById('content');
+            const cursorPos = textarea.selectionStart;
+            const content = textarea.value;
+            
+            const beforeCursor = content.substring(0, cursorPos);
+            const afterCursor = content.substring(cursorPos);
+            
+            textarea.value = beforeCursor + '\n• ' + afterCursor;
+            
+            const newPosition = cursorPos + 3;
+            textarea.setSelectionRange(newPosition, newPosition);
+            textarea.focus();
+        }
+
+        function insertNumberedList() {
+            const textarea = document.getElementById('content');
+            const cursorPos = textarea.selectionStart;
+            const content = textarea.value;
+            
+            const beforeCursor = content.substring(0, cursorPos);
+            const afterCursor = content.substring(cursorPos);
+            
+            textarea.value = beforeCursor + '\n1. ' + afterCursor;
+            
+            const newPosition = cursorPos + 4;
+            textarea.setSelectionRange(newPosition, newPosition);
+            textarea.focus();
+        }
+
+        function insertSeparator() {
+            const textarea = document.getElementById('content');
+            const cursorPos = textarea.selectionStart;
+            const content = textarea.value;
+            
+            const beforeCursor = content.substring(0, cursorPos);
+            const afterCursor = content.substring(cursorPos);
+            
+            textarea.value = beforeCursor + '\n\n---\n\n' + afterCursor;
+            
+            const newPosition = cursorPos + 6;
+            textarea.setSelectionRange(newPosition, newPosition);
+            textarea.focus();
+        }
+    </script>
 </body>
 
 </html>
