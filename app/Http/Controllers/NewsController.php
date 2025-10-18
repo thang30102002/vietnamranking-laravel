@@ -38,10 +38,12 @@ class NewsController extends Controller
             ->take(6)
             ->get();
 
-        // Category-based news
+        // Category-based news (only parent categories)
         $categories = Category::with(['news' => function($query) {
             $query->published()->latest()->take(3);
-        }])->active()->ordered()->get();
+        }, 'children' => function($query) {
+            $query->active()->ordered();
+        }])->whereNull('parent_id')->active()->ordered()->get();
 
         // All news for pagination
         $news = News::published()
@@ -84,7 +86,7 @@ class NewsController extends Controller
 
     public function create()
     {
-        $categories = Category::with('parent')->active()->ordered()->get();
+        $categories = Category::whereNull('parent_id')->active()->ordered()->get();
         return view('admin.news.create', compact('categories'));
     }
 
@@ -147,7 +149,7 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::findOrFail($id);
-        $categories = Category::with('parent')->active()->ordered()->get();
+        $categories = Category::whereNull('parent_id')->active()->ordered()->get();
         
         return view('admin.news.edit', compact('news', 'categories'));
     }
@@ -244,6 +246,87 @@ class NewsController extends Controller
     public function showCreate()
     {
         return $this->create();
+    }
+
+    // API method to get news by category
+    public function getByCategory($categoryId)
+    {
+        try {
+            if ($categoryId === 'all') {
+                $news = News::published()
+                    ->with(['author', 'category'])
+                    ->latest()
+                    ->take(20)
+                    ->get();
+            } else {
+                $category = Category::with('children')->find($categoryId);
+                if (!$category) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Chủ đề không tồn tại'
+                    ], 404);
+                }
+                
+                // Get category IDs (parent + children)
+                $categoryIds = [$category->id];
+                if ($category->children->count() > 0) {
+                    $categoryIds = array_merge($categoryIds, $category->children->pluck('id')->toArray());
+                }
+                
+                $news = News::published()
+                    ->with(['author', 'category'])
+                    ->whereIn('category_id', $categoryIds)
+                    ->latest()
+                    ->take(20)
+                    ->get();
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $news,
+                'count' => $news->count(),
+                'category_name' => $categoryId !== 'all' ? $category->name : 'Tất cả chủ đề'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải tin tức: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // API method to get child categories
+    public function getChildCategories($categoryId)
+    {
+        try {
+            $category = Category::with('children')->find($categoryId);
+            if (!$category) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Chủ đề không tồn tại'
+                ], 404);
+            }
+
+            $children = $category->children->map(function($child) {
+                return [
+                    'id' => $child->id,
+                    'name' => $child->name,
+                    'color' => $child->color,
+                    'news_count' => $child->news->count()
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'children' => $children,
+                'parent_name' => $category->name
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi khi tải chủ đề con: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
 

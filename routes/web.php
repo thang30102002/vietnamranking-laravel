@@ -38,6 +38,8 @@ Route::get('/tournament/bracket/{tournamentId}', [RankingController::class, 'tou
 // Public news routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/api/news/category/{categoryId}', [NewsController::class, 'getByCategory'])->name('news.category');
+Route::get('/api/categories/{categoryId}/children', [NewsController::class, 'getChildCategories'])->name('categories.children');
 
 Route::middleware('is_player')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

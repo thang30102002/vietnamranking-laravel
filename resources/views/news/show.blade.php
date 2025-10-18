@@ -11,9 +11,9 @@
                     <h6>Tin tức</h6>
                     <h2>{{ $news->title }}</h2>
                     <div class="post-meta">
-                        <span><i class="fa fa-user"></i> {{ $news->author->name }}</span>
-                        <span><i class="fa fa-calendar"></i> {{ $news->formatted_date }}</span>
-                        <span><i class="fa fa-eye"></i> {{ $news->views }} lượt xem</span>
+                        <span><i class="fas fa-user"></i> {{ $news->author->name }}</span>
+                        <span><i class="fas fa-calendar"></i> {{ $news->formatted_date }}</span>
+                        <span><i class="fas fa-eye"></i> {{ $news->views }} lượt xem</span>
                         @if($news->category)
                         <span style="background-color: {{ $news->category->color }}; color: white; padding: 0.25rem 0.5rem; border-radius: 4px;">
                             @if($news->category->parent)
@@ -56,13 +56,13 @@
                         <div class="share-buttons">
                             <h5>Chia sẻ bài viết:</h5>
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" class="btn btn-primary">
-                                <i class="fa fa-facebook"></i> Facebook
+                                <i class="fab fa-facebook"></i> Facebook
                             </a>
                             <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($news->title) }}" target="_blank" class="btn btn-info">
-                                <i class="fa fa-twitter"></i> Twitter
+                                <i class="fab fa-twitter"></i> Twitter
                             </a>
                             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" target="_blank" class="btn btn-secondary">
-                                <i class="fa fa-linkedin"></i> LinkedIn
+                                <i class="fab fa-linkedin"></i> LinkedIn
                             </a>
                         </div>
                     </div>
