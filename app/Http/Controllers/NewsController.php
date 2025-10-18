@@ -77,7 +77,7 @@ class NewsController extends Controller
     // Admin methods - for managing news
     public function adminIndex()
     {
-        $news = News::with(['author', 'category', 'topic'])
+        $news = News::with(['author', 'category'])
             ->latest()
             ->paginate(10);
         

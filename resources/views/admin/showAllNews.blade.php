@@ -64,7 +64,6 @@
                                                 <th>ID</th>
                                                 <th>Tên tiêu đề</th>
                                                 <th>Slug</th>
-                                                <th>Chủ đề</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,7 +72,6 @@
                                                     <td>{{ $news_row->id }}</td>
                                                     <td>{{ $news_row->title }}</td>
                                                     <td>{{ $news_row->slug }}</td>
-                                                    <td>{{ $news_row->topic->name }}</td>
                                                     <td class="text-right">
                                                         <div class="dropdown dropdown-action"> <a href="#"
                                                                 class="action-icon dropdown-toggle"

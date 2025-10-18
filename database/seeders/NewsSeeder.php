@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\News;
 use App\Models\User;
-use App\Models\Topic;
 
 class NewsSeeder extends Seeder
 {
@@ -29,24 +28,6 @@ class NewsSeeder extends Seeder
             return;
         }
 
-        // Get or create topics
-        $topics = [
-            'Giải đấu' => 'Các tin tức về giải đấu billiard',
-            'Cơ thủ' => 'Tin tức về các cơ thủ nổi tiếng',
-            'Kỹ thuật' => 'Hướng dẫn kỹ thuật chơi billiard',
-            'Sự kiện' => 'Các sự kiện và hoạt động'
-        ];
-
-        foreach ($topics as $name => $description) {
-            Topic::firstOrCreate(
-                ['name' => $name],
-                [
-                    'slug' => \Illuminate\Support\Str::slug($name),
-                    'image' => 'default-topic.jpg',
-                    'description' => $description
-                ]
-            );
-        }
 
         $newsData = [
             [
@@ -58,7 +39,6 @@ Các cơ thủ đã thể hiện trình độ kỹ thuật cao với những pha
 Giải đấu không chỉ là nơi tranh tài mà còn là cơ hội để các cơ thủ giao lưu, học hỏi kinh nghiệm từ nhau. Điều này góp phần nâng cao trình độ chung của cộng đồng billiard Việt Nam.',
                 'excerpt' => 'Giải đấu Billiard Việt Nam 2024 đã kết thúc với nhiều kỷ lục mới được thiết lập, thu hút hơn 200 cơ thủ tham gia.',
                 'status' => 'published',
-                'topic_id' => Topic::where('name', 'Giải đấu')->first()->id,
                 'views' => 1250
             ],
             [
@@ -76,7 +56,6 @@ Giải đấu không chỉ là nơi tranh tài mà còn là cơ hội để các
 Việc luyện tập thường xuyên sẽ giúp bạn cải thiện kỹ thuật và trở thành một cơ thủ giỏi.',
                 'excerpt' => 'Hướng dẫn chi tiết các kỹ thuật cơ bản trong billiard dành cho người mới bắt đầu.',
                 'status' => 'published',
-                'topic_id' => Topic::where('name', 'Kỹ thuật')->first()->id,
                 'views' => 890
             ],
             [
@@ -90,7 +69,6 @@ Trong trận chung kết, Nguyễn Văn A đã thể hiện sự bình tĩnh và
 Thành tích này đã đưa Nguyễn Văn A lên vị trí thứ 15 trong bảng xếp hạng thế giới, đánh dấu một bước tiến quan trọng của billiard Việt Nam trên đấu trường quốc tế.',
                 'excerpt' => 'Cơ thủ Nguyễn Văn A đã xuất sắc giành chức vô địch tại giải đấu billiard quốc tế tại Bangkok.',
                 'status' => 'published',
-                'topic_id' => Topic::where('name', 'Cơ thủ')->first()->id,
                 'views' => 2100
             ],
             [
@@ -104,7 +82,6 @@ Ban tổ chức đã chuẩn bị nhiều phần quà hấp dẫn cho các cơ t
 Sự kiện đã góp phần thúc đẩy phong trào billiard trong thành phố và tạo ra một cộng đồng gắn kết hơn.',
                 'excerpt' => 'Sự kiện giao lưu billiard giữa các câu lạc bộ đã được tổ chức thành công với sự tham gia của hơn 100 cơ thủ.',
                 'status' => 'published',
-                'topic_id' => Topic::where('name', 'Sự kiện')->first()->id,
                 'views' => 650
             ],
             [
@@ -122,7 +99,6 @@ Sự kiện đã góp phần thúc đẩy phong trào billiard trong thành ph�
 5. Ngân sách: Cơ giá rẻ có thể phù hợp với người mới bắt đầu, nhưng cơ đắt tiền thường có chất lượng tốt hơn và bền hơn.',
                 'excerpt' => 'Hướng dẫn chi tiết cách chọn cơ billiard phù hợp với trình độ và nhu cầu của từng người.',
                 'status' => 'published',
-                'topic_id' => Topic::where('name', 'Kỹ thuật')->first()->id,
                 'views' => 1200
             ]
         ];
@@ -134,7 +110,6 @@ Sự kiện đã góp phần thúc đẩy phong trào billiard trong thành ph�
                 'excerpt' => $data['excerpt'],
                 'status' => $data['status'],
                 'author_id' => $admin->id,
-                'topic_id' => $data['topic_id'],
                 'views' => $data['views'],
                 'image' => null, // No image for now
                 'slug' => \Illuminate\Support\Str::slug($data['title'])

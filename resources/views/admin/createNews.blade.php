@@ -61,19 +61,6 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Chủ đề</label>
-                                        <select class="form-control" id="topic_id" name="topic_id">
-                                            @foreach ($topics as $topic)
-                                                <option value="{{ $topic->id }}"
-                                                    {{ old('topic_id') == $topic->id ? 'selected' : '' }}>
-                                                    {{ $topic->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <x-input-error :messages="$errors->get('topic_id')" class="mt-2" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label>Ảnh</label>
                                         <input type="file" name="img" value="{{ old('img') }}"
                                             accept="image/*"
