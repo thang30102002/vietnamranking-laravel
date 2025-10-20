@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use App\Jobs\PostToFacebookJob;
 
 class NewsController extends Controller
 {
@@ -137,6 +139,21 @@ class NewsController extends Controller
             
             DB::commit();
             
+            // Dispatch Facebook post job AFTER commit
+            if ($news->status === 'published') {
+                Log::info('Dispatching Facebook post job for news', [
+                    'news_id' => $news->id,
+                    'title' => $news->title,
+                    'status' => $news->status
+                ]);
+                PostToFacebookJob::dispatch($news);
+            } else {
+                Log::info('News not published, skipping Facebook post', [
+                    'news_id' => $news->id,
+                    'status' => $news->status
+                ]);
+            }
+            
             return redirect()->route('admin.news.index')
                 ->with('success', 'Tạo bài viết thành công!');
                 
@@ -197,6 +214,16 @@ class NewsController extends Controller
             $news->save();
             
             DB::commit();
+            
+            // Dispatch Facebook post job if news status changed to published AFTER commit
+            if ($news->status === 'published' && $news->wasChanged('status')) {
+                Log::info('Dispatching Facebook post job for updated news', [
+                    'news_id' => $news->id,
+                    'title' => $news->title,
+                    'status' => $news->status
+                ]);
+                PostToFacebookJob::dispatch($news);
+            }
             
             return redirect()->route('admin.news.index')
                 ->with('success', 'Cập nhật bài viết thành công!');

@@ -321,7 +321,7 @@
                                 </div>
                                 <div class="news-content">
                                     <h6><a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a></h6>
-                                    <span class="time">{{ $article->formatted_date }}</span>
+                                    <span class="time">F{{ $article->formatted_date }}</span>
                                 </div>
                             </div>
                             @endforeach
