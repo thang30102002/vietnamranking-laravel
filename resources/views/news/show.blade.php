@@ -211,7 +211,7 @@
 
 .article-body {
     line-height: 1.8;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-weight: normal !important;
@@ -230,6 +230,31 @@
     margin-bottom: 15px;
     color: #000000 !important;
     font-weight: bold !important;
+    font-size: 1.8rem;
+}
+
+.article-body h1 {
+    font-size: 2.2rem;
+}
+
+.article-body h2 {
+    font-size: 2rem;
+}
+
+.article-body h3 {
+    font-size: 1.8rem;
+}
+
+.article-body h4 {
+    font-size: 1.6rem;
+}
+
+.article-body h5 {
+    font-size: 1.4rem;
+}
+
+.article-body h6 {
+    font-size: 1.3rem;
 }
 
 .article-body p {
@@ -238,6 +263,8 @@
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-weight: normal !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 .article-body ul, .article-body ol {
@@ -246,6 +273,8 @@
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-weight: normal !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 .article-body blockquote {
@@ -258,6 +287,8 @@
     border-radius: 5px;
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 .article-body table {
@@ -274,6 +305,8 @@
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-weight: normal !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 .article-body table th {
@@ -281,6 +314,8 @@
     font-weight: bold !important;
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 .article-body a {
@@ -297,6 +332,8 @@
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     font-weight: normal !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 /* Đảm bảo tất cả văn bản trong nội dung bài báo có màu đen */
@@ -313,6 +350,8 @@
 .article-body i {
     color: #000000 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-size: 1.3rem;
+    line-height: 1.8;
 }
 
 /* Đảm bảo các thẻ strong và b có font-weight bold */
@@ -465,6 +504,61 @@
         display: block;
         width: 100%;
         margin-bottom: 0.5rem;
+    }
+    
+    /* Mobile font size adjustments */
+    .article-body {
+        font-size: 1.2rem;
+    }
+    
+    .article-body p {
+        font-size: 1.2rem;
+    }
+    
+    .article-body ul, .article-body ol {
+        font-size: 1.2rem;
+    }
+    
+    .article-body blockquote {
+        font-size: 1.2rem;
+    }
+    
+    .article-body table th,
+    .article-body table td {
+        font-size: 1.2rem;
+    }
+    
+    .article-body div, 
+    .article-body span, 
+    .article-body strong, 
+    .article-body em, 
+    .article-body b, 
+    .article-body i {
+        font-size: 1.2rem;
+    }
+    
+    .article-body h1 {
+        font-size: 1.8rem;
+    }
+    
+    .article-body h2 {
+        font-size: 1.6rem;
+    }
+    
+    .article-body h3 {
+        font-size: 1.5rem;
+    }
+    
+    .article-body h4 {
+        font-size: 1.4rem;
+    }
+    
+    .article-body h5 {
+        font-size: 1.3rem;
+    }
+    
+    .article-body h6 {
+        font-size: 1.2rem;
     }
 }
 </style>
