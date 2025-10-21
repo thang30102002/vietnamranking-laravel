@@ -59,7 +59,7 @@ class PostToFacebookJob implements ShouldQueue
             // Tạo URL ảnh nếu có (sử dụng URL thật)
             $imageUrl = null;
             if ($this->news->image) {
-                $imageUrl = config('app.url') . asset('storage/news/' . $this->news->image, false);
+                $imageUrl = config('app.url') . '/storage/news/' . $this->news->image;
             }
 
             // Đăng bài lên Facebook

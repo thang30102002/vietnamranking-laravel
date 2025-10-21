@@ -80,8 +80,9 @@ class FacebookService
                 throw new Exception('Facebook API chưa được cấu hình đầy đủ');
             }
 
+            // $imageUrl = "https://vietnampool.org/storage/news/1760847012_reyes-cup-2025-ngay-thu-ba-18102025-team-asia-tien-sat-chien-thang-team-rest-of-the-world-co-ban-thang-dau-tien.jpeg";
             $data = [
-                'message' => $message,
+                'caption' => $message,
                 'url' => $imageUrl,
                 'access_token' => $this->pageAccessToken
             ];
