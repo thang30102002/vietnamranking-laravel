@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 use Exception;
 
 class FacebookService
@@ -13,6 +14,7 @@ class FacebookService
     private $pageAccessToken;
     private $pageId;
     private $baseUrl = 'https://graph.facebook.com/v24.0';
+    private $tokenService;
 
     public function __construct()
     {
@@ -20,6 +22,39 @@ class FacebookService
         $this->appSecret = config('services.facebook.app_secret');
         $this->pageAccessToken = config('services.facebook.page_access_token');
         $this->pageId = config('services.facebook.page_id');
+        $this->tokenService = new FacebookTokenService();
+    }
+
+    /**
+     * Lấy access token hợp lệ (tự động refresh nếu cần)
+     */
+    private function getValidAccessToken()
+    {
+        try {
+            // Thử lấy token từ cache trước
+            $cachedToken = Cache::get('facebook_page_token');
+            Log::info('Cached token', ['cachedToken' => $cachedToken]);
+            if ($cachedToken && $this->tokenService->isTokenValid($cachedToken)) {
+                Log::info('Using cached valid token');
+                return $cachedToken;
+            }
+
+            // Nếu không có cache hoặc token không hợp lệ, refresh
+            Log::info('Token invalid or not cached, refreshing...');
+            $newToken = $this->tokenService->getValidToken('page', $this->pageId);
+            
+            if ($newToken) {
+                Log::info('Token refreshed successfully');
+                return $newToken;
+            }
+
+            // Fallback về token cũ
+            Log::warning('Using fallback token');
+            return $this->pageAccessToken;
+        } catch (Exception $e) {
+            Log::error('Error getting valid token', ['error' => $e->getMessage()]);
+            return $this->pageAccessToken;
+        }
     }
 
     /**
@@ -34,9 +69,13 @@ class FacebookService
                 throw new Exception('Facebook API chưa được cấu hình đầy đủ');
             }
 
+            // Lấy token hợp lệ
+            $accessToken = $this->getValidAccessToken();
+            Log::info('Access token', ['accessToken' => $accessToken]);
+
             $data = [
                 'message' => $message,
-                'access_token' => $this->pageAccessToken
+                'access_token' => $accessToken
             ];
 
             // Tạm thời không gửi link để tránh lỗi URL localhost
@@ -80,11 +119,13 @@ class FacebookService
                 throw new Exception('Facebook API chưa được cấu hình đầy đủ');
             }
 
-            // $imageUrl = "https://vietnampool.org/storage/news/1760847012_reyes-cup-2025-ngay-thu-ba-18102025-team-asia-tien-sat-chien-thang-team-rest-of-the-world-co-ban-thang-dau-tien.jpeg";
+            // Lấy token hợp lệ
+            $accessToken = $this->getValidAccessToken();
+
             $data = [
                 'caption' => $message,
                 'url' => $imageUrl,
-                'access_token' => $this->pageAccessToken
+                'access_token' => $accessToken
             ];
 
             // Tạm thời không gửi link để tránh lỗi URL localhost

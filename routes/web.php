@@ -38,6 +38,11 @@ Route::get('/tournament/bracket/{tournamentId}', [RankingController::class, 'tou
 // Public news routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+// Facebook webhook routes
+Route::get('/facebook/webhook', [App\Http\Controllers\FacebookWebhookController::class, 'verify']);
+Route::post('/facebook/webhook', [App\Http\Controllers\FacebookWebhookController::class, 'handle']);
+Route::get('/facebook/webhook/test', [App\Http\Controllers\FacebookWebhookController::class, 'test']);
 Route::get('/api/news/category/{categoryId}', [NewsController::class, 'getByCategory'])->name('news.category');
 Route::get('/api/categories/{categoryId}/children', [NewsController::class, 'getChildCategories'])->name('categories.children');
 
