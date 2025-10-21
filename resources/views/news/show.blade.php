@@ -212,7 +212,9 @@
 .article-body {
     line-height: 1.8;
     font-size: 1.1rem;
-    color: #333;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: normal !important;
 }
 
 .article-body img {
@@ -226,17 +228,24 @@
 .article-body h1, .article-body h2, .article-body h3, .article-body h4, .article-body h5, .article-body h6 {
     margin-top: 30px;
     margin-bottom: 15px;
-    color: #333;
+    color: #000000 !important;
+    font-weight: bold !important;
 }
 
 .article-body p {
     margin-bottom: 15px;
     text-align: justify;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: normal !important;
 }
 
 .article-body ul, .article-body ol {
     margin-bottom: 15px;
     padding-left: 30px;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: normal !important;
 }
 
 .article-body blockquote {
@@ -247,6 +256,8 @@
     background: #f8f9fa;
     padding: 15px 20px;
     border-radius: 5px;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 .article-body table {
@@ -260,11 +271,16 @@
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: normal !important;
 }
 
 .article-body table th {
     background-color: #f8f9fa;
-    font-weight: bold;
+    font-weight: bold !important;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 .article-body a {
@@ -278,6 +294,31 @@
 
 .article-body p {
     margin-bottom: 1.5rem;
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-weight: normal !important;
+}
+
+/* Đảm bảo tất cả văn bản trong nội dung bài báo có màu đen */
+.article-body * {
+    color: #000000 !important;
+}
+
+/* Đảm bảo các thẻ văn bản có phông chữ dễ đọc */
+.article-body div, 
+.article-body span, 
+.article-body strong, 
+.article-body em, 
+.article-body b, 
+.article-body i {
+    color: #000000 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* Đảm bảo các thẻ strong và b có font-weight bold */
+.article-body strong, 
+.article-body b {
+    font-weight: bold !important;
 }
 
 .article-footer {

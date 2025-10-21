@@ -112,6 +112,15 @@ Route::prefix('admin/news')->name('admin.news.')->group(function () {
             Route::post('/{id}/toggle-status', [App\Http\Controllers\CategoryController::class, 'toggleStatus'])->name('toggle-status');
         });
         
+        // Admin Facebook routes
+        Route::prefix('admin/facebook')->name('admin.facebook.')->group(function () {
+            Route::get('/settings', [App\Http\Controllers\FacebookController::class, 'settings'])->name('settings');
+            Route::post('/test-connection', [App\Http\Controllers\FacebookController::class, 'testConnection'])->name('test-connection');
+            Route::post('/test-post', [App\Http\Controllers\FacebookController::class, 'testPost'])->name('test-post');
+            Route::post('/test-queue', [App\Http\Controllers\FacebookController::class, 'testQueue'])->name('test-queue');
+            Route::post('/test-direct', [App\Http\Controllers\FacebookController::class, 'testDirectPost'])->name('test-direct');
+        });
+        
         // Legacy routes for backward compatibility
         Route::get('/showAllNews', [NewsController::class, 'showAll'])->name('news.showAll');
         Route::get('/showCreate', [NewsController::class, 'showCreate'])->name('news.showCreate');
