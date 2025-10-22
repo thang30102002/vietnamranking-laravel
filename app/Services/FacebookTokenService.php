@@ -48,17 +48,16 @@ class FacebookTokenService
     /**
      * Lấy page access token từ user access token
      */
-    public function getPageAccessToken($userAccessToken, $pageId)
+    public function getPageAccessToken($longLivedToken, $user_id)
     {
         try {
-            $response = Http::get($this->baseUrl . "/{$pageId}", [
-                'fields' => 'access_token',
-                'access_token' => $userAccessToken
+            $response = Http::get($this->baseUrl . "/{$user_id}/accounts", [
+                'access_token' => $longLivedToken
             ]);
 
             if ($response->successful()) {
                 $data = $response->json();
-                return $data['access_token'];
+                return $data['data'][0]['access_token'];
             }
 
             throw new Exception('Không thể lấy page access token: ' . $response->body());
@@ -121,12 +120,15 @@ class FacebookTokenService
 
             Log::info('Token đã hết hạn, bắt đầu refresh...');
 
-            // Lấy long-lived token
-            $longLivedToken = $this->getLongLivedToken($currentToken);
+            // Lấy long-lived token từ .env thông qua config
+            $longLivedToken = config('services.facebook.user_access_token_long_lived');
+            Log::info('Long-lived token', ['longLivedToken' => $longLivedToken]);
             
             // Nếu có pageId, lấy page access token
             if ($pageId) {
-                $pageToken = $this->getPageAccessToken($longLivedToken, $pageId);
+                $user_id = config('services.facebook.user_id');
+                // method getPageAccessToken nhận (token, pageId)
+                $pageToken = $this->getPageAccessToken($longLivedToken, $user_id);
                 
                 // Cache token mới
                 Cache::put('facebook_page_token', $pageToken, now()->addDays(60));

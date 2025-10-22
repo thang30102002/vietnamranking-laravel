@@ -39,6 +39,8 @@ return [
         'app_id' => env('FACEBOOK_APP_ID'),
         'app_secret' => env('FACEBOOK_APP_SECRET'),
         'page_access_token' => env('FACEBOOK_PAGE_ACCESS_TOKEN'),
+        'user_access_token_long_lived' => env('FACEBOOK_USER_ACCESS_TOKEN_LONG_LIVED'),
+        'user_id' => env('FACEBOOK_USER_ID'),
         'page_id' => env('FACEBOOK_PAGE_ID'),
     ],
 
