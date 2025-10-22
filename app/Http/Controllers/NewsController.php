@@ -15,8 +15,10 @@ use App\Jobs\PostToFacebookJob;
 class NewsController extends Controller
 {
     // Public methods - for viewing news
-    public function index()
+    public function index(Request $request)
     {
+        $search = trim((string) $request->query('q', ''));
+
         // Hot news (most viewed in last 7 days)
         $hotNews = News::published()
             ->with(['author', 'category'])
@@ -47,13 +49,27 @@ class NewsController extends Controller
             $query->active()->ordered();
         }])->whereNull('parent_id')->active()->ordered()->get();
 
-        // All news for pagination
-        $news = News::published()
-            ->with(['author', 'category'])
-            ->latest()
-            ->paginate(12);
+        // Search results (when query present)
+        $searchResults = null;
+        if ($search !== '') {
+            $searchResults = News::published()
+                ->with(['author', 'category'])
+                ->where(function($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%");
+                })
+                ->latest()
+                ->paginate(12)
+                ->withQueryString();
+        }
         
-        return view('news.index', compact('news', 'hotNews', 'latestNews', 'featuredNews', 'categories'));
+        return view('news.index', [
+            'hotNews' => $hotNews,
+            'latestNews' => $latestNews,
+            'featuredNews' => $featuredNews,
+            'categories' => $categories,
+            'search' => $search,
+            'searchResults' => $searchResults,
+        ]);
     }
 
     public function show($slug)
