@@ -68,6 +68,12 @@
                     @endforeach
                 </div>
             </div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+                <form action="{{ route('news.index') }}" method="GET" style="display:flex;gap:8px;align-items:center;">
+                    <input type="text" name="q" value="{{ $search ?? '' }}" placeholder="Tìm kiếm tin tức..." style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;min-width:240px;">
+                    <button type="submit" class="nav-tab" style="border:1px solid #e5e7eb;border-radius:8px;">Tìm</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -78,8 +84,60 @@
         <div class="row">
             <!-- Main Content Area -->
             <div class="col-lg-8">
+                @if(!empty($search))
+                <div class="news-section active" id="search-section">
+                    <div class="section-header">
+                        <h2>Kết quả tìm kiếm</h2>
+                        <span class="section-subtitle">Từ khóa: "{{ $search }}"</span>
+                    </div>
+                    <div class="row">
+                        @if($searchResults && $searchResults->count())
+                            @foreach($searchResults as $article)
+                            <div class="col-md-6 mb-4">
+                                <div class="news-card">
+                                    <div class="news-image">
+                                        @if($article->image)
+                                            <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                        @else
+                                            <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
+                                        @endif
+                                        @if($article->category)
+                                            <div class="category-badge" style="background-color: {{ $article->category->color }}">
+                                                {{ $article->category->name }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="news-content">
+                                        <h4 class="news-title">
+                                            <a href="{{ route('news.show', $article->slug) }}">{{ $article->title }}</a>
+                                        </h4>
+                                        <p class="news-excerpt">{{ Str::limit($article->excerpt, 100) }}</p>
+                                        <div class="news-meta">
+                                            <span class="author">{{ $article->author->name }}</span>
+                                            <span class="time">{{ $article->formatted_date }}</span>
+                                            <span class="views">{{ $article->views }} lượt xem</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            <div class="col-12">
+                                {{ $searchResults->links() }}
+                            </div>
+                        @else
+                            <div class="col-12">
+                                <div class="no-news">
+                                    <i class="fas fa-search"></i>
+                                    <p>Không tìm thấy kết quả phù hợp.</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+
                 <!-- Hot News Section -->
-                <div class="news-section active" id="hot-section">
+                <div class="news-section {{ empty($search) ? 'active' : '' }}" id="hot-section">
                     <div class="section-header">
                         <h2>Tin nóng</h2>
                         <span class="section-subtitle">Những tin tức được quan tâm nhất</span>
@@ -1861,6 +1919,22 @@
 .popular-news-item .views::before {
     content: '👁️';
     font-size: 0.7rem;
+}
+
+/* Full height for nav tabs and category dropdown */
+.news-nav .nav-tabs {
+    align-items: stretch;
+}
+
+.news-nav .nav-dropdown {
+    display: flex;
+    align-items: stretch;
+}
+
+.news-nav .dropdown-toggle {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 /* No News State */
