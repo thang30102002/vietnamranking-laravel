@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\PostToFacebookJob;
+use App\Models\Comment;
 
 class NewsController extends Controller
 {
@@ -76,7 +77,17 @@ class NewsController extends Controller
     {
         $news = News::published()
             ->where('slug', $slug)
-            ->with(['author', 'category', 'comments'])
+            ->with([
+                'author', 
+                'category', 
+                'comments.user.player', 
+                'comments.user.user_role', 
+                'comments.user.admin_tournament',
+                'comments.children.user.player',
+                'comments.children.user.user_role',
+                'comments.children.user.admin_tournament',
+                'comments.children.children' // eager a second level; deeper will lazy load in view if present
+            ])
             ->firstOrFail();
         
         // Increment views
@@ -90,6 +101,29 @@ class NewsController extends Controller
             ->get();
         
         return view('news.show', compact('news', 'relatedNews'));
+    }
+
+    public function comment(Request $request, $slug)
+    {
+        $request->validate([
+            'content' => 'required|string|max:2000',
+            'parent_id' => 'nullable|exists:comments,id'
+        ]);
+
+        $news = News::where('slug', $slug)->firstOrFail();
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        Comment::create([
+            'content' => $request->content,
+            'user_id' => Auth::id(),
+            'news_id' => $news->id,
+            'parent_id' => $request->parent_id,
+        ]);
+
+        return redirect()->route('news.show', $slug)->with('success', 'Đã gửi bình luận.');
     }
 
     // Admin methods - for managing news
