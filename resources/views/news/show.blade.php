@@ -562,4 +562,60 @@
     }
 }
 </style>
+@auth
+<div class="container" style="margin-bottom: 2rem;">
+    <div class="widget">
+        <h4>Bình luận</h4>
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        <form action="{{ route('news.comment', $news->slug) }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <textarea name="content" class="form-control" rows="3" placeholder="Viết bình luận..." required>{{ old('content') }}</textarea>
+                @error('content')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-primary">Gửi</button>
+        </form>
+    </div>
+</div>
+@else
+<div class="container" style="margin-bottom: 2rem;">
+    <div class="widget">
+        <p>Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để bình luận.</p>
+    </div>
+</div>
+@endauth
+
+<div class="container" style="margin-bottom: 3rem;">
+    <div class="widget">
+        <h4>Các bình luận</h4>
+        @forelse($news->comments as $comment)
+            <div style="border-bottom: 1px solid #eee; padding: 12px 0;">
+                <div style="font-weight: 600;">
+                    @php
+                        $displayName = $comment->user->name ?? 'Người dùng';
+                        $roleId = optional($comment->user->user_role)->role_id ?? null;
+                        if ($roleId == 3 && optional($comment->user->player)->name) {
+                            $displayName = $comment->user->player->name;
+                        }
+                        else if ($roleId == 2 && optional($comment->user->admin_tournament)->name) {
+                            $displayName = $comment->user->admin_tournament->name;
+                        }
+                        else if ($roleId == 1) {
+                            $displayName = "vietnampool";
+                        }
+                    @endphp
+                    {{ $displayName }}
+                </div>
+                <div style="font-size: 0.9rem; color:#666;">{{ $comment->created_at->diffForHumans() }}</div>
+                <div style="margin-top: 6px;">{{ $comment->content }}</div>
+            </div>
+        @empty
+            <p>Chưa có bình luận nào.</p>
+        @endforelse
+    </div>
+</div>
 @endsection

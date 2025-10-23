@@ -38,6 +38,7 @@ Route::get('/tournament/bracket/{tournamentId}', [RankingController::class, 'tou
 // Public news routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::post('/news/{slug}/comments', [NewsController::class, 'comment'])->middleware('auth')->name('news.comment');
 
 // Facebook webhook routes
 Route::get('/facebook/webhook', [App\Http\Controllers\FacebookWebhookController::class, 'verify']);
