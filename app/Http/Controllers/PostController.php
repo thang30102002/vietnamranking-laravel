@@ -28,6 +28,7 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
+        Log::info('run create post');
         $request->validate([
             'content' => ['required'],
         ], [

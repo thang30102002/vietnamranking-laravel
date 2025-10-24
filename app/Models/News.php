@@ -12,6 +12,7 @@ class News extends Model
         'slug',
         'content',
         'image',
+        'youtube_url',
         'excerpt',
         'status',
         'author_id',

@@ -254,6 +254,16 @@
                                         @enderror
                                     </div>
 
+                                    <div class="form-group mb-3">
+                                        <label for="youtube_url" class="form-label">Đường dẫn YouTube</label>
+                                        <input type="url" class="form-control @error('youtube_url') is-invalid @enderror"
+                                               id="youtube_url" name="youtube_url" value="{{ old('youtube_url', $news->youtube_url) }}" placeholder="https://www.youtube.com/watch?v=...">
+                                        <div class="form-text">Dán link YouTube (watch hoặc youtu.be). Hệ thống sẽ tự nhúng video.</div>
+                                        @error('youtube_url')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     <!-- Multiple Images Upload Section -->
                                     <div class="form-group mb-3">
                                         <label class="form-label">Hình ảnh bổ sung</label>
