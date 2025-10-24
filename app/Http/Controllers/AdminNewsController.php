@@ -60,12 +60,20 @@ class AdminNewsController extends Controller
 
     public function store(Request $request)
     {
+        // Normalize youtube_url to include scheme if missing
+        if ($request->filled('youtube_url')) {
+            $normalized = trim((string) $request->input('youtube_url'));
+            if ($normalized !== '' && !preg_match('/^https?:\/\//i', $normalized)) {
+                $request->merge(['youtube_url' => 'https://' . $normalized]);
+            }
+        }
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'content_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'youtube_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
             'category_id' => 'nullable|exists:categories,id'
         ], [
@@ -79,6 +87,7 @@ class AdminNewsController extends Controller
             'content_images.*.image' => 'File phải là hình ảnh.',
             'content_images.*.mimes' => 'Hình ảnh phải có định dạng jpeg, png, jpg, gif hoặc webp.',
             'content_images.*.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
+            'youtube_url.url' => 'Đường dẫn YouTube không hợp lệ.',
             'status.required' => 'Vui lòng chọn trạng thái.',
             'status.in' => 'Trạng thái không hợp lệ.',
             'category_id.exists' => 'Danh mục không tồn tại.'
@@ -91,6 +100,7 @@ class AdminNewsController extends Controller
             $news->title = $request->title;
             $news->content = $request->content;
             $news->excerpt = $request->excerpt;
+            $news->youtube_url = $request->youtube_url;
             $news->status = $request->status;
             $news->author_id = Auth::id();
             $news->category_id = $request->category_id;
@@ -165,6 +175,13 @@ class AdminNewsController extends Controller
     public function update(Request $request, $id)
     {
         $news = News::findOrFail($id);
+        // Normalize youtube_url to include scheme if missing
+        if ($request->filled('youtube_url')) {
+            $normalized = trim((string) $request->input('youtube_url'));
+            if ($normalized !== '' && !preg_match('/^https?:\/\//i', $normalized)) {
+                $request->merge(['youtube_url' => 'https://' . $normalized]);
+            }
+        }
         
         $request->validate([
             'title' => 'required|string|max:255',
@@ -172,6 +189,7 @@ class AdminNewsController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'content_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'youtube_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
             'category_id' => 'nullable|exists:categories,id'
         ], [
@@ -185,6 +203,7 @@ class AdminNewsController extends Controller
             'content_images.*.image' => 'File phải là hình ảnh.',
             'content_images.*.mimes' => 'Hình ảnh phải có định dạng jpeg, png, jpg, gif hoặc webp.',
             'content_images.*.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
+            'youtube_url.url' => 'Đường dẫn YouTube không hợp lệ.',
             'status.required' => 'Vui lòng chọn trạng thái.',
             'status.in' => 'Trạng thái không hợp lệ.',
             'category_id.exists' => 'Danh mục không tồn tại.'
@@ -196,6 +215,7 @@ class AdminNewsController extends Controller
             $news->title = $request->title;
             $news->content = $request->content;
             $news->excerpt = $request->excerpt;
+            $news->youtube_url = $request->youtube_url;
             $news->status = $request->status;
             $news->category_id = $request->category_id;
             

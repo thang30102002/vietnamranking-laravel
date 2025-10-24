@@ -107,7 +107,6 @@
                         <img src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}" class="img-fluid">
                     </div>
                     @endif
-                    
                     <div class="article-content">
                         @if($news->excerpt)
                         <div class="article-excerpt">
@@ -119,6 +118,28 @@
                             {!! markdownToHtml($news->content) !!}
                         </div>
                     </div>
+                    @if($news->youtube_url)
+                    @php
+                        function youtubeEmbedId($url) {
+                            $patterns = [
+                                '/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/i',
+                                '/youtube\.com\/(?:shorts)\/([\w-]{11})/i',
+                            ];
+                            foreach ($patterns as $pattern) {
+                                if (preg_match($pattern, $url, $matches)) {
+                                    return $matches[1];
+                                }
+                            }
+                            return null;
+                        }
+                        $ytId = youtubeEmbedId($news->youtube_url);
+                    @endphp
+                    @if($ytId)
+                    <div class="article-video" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <iframe src="https://www.youtube.com/embed/{{ $ytId }}" frameborder="0" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+                    </div>
+                    @endif
+                    @endif
                     
                     <div class="article-footer">
                         <div class="share-buttons">
