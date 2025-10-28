@@ -201,6 +201,9 @@
                                                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="insertImageAtCursor()">
                                                     <i class="fa fa-image"></i> Chèn ảnh
                                                 </button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="insertImageByUrl()">
+                                                    <i class="fa fa-link"></i> Chèn ảnh URL
+                                                </button>
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="formatText('bold')">
                                                     <i class="fa fa-bold"></i> Đậm
                                                 </button>
@@ -234,13 +237,31 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <label for="image" class="form-label">Hình ảnh chính</label>
-                                        <input type="file" class="form-control @error('image') is-invalid @enderror" 
-                                               id="image" name="image" accept="image/*">
-                                        <div class="form-text">Chọn hình ảnh chính cho bài viết (JPEG, PNG, JPG, GIF - Tối đa 2MB)</div>
-                                        @error('image')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <label class="form-label">Hình ảnh chính</label>
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active" data-toggle="tab" href="#tab-upload" role="tab">Upload</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" data-toggle="tab" href="#tab-cdn" role="tab">CDN URL</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content border p-3 border-top-0">
+                                            <div class="tab-pane fade show active" id="tab-upload" role="tabpanel">
+                                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+                                                <div class="form-text">Chọn hình ảnh (JPEG, PNG, JPG, GIF - Tối đa 2MB)</div>
+                                                @error('image')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-cdn" role="tabpanel">
+                                                <input type="url" class="form-control @error('image_url') is-invalid @enderror" id="image_url" name="image_url" placeholder="https://cdn.yourdomain.com/path/to/image.jpg" value="{{ old('image_url') }}">
+                                                <div class="form-text">Dán URL ảnh từ CDN (ưu tiên dùng để tối ưu tải trang). Nếu điền URL, hệ thống sẽ bỏ qua file upload.</div>
+                                                @error('image_url')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -328,24 +349,7 @@
         </div>
     </div>
 
-    <!-- Image Insert Modal -->
-    <div id="imageInsertModal" class="image-insert-modal">
-        <div class="image-insert-content">
-            <span class="close" onclick="closeImageModal()">&times;</span>
-            <h3>Chọn ảnh để chèn</h3>
-            <div class="image-selection" id="imageSelection">
-                <!-- Images will be populated here -->
-            </div>
-            <div class="text-center mt-3">
-                <button type="button" class="btn btn-primary" onclick="insertSelectedImage()">
-                    <i class="fa fa-check"></i> Chèn ảnh
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="closeImageModal()">
-                    <i class="fa fa-times"></i> Hủy
-                </button>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Image Insert Modal -->
     <div id="imageInsertModal" class="image-insert-modal">
@@ -372,6 +376,7 @@
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('imageUpload');
         const previewContainer = document.getElementById('imagePreview');
+        if (!uploadArea || !fileInput || !previewContainer) return;
         window.uploadedImages = [];
 
         // Click to upload
@@ -469,19 +474,22 @@
         }
 
         // Update content before form submit
-        document.querySelector('form').addEventListener('submit', function() {
-            updateContentWithImages();
-        });
+        var formEl = document.querySelector('form');
+        if (formEl) {
+            formEl.addEventListener('submit', function() {
+                updateContentWithImages();
+            });
+        }
     });
 
-    // Global variables for image insertion
-    let selectedImageForInsert = null;
-    let cursorPosition = 0;
+    // Global variables for image insertion (define only if not already defined)
+    window.selectedImageForInsert = window.selectedImageForInsert || null;
+    window.cursorPosition = window.cursorPosition || 0;
 
     // Function to insert image at cursor position
     function insertImageAtCursor() {
         const contentTextarea = document.getElementById('content');
-        cursorPosition = contentTextarea.selectionStart;
+        window.cursorPosition = contentTextarea.selectionStart;
         
         // Show modal with available images
         showImageModal();
@@ -536,33 +544,33 @@
         const selectedOption = document.querySelector(`[data-index="${index}"]`);
         selectedOption.classList.add('selected');
         
-        selectedImageForInsert = index;
+        window.selectedImageForInsert = index;
     }
 
     // Function to insert selected image
     function insertSelectedImage() {
-        if (selectedImageForInsert === null) {
+        if (window.selectedImageForInsert === null) {
             alert('Vui lòng chọn ảnh để chèn.');
             return;
         }
         
         const contentTextarea = document.getElementById('content');
         const uploadedImages = window.uploadedImages || [];
-        const selectedImage = uploadedImages[selectedImageForInsert];
+        const selectedImage = uploadedImages[window.selectedImageForInsert];
         
         if (selectedImage) {
             // Create image placeholder
-            const imagePlaceholder = `\n\n[IMAGE_${selectedImageForInsert + 1}: ${selectedImage.file.name}]\n\n`;
+            const imagePlaceholder = `\n\n[IMAGE_${window.selectedImageForInsert + 1}: ${selectedImage.file.name}]\n\n`;
             
             // Insert at cursor position
             const content = contentTextarea.value;
-            const beforeCursor = content.substring(0, cursorPosition);
-            const afterCursor = content.substring(cursorPosition);
+            const beforeCursor = content.substring(0, window.cursorPosition);
+            const afterCursor = content.substring(window.cursorPosition);
             
             contentTextarea.value = beforeCursor + imagePlaceholder + afterCursor;
             
             // Update cursor position
-            const newPosition = cursorPosition + imagePlaceholder.length;
+            const newPosition = window.cursorPosition + imagePlaceholder.length;
             contentTextarea.setSelectionRange(newPosition, newPosition);
             contentTextarea.focus();
         }
@@ -574,42 +582,10 @@
     function closeImageModal() {
         const modal = document.getElementById('imageInsertModal');
         modal.style.display = 'none';
-        selectedImageForInsert = null;
+        window.selectedImageForInsert = null;
     }
 
-    // Function to insert line break
-    function insertLineBreak() {
-        const contentTextarea = document.getElementById('content');
-        const cursorPos = contentTextarea.selectionStart;
-        const content = contentTextarea.value;
-        
-        const beforeCursor = content.substring(0, cursorPos);
-        const afterCursor = content.substring(cursorPos);
-        
-        contentTextarea.value = beforeCursor + '\n\n' + afterCursor;
-        
-        // Update cursor position
-        const newPosition = cursorPos + 2;
-        contentTextarea.setSelectionRange(newPosition, newPosition);
-        contentTextarea.focus();
-    }
-
-    // Function to insert separator
-    function insertSeparator() {
-        const contentTextarea = document.getElementById('content');
-        const cursorPos = contentTextarea.selectionStart;
-        const content = contentTextarea.value;
-        
-        const beforeCursor = content.substring(0, cursorPos);
-        const afterCursor = content.substring(cursorPos);
-        
-        contentTextarea.value = beforeCursor + '\n\n---\n\n' + afterCursor;
-        
-        // Update cursor position
-        const newPosition = cursorPos + 6;
-        contentTextarea.setSelectionRange(newPosition, newPosition);
-        contentTextarea.focus();
-    }
+    
 
     // Close modal when clicking outside
     window.onclick = function(event) {
@@ -621,12 +597,37 @@
     </script>
 
     <script src="{{ asset('js/adminTournament/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/popper.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/Chart.bundle.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/chart.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/app.js') }}"></script>
+    <script>
+        // Pure JS tab switching (no jQuery/Bootstrap dependency)
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabLinks = document.querySelectorAll('a[data-toggle="tab"]');
+            tabLinks.forEach(function(link){
+                link.addEventListener('click', function(e){
+                    e.preventDefault();
+                    var target = link.getAttribute('href');
+                    if (!target || !target.startsWith('#')) return;
+                    var formGroup = link.closest('.form-group');
+                    if (!formGroup) return;
+                    var tabContent = formGroup.querySelector('.tab-content');
+                    if (!tabContent) return;
+                    tabContent.querySelectorAll('.tab-pane').forEach(function(pane){
+                        pane.classList.remove('show');
+                        pane.classList.remove('active');
+                    });
+                    var targetPane = tabContent.querySelector(target);
+                    if (targetPane) {
+                        targetPane.classList.add('show');
+                        targetPane.classList.add('active');
+                    }
+                    var nav = link.closest('.nav');
+                    if (nav) {
+                        nav.querySelectorAll('.nav-link').forEach(function(a){ a.classList.remove('active'); });
+                    }
+                    link.classList.add('active');
+                });
+            });
+        });
+    </script>
     
     <!-- Simple textarea styling and formatting functions -->
     <script>
@@ -733,110 +734,30 @@
             textarea.focus();
         }
 
-        // Global variables for image insertion
-        let selectedImageForInsert = null;
-        let cursorPosition = 0;
-
-        // Function to insert image at cursor position
-        function insertImageAtCursor() {
+        // Insert image by URL (CDN)
+        window.insertImageByUrl = function() {
             const textarea = document.getElementById('content');
-            cursorPosition = textarea.selectionStart;
-            
-            // Show modal with available images
-            showImageModal();
-        }
-
-        // Function to show image modal
-        function showImageModal() {
-            const modal = document.getElementById('imageInsertModal');
-            const imageSelection = document.getElementById('imageSelection');
-            
-            // Clear previous content
-            imageSelection.innerHTML = '';
-            
-            // Add uploaded images to selection
-            const uploadedImages = window.uploadedImages || [];
-            
-            if (uploadedImages.length === 0) {
-                imageSelection.innerHTML = '<p class="text-muted">Chưa có ảnh nào được upload. Vui lòng upload ảnh trước.</p>';
-            } else {
-                uploadedImages.forEach((img, index) => {
-                    const imageOption = document.createElement('div');
-                    imageOption.className = 'image-option';
-                    imageOption.dataset.index = index;
-                    imageOption.onclick = () => selectImageForInsert(index);
-                    
-                    imageOption.innerHTML = `
-                        <img src="${img.url}" alt="${img.file.name}">
-                        <div class="image-name">${img.file.name}</div>
-                    `;
-                    
-                    imageSelection.appendChild(imageOption);
-                });
-            }
-            
-            modal.style.display = 'block';
-        }
-
-        // Function to select image for insertion
-        function selectImageForInsert(index) {
-            // Remove previous selection
-            document.querySelectorAll('.image-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            
-            // Add selection to clicked option
-            const selectedOption = document.querySelector(`[data-index="${index}"]`);
-            selectedOption.classList.add('selected');
-            
-            selectedImageForInsert = index;
-        }
-
-        // Function to insert selected image
-        function insertSelectedImage() {
-            if (selectedImageForInsert === null) {
-                alert('Vui lòng chọn ảnh để chèn.');
+            if (!textarea) return;
+            let url = window.prompt('Dán URL ảnh (https://...)');
+            if (!url) return;
+            url = url.trim();
+            // Basic validation for http(s) URLs or data URIs
+            if (!/^https?:\/\//i.test(url) && !/^data:image\//i.test(url)) {
+                alert('URL ảnh không hợp lệ. Vui lòng nhập URL bắt đầu bằng http(s)');
                 return;
             }
-            
-            const textarea = document.getElementById('content');
-            const uploadedImages = window.uploadedImages || [];
-            const selectedImage = uploadedImages[selectedImageForInsert];
-            
-            if (selectedImage) {
-                // Create image placeholder
-                const imagePlaceholder = `\n\n[IMAGE_${selectedImageForInsert + 1}: ${selectedImage.file.name}]\n\n`;
-                
-                // Insert at cursor position
-                const content = textarea.value;
-                const beforeCursor = content.substring(0, cursorPosition);
-                const afterCursor = content.substring(cursorPosition);
-                
-                textarea.value = beforeCursor + imagePlaceholder + afterCursor;
-                
-                // Update cursor position
-                const newPosition = cursorPosition + imagePlaceholder.length;
-                textarea.setSelectionRange(newPosition, newPosition);
-                textarea.focus();
-            }
-            
-            closeImageModal();
+            const start = textarea.selectionStart || 0;
+            const end = textarea.selectionEnd || start;
+            const before = textarea.value.substring(0, start);
+            const after = textarea.value.substring(end);
+            const imgTag = `\n\n<img src="${url}" alt="" style="max-width: 100%; height: auto;">\n\n`;
+            textarea.value = before + imgTag + after;
+            const newPos = before.length + imgTag.length;
+            textarea.setSelectionRange(newPos, newPos);
+            textarea.focus();
         }
 
-        // Function to close image modal
-        function closeImageModal() {
-            const modal = document.getElementById('imageInsertModal');
-            modal.style.display = 'none';
-            selectedImageForInsert = null;
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageInsertModal');
-            if (event.target === modal) {
-                closeImageModal();
-            }
-        }
+        
     </script>
 </body>
 

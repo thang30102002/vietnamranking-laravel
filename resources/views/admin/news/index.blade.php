@@ -76,8 +76,8 @@
                                             <tr>
                                                 <td>{{ $article->id }}</td>
                                                 <td>
-                                                    @if($article->image)
-                                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                                                    @if($article->image_url)
+                                                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
                                                     @else
                                                         <div style="width: 50px; height: 50px; background: #f0f0f0; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
                                                             <i class="fa fa-image text-muted"></i>

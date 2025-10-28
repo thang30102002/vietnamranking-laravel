@@ -25,6 +25,10 @@ class News extends Model
         'updated_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'image_url',
+    ];
+
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
@@ -87,6 +91,17 @@ class News extends Model
     public function getFormattedDateAttribute()
     {
         return $this->created_at->format('d/m/Y');
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image) {
+            return null;
+        }
+        if (preg_match('/^https?:\/\//i', $this->image)) {
+            return $this->image;
+        }
+        return \Illuminate\Support\Facades\Storage::url('news/' . $this->image);
     }
 
     // Increment views

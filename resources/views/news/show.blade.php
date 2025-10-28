@@ -102,9 +102,9 @@
         <div class="row">
             <div class="col-lg-8">
                 <article class="news-article">
-                    @if($news->image)
+                    @if($news->image_url)
                     <div class="article-image">
-                        <img src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}" class="img-fluid">
+                        <img src="{{ $news->image_url }}" alt="{{ $news->title }}" class="img-fluid">
                     </div>
                     @endif
                     <div class="article-content">
@@ -166,8 +166,8 @@
                             @forelse($relatedNews as $related)
                             <div class="related-item">
                                 <div class="related-image">
-                                    @if($related->image)
-                                        <img src="{{ Storage::url('news/' . $related->image) }}" alt="{{ $related->title }}">
+                                    @if($related->image_url)
+                                        <img src="{{ $related->image_url }}" alt="{{ $related->title }}">
                                     @else
                                         <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $related->title }}">
                                     @endif

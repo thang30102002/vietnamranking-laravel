@@ -67,12 +67,20 @@ class AdminNewsController extends Controller
                 $request->merge(['youtube_url' => 'https://' . $normalized]);
             }
         }
+        // Normalize image_url to include scheme if missing
+        if ($request->filled('image_url')) {
+            $normalizedImage = trim((string) $request->input('image_url'));
+            if ($normalizedImage !== '' && !preg_match('/^https?:\/\//i', $normalizedImage)) {
+                $request->merge(['image_url' => 'https://' . $normalizedImage]);
+            }
+        }
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'content_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image_url' => 'nullable|url|max:2048',
             'youtube_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
             'category_id' => 'nullable|exists:categories,id'
@@ -87,6 +95,7 @@ class AdminNewsController extends Controller
             'content_images.*.image' => 'File phải là hình ảnh.',
             'content_images.*.mimes' => 'Hình ảnh phải có định dạng jpeg, png, jpg, gif hoặc webp.',
             'content_images.*.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
+            'image_url.url' => 'URL ảnh CDN không hợp lệ.',
             'youtube_url.url' => 'Đường dẫn YouTube không hợp lệ.',
             'status.required' => 'Vui lòng chọn trạng thái.',
             'status.in' => 'Trạng thái không hợp lệ.',
@@ -108,8 +117,10 @@ class AdminNewsController extends Controller
             // Generate slug
             $news->slug = \Illuminate\Support\Str::slug($request->title);
             
-            // Handle main image upload
-            if ($request->hasFile('image')) {
+            // Main image: prioritize CDN URL if provided; fallback to upload
+            if ($request->filled('image_url')) {
+                $news->image = $request->image_url; // store absolute URL
+            } elseif ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = time() . '_' . \Illuminate\Support\Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('news', $imageName, 'public');
@@ -182,6 +193,13 @@ class AdminNewsController extends Controller
                 $request->merge(['youtube_url' => 'https://' . $normalized]);
             }
         }
+        // Normalize image_url to include scheme if missing
+        if ($request->filled('image_url')) {
+            $normalizedImage = trim((string) $request->input('image_url'));
+            if ($normalizedImage !== '' && !preg_match('/^https?:\/\//i', $normalizedImage)) {
+                $request->merge(['image_url' => 'https://' . $normalizedImage]);
+            }
+        }
         
         $request->validate([
             'title' => 'required|string|max:255',
@@ -189,6 +207,7 @@ class AdminNewsController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'content_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image_url' => 'nullable|url|max:2048',
             'youtube_url' => 'nullable|url|max:255',
             'status' => 'required|in:draft,published',
             'category_id' => 'nullable|exists:categories,id'
@@ -203,6 +222,7 @@ class AdminNewsController extends Controller
             'content_images.*.image' => 'File phải là hình ảnh.',
             'content_images.*.mimes' => 'Hình ảnh phải có định dạng jpeg, png, jpg, gif hoặc webp.',
             'content_images.*.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
+            'image_url.url' => 'URL ảnh CDN không hợp lệ.',
             'youtube_url.url' => 'Đường dẫn YouTube không hợp lệ.',
             'status.required' => 'Vui lòng chọn trạng thái.',
             'status.in' => 'Trạng thái không hợp lệ.',
@@ -224,13 +244,18 @@ class AdminNewsController extends Controller
                 $news->slug = \Illuminate\Support\Str::slug($request->title);
             }
             
-            // Handle image upload
-            if ($request->hasFile('image')) {
-                // Delete old image
-                if ($news->image && \Illuminate\Support\Facades\Storage::disk('public')->exists('news/' . $news->image)) {
+            // Main image: prioritize CDN URL if provided; fallback to upload
+            if ($request->filled('image_url')) {
+                // Delete old local image if existed and was local
+                if ($news->image && !preg_match('/^https?:\/\//i', $news->image) && \Illuminate\Support\Facades\Storage::disk('public')->exists('news/' . $news->image)) {
                     \Illuminate\Support\Facades\Storage::disk('public')->delete('news/' . $news->image);
                 }
-                
+                $news->image = $request->image_url;
+            } elseif ($request->hasFile('image')) {
+                // Delete old local image if exists
+                if ($news->image && !preg_match('/^https?:\/\//i', $news->image) && \Illuminate\Support\Facades\Storage::disk('public')->exists('news/' . $news->image)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete('news/' . $news->image);
+                }
                 $image = $request->file('image');
                 $imageName = time() . '_' . \Illuminate\Support\Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('news', $imageName, 'public');
