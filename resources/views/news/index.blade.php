@@ -96,8 +96,8 @@
                             <div class="col-md-6 mb-4">
                                 <div class="news-card">
                                     <div class="news-image">
-                                        @if($article->image)
-                                            <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                        @if($article->image_url)
+                                            <img src="{{ $article->image_url }}" alt="{{ $article->title }}">
                                         @else
                                             <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
                                         @endif
@@ -149,8 +149,8 @@
                                     @php $firstNews = $hotNews->first(); @endphp
                                     <div class="hot-news-card featured">
                                         <div class="news-image">
-                                                @if($firstNews->image)
-                                                    <img loading="lazy" src="{{ Storage::url('news/' . $firstNews->image) }}" alt="{{ $firstNews->title }}">
+                                                @if($firstNews->image_url)
+                                                    <img loading="lazy" src="{{ $firstNews->image_url }}" alt="{{ $firstNews->title }}">
                                             @else
                                                     <img loading="lazy" src="{{ asset('images/bi-a.jpg') }}" alt="{{ $firstNews->title }}">
                                             @endif
@@ -183,8 +183,8 @@
                                         @foreach($hotNews->skip(1) as $index => $news)
                                         <div class="hot-news-card">
                                             <div class="news-image">
-                                                @if($news->image)
-                                                    <img loading="lazy" src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}">
+                                                @if($news->image_url)
+                                                    <img loading="lazy" src="{{ $news->image_url }}" alt="{{ $news->title }}">
                                                 @else
                                                     <img loading="lazy" src="{{ asset('images/bi-a.jpg') }}" alt="{{ $news->title }}">
                                                 @endif
@@ -235,8 +235,8 @@
                         <div class="col-md-6 mb-4">
                             <div class="news-card">
                                 <div class="news-image">
-                                    @if($article->image)
-                                        <img loading="lazy" src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                    @if($article->image_url)
+                                        <img loading="lazy" src="{{ $article->image_url }}" alt="{{ $article->title }}">
                                     @else
                                         <img loading="lazy" src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
                                     @endif
@@ -281,8 +281,8 @@
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="featured-card">
                                 <div class="news-image">
-                                    @if($article->image)
-                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                    @if($article->image_url)
+                                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}">
                                     @else
                                         <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
                                     @endif
@@ -329,8 +329,8 @@
                             <div class="col-md-4 mb-3">
                                 <div class="category-news-item">
                                     <div class="news-image">
-                                        @if($article->image)
-                                            <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                        @if($article->image_url)
+                                            <img src="{{ $article->image_url }}" alt="{{ $article->title }}">
                                         @else
                                             <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
                                         @endif
@@ -371,8 +371,8 @@
                             @foreach($latestNews->take(5) as $article)
                             <div class="sidebar-news-item">
                                 <div class="news-image">
-                                    @if($article->image)
-                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                    @if($article->image_url)
+                                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}">
                                     @else
                                         <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
                                     @endif

@@ -202,6 +202,9 @@
                                                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="insertImageAtCursor()">
                                                     <i class="fa fa-image"></i> Chèn ảnh
                                                 </button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="insertImageByUrl()">
+                                                    <i class="fa fa-link"></i> Chèn ảnh URL
+                                                </button>
                                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="formatText('bold')">
                                                     <i class="fa fa-bold"></i> Đậm
                                                 </button>
@@ -234,24 +237,42 @@
                                         <div class="form-text">Sử dụng các nút trên để định dạng văn bản. Nhấn "Chèn ảnh" để thêm ảnh vào vị trí con trỏ.</div>
                                     </div>
 
-                                    @if($news->image)
+                                    @if($news->image_url)
                                     <div class="form-group mb-3">
                                         <label class="form-label">Hình ảnh hiện tại</label>
                                         <div>
-                                            <img src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}" 
+                                            <img src="{{ $news->image_url }}" alt="{{ $news->title }}" 
                                                  style="max-width: 200px; max-height: 200px; border-radius: 5px;">
                                         </div>
                                     </div>
                                     @endif
 
                                     <div class="form-group mb-3">
-                                        <label for="image" class="form-label">Hình ảnh chính mới</label>
-                                        <input type="file" class="form-control @error('image') is-invalid @enderror" 
-                                               id="image" name="image" accept="image/*">
-                                        <div class="form-text">Chọn hình ảnh chính mới cho bài viết (JPEG, PNG, JPG, GIF, WebP - Tối đa 2MB)</div>
-                                        @error('image')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <label class="form-label">Hình ảnh chính</label>
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active" data-toggle="tab" href="#tab-upload" role="tab">Upload</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" data-toggle="tab" href="#tab-cdn" role="tab">CDN URL</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content border p-3 border-top-0">
+                                            <div class="tab-pane fade show active" id="tab-upload" role="tabpanel">
+                                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+                                                <div class="form-text">Chọn hình ảnh (JPEG, PNG, JPG, GIF, WebP - Tối đa 2MB)</div>
+                                                @error('image')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="tab-pane fade" id="tab-cdn" role="tabpanel">
+                                                <input type="url" class="form-control @error('image_url') is-invalid @enderror" id="image_url" name="image_url" placeholder="https://cdn.yourdomain.com/path/to/image.jpg" value="{{ old('image_url', Str::startsWith($news->image, ['http://','https://']) ? $news->image : '') }}">
+                                                <div class="form-text">Dán URL ảnh từ CDN (nếu điền URL, hệ thống sẽ bỏ qua file upload).</div>
+                                                @error('image_url')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="form-group mb-3">
@@ -340,24 +361,7 @@
         </div>
     </div>
 
-    <!-- Image Insert Modal -->
-    <div id="imageInsertModal" class="image-insert-modal">
-        <div class="image-insert-content">
-            <span class="close" onclick="closeImageModal()">&times;</span>
-            <h3>Chọn ảnh để chèn</h3>
-            <div class="image-selection" id="imageSelection">
-                <!-- Images will be populated here -->
-            </div>
-            <div class="text-center mt-3">
-                <button type="button" class="btn btn-primary" onclick="insertSelectedImage()">
-                    <i class="fa fa-check"></i> Chèn ảnh
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="closeImageModal()">
-                    <i class="fa fa-times"></i> Hủy
-                </button>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Image Insert Modal -->
     <div id="imageInsertModal" class="image-insert-modal">
@@ -385,6 +389,7 @@
         const fileInput = document.getElementById('imageUpload');
         const previewContainer = document.getElementById('imagePreview');
         window.uploadedImages = [];
+        if (!uploadArea || !fileInput || !previewContainer) return;
 
         // Click to upload
         uploadArea.addEventListener('click', () => {
@@ -481,19 +486,22 @@
         }
 
         // Update content before form submit
-        document.querySelector('form').addEventListener('submit', function() {
-            updateContentWithImages();
-        });
+        var formEl = document.querySelector('form');
+        if (formEl) {
+            formEl.addEventListener('submit', function() {
+                updateContentWithImages();
+            });
+        }
     });
 
-    // Global variables for image insertion
-    let selectedImageForInsert = null;
-    let cursorPosition = 0;
+    // Global variables for image insertion (window-scoped to avoid redeclare)
+    window.selectedImageForInsert = window.selectedImageForInsert || null;
+    window.cursorPosition = window.cursorPosition || 0;
 
     // Function to insert image at cursor position
     function insertImageAtCursor() {
         const contentTextarea = document.getElementById('content');
-        cursorPosition = contentTextarea.selectionStart;
+        window.cursorPosition = contentTextarea.selectionStart;
         
         // Show modal with available images
         showImageModal();
@@ -548,33 +556,33 @@
         const selectedOption = document.querySelector(`[data-index="${index}"]`);
         selectedOption.classList.add('selected');
         
-        selectedImageForInsert = index;
+        window.selectedImageForInsert = index;
     }
 
     // Function to insert selected image
     function insertSelectedImage() {
-        if (selectedImageForInsert === null) {
+        if (window.selectedImageForInsert === null) {
             alert('Vui lòng chọn ảnh để chèn.');
             return;
         }
         
         const contentTextarea = document.getElementById('content');
         const uploadedImages = window.uploadedImages || [];
-        const selectedImage = uploadedImages[selectedImageForInsert];
+        const selectedImage = uploadedImages[window.selectedImageForInsert];
         
         if (selectedImage) {
             // Create image placeholder
-            const imagePlaceholder = `\n\n[IMAGE_${selectedImageForInsert + 1}: ${selectedImage.file.name}]\n\n`;
+            const imagePlaceholder = `\n\n[IMAGE_${window.selectedImageForInsert + 1}: ${selectedImage.file.name}]\n\n`;
             
             // Insert at cursor position
             const content = contentTextarea.value;
-            const beforeCursor = content.substring(0, cursorPosition);
-            const afterCursor = content.substring(cursorPosition);
+            const beforeCursor = content.substring(0, window.cursorPosition);
+            const afterCursor = content.substring(window.cursorPosition);
             
             contentTextarea.value = beforeCursor + imagePlaceholder + afterCursor;
             
             // Update cursor position
-            const newPosition = cursorPosition + imagePlaceholder.length;
+            const newPosition = window.cursorPosition + imagePlaceholder.length;
             contentTextarea.setSelectionRange(newPosition, newPosition);
             contentTextarea.focus();
         }
@@ -586,7 +594,7 @@
     function closeImageModal() {
         const modal = document.getElementById('imageInsertModal');
         modal.style.display = 'none';
-        selectedImageForInsert = null;
+        window.selectedImageForInsert = null;
     }
 
     // Function to insert line break
@@ -633,12 +641,37 @@
     </script>
 
     <script src="{{ asset('js/adminTournament/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/popper.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/Chart.bundle.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/chart.js') }}"></script>
-    <script src="{{ asset('js/adminTournament/app.js') }}"></script>
+    <script>
+        // Pure JS tab switching (no jQuery/Bootstrap dependency)
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabLinks = document.querySelectorAll('a[data-toggle="tab"]');
+            tabLinks.forEach(function(link){
+                link.addEventListener('click', function(e){
+                    e.preventDefault();
+                    var target = link.getAttribute('href');
+                    if (!target || !target.startsWith('#')) return;
+                    var formGroup = link.closest('.form-group');
+                    if (!formGroup) return;
+                    var tabContent = formGroup.querySelector('.tab-content');
+                    if (!tabContent) return;
+                    tabContent.querySelectorAll('.tab-pane').forEach(function(pane){
+                        pane.classList.remove('show');
+                        pane.classList.remove('active');
+                    });
+                    var targetPane = tabContent.querySelector(target);
+                    if (targetPane) {
+                        targetPane.classList.add('show');
+                        targetPane.classList.add('active');
+                    }
+                    var nav = link.closest('.nav');
+                    if (nav) {
+                        nav.querySelectorAll('.nav-link').forEach(function(a){ a.classList.remove('active'); });
+                    }
+                    link.classList.add('active');
+                });
+            });
+        });
+    </script>
     
     <!-- Simple textarea styling and formatting functions -->
     <script>
@@ -742,6 +775,28 @@
             
             const newPosition = cursorPos + 6;
             textarea.setSelectionRange(newPosition, newPosition);
+            textarea.focus();
+        }
+
+        // Insert image by URL (CDN)
+        window.insertImageByUrl = function() {
+            const textarea = document.getElementById('content');
+            if (!textarea) return;
+            let url = window.prompt('Dán URL ảnh (https://...)');
+            if (!url) return;
+            url = url.trim();
+            if (!/^https?:\/\//i.test(url) && !/^data:image\//i.test(url)) {
+                alert('URL ảnh không hợp lệ. Vui lòng nhập URL bắt đầu bằng http(s)');
+                return;
+            }
+            const start = textarea.selectionStart || 0;
+            const end = textarea.selectionEnd || start;
+            const before = textarea.value.substring(0, start);
+            const after = textarea.value.substring(end);
+            const imgTag = `\n\n<img src="${url}" alt="" style="max-width: 100%; height: auto;">\n\n`;
+            textarea.value = before + imgTag + after;
+            const newPos = before.length + imgTag.length;
+            textarea.setSelectionRange(newPos, newPos);
             textarea.focus();
         }
 
