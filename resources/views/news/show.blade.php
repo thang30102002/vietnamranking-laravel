@@ -136,7 +136,7 @@
                     @endphp
                     @if($ytId)
                     <div class="article-video" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <iframe src="https://www.youtube.com/embed/{{ $ytId }}" frameborder="0" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%;"></iframe>
+                        <iframe loading="lazy" src="https://www.youtube.com/embed/{{ $ytId }}" frameborder="0" allowfullscreen style="position: absolute; top:0; left:0; width:100%; height:100%;"></iframe>
                     </div>
                     @endif
                     @endif
