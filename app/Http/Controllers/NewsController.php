@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 use App\Jobs\PostToFacebookJob;
 use App\Models\Comment;
 
@@ -20,35 +21,46 @@ class NewsController extends Controller
     {
         $search = trim((string) $request->query('q', ''));
 
-        // Hot news (most viewed in last 7 days)
-        $hotNews = News::published()
-            ->with(['author', 'category'])
-            ->where('created_at', '>=', now()->subDays(7))
-            ->orderBy('views', 'desc')
-            ->take(5)
-            ->get();
+        // Hot news (most viewed in last 7 days) - cached
+        $hotNews = Cache::remember('news_hot_5', 600, function() {
+            return News::published()
+                ->with(['author', 'category'])
+                ->where('created_at', '>=', now()->subDays(7))
+                ->orderBy('views', 'desc')
+                ->take(5)
+                ->get();
+        });
 
         // Latest news
-        $latestNews = News::published()
-            ->with(['author', 'category'])
-            ->latest()
-            ->take(10)
-            ->get();
+        $latestNews = Cache::remember('news_latest_10', 600, function() {
+            return News::published()
+                ->with(['author', 'category'])
+                ->latest()
+                ->take(10)
+                ->get();
+        });
 
         // Featured news (with images)
-        $featuredNews = News::published()
-            ->with(['author', 'category'])
-            ->whereNotNull('image')
-            ->latest()
-            ->take(6)
-            ->get();
+        $featuredNews = Cache::remember('news_featured_6', 600, function() {
+            return News::published()
+                ->with(['author', 'category'])
+                ->whereNotNull('image')
+                ->latest()
+                ->take(6)
+                ->get();
+        });
 
         // Category-based news (only parent categories)
-        $categories = Category::with(['news' => function($query) {
-            $query->published()->latest()->take(3);
-        }, 'children' => function($query) {
-            $query->active()->ordered();
-        }])->whereNull('parent_id')->active()->ordered()->get();
+        $categories = Cache::remember('news_categories_tree', 600, function() {
+            return Category::with([
+                'news' => function($query) {
+                    $query->published()->latest()->take(3);
+                }, 
+                'children' => function($query) {
+                    $query->active()->ordered()->withCount('news');
+                }
+            ])->whereNull('parent_id')->active()->ordered()->withCount('news')->get();
+        });
 
         // Search results (when query present)
         $searchResults = null;

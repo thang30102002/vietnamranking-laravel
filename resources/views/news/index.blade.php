@@ -149,10 +149,10 @@
                                     @php $firstNews = $hotNews->first(); @endphp
                                     <div class="hot-news-card featured">
                                         <div class="news-image">
-                                            @if($firstNews->image)
-                                                <img src="{{ Storage::url('news/' . $firstNews->image) }}" alt="{{ $firstNews->title }}">
+                                                @if($firstNews->image)
+                                                    <img loading="lazy" src="{{ Storage::url('news/' . $firstNews->image) }}" alt="{{ $firstNews->title }}">
                                             @else
-                                                <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $firstNews->title }}">
+                                                    <img loading="lazy" src="{{ asset('images/bi-a.jpg') }}" alt="{{ $firstNews->title }}">
                                             @endif
                                             <div class="news-badge hot">HOT</div>
                                         </div>
@@ -184,9 +184,9 @@
                                         <div class="hot-news-card">
                                             <div class="news-image">
                                                 @if($news->image)
-                                                    <img src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}">
+                                                    <img loading="lazy" src="{{ Storage::url('news/' . $news->image) }}" alt="{{ $news->title }}">
                                                 @else
-                                                    <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $news->title }}">
+                                                    <img loading="lazy" src="{{ asset('images/bi-a.jpg') }}" alt="{{ $news->title }}">
                                                 @endif
                                                 <div class="news-badge hot">{{ $index + 2 }}</div>
                                             </div>
@@ -236,9 +236,9 @@
                             <div class="news-card">
                                 <div class="news-image">
                                     @if($article->image)
-                                        <img src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
+                                        <img loading="lazy" src="{{ Storage::url('news/' . $article->image) }}" alt="{{ $article->title }}">
                                     @else
-                                        <img src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
+                                        <img loading="lazy" src="{{ asset('images/bi-a.jpg') }}" alt="{{ $article->title }}">
                                     @endif
                                     @if($article->category)
                                         <div class="category-badge" style="background-color: {{ $article->category->color }}">
