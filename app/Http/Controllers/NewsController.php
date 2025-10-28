@@ -24,7 +24,11 @@ class NewsController extends Controller
         // Hot news (most viewed in last 7 days) - cached
         $hotNews = Cache::remember('news_hot_5', 600, function() {
             return News::published()
-                ->with(['author', 'category'])
+                ->select(['id','title','slug','image','views','created_at','category_id','author_id','status','excerpt'])
+                ->with([
+                    'author',
+                    'category:id,name,color'
+                ])
                 ->where('created_at', '>=', now()->subDays(7))
                 ->orderBy('views', 'desc')
                 ->take(5)
@@ -34,7 +38,11 @@ class NewsController extends Controller
         // Latest news
         $latestNews = Cache::remember('news_latest_10', 600, function() {
             return News::published()
-                ->with(['author', 'category'])
+                ->select(['id','title','slug','image','views','created_at','category_id','author_id','status','excerpt'])
+                ->with([
+                    'author',
+                    'category:id,name,color'
+                ])
                 ->latest()
                 ->take(10)
                 ->get();
@@ -43,7 +51,11 @@ class NewsController extends Controller
         // Featured news (with images)
         $featuredNews = Cache::remember('news_featured_6', 600, function() {
             return News::published()
-                ->with(['author', 'category'])
+                ->select(['id','title','slug','image','views','created_at','category_id','author_id','status'])
+                ->with([
+                    'author',
+                    'category:id,name,color'
+                ])
                 ->whereNotNull('image')
                 ->latest()
                 ->take(6)
